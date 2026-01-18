@@ -71,7 +71,7 @@ export function CommunityModal({ isOpen, onClose }: CommunityModalProps) {
                                         World Tour 2026
                                     </div>
                                     <h2 className="text-4xl md:text-5xl font-black uppercase italic text-white mb-2 leading-[0.9]">
-                                        Comunidad <span className="text-transparent bg-clip-text bg-gradient-to-r from-[#25D366] to-acid-green">Oficial</span>
+                                        Únete al <span className="text-transparent bg-clip-text bg-gradient-to-r from-[#25D366] to-acid-green">Grupo</span>
                                     </h2>
                                     <p className="text-gray-300 font-medium text-sm md:text-base leading-relaxed mb-8 max-w-xs mx-auto mt-4">
                                         No seas el único sin grupo. <strong className="text-white">Únete al chat de tu país</strong>, coordina tus entradas y prepárate para el show.

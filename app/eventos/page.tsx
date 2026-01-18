@@ -6,56 +6,53 @@ import { ArrowRight, MapPin, Calendar } from "lucide-react";
 
 export default function EventsPage() {
     return (
-        <div className="min-h-screen pt-24 pb-20 container mx-auto px-4">
+        <div className="min-h-screen pt-24 pb-20 container mx-auto px-4 text-white selection:bg-acid-pink selection:text-black">
             {/* Header */}
-            <div className="text-center space-y-6 mb-16 animate-fade-in-up">
-                <span className="text-purple-400 font-bold tracking-widest text-sm uppercase">World Tour 2026</span>
-                <h1 className="text-5xl md:text-7xl font-black text-white">
-                    Próximos <span className="text-transparent bg-clip-text bg-gradient-to-r from-purple-400 to-pink-600">Eventos</span>
-                </h1>
-                <p className="text-xl text-gray-400 max-w-2xl mx-auto">
-                    Selecciona tu país para ver información detallada sobre precios, preventas y paquetes VIP.
-                </p>
+            <div className="flex flex-col md:flex-row items-end justify-between mb-12 border-b-4 border-white pb-6">
+                <div>
+                    <span className="bg-acid-pink text-black px-2 py-1 font-black uppercase text-xs tracking-widest mb-2 inline-block">Gira Mundial</span>
+                    <h1 className="text-6xl md:text-9xl font-black uppercase tracking-tighter leading-none">
+                        Eventos
+                    </h1>
+                </div>
+                <div className="text-right">
+                    <p className="font-serif italic text-xl text-gray-400">Selecciona tu destino</p>
+                </div>
             </div>
 
             {/* Countries Grid */}
             <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
-                {countries.map((country) => (
-                    <Link key={country.id} href={`/${country.id}`} className="group">
-                        <GlassCard variant="default" className="h-full flex flex-col p-0 overflow-hidden hover:border-purple-500/50 transition-all duration-300 group-hover:bg-slate-900/40">
+                {countries.map((country, i) => (
+                    <Link key={country.id} href={`/${country.id}`} className="group block h-full">
+                        <GlassCard variant="interactive" className="h-full flex flex-col p-0 overflow-hidden min-h-[400px]">
 
-                            {/* Flag/Map Placeholder - Could be a dynamic map image ideally */}
-                            <div className="h-40 bg-gradient-to-br from-slate-800 to-slate-900 flex items-center justify-center relative overflow-hidden">
-                                <span className="text-8xl opacity-20 select-none grayscale group-hover:grayscale-0 transition-all duration-500">{country.flag}</span>
-                                <div className="absolute bottom-4 left-4 bg-black/40 backdrop-blur-md px-3 py-1 rounded-full border border-white/10 flex items-center gap-2">
-                                    <MapPin className="w-3 h-3 text-purple-400" />
-                                    <span className="text-xs font-bold text-white uppercase tracking-wider">{country.isoCode}</span>
+                            {/* Map/Flag Section */}
+                            <div className="bg-[#111] h-1/2 relative p-8 flex items-center justify-center group-hover:bg-[#1a1a1a] transition-colors border-b-2 border-white">
+                                <span className="text-9xl opacity-20 grayscale filter group-hover:grayscale-0 group-hover:opacity-40 transition-all duration-500">{country.flag}</span>
+                                <div className="absolute top-4 left-4 bg-white text-black px-2 py-1 text-xs font-black uppercase">
+                                    0{i + 1}
+                                </div>
+                                <div className="absolute bottom-4 right-4 bg-black border border-white px-3 py-1 text-xs font-bold uppercase tracking-widest">
+                                    {country.isoCode}
                                 </div>
                             </div>
 
-                            <div className="p-8 flex-1 flex flex-col">
-                                <div className="mb-6">
-                                    <h2 className="text-3xl font-bold text-white mb-2 group-hover:text-purple-400 transition-colors">{country.city}</h2>
-                                    <p className="text-gray-400 font-medium flex items-center gap-2">
-                                        <Calendar className="w-4 h-4 text-gray-500" />
-                                        {new Date(country.dates[0]).toLocaleDateString('es-ES', { month: 'long', day: 'numeric', year: 'numeric' })}
-                                    </p>
+                            <div className="p-8 flex-1 flex flex-col justify-between bg-black">
+                                <div>
+                                    <h2 className="text-4xl font-black uppercase leading-8 mb-2 group-hover:text-acid-pink transition-colors">{country.city}</h2>
+                                    <p className="text-xl font-serif italic text-gray-400">{country.venue}</p>
                                 </div>
 
-                                <div className="space-y-3 mb-8 flex-1">
-                                    <div className="flex justify-between items-center text-sm border-b border-white/5 pb-2">
-                                        <span className="text-gray-500">Recinto</span>
-                                        <span className="text-gray-300 text-right">{country.venue}</span>
+                                <div className="pt-8 border-t border-white/20 mt-8 space-y-2">
+                                    <div className="flex justify-between items-center">
+                                        <span className="text-xs font-bold uppercase text-gray-500">Fecha</span>
+                                        <span className="text-sm font-bold">{new Date(country.dates[0]).toLocaleDateString('es-ES', { month: 'short', day: 'numeric' })}</span>
                                     </div>
-                                    <div className="flex justify-between items-center text-sm border-b border-white/5 pb-2">
-                                        <span className="text-gray-500">Precios desde</span>
-                                        <span className="text-purple-400 font-bold text-right">{country.currencySymbol} {Math.min(...country.prices.map(p => p.price)).toLocaleString()}</span>
+                                    <div className="flex justify-between items-center">
+                                        <span className="text-xs font-bold uppercase text-gray-500">Desde</span>
+                                        <span className="text-lg font-mono font-bold text-acid-yellow">{country.currencySymbol}{Math.min(...country.prices.map(p => p.price)).toLocaleString()}</span>
                                     </div>
                                 </div>
-
-                                <Button className="w-full justify-between group-hover:bg-purple-600 group-hover:text-white transition-all">
-                                    Ver Información <ArrowRight className="w-4 h-4" />
-                                </Button>
                             </div>
                         </GlassCard>
                     </Link>

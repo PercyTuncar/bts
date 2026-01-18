@@ -6,7 +6,16 @@ const nextConfig: NextConfig = {
   images: {
     loader: 'custom',
     loaderFile: './lib/cloudflare-loader.ts', // Loader personalizado
-    remotePatterns: [],
+    remotePatterns: [
+      {
+        protocol: 'https',
+        hostname: 'elcomercio.pe',
+      },
+      {
+        protocol: 'https',
+        hostname: 'images.prestigeonline.com',
+      },
+    ],
   },
 };
 

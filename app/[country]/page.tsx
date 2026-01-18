@@ -14,8 +14,27 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
     if (!country) return { title: 'País no encontrado' };
 
     return {
-        title: `Entradas BTS ${country.name} 2026 | Venta Oficial`,
-        description: `Compra tus entradas para BTS en ${country.name} 2026. ${country.venue}.`,
+        title: `Entradas BTS ${country.name} 2026 | Precios y Venta Oficial`,
+        description: `Entradas BTS ${country.name} 2026. Fecha confirmada: ${country.dates[0]}. Precios, zonas y venta de entradas para el concierto en ${country.venue}. ¡Asegura tu lugar en entradasbts.com!`,
+        openGraph: {
+            title: `Entradas BTS ${country.name} 2026 | Venta Oficial`,
+            description: `¡El Army llega a ${country.name}! Revisa precios y zonas disponibles para el concierto en ${country.venue}.`,
+            url: `https://entradasbts.com/${country.id}`,
+            siteName: 'Entradas BTS Tour 2026',
+            images: [
+                {
+                    url: `https://entradasbts.com${country.openGraphImage}`,
+                    width: 1200,
+                    height: 630,
+                    alt: `Entradas Concierto BTS ${country.name} 2026`
+                },
+            ],
+            locale: 'es_LA',
+            type: 'website',
+        },
+        alternates: {
+            canonical: `https://entradasbts.com/${country.id}`,
+        }
     };
 }
 

@@ -17,6 +17,7 @@ export interface CountryData {
     prices: Pricing[];
     description: string;
     openGraphImage: string;
+    whatsappLink: string;
 }
 
 export const countries: CountryData[] = [
@@ -36,10 +37,11 @@ export const countries: CountryData[] = [
             { zone: 'Army Pit (Cancha)', price: 950 },
             { zone: 'Occidente Central', price: 780 },
             { zone: 'Oriente Central', price: 780 },
-            { zone: 'Norte (Tribuna)', price: 180 },
+            { zone: 'Norte (Tribuna)', price: 399 },
         ],
         description: 'Lima, prepárate para el océano púrpura. BTS regresa al Estadio Nacional para dos noches históricas.',
-        openGraphImage: '/images/og-peru.jpg'
+        openGraphImage: '/images/og-peru.jpg',
+        whatsappLink: 'https://chat.whatsapp.com/peru-army'
     },
     {
         id: 'chile',
@@ -57,10 +59,11 @@ export const countries: CountryData[] = [
             { zone: 'Cancha VIP', price: 230000 },
             { zone: 'Océano', price: 160000 },
             { zone: 'Cordillera', price: 160000 },
-            { zone: 'Galería', price: 45000 },
+            { zone: 'Galería', price: 99000 },
         ],
         description: 'Santiago, el momento ha llegado. Vive la magia de BTS en el Estadio Monumental.',
-        openGraphImage: '/images/og-chile.jpg'
+        openGraphImage: '/images/og-chile.jpg',
+        whatsappLink: 'https://chat.whatsapp.com/chile-army'
     },
     {
         id: 'mexico',
@@ -81,7 +84,8 @@ export const countries: CountryData[] = [
             { zone: 'Verde A', price: 2800 },
         ],
         description: '¡Hola México! BTS llega al coloso de Santa Úrsula para tres fechas inolvidables.',
-        openGraphImage: '/images/og-mexico.jpg'
+        openGraphImage: '/images/og-mexico.jpg',
+        whatsappLink: 'https://chat.whatsapp.com/mexico-army'
     },
     {
         id: 'colombia',
@@ -99,9 +103,10 @@ export const countries: CountryData[] = [
             { zone: 'Platino', price: 800000 },
             { zone: 'Occidental Alta', price: 650000 },
             { zone: 'Oriental Alta', price: 650000 },
-            { zone: 'Norte Alta', price: 250000 },
+            { zone: 'Norte Alta', price: 450000 },
         ],
         description: 'Bogotá se viste de morado. No te pierdas el regreso de BTS a Colombia.',
-        openGraphImage: '/images/og-colombia.jpg'
+        openGraphImage: '/images/og-colombia.jpg',
+        whatsappLink: 'https://chat.whatsapp.com/colombia-army'
     }
 ];

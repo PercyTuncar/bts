@@ -2,6 +2,10 @@ import { GlassCard } from "@/components/GlassCard";
 import { Button } from "@/components/Button";
 import Link from "next/link";
 import { Metadata } from "next";
+import { products } from "@/lib/data/products";
+import Image from "next/image";
+import { notFound } from "next/navigation";
+import { AddToCartButton } from "@/components/AddToCartButton";
 
 type Props = {
     params: Promise<{ slug: string }>;
@@ -9,94 +13,105 @@ type Props = {
 
 export async function generateMetadata({ params }: Props): Promise<Metadata> {
     const { slug } = await params;
-    const name = slug === 'army-bomb' ? 'ARMY BOMB Ver. 4' : 'Producto BTS';
+    const product = products.find(p => p.slug === slug);
+
+    if (!product) return { title: 'Producto no encontrado' };
+
     return {
-        title: `${name} | Tienda BTS`,
+        title: `${product.name} | Tienda Oficial BTS`,
+        description: product.description,
+        openGraph: {
+            title: product.name,
+            description: product.description,
+            images: [product.image],
+        }
     };
 }
 
 export default async function ProductPage({ params }: Props) {
     const { slug } = await params;
+    const product = products.find(p => p.slug === slug);
 
-    if (slug !== 'army-bomb') {
-        return (
-            <GlassCard className="text-center py-20">
-                <h1 className="text-3xl font-bold">Producto no encontrado</h1>
-                <p className="mt-4">Mira el <Link href="/tienda/army-bomb" className="text-secondary underline">ARMY BOMB</Link></p>
-            </GlassCard>
-        );
+    if (!product) {
+        return notFound();
     }
 
     const jsonLd = {
         "@context": "https://schema.org",
         "@type": "Product",
-        "name": "BTS Official Lightstick Map of the Soul Special Edition",
-        "image": "https://entradasbts.com/images/army-bomb-se.jpg",
-        "description": "Lightstick oficial con conexión Bluetooth para sincronización en conciertos.",
-        "brand": { "@type": "Brand", "name": "Big Hit Entertainment" },
+        "name": product.name,
+        "image": `https://entradasbts.com${product.image}`,
+        "description": product.description,
+        "brand": { "@type": "Brand", "name": "BTS Official Merch" },
         "offers": {
             "@type": "Offer",
-            "price": "65.00",
+            "price": product.price.toString(),
             "priceCurrency": "USD",
             "availability": "https://schema.org/InStock",
-            "url": "https://entradasbts.com/tienda/army-bomb"
+            "url": `https://entradasbts.com/tienda/${product.slug}`
         },
         "aggregateRating": {
             "@type": "AggregateRating",
-            "ratingValue": "4.9",
-            "reviewCount": "1542"
+            "ratingValue": product.rating.toString(),
+            "reviewCount": product.reviewCount.toString()
         }
     };
 
     return (
-        <div className="py-10">
+        <div className="py-20 container mx-auto px-4 text-white">
             <script
                 type="application/ld+json"
                 dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
             />
 
+            <div className="mb-8">
+                <Link href="/tienda" className="text-gray-400 hover:text-white transition-colors uppercase text-xs font-bold tracking-widest">
+                    ← Volver a la Tienda
+                </Link>
+            </div>
+
             <div className="grid md:grid-cols-2 gap-12">
                 {/* Product Images */}
                 <div className="space-y-4">
                     <div className="aspect-square bg-white/5 rounded-2xl flex items-center justify-center border border-white/10 relative overflow-hidden group">
-                        <div className="text-9xl group-hover:scale-110 transition-transform duration-500">💣</div>
-                    </div>
-                    <div className="grid grid-cols-3 gap-4">
-                        <div className="aspect-square bg-white/5 rounded-xl border border-white/10"></div>
-                        <div className="aspect-square bg-white/5 rounded-xl border border-white/10"></div>
-                        <div className="aspect-square bg-white/5 rounded-xl border border-white/10"></div>
+                        {/* Placeholder for now if image fails, but ideally Image comp */}
+                        <div className="text-9xl group-hover:scale-110 transition-transform duration-500 select-none">
+                            {product.category === 'Light Stick' ? '💣' : '👕'}
+                        </div>
+                        <Image
+                            src={product.image}
+                            alt={product.name}
+                            fill
+                            className="object-cover opacity-60 group-hover:opacity-80 transition-opacity"
+                        />
                     </div>
                 </div>
 
                 {/* Product Info */}
                 <div className="space-y-8">
                     <div>
-                        <h1 className="text-4xl font-bold mb-2">ARMY BOMB Ver. 4</h1>
-                        <p className="text-xl text-gray-400">Map of the Soul Special Edition</p>
-                        <div className="flex items-center gap-2 mt-4 text-yellow-400">
-                            ★★★★★ <span className="text-gray-400 text-sm">(1542 Reviews)</span>
+                        <h1 className="text-4xl md:text-5xl font-black uppercase tracking-tight mb-2 leading-none">{product.name}</h1>
+                        <p className="text-xl text-acid-yellow font-serif italic">{product.category}</p>
+                        <div className="flex items-center gap-2 mt-4 text-acid-pink">
+                            ★★★★★ <span className="text-gray-400 text-sm">({product.reviewCount} Reviews)</span>
                         </div>
                     </div>
 
-                    <div className="text-3xl font-bold text-white">$65.00</div>
+                    <div className="text-4xl font-black text-white">${product.price.toFixed(2)}</div>
 
-                    <GlassCard className="space-y-4 bg-white/5">
-                        <p className="text-gray-300 leading-relaxed">
-                            El lightstick oficial indispensable para el World Tour 2026.
-                            Se sincroniza automáticamente con tu asiento en el estadio para crear el océano púrpura.
-                            Incluye photocards exclusivas.
+                    <GlassCard className="space-y-6 bg-white/5">
+                        <p className="text-gray-300 leading-relaxed text-lg">
+                            {product.description}
                         </p>
-                        <ul className="list-disc list-inside text-gray-300 space-y-1">
-                            <li>Conexión Bluetooth 5.0</li>
-                            <li>Modo Aurora Boreal</li>
-                            <li>Duración de batería: 5 horas</li>
+                        <ul className="list-disc list-inside text-gray-400 space-y-2 font-medium">
+                            {product.details.map((detail, i) => (
+                                <li key={i}>{detail}</li>
+                            ))}
                         </ul>
                     </GlassCard>
 
                     <div className="flex gap-4 sticky bottom-4 z-50 md:static">
-                        <Button size="lg" className="flex-1 shadow-xl shadow-primary/20">
-                            Añadir al Carrito
-                        </Button>
+                        <AddToCartButton product={product} />
                     </div>
                 </div>
             </div>
@@ -105,8 +120,7 @@ export default async function ProductPage({ params }: Props) {
 }
 
 export async function generateStaticParams() {
-    return [
-        { slug: 'army-bomb' },
-        { slug: 'hoodie' },
-    ];
+    return products.map((product) => ({
+        slug: product.slug,
+    }));
 }

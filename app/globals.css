@@ -3,30 +3,107 @@
 @theme {
   --color-primary: #7C3AED;
   --color-secondary: #DB2777;
-  --color-background: #0F172A;
+  --color-background: #000000;
 }
 
 :root {
-  --background: #0F172A;
+  --background: #000000;
   --foreground: #ffffff;
 }
 
+html,
 body {
-  background-color: var(--background);
+  background-color: #000000;
   color: var(--foreground);
-  background-image: 
-    radial-gradient(at 0% 0%, rgba(124, 58, 237, 0.15) 0px, transparent 50%),
-    radial-gradient(at 100% 0%, rgba(219, 39, 119, 0.15) 0px, transparent 50%);
-  background-attachment: fixed;
   min-height: 100vh;
+}
+
+
+/* Dice.fm Aesthetic Colors */
+@theme {
+  --color-acid-yellow: #F4F800;
+  --color-acid-pink: #FF1C5E;
+  --color-neon-green: #00D8AF;
+  --color-off-white: #F3F3F3;
+  --font-serif: "Times New Roman", Times, serif;
 }
 
 /* Custom Utilities */
 @utility bg-noise {
-  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.65' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)'/%3E%3C/svg%3E");
+  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.8' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)'/%3E%3C/svg%3E");
 }
 
+/* Brutalist Scrollbar */
+::-webkit-scrollbar {
+  width: 12px;
+}
+
+::-webkit-scrollbar-track {
+  background: #000;
+}
+
+::-webkit-scrollbar-thumb {
+  background: #333;
+  border: 2px solid #000;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: #F4F800;
+}
+
+/* Marquee Animation */
+@keyframes marquee {
+  0% {
+    transform: translateX(0);
+  }
+
+  100% {
+    transform: translateX(-50%);
+  }
+}
+
+/* Ambient Background */
+.ambient-gradient {
+  background:
+    radial-gradient(circle at 15% 50%, rgba(255, 28, 94, 0.08), transparent 25%),
+    radial-gradient(circle at 85% 30%, rgba(244, 248, 0, 0.05), transparent 25%);
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  z-index: -1;
+  pointer-events: none;
+}
+
+/* Glassmorphism Utility */
 @utility glass {
-  @apply bg-white/10 backdrop-blur-xl border border-white/20 shadow-[0_8px_32px_0_rgba(31,38,135,0.37)];
+  background: rgba(255, 255, 255, 0.03);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+  border: 1px solid rgba(255, 255, 255, 0.1);
 }
 
+.glass-panel {
+  background: rgba(20, 20, 20, 0.6);
+  backdrop-filter: blur(16px);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1);
+}
+
+.animate-marquee {
+  animation: marquee 20s linear infinite;
+}
+
+/* Screen Reader Only */
+.sr-only {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border-width: 0;
+}

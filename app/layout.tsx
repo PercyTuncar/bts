@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import { Inter } from "next/font/google";
 import "./globals.css";
 import { Navbar } from "@/components/Navbar";
+import { Footer } from "@/components/Footer";
 import { cn } from "@/lib/utils";
 
 const inter = Inter({ subsets: ["latin"] });
@@ -11,7 +12,34 @@ export const metadata: Metadata = {
   description: "Compra tus entradas para el BTS World Tour 2026 en Perú, Chile y Latinoamérica. Fechas oficiales, precios y preventa ARMY.",
   metadataBase: new URL('https://entradasbts.com'),
   manifest: '/manifest.json',
+  openGraph: {
+    title: 'Entradas BTS Perú 2026 - Estadio Nacional',
+    description: '¡El Army llega a Lima! Revisa precios y zonas disponibles aquí.',
+    url: 'https://entradasbts.com',
+    siteName: 'BTS Tickets Perú',
+    images: [
+      {
+        url: '/images/og-peru.jpg',
+        width: 1200,
+        height: 630,
+      },
+    ],
+    locale: 'es_PE',
+    type: 'website',
+  },
+  twitter: {
+    card: 'summary_large_image',
+    title: 'Entradas BTS Perú 2026',
+    description: 'Venta oficial de entradas para el tour mundial.',
+    images: ['/images/og-peru.jpg'],
+  },
+  alternates: {
+    canonical: 'https://entradasbts.com',
+  },
 };
+
+import { CartProvider } from "@/context/CartContext";
+import { AutoPopup } from "@/components/AutoPopup";
 
 export default function RootLayout({
   children,
@@ -20,11 +48,16 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="es">
-      <body className={cn(inter.className, "antialiased min-h-screen pb-20")}>
-        <Navbar />
-        <main className="relative">
-          {children}
-        </main>
+      <body className={cn(inter.className, "antialiased min-h-screen relative")}>
+        <CartProvider>
+          <div className="ambient-gradient" aria-hidden="true" />
+          <Navbar />
+          <main className="relative">
+            {children}
+          </main>
+          <Footer />
+          <AutoPopup />
+        </CartProvider>
       </body>
     </html>
   );

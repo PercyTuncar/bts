@@ -41,7 +41,7 @@ export const countries: CountryData[] = [
         ],
         description: 'Lima, prepárate para el océano púrpura. BTS regresa al Estadio Nacional para dos noches históricas.',
         openGraphImage: '/images/og-peru.jpg',
-        whatsappLink: 'https://chat.whatsapp.com/peru-army'
+        whatsappLink: 'https://chat.whatsapp.com/BmKRtT4vnZcEB5rG4yhQVC'
     },
     {
         id: 'chile',
@@ -63,7 +63,7 @@ export const countries: CountryData[] = [
         ],
         description: 'Santiago, el momento ha llegado. Vive la magia de BTS en el Estadio Monumental.',
         openGraphImage: '/images/og-chile.jpg',
-        whatsappLink: 'https://chat.whatsapp.com/chile-army'
+        whatsappLink: 'https://chat.whatsapp.com/HhoKIL0vQhpDsP9ThzOFwu'
     },
     {
         id: 'mexico',
@@ -85,7 +85,7 @@ export const countries: CountryData[] = [
         ],
         description: '¡Hola México! BTS llega al coloso de Santa Úrsula para tres fechas inolvidables.',
         openGraphImage: '/images/og-mexico.jpg',
-        whatsappLink: 'https://chat.whatsapp.com/mexico-army'
+        whatsappLink: 'https://chat.whatsapp.com/KnPOXVWj8IW2SoGzT4UGqo'
     },
     {
         id: 'colombia',
@@ -107,6 +107,6 @@ export const countries: CountryData[] = [
         ],
         description: 'Bogotá se viste de morado. No te pierdas el regreso de BTS a Colombia.',
         openGraphImage: '/images/og-colombia.jpg',
-        whatsappLink: 'https://chat.whatsapp.com/colombia-army'
+        whatsappLink: 'https://chat.whatsapp.com/JfNuVSxePCkKKugaawYsRa'
     }
 ];

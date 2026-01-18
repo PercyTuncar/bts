@@ -43,8 +43,8 @@ export default function Home() {
     "@context": "https://schema.org",
     "@type": "EventSeries",
     "name": "BTS World Tour 2026 - Latin America",
-    "startDate": "2026-10-09",
-    "endDate": "2026-11-20",
+    "startDate": "2026-10-02", // First date of the tour (Colombia)
+    "endDate": "2026-10-24", // Last date of the tour (Mexico)
     "description": "Gira oficial de BTS por Latinoamérica incluyendo Lima, Santiago, CDMX y Bogotá.",
     "organizer": {
       "@type": "Organization",
@@ -54,7 +54,44 @@ export default function Home() {
     "subEvent": countries.map(c => ({
       "@type": "Event",
       "name": `Concierto BTS ${c.name}`,
-      "location": { "@type": "Place", "address": `${c.city}, ${c.name}` },
+      "startDate": c.dates[0],
+      "endDate": c.dates.length > 1 ? c.dates[c.dates.length - 1] : c.dates[0],
+      "eventStatus": "https://schema.org/EventScheduled",
+      "eventAttendanceMode": "https://schema.org/OfflineEventAttendanceMode",
+      "location": {
+        "@type": "Place",
+        "name": c.venue,
+        "address": {
+          "@type": "PostalAddress",
+          "addressLocality": c.city,
+          "addressCountry": c.isoCode
+        }
+      },
+      "image": [
+        `https://entradasbts.com${c.openGraphImage}`,
+        "https://entradasbts.com/images/home-hero.jpg"
+      ],
+      "description": c.description,
+      "performer": {
+        "@type": "MusicGroup",
+        "name": "BTS",
+        "url": "https://ibighit.com/bts"
+      },
+      "organizer": {
+        "@type": "Organization",
+        "name": "Hybe Corporation",
+        "url": "https://ibighit.com"
+      },
+      "offers": {
+        "@type": "AggregateOffer",
+        "url": `https://entradasbts.com/${c.id}`,
+        "priceCurrency": c.currency,
+        "lowPrice": Math.min(...c.prices.map(p => p.price)),
+        "highPrice": Math.max(...c.prices.map(p => p.price)),
+        "offerCount": c.prices.length,
+        "availability": "https://schema.org/InStock",
+        "validFrom": "2026-01-20"
+      },
       "url": `https://entradasbts.com/${c.id}`
     }))
   };

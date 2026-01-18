@@ -90,7 +90,9 @@ export default function Home() {
         "highPrice": Math.max(...c.prices.map(p => p.price)),
         "offerCount": c.prices.length,
         "availability": "https://schema.org/InStock",
-        "validFrom": "2026-01-20"
+        "validFrom": c.ticketDate.includes('24') ? "2026-01-24" :
+          c.ticketDate.includes('26') ? "2026-01-26" :
+            c.ticketDate.includes('28') ? "2026-01-28" : "2026-01-20"
       },
       "url": `https://entradasbts.com/${c.id}`
     }))

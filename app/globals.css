@@ -1,10 +1,6 @@
-@import "tailwindcss";
-
-@theme {
-  --color-primary: #7C3AED;
-  --color-secondary: #DB2777;
-  --color-background: #000000;
-}
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
 
 :root {
   --background: #000000;
@@ -16,21 +12,6 @@ body {
   background-color: #000000;
   color: var(--foreground);
   min-height: 100vh;
-}
-
-
-/* Dice.fm Aesthetic Colors */
-@theme {
-  --color-acid-yellow: #F4F800;
-  --color-acid-pink: #FF1C5E;
-  --color-neon-green: #00D8AF;
-  --color-off-white: #F3F3F3;
-  --font-serif: "Times New Roman", Times, serif;
-}
-
-/* Custom Utilities */
-@utility bg-noise {
-  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.8' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)'/%3E%3C/svg%3E");
 }
 
 /* Brutalist Scrollbar */
@@ -62,6 +43,13 @@ body {
   }
 }
 
+/* Custom Utilities */
+@layer utilities {
+  .bg-noise {
+    background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.8' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)'/%3E%3C/svg%3E");
+  }
+}
+
 /* Ambient Background */
 .ambient-gradient {
   background:
@@ -77,11 +65,13 @@ body {
 }
 
 /* Glassmorphism Utility */
-@utility glass {
-  background: rgba(255, 255, 255, 0.03);
-  backdrop-filter: blur(10px);
-  -webkit-backdrop-filter: blur(10px);
-  border: 1px solid rgba(255, 255, 255, 0.1);
+@layer utilities {
+  .glass {
+    background: rgba(255, 255, 255, 0.03);
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+  }
 }
 
 .glass-panel {

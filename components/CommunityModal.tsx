@@ -74,7 +74,7 @@ export function CommunityModal({ isOpen, onClose }: CommunityModalProps) {
                                         Únete al <span className="text-transparent bg-clip-text bg-gradient-to-r from-[#25D366] to-acid-green">Grupo</span>
                                     </h2>
                                     <p className="text-gray-300 font-medium text-sm md:text-base leading-relaxed mb-8 max-w-xs mx-auto mt-4">
-                                        No seas el único sin grupo. <strong className="text-white">Únete al chat de tu país</strong>, coordina tus entradas y prepárate para el show.
+                                        <strong className="text-white">Únete al chat de tu país</strong>, coordina tus entradas y prepárate para el show.
                                     </p>
                                 </motion.div>
 
@@ -116,6 +116,9 @@ export function CommunityModal({ isOpen, onClose }: CommunityModalProps) {
                                     </div>
                                     <p className="text-[10px] text-gray-500 uppercase tracking-widest font-bold">
                                         +50,000 Armys unidos
+                                    </p>
+                                    <p className="text-[10px] text-gray-400 mt-2 max-w-[200px] mx-auto leading-tight">
+                                        Nota: Venta oficial aún no lo tenemos disponible. Precios y zonas son referenciales.
                                     </p>
                                 </div>
                             </div>

@@ -109,7 +109,7 @@ export default function Home() {
       <div className="fixed inset-0 z-0 pointer-events-none opacity-20 bg-noise mix-blend-overlay"></div>
 
       {/* Hero Section */}
-      <section className="relative min-h-[85vh] flex flex-col items-center justify-center overflow-hidden pt-25 pb-32 border-b-2 border-white/20">
+      <section className="relative min-h-[85vh] flex flex-col items-center justify-center overflow-hidden pt-44 pb-32 border-b-2 border-white/20">
 
         {/* HERO BACKGROUND IMAGE */}
         <div className="absolute inset-0 z-0 select-none">

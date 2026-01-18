@@ -1,0 +1,23 @@
+# Caché inmutable para JS/CSS generados (hash en nombre)
+
+/_next/static/*
+  Cache-Control: public, max-age=31536000, immutable
+
+# Imágenes: 1 mes de caché, revalida en background
+
+/images/*
+  Cache-Control: public, max-age=2592000, stale-while-revalidate=86400
+
+# HTML (Páginas): Revalidar SIEMPRE para mostrar stock real (InStock/SoldOut)
+
+/*.html
+  Cache-Control: public, max-age=0, must-revalidate
+  X-Frame-Options: DENY
+  X-Content-Type-Options: nosniff
+
+# Rutas raíz de países
+
+/peru/
+  Cache-Control: public, max-age=0, must-revalidate
+/chile/
+  Cache-Control: public, max-age=0, must-revalidate

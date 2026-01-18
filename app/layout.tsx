@@ -12,6 +12,10 @@ export const metadata: Metadata = {
   description: "Compra tus entradas para el BTS World Tour 2026 en Perú, Chile y Latinoamérica. Fechas oficiales, precios y preventa ARMY.",
   metadataBase: new URL('https://entradasbts.com'),
   manifest: '/manifest.json',
+  icons: {
+    icon: '/icon.png',
+    apple: '/icon.png',
+  },
   openGraph: {
     title: 'Entradas BTS Perú 2026 - Estadio Nacional',
     description: '¡El Army llega a Lima! Revisa precios y zonas disponibles aquí.',

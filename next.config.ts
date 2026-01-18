@@ -4,8 +4,7 @@ const nextConfig: NextConfig = {
 
   trailingSlash: true, // Evita redirecciones 301 en rutas estáticas
   images: {
-    loader: 'custom',
-    loaderFile: './lib/cloudflare-loader.ts', // Loader personalizado
+    unoptimized: true, // Fix for Cloudflare Pages Free Tier (No Image Resizing Add-on)
     remotePatterns: [
       {
         protocol: 'https',

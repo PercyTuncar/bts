@@ -1,7 +1,7 @@
 import type { NextConfig } from 'next';
 
 const nextConfig: NextConfig = {
-  output: 'export', // OBLIGATORIO para Cloudflare Pages
+
   trailingSlash: true, // Evita redirecciones 301 en rutas estáticas
   images: {
     loader: 'custom',

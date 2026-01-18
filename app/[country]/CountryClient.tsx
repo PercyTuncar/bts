@@ -79,7 +79,7 @@ export default function CountryClient({ country }: Props) {
     };
 
     const primaryDate = formatDateRange(country.dates);
-    const whatsappNumber = "51999999999";
+    const whatsappNumber = "51944784488";
 
     const [quantities, setQuantities] = useState<Record<string, number>>({});
     const [isInstallment, setIsInstallment] = useState(false);

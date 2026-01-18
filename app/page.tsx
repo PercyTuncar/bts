@@ -131,7 +131,7 @@ export default function Home() {
           </h1>
         </div>
 
-        <div className="relative z-10 container mx-auto px-4 flex flex-col items-center text-center gap-6">
+        <div className="relative z-10 container mx-auto px-4 flex flex-col items-center text-center gap-4">
           <div className="inline-block bg-acid-pink text-black px-4 py-1 text-lg font-black uppercase -rotate-2 shadow-[4px_4px_0_white] mb-4">
             Gira Mundial 2026
           </div>
@@ -142,12 +142,12 @@ export default function Home() {
             <span className="block text-acid-yellow italic font-serif">Terminó</span>
           </h2>
 
-          <p className="max-w-xl text-gray-400 text-lg md:text-xl font-medium mt-2">
+          <p className="max-w-xl text-gray-400 text-lg md:text-xl font-medium">
             El evento más grande de la historia. 34 ciudades. 5 continentes.
             <span className="text-white font-bold"> ¿Estás listo?</span>
           </p>
 
-          <div className="flex flex-col md:flex-row gap-4 md:gap-6 w-full md:w-auto mt-4">
+          <div className="flex flex-col md:flex-row gap-4 md:gap-6 w-full md:w-auto">
             <Button size="lg" variant="primary" className="w-full md:w-auto">
               Ver Entradas
             </Button>

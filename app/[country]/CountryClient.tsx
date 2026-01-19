@@ -6,6 +6,7 @@ import { Calendar, MapPin, Ticket, CreditCard, Minus, Plus, Music, ArrowRight, X
 import Image from "next/image";
 import { motion, AnimatePresence, useScroll, useTransform, Variants } from "framer-motion";
 import { CommunityModal } from "@/components/CommunityModal";
+import { MembershipModal } from "@/components/MembershipModal";
 import { MessageCircle } from "lucide-react";
 import { useRouter } from "next/navigation";
 
@@ -85,6 +86,7 @@ export default function CountryClient({ country }: Props) {
     const [quantities, setQuantities] = useState<Record<string, number>>({});
     const [isInstallment, setIsInstallment] = useState(false);
     const [isCommunityOpen, setIsCommunityOpen] = useState(false);
+    const [isMembershipModalOpen, setIsMembershipModalOpen] = useState(false);
     const [installmentMonths, setInstallmentMonths] = useState(3);
     const [mounted, setMounted] = useState(false);
 
@@ -675,7 +677,7 @@ export default function CountryClient({ country }: Props) {
                                 </div>
 
                                 <button
-                                    onClick={() => router.push('/unirse')}
+                                    onClick={() => setIsMembershipModalOpen(true)}
                                     className="w-full md:w-auto bg-black text-white hover:bg-white hover:text-black px-12 py-4 text-xl font-black uppercase tracking-widest transition-colors flex items-center justify-center gap-2"
                                 >
                                     Finalizar Compra <ArrowRight className="w-6 h-6" />
@@ -688,6 +690,7 @@ export default function CountryClient({ country }: Props) {
             </AnimatePresence >
 
             <CommunityModal isOpen={isCommunityOpen} onClose={() => setIsCommunityOpen(false)} />
+            <MembershipModal isOpen={isMembershipModalOpen} onClose={() => setIsMembershipModalOpen(false)} />
 
         </div >
     );

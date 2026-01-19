@@ -27,6 +27,7 @@ export function Navbar() {
                     <div className="hidden md:flex items-center gap-8 font-bold text-sm uppercase tracking-widest text-gray-400">
                         <Link href="/" className="hover:text-acid-yellow hover:underline decoration-2 underline-offset-4 transition-all">Inicio</Link>
                         <Link href="/eventos" className="hover:text-acid-pink hover:underline decoration-2 underline-offset-4 transition-all">Eventos</Link>
+                        <Link href="/comprar-membresia-bts" className="hover:text-[#be2bbb] hover:underline decoration-2 underline-offset-4 transition-all">Membresía</Link>
                         <Link href="/blog" className="hover:text-neon-green hover:underline decoration-2 underline-offset-4 transition-all">Blog</Link>
                         <Link href="/tienda" className="hover:text-white hover:underline decoration-2 underline-offset-4 transition-all">Tienda</Link>
                     </div>
@@ -69,6 +70,7 @@ export function Navbar() {
                             {[
                                 { href: "/", label: "Inicio", color: "text-white" },
                                 { href: "/eventos", label: "Eventos", color: "text-acid-pink" },
+                                { href: "/comprar-membresia-bts", label: "Membresía", color: "text-[#be2bbb]" },
                                 { href: "/blog", label: "Blog", color: "text-neon-green" },
                                 { href: "/tienda", label: "Tienda", color: "text-acid-yellow" }
                             ].map((item, i) => (

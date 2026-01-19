@@ -9,13 +9,13 @@ import Image from "next/image";
 import { HomeCommunityBanner } from "@/components/HomeCommunityBanner";
 
 export const metadata = {
-  title: 'Entradas BTS World Tour 2026 | Latinoamérica',
-  description: 'Venta Autorizada para la gira de BTS por Latinoamérica. Fechas confirmadas en Perú, Chile, México y Colombia. Compra segura en entradasbts.com.',
+  title: 'Entradas BTS 2026 | Latinoamérica',
+  description: 'Venta segura de entradas para la gira de BTS por Latinoamérica. Fechas confirmadas en Perú, Chile, México y Colombia. Compra segura en entradasbts.com.',
   openGraph: {
-    title: 'BTS World Tour 2026 - Latinoamérica',
+    title: 'BTS 2026 - Latinoamérica',
     description: 'Fechas confirmadas en Perú, Chile, México y Colombia. ¡El Army se une!',
     url: 'https://entradasbts.com',
-    siteName: 'BTS Tour 2026 Latam',
+    siteName: 'BTS 2026 Latam',
     images: [
       {
         url: '/images/home-hero.jpg',

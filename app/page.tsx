@@ -10,7 +10,7 @@ import { HomeCommunityBanner } from "@/components/HomeCommunityBanner";
 
 export const metadata = {
   title: 'Entradas BTS World Tour 2026 | Latinoamérica',
-  description: 'Gira oficial de BTS por Latinoamérica. Fechas confirmadas en Perú, Chile, México y Colombia. Venta de entradas y paquetes VIP en entradasbts.com.',
+  description: 'Venta Autorizada para la gira de BTS por Latinoamérica. Fechas confirmadas en Perú, Chile, México y Colombia. Compra segura en entradasbts.com.',
   openGraph: {
     title: 'BTS World Tour 2026 - Latinoamérica',
     description: 'Fechas confirmadas en Perú, Chile, México y Colombia. ¡El Army se une!',
@@ -32,7 +32,7 @@ export const metadata = {
   },
   twitter: {
     card: 'summary_large_image',
-    title: 'BTS World Tour 2026 | Latinoamérica Oficial',
+    title: 'BTS World Tour 2026 | Venta Autorizada Latam',
     description: 'Fechas confirmadas en Perú, Chile, México y Colombia. ¡El Army se une!',
     images: ['/images/home-hero.jpg'],
   },
@@ -45,7 +45,7 @@ export default function Home() {
     "name": "BTS World Tour 2026 - Latin America",
     "startDate": "2026-10-02", // First date of the tour (Colombia)
     "endDate": "2026-10-24", // Last date of the tour (Mexico)
-    "description": "Gira oficial de BTS por Latinoamérica incluyendo Lima, Santiago, CDMX y Bogotá.",
+    "description": "Venta autorizada de entradas para la gira de BTS en Latinoamérica incluyendo Lima, Santiago, CDMX y Bogotá.",
     "organizer": {
       "@type": "Organization",
       "name": "Hybe Corporation",
@@ -61,6 +61,10 @@ export default function Home() {
       "location": {
         "@type": "Place",
         "name": c.venue,
+        "sameAs": c.id === 'peru' ? "https://es.wikipedia.org/wiki/Estadio_Nacional_del_Per%C3%BA" :
+          c.id === 'chile' ? "https://es.wikipedia.org/wiki/Estadio_Monumental_(Chile)" :
+            c.id === 'mexico' ? "https://es.wikipedia.org/wiki/Estadio_Azteca" :
+              "https://es.wikipedia.org/wiki/Estadio_Nemesio_Camacho_El_Camp%C3%ADn",
         "address": {
           "@type": "PostalAddress",
           "addressLocality": c.city,
@@ -92,7 +96,12 @@ export default function Home() {
         "availability": "https://schema.org/InStock",
         "validFrom": c.ticketDate.includes('24') ? "2026-01-24" :
           c.ticketDate.includes('26') ? "2026-01-26" :
-            c.ticketDate.includes('28') ? "2026-01-28" : "2026-01-20"
+            c.ticketDate.includes('28') ? "2026-01-28" : "2026-01-20",
+        "seller": {
+          "@type": "Organization",
+          "name": "EntradasBTS (Ravehub)",
+          "url": "https://entradasbts.com"
+        }
       },
       "url": `https://entradasbts.com/${c.id}`
     }))
@@ -124,17 +133,17 @@ export default function Home() {
           <div className="absolute inset-0 bg-gradient-to-t from-black via-black/40 to-black/80"></div>
         </div>
 
-        {/* GIANT BACK TEXT - Main H1 for SEO */}
+        {/* GIANT BACK TEXT - Decorative only now */}
         <div className="absolute inset-0 flex items-center justify-center pointer-events-none select-none overflow-hidden z-0 mix-blend-overlay">
-          <h1 className="text-[20vw] font-black text-white/10 whitespace-nowrap leading-none" style={{ fontFamily: 'Arial Black' }}>
-            <span className="sr-only">Entradas BTS World Tour Latinoamérica 2026 </span>BTS<span className="sr-only"> LIVE</span> LIVE
-          </h1>
+          <div className="text-[20vw] font-black text-white/10 whitespace-nowrap leading-none" style={{ fontFamily: 'Arial Black' }}>
+            BTS LIVE
+          </div>
         </div>
 
         <div className="relative z-10 container mx-auto px-4 flex flex-col items-center text-center gap-4">
-          <div className="inline-block bg-acid-pink text-black px-4 py-1 text-lg font-black uppercase -rotate-2 shadow-[4px_4px_0_white] mb-4">
-            Gira Mundial 2026
-          </div>
+          <h1 className="inline-block bg-acid-pink text-black px-4 py-1 text-lg font-black uppercase -rotate-2 shadow-[4px_4px_0_white] mb-4">
+            Entradas BTS World Tour 2026
+          </h1>
 
           {/* Visual Title - Semantically H2 */}
           <h2 className="text-6xl md:text-9xl font-black tracking-tighter uppercase leading-[0.9]">
@@ -171,7 +180,7 @@ export default function Home() {
               <GlassCard variant="interactive" className="h-full flex flex-col justify-between min-h-[300px] hover:bg-[#111] transition-colors">
                 <div className="flex justify-between items-start">
                   <span className="text-6xl font-black text-white/10 group-hover:text-acid-pink/20 transition-colors">0{i + 1}</span>
-                  <div className="bg-white text-black text-xs font-bold px-2 py-1 uppercase">Oficial</div>
+                  <div className="bg-white text-black text-xs font-bold px-2 py-1 uppercase">Venta Autorizada</div>
                 </div>
 
                 <div className="space-y-4">
@@ -261,7 +270,7 @@ export default function Home() {
             <div key={i} className="flex items-center gap-12 mx-8 opacity-50 grayscale hover:grayscale-0 hover:opacity-100 transition-all duration-300">
               <span className="text-xl font-black uppercase text-white">HYBE CORP</span>
               <span className="text-xl font-black uppercase text-white">BIGHIT MUSIC</span>
-              <Link href="https://www.ravehublatam.com" target="_blank" className="text-xl font-black uppercase text-acid-yellow hover:underline decoration-2">RAVEHUB</Link>
+              <Link href="https://www.ravehublatam.com" target="_blank" rel="noopener" className="text-xl font-black uppercase text-acid-yellow hover:underline decoration-2">RAVEHUB</Link>
               <span className="text-xl font-black uppercase text-white">LIVE NATION</span>
               <span className="text-xl font-black uppercase text-white">TICKETMASTER</span>
             </div>

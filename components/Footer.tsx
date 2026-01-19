@@ -49,7 +49,7 @@ export const Footer = () => {
                             </div>
                         </Link>
                         <p className="text-xs font-mono text-gray-500 uppercase leading-relaxed">
-                            Official World Tour 2026<br />
+                            World Tour 2026<br />
                             Experience the energy.<br />
                             Live from Latin America.
                         </p>
@@ -68,8 +68,8 @@ export const Footer = () => {
                     <div className="flex flex-col space-y-4">
                         <h4 className="text-acid-yellow font-bold uppercase tracking-widest text-sm mb-2">Soporte</h4>
                         <FooterLink href="#" rel="nofollow">Ayuda</FooterLink>
-                        <FooterLink href="#" rel="nofollow">Términos</FooterLink>
-                        <FooterLink href="#" rel="nofollow">Privacidad</FooterLink>
+                        <FooterLink href="/legal/terminos">Términos</FooterLink>
+                        <FooterLink href="/legal/privacidad">Privacidad</FooterLink>
                         <FooterLink href="#" rel="nofollow">Contacto</FooterLink>
                     </div>
 
@@ -89,9 +89,10 @@ export const Footer = () => {
             {/* BOTTOM BAR */}
             <div className="border-t border-white/20 bg-[#050505]">
                 <div className="container mx-auto px-4 md:px-8 py-6 flex flex-col md:flex-row items-center justify-between gap-4">
-                    <p className="text-[10px] font-mono text-gray-600 uppercase">
-                        © 2026 Big Hit Music / Hybe. All Rights Reserved.
-                    </p>
+                    <div className="text-[10px] font-mono text-gray-600 uppercase text-center md:text-left">
+                        <p>© 2026 EntradasBTS / Ravehub. All Rights Reserved.</p>
+                        <p className="mt-1 text-gray-700">Entradasbts.com es un distribuidor autorizado gestionado por Ravehub. </p>
+                    </div>
                     <div className="flex gap-6 text-[10px] font-mono text-gray-600 uppercase">
                         <span>Made for ARMY</span>
                         <span>Seoul • Lima • Santiago • CDMX • Bogotá</span>

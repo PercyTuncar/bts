@@ -8,8 +8,8 @@ import { cn } from "@/lib/utils";
 const inter = Inter({ subsets: ["latin"] });
 
 export const metadata: Metadata = {
-  title: "BTS World Tour 2026 | Entradas Oficiales Latinoamérica",
-  description: "Compra tus entradas para el BTS World Tour 2026 en Perú, Chile y Latinoamérica. Fechas oficiales, precios y preventa ARMY.",
+  title: "BTS World Tour 2026 | Entradas Latinoamérica",
+  description: "Compra tus entradas para el BTS World Tour 2026 en Perú, Chile y Latinoamérica. Fechas confirmadas, precios y preventa ARMY. Distribuidor Autorizado.",
   metadataBase: new URL('https://entradasbts.com'),
   manifest: '/manifest.json',
   icons: {
@@ -34,7 +34,7 @@ export const metadata: Metadata = {
   twitter: {
     card: 'summary_large_image',
     title: 'Entradas BTS Perú 2026',
-    description: 'Venta oficial de entradas para el tour mundial.',
+    description: 'Venta autorizada de entradas para el tour mundial.',
     images: ['/images/og-peru.jpg'],
   },
   alternates: {

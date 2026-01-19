@@ -30,7 +30,7 @@ export function HomeCommunityBanner() {
                                 </span>
                             </h2>
                             <p className="text-lg md:text-xl text-gray-200 font-medium max-w-xl">
-                                Únete a los grupos oficiales de WhatsApp. Coordina, comparte y vive la experiencia con fans de tu país.
+                                Únete a los grupos exclusivos de WhatsApp. Coordina, comparte y vive la experiencia con fans de tu país.
                             </p>
                         </div>
                     </div>

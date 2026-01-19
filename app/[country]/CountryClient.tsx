@@ -7,6 +7,7 @@ import Image from "next/image";
 import { motion, AnimatePresence, useScroll, useTransform, Variants } from "framer-motion";
 import { CommunityModal } from "@/components/CommunityModal";
 import { MessageCircle } from "lucide-react";
+import { useRouter } from "next/navigation";
 
 type Props = {
     country: CountryData;
@@ -90,6 +91,7 @@ export default function CountryClient({ country }: Props) {
     // Initial tick to avoid hydration mismatch
     const [timeLeft, setTimeLeft] = useState({ days: 0, hours: 0, minutes: 0, seconds: 0 });
     const [selectedDate, setSelectedDate] = useState<string | null>(null);
+    const router = useRouter();
 
     // JSON-LD Structured Data
     const minPrice = Math.min(...country.prices.map(p => p.price));
@@ -99,25 +101,52 @@ export default function CountryClient({ country }: Props) {
         "@context": "https://schema.org",
         "@type": "Event",
         "name": `Concierto BTS ${country.name} 2026`,
-        "startDate": selectedDate || country.dates[0],
+        "description": country.description,
+        "image": [
+            `https://entradasbts.com${country.openGraphImage}`,
+            "https://entradasbts.com/images/concert-bg.png"
+        ],
+        "startDate": `${country.dates[0]}T20:00:00-05:00`,
+        "endDate": `${country.dates[country.dates.length - 1]}T23:00:00-05:00`,
+        "eventStatus": "https://schema.org/EventScheduled",
+        "eventAttendanceMode": "https://schema.org/OfflineEventAttendanceMode",
         "location": {
             "@type": "Place",
             "name": country.venue,
             "address": {
                 "@type": "PostalAddress",
+                "streetAddress": country.id === 'peru' ? 'C. José Díaz s/n' :
+                    country.id === 'chile' ? 'Av. Marathon 5300' :
+                        country.id === 'mexico' ? 'Calz. de Tlalpan 3465' : 'Cra. 57a #30-97',
                 "addressLocality": country.city,
+                "postalCode": country.id === 'peru' ? '15046' :
+                    country.id === 'chile' ? '7820919' :
+                        country.id === 'mexico' ? '04610' : '111311',
                 "addressCountry": country.isoCode
+            },
+            "geo": {
+                "@type": "GeoCoordinates",
+                "latitude": country.id === 'peru' ? -12.0673 :
+                    country.id === 'chile' ? -33.5131 :
+                        country.id === 'mexico' ? 19.3029 : 4.6459,
+                "longitude": country.id === 'peru' ? -77.0337 :
+                    country.id === 'chile' ? -70.6112 :
+                        country.id === 'mexico' ? -99.1505 : -74.0775
             }
         },
-        "image": [
-            `https://entradasbts.com${country.openGraphImage}`,
-            "https://entradasbts.com/images/concert-bg.png"
-        ],
-        "description": country.description,
         "organizer": {
             "@type": "Organization",
             "name": "Hybe Corporation",
             "url": "https://ibighit.com"
+        },
+        "performer": {
+            "@type": "PerformingGroup",
+            "name": "BTS",
+            "sameAs": [
+                "https://ibighit.com/bts",
+                "https://en.wikipedia.org/wiki/BTS",
+                "https://open.spotify.com/artist/3Nrfpe0tUJi4K4DXYWgMUX"
+            ]
         },
         "offers": {
             "@type": "AggregateOffer",
@@ -127,13 +156,25 @@ export default function CountryClient({ country }: Props) {
             "highPrice": maxPrice.toString(),
             "offerCount": country.prices.length.toString(),
             "availability": "https://schema.org/InStock",
+            "validFrom": "2025-01-01",
             "seller": {
                 "@type": "Organization",
-                "name": "Ravehub",
-                "url": "https://www.ravehublatam.com"
-            }
+                "name": "RaveHub Latam",
+                "url": "https://www.ravehublatam.com",
+                "image": "https://www.ravehublatam.com/logo.png"
+            },
+            "offers": country.prices.map(p => ({
+                "@type": "Offer",
+                "name": p.zone,
+                "category": p.price >= 1000 ? "VIP" : "Seating",
+                "price": p.price.toString(),
+                "priceCurrency": country.currency,
+                "availability": "https://schema.org/InStock",
+                "url": `https://entradasbts.com/${country.id}/`
+            }))
         }
     };
+
 
     const faqLd = {
         "@context": "https://schema.org",
@@ -634,7 +675,7 @@ export default function CountryClient({ country }: Props) {
                                 </div>
 
                                 <button
-                                    onClick={() => window.open(generateWhatsAppLink(), '_blank')}
+                                    onClick={() => router.push('/unirse')}
                                     className="w-full md:w-auto bg-black text-white hover:bg-white hover:text-black px-12 py-4 text-xl font-black uppercase tracking-widest transition-colors flex items-center justify-center gap-2"
                                 >
                                     Finalizar Compra <ArrowRight className="w-6 h-6" />

@@ -32,7 +32,7 @@ export const metadata = {
   },
   twitter: {
     card: 'summary_large_image',
-    title: 'BTS World Tour 2026 | Venta Autorizada Latam',
+    title: 'BTS World Tour 2026 | Venta Segura Latam',
     description: 'Fechas confirmadas en Perú, Chile, México y Colombia. ¡El Army se une!',
     images: ['/images/home-hero.jpg'],
   },
@@ -88,7 +88,7 @@ export default function Home() {
       },
       "offers": {
         "@type": "AggregateOffer",
-        "url": `https://entradasbts.com/${c.id}`,
+        "url": `https://entradasbts.com/${c.id}/`,
         "priceCurrency": c.currency,
         "lowPrice": Math.min(...c.prices.map(p => p.price)),
         "highPrice": Math.max(...c.prices.map(p => p.price)),
@@ -103,7 +103,7 @@ export default function Home() {
           "url": "https://entradasbts.com"
         }
       },
-      "url": `https://entradasbts.com/${c.id}`
+      "url": `https://entradasbts.com/${c.id}/`
     }))
   };
 

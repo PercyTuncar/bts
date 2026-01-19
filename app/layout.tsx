@@ -34,7 +34,7 @@ export const metadata: Metadata = {
   twitter: {
     card: 'summary_large_image',
     title: 'Entradas BTS Perú 2026',
-    description: 'Venta autorizada de entradas para el tour mundial.',
+    description: 'Venta verificada y segura de entradas con Garantía RaveHub.',
     images: ['/images/og-peru.jpg'],
   },
   alternates: {

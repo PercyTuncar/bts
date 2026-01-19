@@ -121,13 +121,38 @@ export default function CountryClient({ country }: Props) {
         },
         "offers": {
             "@type": "AggregateOffer",
-            "url": `https://entradasbts.com/${country.id}`,
+            "url": `https://entradasbts.com/${country.id}/`,
             "priceCurrency": country.currency,
             "lowPrice": minPrice.toString(),
             "highPrice": maxPrice.toString(),
             "offerCount": country.prices.length.toString(),
-            "availability": "https://schema.org/InStock"
+            "availability": "https://schema.org/InStock",
+            "seller": {
+                "@type": "Organization",
+                "name": "Ravehub",
+                "url": "https://www.ravehublatam.com"
+            }
         }
+    };
+
+    const faqLd = {
+        "@context": "https://schema.org",
+        "@type": "FAQPage",
+        "mainEntity": [{
+            "@type": "Question",
+            "name": "¿Cómo es el proceso de compra segura con RaveHub?",
+            "acceptedAnswer": {
+                "@type": "Answer",
+                "text": "Nuestro proceso de Compra Segura utiliza tecnología anti-fraude y verificación de tres pasos para asegurar que cada fan tenga acceso legítimo a sus entradas, eliminando la incertidumbre del mercado secundario."
+            }
+        }, {
+            "@type": "Question",
+            "name": "¿Es seguro comprar entradas de reventa para BTS?",
+            "acceptedAnswer": {
+                "@type": "Answer",
+                "text": "Sí, con la Garantía RaveHub. Eliminamos los riesgos porque verificamos a los vendedores y protegemos tu dinero hasta que ingresas al evento. Ofrecemos soporte local en Lima."
+            }
+        }]
     };
 
     useEffect(() => {
@@ -245,13 +270,17 @@ export default function CountryClient({ country }: Props) {
                 type="application/ld+json"
                 dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
             />
+            <script
+                type="application/ld+json"
+                dangerouslySetInnerHTML={{ __html: JSON.stringify(faqLd) }}
+            />
 
             {/* HERO SECTION */}
             <section className="relative min-h-[90vh] flex flex-col pt-32 pb-20 overflow-hidden border-b-2 border-white/20">
                 <motion.div style={{ y: heroY, opacity }} className="absolute inset-0 w-screen h-full z-0 opacity-60">
                     <Image
                         src="https://images.prestigeonline.com/wp-content/uploads/sites/6/2022/08/09215459/BTS-members-1600x900.jpg"
-                        alt="Background"
+                        alt={`Concierto BTS ${country.name} ${country.venue} lleno Army Kpop`}
                         fill
                         className="object-cover grayscale contrast-125"
                         priority
@@ -264,7 +293,7 @@ export default function CountryClient({ country }: Props) {
                 <div className="container mx-auto px-4 md:px-8 relative z-10 flex flex-col justify-between flex-1">
                     <div className="max-w-5xl">
                         <motion.h1
-                            initial={{ x: -100, opacity: 0 }}
+                            initial={{ x: 0, opacity: 1 }}
                             animate={{ x: 0, opacity: 1 }}
                             transition={{ duration: 0.8, ease: "anticipate" }}
                             className="text-[8rem] md:text-[16rem] leading-[0.8] font-black tracking-tighter text-white mix-blend-overlay opacity-90"
@@ -398,7 +427,7 @@ export default function CountryClient({ country }: Props) {
                                             <div>
                                                 <h4 className="text-2xl font-black uppercase leading-none mb-2">{zone.zone}</h4>
                                                 <div className="flex gap-3 text-xs font-bold uppercase tracking-widest text-gray-400">
-                                                    <span className="bg-white/10 px-2 py-1">Oficial</span>
+                                                    <span className="bg-white/10 px-2 py-1">Verificado</span>
                                                     {i === 0 && <span className="bg-acid-yellow text-black px-2 py-1">Best Seller</span>}
                                                 </div>
                                             </div>
@@ -465,7 +494,7 @@ export default function CountryClient({ country }: Props) {
                         >
                             <div className="bg-[#111] border-2 border-white/20 p-6 flex items-start gap-4 hover:border-acid-yellow transition-colors relative overflow-hidden">
                                 <div className="absolute top-0 right-0 bg-acid-yellow text-black text-[10px] font-black uppercase px-2 py-1">
-                                    Official Partner
+                                    Verified Partner
                                 </div>
                                 <div className="bg-white/10 p-3 rounded-full text-acid-yellow group-hover:bg-acid-yellow group-hover:text-black transition-colors">
                                     <ShieldCheck className="w-6 h-6" />
@@ -523,6 +552,54 @@ export default function CountryClient({ country }: Props) {
                 </div >
             </section >
 
+            {/* TRUST & INFO SECTION (SEO THIN CONTENT FIX) */}
+            <section className="container mx-auto px-4 md:px-8 pb-24 text-gray-300">
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-12 max-w-5xl mx-auto border-t border-white/20 pt-16">
+                    <div className="space-y-8">
+                        <div>
+                            <h3 className="text-2xl font-bold text-white mb-4 uppercase">¿Cómo es el proceso de compra segura con RaveHub?</h3>
+                            <p className="leading-relaxed">En RaveHub, hemos simplificado la experiencia de usuario para eliminar fricciones y garantizar transparencia en cada clic. Nuestro proceso de "Compra Segura" se estructura en tres pasos blindados tecnológicamente para asegurar que cada fan tenga acceso legítimo a sus entradas.</p>
+                        </div>
+                        <div>
+                            <h3 className="text-2xl font-bold text-white mb-4 uppercase">¿Por qué comprar aquí es seguro?</h3>
+                            <p className="leading-relaxed mb-4">La Garantía RaveHub es nuestro compromiso de "Cero Riesgos". Comprar aquí es seguro porque eliminamos la incertidumbre del mercado secundario informal.</p>
+                            <ul className="space-y-2 list-disc pl-5">
+                                <li><strong>Verificación:</strong> Solo trabajamos con organizadores de eventos verificados.</li>
+                                <li><strong>Protección Anti-Fraude:</strong> Nuestro sistema previene la duplicación y falsificación.</li>
+                                <li><strong>Soporte 24/7:</strong> Canal exclusivo para resolver incidencias.</li>
+                                <li><strong>Transparencia:</strong> Precios finales sin comisiones ocultas.</li>
+                            </ul>
+                        </div>
+                    </div>
+                    <div className="space-y-8">
+                        <div>
+                            {/* CORRECCIÓN: Cambiamos "SEO" por "Hito Histórico" o "Cultural". Suena más épico. */}
+                            <h3 className="text-2xl font-bold text-white mb-4 uppercase">
+                                Historia de BTS en {country.name}: Un Hito Histórico para el Army
+                            </h3>
+
+                            <p className="leading-relaxed mb-4">
+                                La relación entre BTS y {country.name} es una historia de espera que finalmente se materializa en 2026.
+                                A diferencia de visitas anteriores a la región, esta llegada oficial al {country.venue} marca el
+                                evento cultural más importante de la década.
+                            </p>
+
+                            {/* CORRECCIÓN: Integramos la keyword de forma natural sin decir "la búsqueda de..." */}
+                            <p className="leading-relaxed mb-4">
+                                La demanda acumulada ha generado una expectativa sin precedentes. Por ello, encontrar dónde
+                                <strong className="text-white font-bold"> comprar entradas para BTS en {country.city} de forma 100% segura </strong>
+                                es la prioridad absoluta para proteger tu inversión y tu sueño.
+                            </p>
+
+                            <p className="leading-relaxed">
+                                Al adquirir tus pases a través de canales verificados como RaveHub, aseguras tu lugar en el
+                                Estadio Nacional con total confianza y garantía local.
+                            </p>
+                        </div>
+                    </div>
+                </div>
+            </section >
+
             {/* STICKY CHECKOUT BAR */}
             <AnimatePresence>
                 {
@@ -567,10 +644,10 @@ export default function CountryClient({ country }: Props) {
                     )
                 }
 
-            </AnimatePresence>
+            </AnimatePresence >
 
             <CommunityModal isOpen={isCommunityOpen} onClose={() => setIsCommunityOpen(false)} />
 
-        </div>
+        </div >
     );
 }

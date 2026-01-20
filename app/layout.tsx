@@ -11,7 +11,10 @@ import { cn } from "@/lib/utils";
 const inter = Inter({ subsets: ["latin"] });
 
 export const metadata: Metadata = {
-  title: "BTS 2026 | Entradas Latinoamérica",
+  title: {
+    default: "BTS 2026 | Entradas Latinoamérica",
+    template: "%s",
+  },
   description: "Compra tus entradas para el BTS 2026 en Perú, Chile y Latinoamérica. Fechas confirmadas, precios y preventa ARMY. Distribuidor Autorizado.",
   metadataBase: new URL('https://entradasbts.com'),
   manifest: '/manifest.json',

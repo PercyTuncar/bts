@@ -13,11 +13,14 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
 
     if (!country) return { title: 'País no encontrado' };
 
+    const minPrice = Math.min(...country.prices.map(p => p.price));
+    const formattedPrice = country.currencySymbol + minPrice;
+
     return {
-        title: `Entradas BTS ${country.name}`,
-        description: `Entradas BTS en ${country.name}. Fecha confirmada: ${country.dates[0]}. Precios, zonas y entradas garantizadas para el concierto en ${country.venue}. ¡Asegura tu lugar con RaveHub!`,
+        title: `Entradas BTS ${country.name} 2026 | Desde ${formattedPrice}`,
+        description: `¡Compra tus entradas para BTS en ${country.name} 2026! Precios desde ${formattedPrice} en ${country.venue}. Compra segura, zonas VIP y mapa del escenario aquí.`,
         openGraph: {
-            title: `Entradas BTS ${country.name}`,
+            title: `Entradas BTS ${country.name} 2026`,
             description: `¡El Army llega a ${country.name}! Compra segura y verificada para el concierto en ${country.venue}.`,
             url: `https://entradasbts.com/${country.id}`,
             siteName: 'Entradas BTS Tour 2026',

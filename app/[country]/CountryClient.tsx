@@ -102,7 +102,7 @@ export default function CountryClient({ country }: Props) {
     const jsonLd = {
         "@context": "https://schema.org",
         "@type": "Event",
-        "name": `Concierto BTS ${country.name} 2026`,
+        "name": `BTS ${country.name} 2026`,
         "description": country.description,
         "image": [
             `https://entradasbts.com${country.openGraphImage}`,
@@ -169,6 +169,39 @@ export default function CountryClient({ country }: Props) {
                 "@type": "Offer",
                 "name": p.zone,
                 "category": p.price >= 1000 ? "VIP" : "Seating",
+                "price": p.price.toString(),
+                "priceCurrency": country.currency,
+                "availability": "https://schema.org/InStock",
+                "url": `https://entradasbts.com/${country.id}/`
+            }))
+        }
+    };
+
+    const productLd = {
+        "@context": "https://schema.org/",
+        "@type": "Product",
+        "name": `Entradas BTS ${country.name} 2026`,
+        "image": [
+            `https://entradasbts.com${country.openGraphImage}`,
+            "https://entradasbts.com/images/concert-bg.png"
+        ],
+        "description": country.description,
+        "sku": `BTS-TOUR-${country.isoCode}-2026`,
+        "brand": {
+            "@type": "Brand",
+            "name": "BTS World Tour"
+        },
+        "offers": {
+            "@type": "AggregateOffer",
+            "url": `https://entradasbts.com/${country.id}/`,
+            "priceCurrency": country.currency,
+            "lowPrice": minPrice.toString(),
+            "highPrice": maxPrice.toString(),
+            "offerCount": country.prices.length.toString(),
+            "availability": "https://schema.org/InStock",
+            "offers": country.prices.map(p => ({
+                "@type": "Offer",
+                "name": p.zone,
                 "price": p.price.toString(),
                 "priceCurrency": country.currency,
                 "availability": "https://schema.org/InStock",
@@ -317,6 +350,10 @@ export default function CountryClient({ country }: Props) {
                 type="application/ld+json"
                 dangerouslySetInnerHTML={{ __html: JSON.stringify(faqLd) }}
             />
+            <script
+                type="application/ld+json"
+                dangerouslySetInnerHTML={{ __html: JSON.stringify(productLd) }}
+            />
 
             {/* HERO SECTION */}
             <section className="relative min-h-[90vh] flex flex-col pt-32 pb-20 overflow-hidden border-b-2 border-white/20">
@@ -335,17 +372,19 @@ export default function CountryClient({ country }: Props) {
 
                 <div className="container mx-auto px-4 md:px-8 relative z-10 flex flex-col justify-between flex-1">
                     <div className="max-w-5xl">
-                        <motion.h1
+                        <motion.div
                             initial={{ x: 0, opacity: 1 }}
                             animate={{ x: 0, opacity: 1 }}
                             transition={{ duration: 0.8, ease: "anticipate" }}
-                            className="text-[8rem] md:text-[16rem] leading-[0.8] font-black tracking-tighter text-white mix-blend-overlay opacity-90"
+                            className="text-[8rem] md:text-[16rem] leading-[0.8] font-black tracking-tighter text-white mix-blend-overlay opacity-90 select-none"
                             style={{ fontFamily: '"Arial Black", sans-serif' }}
                         >
-                            <span className="sr-only">ENTRADAS BTS {country.name.toUpperCase()} </span>BTS
-                        </motion.h1>
+                            <span className="sr-only">BTS WORLD TOUR</span>
+                            BTS
+                        </motion.div>
 
-                        <div className="flex flex-col md:flex-row items-start md:items-end gap-6 -mt-4 md:-mt-12 ml-2 md:ml-4">
+                        <div className="flex flex-col md:flex-row items-start md:items-end gap-6 -mt-4 md:-mt-12 ml-2 md:ml-4 relative z-20">
+
                             <motion.div
                                 initial={{ scale: 0 }}
                                 animate={{ scale: 1 }}
@@ -355,9 +394,10 @@ export default function CountryClient({ country }: Props) {
                                 World Tour '26
                             </motion.div>
 
-                            <h2 className="text-6xl md:text-8xl font-serif italic text-acid-yellow z-20 relative drop-shadow-[0_4px_0_rgba(0,0,0,0.5)]">
+                            <h1 className="text-6xl md:text-8xl font-serif italic text-acid-yellow z-20 relative drop-shadow-[0_4px_0_rgba(0,0,0,0.5)]">
                                 {country.city}
-                            </h2>
+                                <span className="block text-xl md:text-3xl text-white not-italic font-sans font-black tracking-widest mt-2 uppercase">Entradas BTS {country.name}</span>
+                            </h1>
                         </div>
                     </div>
 

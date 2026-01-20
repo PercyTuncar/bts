@@ -15,7 +15,7 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
 
     return {
         title: `Entradas BTS ${country.name}`,
-        description: `Entradas BTS ${country.name}. Fecha confirmada: ${country.dates[0]}. Precios, zonas y entradas garantizadas para el concierto en ${country.venue}. ¡Asegura tu lugar con RaveHub!`,
+        description: `Entradas BTS en ${country.name}. Fecha confirmada: ${country.dates[0]}. Precios, zonas y entradas garantizadas para el concierto en ${country.venue}. ¡Asegura tu lugar con RaveHub!`,
         openGraph: {
             title: `Entradas BTS ${country.name}`,
             description: `¡El Army llega a ${country.name}! Compra segura y verificada para el concierto en ${country.venue}.`,

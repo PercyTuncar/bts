@@ -6,7 +6,7 @@ import { GlassCard } from '@/components/GlassCard';
 import { Star, ShoppingBag, Music, ShieldCheck, ChevronDown, Ticket, Smartphone } from 'lucide-react';
 
 export const metadata: Metadata = {
-    title: 'Membresía BTS: Comprar Aquí | s/ 99.50',
+    title: 'Membresía BTS: Compra Aquí',
     description: '¡Únete al ARMY oficial! Compra tu Membresía BTS Global por S/. 99.50. Accede a preventas de conciertos, sorteos y contenido exclusivo en Weverse. Pago seguro con Mercado Pago.',
     keywords: ['membresía bts precio perú', 'comprar army membership', 'bts fanclub oficial', 'beneficios membresía bts', 'weverse shop bts'],
     alternates: {

@@ -14,6 +14,9 @@ export default function sitemap(): MetadataRoute.Sitemap {
         '/legal/contacto',
         '/legal/privacidad',
         '/tienda/cart',
+        '/comprar-membresia-bts',
+        '/unirse',
+        '/legal/terminos',
     ].map((route) => ({
         url: `${baseUrl}${route}`,
         lastModified: new Date(),

@@ -9,7 +9,7 @@ import Image from "next/image";
 import { HomeCommunityBanner } from "@/components/HomeCommunityBanner";
 
 export const metadata = {
-  title: 'Entradas BTS 2026 | Latinoamérica',
+  title: 'Entradas BTS 2026',
   description: 'Venta segura de entradas para la gira de BTS por Latinoamérica. Fechas confirmadas en Perú, Chile, México y Colombia. Compra segura en entradasbts.com.',
   openGraph: {
     title: 'BTS 2026 - Latinoamérica',
@@ -43,8 +43,8 @@ export default function Home() {
     "@context": "https://schema.org",
     "@type": "EventSeries",
     "name": "BTS World Tour 2026 - Latin America",
-    "startDate": "2026-10-02", // First date of the tour (Colombia)
-    "endDate": "2026-10-24", // Last date of the tour (Mexico)
+    "startDate": "2026-05-07", // First date of the tour (Mexico)
+    "endDate": "2026-10-16", // Last date of the tour (Chile)
     "description": "Venta autorizada de entradas para la gira de BTS en Latinoamérica incluyendo Lima, Santiago, CDMX y Bogotá.",
     "organizer": {
       "@type": "Organization",

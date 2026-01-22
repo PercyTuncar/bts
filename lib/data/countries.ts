@@ -65,7 +65,7 @@ export const countries: CountryData[] = [
         ],
         description: 'Santiago, el momento ha llegado. Vive la magia de BTS en el Estadio Monumental.',
         openGraphImage: '/images/og-chile.jpg',
-        whatsappLink: 'https://chat.whatsapp.com/HhoKIL0vQhpDsP9ThzOFwu'
+        whatsappLink: 'https://chat.whatsapp.com/FVBFp5ThbPTKx2PPaBDoyC'
     },
     {
         id: 'mexico',
@@ -136,7 +136,7 @@ export const countries: CountryData[] = [
         ],
         description: '¡Hola México! BTS llega al coloso de Santa Úrsula para tres fechas inolvidables.',
         openGraphImage: '/images/og-mexico.jpg',
-        whatsappLink: 'https://chat.whatsapp.com/KnPOXVWj8IW2SoGzT4UGqo'
+        whatsappLink: 'https://chat.whatsapp.com/GImmxPFYqmpEYSRzaNW3Vt'
     },
     {
         id: 'colombia',
@@ -158,7 +158,7 @@ export const countries: CountryData[] = [
         ],
         description: 'Bogotá se viste de morado. No te pierdas el regreso de BTS a Colombia.',
         openGraphImage: '/images/og-colombia.jpg',
-        whatsappLink: 'https://chat.whatsapp.com/JfNuVSxePCkKKugaawYsRa'
+        whatsappLink: 'https://chat.whatsapp.com/GRD1MEmFwR2DVyJSIxEXTE'
     },
     {
         id: 'argentina',

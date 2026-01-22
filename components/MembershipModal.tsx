@@ -56,7 +56,7 @@ export function MembershipModal({ isOpen, onClose }: Props) {
                             <div className="p-8 space-y-6 bg-black/90">
                                 <div className="space-y-4">
                                     <p className="text-xl text-white font-medium leading-relaxed">
-                                        Para poder comprar entradas en esta fase de preventa, es <span className="text-acid-pink font-bold">indispensable</span> contar con tu Membresía Oficial activa.
+                                        Para poder comprar entradas en esta fase de preventa, es <span className="text-acid-pink font-bold">indispensable contar con tu Membresía</span> Oficial activa.
                                     </p>
 
                                     <div className="bg-white/5 border border-white/10 p-4 rounded-lg flex gap-4 items-start">
@@ -78,7 +78,7 @@ export function MembershipModal({ isOpen, onClose }: Props) {
                                         className="group block w-full bg-acid-pink hover:bg-white hover:text-black transition-all duration-300 text-white font-black uppercase text-xl py-4 text-center shadow-[4px_4px_0_white] hover:shadow-[6px_6px_0_white] hover:-translate-y-1"
                                     >
                                         <span className="flex items-center justify-center gap-2">
-                                            Comprar Membresía <ArrowRight className="w-6 h-6 group-hover:translate-x-1 transition-transform" />
+                                            Tramitar Membresía Aquí <ArrowRight className="w-6 h-6 group-hover:translate-x-1 transition-transform" />
                                         </span>
                                     </Link>
                                     <p className="text-center text-gray-500 text-xs mt-3 uppercase tracking-widest font-bold">

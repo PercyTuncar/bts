@@ -171,20 +171,20 @@ export default function MembershipPage() {
                 </div>
 
                 {/* Content */}
-                <div className="relative z-20 max-w-2xl space-y-6 animate-in slide-in-from-bottom-10 fade-in duration-1000">
+                <div className="relative z-20 max-w-4xl space-y-4 md:space-y-6 animate-in slide-in-from-bottom-10 fade-in duration-1000">
                     <div>
-                        <div className="inline-flex items-center gap-2 mb-4">
-                            <Image src="/icon.png" width={40} height={40} alt="BTS Logo" className="drop-shadow-lg" />
-                            <span className="text-sm font-bold tracking-[0.2em] text-gray-200 uppercase">Official Fanclub</span>
+                        <div className="inline-flex items-center gap-2 mb-2 md:mb-4">
+                            <Image src="/icon.png" width={40} height={40} alt="BTS Logo" className="drop-shadow-lg w-8 h-8 md:w-10 md:h-10" />
+                            <span className="text-xs md:text-sm font-bold tracking-[0.2em] text-gray-200 uppercase text-shadow">SERVICIO DE ASISTENCIA PARA</span>
                         </div>
-                        <h1 className="text-6xl md:text-8xl font-black uppercase tracking-tighter leading-[0.9] drop-shadow-2xl">
-                            <span className="block text-white">Membresía</span>
-                            <span className="block text-acid-pink">BTS</span>
+                        <h1 className="text-5xl md:text-7xl font-black uppercase tracking-tighter leading-[0.9] drop-shadow-2xl">
+                            <span className="block text-white">COMPRAR</span>
+                            <span className="block text-acid-pink">Membresía BTS</span>
                         </h1>
                     </div>
 
                     <p className="text-xl md:text-2xl font-medium text-gray-100 max-w-lg drop-shadow-md">
-                        Comprar Aquí. La única forma de acceder a las preventas del Tour 2026.
+                        Asegura tu acceso a la preventa del Tour 2026 hoy mismo.
                         <br />
                         <span className="text-acid-yellow font-bold mt-2 block">¡Únete al ARMY oficial hoy!</span>
                     </p>
@@ -200,7 +200,7 @@ export default function MembershipPage() {
                             Comprar Ahora - S/. 99.50
                         </a>
                         <p className="text-sm font-bold text-gray-300 uppercase tracking-widest flex items-center gap-2">
-                            <span className="text-neon-green">⚡</span> Entrega digital rápida | Acceso Oficial 2026
+                            <span className="text-neon-green">⚡</span> COMPRA SEGURA: Gestionamos tu pago en la web oficial.
                         </p>
                     </div>
                 </div>

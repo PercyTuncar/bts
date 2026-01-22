@@ -6,6 +6,7 @@ export const runtime = 'edge';
 
 import { Navbar } from "@/components/Navbar";
 import { Footer } from "@/components/Footer";
+import { GoogleAnalytics } from "@/components/GoogleAnalytics";
 import { cn } from "@/lib/utils";
 
 const inter = Inter({ subsets: ["latin"] });
@@ -81,6 +82,7 @@ export default function RootLayout({
             {children}
           </main>
           <Footer />
+          <GoogleAnalytics />
           <AutoPopup />
         </CartProvider>
       </body>

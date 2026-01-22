@@ -157,18 +157,22 @@ export default function Home() {
           </p>
 
           <div className="flex flex-col md:flex-row gap-4 md:gap-6 w-full md:w-auto">
-            <Button size="lg" variant="primary" className="w-full md:w-auto">
-              Ver Entradas
-            </Button>
-            <Button size="lg" variant="outline" className="w-full md:w-auto">
-              Ver Fechas
-            </Button>
+            <Link href="/eventos" className="w-full md:w-auto">
+              <Button size="lg" variant="primary" className="w-full">
+                Ver Entradas
+              </Button>
+            </Link>
+            <Link href="#tour-dates" className="w-full md:w-auto">
+              <Button size="lg" variant="outline" className="w-full">
+                Ver Fechas
+              </Button>
+            </Link>
           </div>
         </div>
       </section>
 
       {/* QUICK SELECT GRID */}
-      <section className="container mx-auto px-4 py-24">
+      <section id="tour-dates" className="container mx-auto px-4 py-24">
         <div className="flex items-end justify-between mb-12 border-b-4 border-white pb-4">
           <h2 className="text-5xl font-black uppercase italic">Fechas del Tour</h2>
           <div className="text-sm font-bold uppercase tracking-widest text-gray-500">Selecciona tu ciudad</div>

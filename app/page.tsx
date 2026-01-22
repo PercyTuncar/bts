@@ -184,7 +184,7 @@ export default function Home() {
               <GlassCard variant="interactive" className="h-full flex flex-col justify-between min-h-[300px] hover:bg-[#111] transition-colors">
                 <div className="flex justify-between items-start">
                   <span className="text-6xl font-black text-white/10 group-hover:text-acid-pink/20 transition-colors">0{i + 1}</span>
-                  <div className="bg-white text-black text-xs font-bold px-2 py-1 uppercase">Acceso Garantizado</div>
+                  <div className="bg-white text-black text-xs font-bold px-2 py-1 uppercase">Disponible</div>
                 </div>
 
                 <div className="space-y-4">

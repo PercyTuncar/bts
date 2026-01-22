@@ -6,12 +6,34 @@ import { X, ExternalLink, MessageCircle, Heart } from "lucide-react";
 import { GlassCard } from "./GlassCard";
 import Image from "next/image";
 
+import { usePathname } from "next/navigation";
+
 interface CommunityModalProps {
     isOpen: boolean;
     onClose: () => void;
 }
 
 export function CommunityModal({ isOpen, onClose }: CommunityModalProps) {
+    const pathname = usePathname();
+    const isBrazil = pathname?.startsWith('/brasil');
+
+    // Translations
+    const t = isBrazil ? {
+        title: "Junte-se ao",
+        highlight: "Grupo",
+        description: "Entre no chat do seu país, coordene seus ingressos e prepare-se para o show.",
+        group: "Grupo Oficial",
+        members: "+50.000 Armys unidos",
+        note: "Nota: Venda oficial ainda não disponível. Preços e setores são referenciais."
+    } : {
+        title: "Únete al",
+        highlight: "Grupo",
+        description: "Únete al chat de tu país, coordina tus entradas y prepárate para el show.",
+        group: "Grupo Oficial",
+        members: "+50,000 Armys unidos",
+        note: "Nota: Venta oficial aún no lo tenemos disponible. Precios y zonas son referenciales."
+    };
+
     return (
         <AnimatePresence>
             {isOpen && (
@@ -71,10 +93,10 @@ export function CommunityModal({ isOpen, onClose }: CommunityModalProps) {
                                         World Tour 2026
                                     </div>
                                     <h2 className="text-4xl md:text-5xl font-black uppercase italic text-white mb-2 leading-[0.9]">
-                                        Únete al <span className="text-transparent bg-clip-text bg-gradient-to-r from-[#25D366] to-acid-green">Grupo</span>
+                                        {t.title} <span className="text-transparent bg-clip-text bg-gradient-to-r from-[#25D366] to-acid-green">{t.highlight}</span>
                                     </h2>
                                     <p className="text-gray-300 font-medium text-sm md:text-base leading-relaxed mb-8 max-w-xs mx-auto mt-4">
-                                        <strong className="text-white">Únete al chat de tu país</strong>, coordina tus entradas y prepárate para el show.
+                                        <strong className="text-white">{isBrazil ? "Entre no chat do seu país" : "Únete al chat de tu país"}</strong>, {isBrazil ? "coordene seus ingressos e prepare-se para o show." : "coordina tus entradas y prepárate para el show."}
                                     </p>
                                 </motion.div>
 
@@ -97,7 +119,7 @@ export function CommunityModal({ isOpen, onClose }: CommunityModalProps) {
                                                         Army {country.name}
                                                     </span>
                                                     <span className="text-[10px] text-gray-500 font-bold uppercase group-hover:text-black/70 transition-colors flex items-center gap-1">
-                                                        <MessageCircle className="w-3 h-3" /> Grupo Oficial
+                                                        <MessageCircle className="w-3 h-3" /> {t.group}
                                                     </span>
                                                 </div>
                                             </div>
@@ -115,10 +137,10 @@ export function CommunityModal({ isOpen, onClose }: CommunityModalProps) {
                                         ))}
                                     </div>
                                     <p className="text-[10px] text-gray-500 uppercase tracking-widest font-bold">
-                                        +50,000 Armys unidos
+                                        {t.members}
                                     </p>
                                     <p className="text-[10px] text-gray-400 mt-2 max-w-[200px] mx-auto leading-tight">
-                                        Nota: Venta oficial aún no lo tenemos disponible. Precios y zonas son referenciales.
+                                        {t.note}
                                     </p>
                                 </div>
                             </div>
@@ -130,3 +152,4 @@ export function CommunityModal({ isOpen, onClose }: CommunityModalProps) {
         </AnimatePresence>
     );
 }
+

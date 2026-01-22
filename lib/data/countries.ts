@@ -129,7 +129,7 @@ export const countries: CountryData[] = [
         ],
         description: 'Aún no hay confirmación oficial del estadio, pero los rumores más fuertes y la capacidad necesaria apuntan al Estadio Monumental (River Plate).',
         openGraphImage: '/images/og-argentina.jpg',
-        whatsappLink: 'https://chat.whatsapp.com/placeholder'
+        whatsappLink: 'https://chat.whatsapp.com/ArgentinaBTS2026'
     },
     {
         id: 'brasil',
@@ -151,6 +151,6 @@ export const countries: CountryData[] = [
         ],
         description: 'A Live Nation é a produtora oficial. Rumores fortes apontam para o Allianz Parque ou Estádio MorumBIS. BTS WORLD TOUR "ARIRANG".',
         openGraphImage: '/images/og-brasil.jpg',
-        whatsappLink: 'https://chat.whatsapp.com/placeholder'
+        whatsappLink: 'https://chat.whatsapp.com/BrasilBTS2026'
     }
 ];

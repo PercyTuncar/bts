@@ -101,33 +101,49 @@ export function CommunityModal({ isOpen, onClose }: CommunityModalProps) {
                                 </motion.div>
 
                                 <div className="space-y-3">
-                                    {countries.map((country, i) => (
-                                        <motion.a
-                                            key={country.id}
-                                            href={country.whatsappLink}
-                                            target="_blank"
-                                            rel="noopener noreferrer"
-                                            initial={{ x: -20, opacity: 0 }}
-                                            animate={{ x: 0, opacity: 1 }}
-                                            transition={{ delay: 0.2 + (i * 0.1) }}
-                                            className="group flex items-center justify-between p-4 rounded-xl bg-white/5 hover:bg-[#25D366] border border-white/10 hover:border-[#25D366] transition-all duration-300"
-                                        >
-                                            <div className="flex items-center gap-4">
-                                                <span className="text-2xl">{country.flag}</span>
-                                                <div className="text-left">
-                                                    <span className="block font-black uppercase text-sm tracking-widest text-white group-hover:text-black transition-colors">
-                                                        Army {country.name}
-                                                    </span>
-                                                    <span className="text-[10px] text-gray-500 font-bold uppercase group-hover:text-black/70 transition-colors flex items-center gap-1">
-                                                        <MessageCircle className="w-3 h-3" /> {t.group}
-                                                    </span>
+                                    {countries
+                                        .slice() // Create a copy to avoid mutating the original array
+                                        .sort((a, b) => {
+                                            const currentCountryId = pathname?.split('/')[1];
+                                            if (a.id === currentCountryId) return -1;
+                                            if (b.id === currentCountryId) return 1;
+                                            return 0;
+                                        })
+                                        .map((country, i) => (
+                                            <motion.a
+                                                key={country.id}
+                                                href={country.whatsappLink}
+                                                target="_blank"
+                                                rel="noopener noreferrer"
+                                                initial={{ x: -20, opacity: 0 }}
+                                                animate={{ x: 0, opacity: 1 }}
+                                                transition={{ delay: 0.2 + (i * 0.1) }}
+                                                className={`group flex items-center justify-between p-4 rounded-xl border transition-all duration-300 ${pathname?.includes(country.id)
+                                                    ? 'bg-[#25D366]/20 border-[#25D366] hover:bg-[#25D366]/30'
+                                                    : 'bg-white/5 border-white/10 hover:bg-[#25D366] hover:border-[#25D366]'
+                                                    }`}
+                                            >
+                                                <div className="flex items-center gap-4">
+                                                    <span className="text-2xl">{country.flag}</span>
+                                                    <div className="text-left">
+                                                        <span className={`block font-black uppercase text-sm tracking-widest transition-colors ${pathname?.includes(country.id) ? 'text-[#25D366]' : 'text-white group-hover:text-black'
+                                                            }`}>
+                                                            Army {country.name}
+                                                        </span>
+                                                        <span className={`text-[10px] font-bold uppercase transition-colors flex items-center gap-1 ${pathname?.includes(country.id) ? 'text-white' : 'text-gray-500 group-hover:text-black/70'
+                                                            }`}>
+                                                            <MessageCircle className="w-3 h-3" /> {t.group}
+                                                        </span>
+                                                    </div>
                                                 </div>
-                                            </div>
-                                            <div className="w-8 h-8 rounded-full bg-white/10 group-hover:bg-black/20 flex items-center justify-center text-gray-400 group-hover:text-black transition-colors">
-                                                <ExternalLink className="w-4 h-4" />
-                                            </div>
-                                        </motion.a>
-                                    ))}
+                                                <div className={`w-8 h-8 rounded-full flex items-center justify-center transition-colors ${pathname?.includes(country.id)
+                                                    ? 'bg-[#25D366] text-black'
+                                                    : 'bg-white/10 text-gray-400 group-hover:bg-black/20 group-hover:text-black'
+                                                    }`}>
+                                                    <ExternalLink className="w-4 h-4" />
+                                                </div>
+                                            </motion.a>
+                                        ))}
                                 </div>
 
                                 <div className="mt-8 pt-6 border-t border-white/10 flex flex-col items-center justify-center gap-2">

@@ -108,5 +108,27 @@ export const countries: CountryData[] = [
         description: 'Bogotá se viste de morado. No te pierdas el regreso de BTS a Colombia.',
         openGraphImage: '/images/og-colombia.jpg',
         whatsappLink: 'https://chat.whatsapp.com/JfNuVSxePCkKKugaawYsRa'
+    },
+    {
+        id: 'argentina',
+        name: 'Argentina',
+        flag: '🇦🇷',
+        venue: 'Estadio Mas Monumental',
+        city: 'Buenos Aires',
+        isoCode: 'AR',
+        dates: ['2026-10-23', '2026-10-24'],
+        ticketDate: 'Próximamente',
+        currency: 'ARS',
+        currencySymbol: '$',
+        prices: [
+            { zone: 'Ultimate VIP Soundcheck', price: 1500000 },
+            { zone: 'Purple Zone', price: 1200000 },
+            { zone: 'General', price: 850000 },
+            { zone: 'Lado Este (tribunas)', price: 750000 },
+            { zone: 'Zona Norte', price: 180000 },
+        ],
+        description: 'Aún no hay confirmación oficial del estadio, pero los rumores más fuertes y la capacidad necesaria apuntan al Estadio Monumental (River Plate).',
+        openGraphImage: '/images/og-argentina.jpg',
+        whatsappLink: 'https://chat.whatsapp.com/placeholder'
     }
 ];

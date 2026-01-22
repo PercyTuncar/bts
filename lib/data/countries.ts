@@ -43,7 +43,7 @@ export const countries: CountryData[] = [
         ],
         description: 'Lima, prepárate para el océano púrpura. BTS regresa al Estadio Nacional para dos noches históricas.',
         openGraphImage: '/images/og-peru.jpg',
-        whatsappLink: 'https://chat.whatsapp.com/BmKRtT4vnZcEB5rG4yhQVC'
+        whatsappLink: 'https://chat.whatsapp.com/Euy25S5EjvkK70kdNMQIxf'
     },
     {
         id: 'chile',

@@ -7,16 +7,16 @@ export const metadata = {
 
 export default function Terminos() {
     return (
-        <div className="max-w-4xl mx-auto py-10 pt-24 px-4 text-gray-200">
-            <h1 className="text-4xl md:text-5xl font-black uppercase italic mb-8 text-white">
+        <div className="max-w-4xl mx-auto py-10 pt-24 px-4 text-slate-900 dark:text-gray-200">
+            <h1 className="text-4xl md:text-5xl font-black uppercase italic mb-8 text-slate-900 dark:text-white">
                 Términos y <span className="text-acid-pink">Condiciones</span>
             </h1>
 
-            <GlassCard className="prose prose-invert max-w-none prose-headings:font-bold prose-headings:uppercase prose-p:text-gray-300 prose-strong:text-white">
-                <p className="font-mono text-sm text-gray-400 mb-6">Vigencia: A partir del 01 de Enero de 2025</p>
+            <GlassCard className="prose dark:prose-invert max-w-none prose-headings:font-bold prose-headings:uppercase prose-p:text-slate-600 dark:prose-p:text-gray-300 prose-strong:text-slate-900 dark:prose-strong:text-white">
+                <p className="font-mono text-sm text-slate-500 dark:text-gray-400 mb-6">Vigencia: A partir del 01 de Enero de 2025</p>
 
-                <div className="bg-red-900/20 border border-red-500/50 p-4 rounded-lg mb-8">
-                    <p className="text-red-200 font-bold m-0">
+                <div className="bg-red-50 dark:bg-red-900/20 border border-red-200 dark:border-red-500/50 p-4 rounded-lg mb-8">
+                    <p className="text-red-800 dark:text-red-200 font-bold m-0">
                         Aviso Importante: Al hacer clic en "Aceptar" o al comprar cualquier producto en ravehublatam.com, usted acepta vincularse jurídicamente por estas condiciones, las cuales incluyen de manera integral las políticas de reembolso, mora y retracto detalladas a continuación.
                     </p>
                 </div>

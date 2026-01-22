@@ -7,13 +7,13 @@ export const metadata = {
 
 export default function Privacidad() {
     return (
-        <div className="max-w-4xl mx-auto py-10 pt-24 px-4 text-gray-200">
-            <h1 className="text-4xl md:text-5xl font-black uppercase italic mb-8 text-white">
+        <div className="max-w-4xl mx-auto py-10 pt-24 px-4 text-slate-900 dark:text-gray-200">
+            <h1 className="text-4xl md:text-5xl font-black uppercase italic mb-8 text-slate-900 dark:text-white">
                 Política de <span className="text-acid-pink">Privacidad</span>
             </h1>
 
-            <GlassCard className="prose prose-invert max-w-none prose-headings:font-bold prose-headings:uppercase prose-p:text-gray-300 prose-strong:text-white">
-                <p className="font-mono text-sm text-gray-400 mb-6">Última actualización: Diciembre 2025</p>
+            <GlassCard className="prose dark:prose-invert max-w-none prose-headings:font-bold prose-headings:uppercase prose-p:text-slate-600 dark:prose-p:text-gray-300 prose-strong:text-slate-900 dark:prose-strong:text-white">
+                <p className="font-mono text-sm text-slate-500 dark:text-gray-400 mb-6">Última actualización: Diciembre 2025</p>
 
                 <p>
                     En Ravehub Latam ("Nosotros", "La Plataforma"), valoramos su privacidad tanto como su experiencia en el evento. Esta Política describe cómo recopilamos, utilizamos y compartimos su información personal al utilizar nuestro sitio web ravehublatam.com.

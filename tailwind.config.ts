@@ -10,22 +10,25 @@ const config: Config = {
     theme: {
         extend: {
             colors: {
-                primary: "#7C3AED",
-                secondary: "#DB2777",
-                black: "#000000",
+                primary: "#A855F7", // Purple 500 (More saturated Baby Purple/Lilac)
+                secondary: "#F472B6", // Pink 400 (More saturated Pink)
+                black: "#0f172a", // Slate 900
                 white: "#ffffff",
-                // Dice.fm Aesthetic Colors
-                "acid-yellow": "#F4F800",
-                "acid-pink": "#FF1C5E",
-                "neon-green": "#00D8AF",
-                "off-white": "#F3F3F3",
+                // Lively Pastels (Replacing Acid/Neon with saturated pastels)
+                "acid-yellow": "#FACC15", // Yellow 400 (Sunny, not neon)
+                "acid-pink": "#F472B6", // Pink 400 (Matches secondary)
+                "neon-green": "#4ADE80", // Green 400 (Lively green)
+                "off-white": "#F8FAFC", // Slate 50
+                // New semantic names for clarity if needed, but keeping legacy names for compatibility
             },
             fontFamily: {
                 serif: ['"Times New Roman"', "Times", "serif"],
             },
             backgroundImage: {
-                noise:
-                    "url(\"data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.8' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)'/%3E%3C/svg%3E\")",
+                // Removed noise for cleaner look or make it very subtle if needed. 
+                // Using a very subtle noise for texture if desired, or just removing it.
+                // For now, keeping a very subtle version or removing to ensure "clean" look.
+                // Let's remove it for a pure clean light mode as requested.
             },
         },
     },

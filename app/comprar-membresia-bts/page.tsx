@@ -145,87 +145,147 @@ export default function MembershipPage() {
     ];
 
     return (
-        <div className="min-h-screen pb-20 pt-20">
+        <div className="min-h-screen pb-20 pt-16">
             <script
                 type="application/ld+json"
                 dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
             />
 
-            {/* SECTION 1: HERO (NETFLIX STYLE) */}
-            <section className="relative h-[90vh] md:h-screen w-full overflow-hidden flex items-center md:items-end pb-12 md:pb-32 px-4 md:px-12 group">
-                {/* Background Image */}
-                <div className="absolute inset-0 z-0">
+            {/* SECTION 1: HERO (LIGHT PREMIUM STYLE) */}
+            <section className="relative w-full overflow-hidden flex flex-col items-center pt-8 pb-16 lg:pt-16 lg:pb-24 px-4 md:px-12 bg-purple-50">
+
+                {/* Background Decor */}
+                <div className="absolute inset-0 z-0 overflow-hidden pointer-events-none">
                     <Image
                         src="/images/bts-group-hero.jpg"
                         alt="BTS Member Group Photo"
                         fill
-                        className="object-cover object-top md:object-center transition-transform duration-[20s] ease-linear group-hover:scale-105"
+                        className="object-cover opacity-20 lg:opacity-30" // Lower opacity for background effect
                         priority
                     />
-                    {/* Mobile Gradient: darker overall for legibility */}
-                    <div className="absolute inset-0 bg-black/60 md:bg-transparent z-10 block md:hidden"></div>
+                    {/* Gradients for Pastel Vibe */}
+                    <div className="absolute inset-0 bg-gradient-to-t from-white via-white/80 to-transparent"></div>
+                    <div className="absolute inset-0 bg-gradient-to-r from-purple-50/90 via-white/80 to-purple-50/90"></div>
 
-                    {/* Desktop Gradients */}
-                    <div className="absolute inset-0 bg-gradient-to-t from-black via-black/40 to-transparent z-10"></div>
-                    <div className="absolute inset-0 bg-gradient-to-r from-black/80 via-transparent to-transparent z-10 hidden md:block"></div>
+                    {/* Decorative Elements */}
+                    <div className="absolute top-20 right-20 w-64 h-64 bg-primary/20 rounded-full blur-3xl animate-pulse"></div>
+                    <div className="absolute bottom-20 left-20 w-96 h-96 bg-secondary/20 rounded-full blur-3xl animate-pulse delay-1000"></div>
                 </div>
 
-                {/* Content */}
-                <div className="relative z-20 max-w-4xl space-y-4 md:space-y-6 animate-in slide-in-from-bottom-10 fade-in duration-1000">
-                    <div>
-                        <div className="inline-flex items-center gap-2 mb-2 md:mb-4">
-                            <Image src="/icon.png" width={40} height={40} alt="BTS Logo" className="drop-shadow-lg w-8 h-8 md:w-10 md:h-10" />
-                            <span className="text-xs md:text-sm font-bold tracking-[0.2em] text-gray-200 uppercase text-shadow">SERVICIO DE ASISTENCIA PARA</span>
+                {/* Content Container */}
+                <div className="relative z-20 w-full max-w-6xl grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
+
+                    {/* Left Column: Text Content */}
+                    <div className="order-2 lg:order-1 flex flex-col items-center lg:items-start text-center lg:text-left space-y-2">
+                        <div className="inline-flex items-center gap-2 mb-0">
+                            <span className="text-xs md:text-sm font-bold tracking-[0.2em] text-slate-500 uppercase">SERVICIO DE ASISTENCIA PARA</span>
                         </div>
-                        <h1 className="text-5xl md:text-7xl font-black uppercase tracking-tighter leading-[0.9] drop-shadow-2xl">
-                            <span className="block text-white">COMPRAR</span>
-                            <span className="block text-acid-pink">Membresía BTS</span>
+
+                        <h1 className="text-4xl md:text-6xl lg:text-7xl font-black uppercase tracking-tighter leading-[0.9]">
+                            <span className="block text-slate-900 drop-shadow-sm">COMPRAR</span>
+                            <span className="block text-transparent bg-clip-text bg-gradient-to-r from-primary to-secondary">Membresía</span>
+                            <span className="block text-slate-900">BTS ARMY</span>
                         </h1>
+
+                        <p className="text-base md:text-xl font-medium text-slate-600 max-w-lg leading-relaxed">
+                            Asegura tu acceso a la <span className="font-bold text-slate-900 bg-acid-yellow/50 px-1">preventa del Tour 2026</span> hoy mismo.
+                            <br className="hidden md:block" />
+                            <span className="block mt-2 text-primary font-bold">¡Únete al ARMY oficial hoy!</span>
+                        </p>
+
+                        <div className="flex flex-col sm:flex-row gap-4 pt-6 w-full sm:w-auto">
+                            <a
+                                href="https://mpago.la/1fcrBXe"
+                                target="_blank"
+                                rel="noopener"
+                                className="group bg-slate-900 text-white hover:bg-white hover:text-slate-900 border-2 border-slate-900 transition-all text-xl font-black uppercase py-4 px-12 rounded-lg flex items-center justify-center gap-3 w-full sm:w-auto shadow-[6px_6px_0_#A855F7] hover:shadow-[2px_2px_0_#A855F7] hover:translate-x-1 hover:translate-y-1 relative overflow-hidden"
+                            >
+                                <span className="absolute inset-0 bg-primary translate-y-full group-hover:translate-y-0 transition-transform duration-300 -z-10"></span>
+                                <Ticket className="w-6 h-6" />
+                                <span>Comprar Ahora</span>
+                            </a>
+                            <div className="flex flex-col justify-center text-xs font-bold text-slate-400 uppercase tracking-widest text-center sm:text-left">
+                                <span>Precio: S/. 99.50</span>
+                                <span className="text-[10px] text-slate-300">Pago único</span>
+                            </div>
+                        </div>
+
+                        <p className="text-xs font-bold text-slate-400 uppercase tracking-widest flex items-center gap-2 mt-4">
+                            <ShieldCheck className="w-4 h-4 text-green-500" /> Gestionamos tu pago en la web oficial.
+                        </p>
                     </div>
 
-                    <p className="text-xl md:text-2xl font-medium text-gray-100 max-w-lg drop-shadow-md">
-                        Asegura tu acceso a la preventa del Tour 2026 hoy mismo.
-                        <br />
-                        <span className="text-acid-yellow font-bold mt-2 block">¡Únete al ARMY oficial hoy!</span>
-                    </p>
+                    {/* Right Column: Hero Visual (Card Mockup) */}
+                    <div className="order-1 lg:order-2 flex justify-center lg:justify-end relative perspective-1000">
+                        <div className="relative transform hover:scale-105 transition-transform duration-500">
+                            {/* Glow Effect */}
+                            <div className="absolute inset-0 bg-gradient-to-br from-primary via-secondary to-acid-yellow blur-3xl opacity-40 rounded-full"></div>
 
-                    <div className="flex flex-col gap-4 pt-4">
-                        <a
-                            href="https://mpago.la/1fcrBXe"
-                            target="_blank"
-                            rel="noopener"
-                            className="bg-acid-pink text-white hover:bg-white hover:text-black transition-all text-xl md:text-2xl font-black uppercase py-4 px-10 rounded flex items-center gap-3 w-fit shadow-[0_0_30px_rgba(255,28,94,0.5)] hover:shadow-[0_0_50px_rgba(255,255,255,0.5)]"
-                        >
-                            <Ticket className="w-6 h-6 fill-current" />
-                            Comprar Ahora - S/. 99.50
-                        </a>
-                        <p className="text-sm font-bold text-gray-300 uppercase tracking-widest flex items-center gap-2">
-                            <span className="text-neon-green">⚡</span> COMPRA SEGURA: Gestionamos tu pago en la web oficial.
-                        </p>
+                            {/* Card Image Container with Premium Glass Effect */}
+                            <div className="relative z-10 rotate-6 hover:rotate-2 transition-transform duration-500">
+                                {/* Glass Border/Glow Wrapper */}
+                                <div className="absolute -inset-0.5 bg-gradient-to-br from-white/60 to-white/5 rounded-[2rem] blur-[1px]"></div>
+
+                                {/* Main Card Container */}
+                                <div className="relative rounded-[2rem] overflow-hidden shadow-[0_20px_50px_-12px_rgba(168,85,247,0.4)] backdrop-blur-sm">
+                                    <Image
+                                        src="/images/membership-card.png"
+                                        alt="Tarjeta Membresía BTS ARMY Oficial"
+                                        width={500}
+                                        height={320}
+                                        className="w-full max-w-md h-auto object-cover relative z-10"
+                                        priority
+                                    />
+
+                                    {/* Premium Gloss Effects */}
+                                    {/* 1. Top Highlight */}
+                                    <div className="absolute inset-x-0 top-0 h-1/2 bg-gradient-to-b from-white/30 to-transparent pointer-events-none z-20 mix-blend-overlay"></div>
+
+                                    {/* 2. Diagonal Sheen */}
+                                    <div className="absolute inset-0 bg-gradient-to-tr from-white/10 via-transparent to-black/10 pointer-events-none z-20"></div>
+
+                                    {/* 3. Iridescent/Holo Detail (Subtle) */}
+                                    <div className="absolute inset-0 bg-gradient-to-br from-primary/10 via-transparent to-secondary/10 mix-blend-color-dodge opacity-50 z-20 pointer-events-none"></div>
+                                </div>
+                            </div>
+
+                            {/* Floating Badge */}
+                            <div className="absolute -bottom-6 -right-6 z-20 bg-white p-4 rounded-xl shadow-xl border border-slate-100 animate-bounce-slow">
+                                <div className="flex items-center gap-2">
+                                    <div className="bg-green-100 p-2 rounded-full text-green-600">
+                                        <ShieldCheck className="w-6 h-6" />
+                                    </div>
+                                    <div className="flex flex-col leading-none">
+                                        <span className="text-[10px] font-bold text-slate-400 uppercase">Estado</span>
+                                        <span className="font-black text-slate-900 uppercase">Disponible</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
                     </div>
                 </div>
             </section>
 
             {/* SECTION 2: BENEFITS */}
-            <section className="container mx-auto px-4 py-20 border-t border-white/10 relative z-20 bg-black">
+            <section className="container mx-auto px-4 py-20 border-t border-slate-200 relative z-20 bg-white">
                 <div className="text-center mb-16">
-                    <h2 className="text-4xl md:text-6xl font-black uppercase mb-4">
-                        ¿Por qué necesitas la <span className="text-acid-pink">ARMY Membership</span>?
+                    <h2 className="text-4xl md:text-6xl font-black uppercase mb-4 text-slate-900">
+                        ¿Por qué necesitas la <span className="text-primary">ARMY Membership</span>?
                     </h2>
-                    <p className="text-gray-400 text-lg max-w-2xl mx-auto">
+                    <p className="text-slate-500 text-lg max-w-2xl mx-auto">
                         Ser parte del fandom oficial no es solo un título, es tu llave de acceso a beneficios exclusivos.
                     </p>
                 </div>
 
                 <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
                     {benefits.map((benefit, i) => (
-                        <GlassCard key={i} className="flex flex-col items-start gap-4 hover:bg-white/5 transition-colors p-8">
-                            <div className="p-3 bg-white/5 rounded-lg border border-white/10">
+                        <GlassCard key={i} className="flex flex-col items-start gap-4 hover:bg-slate-50 transition-colors p-8 border border-slate-200 shadow-sm">
+                            <div className="p-3 bg-slate-50 rounded-lg border border-slate-100">
                                 {benefit.icon}
                             </div>
                             <div>
-                                <h3 className="text-xl font-black uppercase mb-2 text-white">{benefit.title}</h3>
-                                <p className="text-gray-400 leading-relaxed">
+                                <h3 className="text-xl font-black uppercase mb-2 text-slate-900">{benefit.title}</h3>
+                                <p className="text-slate-500 leading-relaxed">
                                     {benefit.description}
                                 </p>
                             </div>
@@ -235,18 +295,18 @@ export default function MembershipPage() {
             </section>
 
             {/* SECTION 3: PRICE & GUARANTEE */}
-            <section className="relative py-24 overflow-hidden bg-black">
+            <section className="relative py-24 overflow-hidden bg-slate-50">
                 {/* Background Elements */}
-                <div className="absolute inset-0 bg-acid-yellow/5"></div>
-                <div className="absolute -right-20 top-20 w-96 h-96 bg-acid-pink blur-[150px] opacity-20"></div>
+                <div className="absolute inset-0 bg-primary/5"></div>
+                <div className="absolute -right-20 top-20 w-96 h-96 bg-secondary blur-[150px] opacity-20"></div>
 
                 <div className="container mx-auto px-4 relative z-10 flex flex-col lg:flex-row items-center justify-center gap-12">
 
                     {/* Visual Card Display - Moved from Hero */}
                     <div className="relative w-full max-w-md perspective-1000 group">
                         <div className="relative transform rotate-y-12 group-hover:rotate-y-0 transition-transform duration-700 ease-out">
-                            <div className="absolute inset-0 bg-acid-pink blur-3xl opacity-30 animate-pulse"></div>
-                            <GlassCard className="p-0 border-0 overflow-hidden shadow-[0_20px_50px_rgba(0,0,0,0.5)]">
+                            <div className="absolute inset-0 bg-primary blur-3xl opacity-30 animate-pulse"></div>
+                            <GlassCard className="p-0 border-0 overflow-hidden shadow-2xl">
                                 <Image
                                     src="/images/membership-card.png"
                                     alt="Tarjeta Membresía BTS ARMY Oficial"
@@ -259,16 +319,15 @@ export default function MembershipPage() {
                     </div>
 
                     {/* Price Content */}
-                    <div className="max-w-xl w-full bg-black/50 border border-white/20 p-8 md:p-12 text-center relative overflow-hidden backdrop-blur-md">
-                        <div className="absolute inset-0 bg-noise opacity-20 pointer-events-none"></div>
+                    <div className="max-w-xl w-full bg-white/80 border border-slate-200 p-8 md:p-12 text-center relative overflow-hidden backdrop-blur-md shadow-lg rounded-2xl">
 
-                        <h2 className="text-3xl md:text-4xl font-black uppercase mb-8 relative z-10">Precio de Oferta Limitada</h2>
+                        <h2 className="text-3xl md:text-4xl font-black uppercase mb-8 relative z-10 text-slate-900">Precio de Oferta Limitada</h2>
 
                         <div className="flex flex-col items-center justify-center gap-6 relative z-10">
-                            <div className="text-7xl md:text-8xl font-black text-white leading-none tracking-tighter">
+                            <div className="text-7xl md:text-8xl font-black text-slate-900 leading-none tracking-tighter">
                                 S/. 99.50
                                 <span className="block mt-4">
-                                    <span className="py-2 px-4 rounded-full border border-white/20 bg-white/5 text-sm md:text-base text-gray-300 font-bold tracking-widest uppercase">
+                                    <span className="py-2 px-4 rounded-full border border-slate-200 bg-slate-50 text-sm md:text-base text-slate-500 font-bold tracking-widest uppercase">
                                         Pago Único / 1 Año
                                     </span>
                                 </span>
@@ -279,12 +338,12 @@ export default function MembershipPage() {
                                     href="https://mpago.la/1fcrBXe"
                                     target="_blank"
                                     rel="noopener"
-                                    className="block w-full bg-acid-yellow text-black font-black uppercase text-2xl py-5 hover:scale-105 transition-transform shadow-[8px_8px_0_white] hover:shadow-[12px_12px_0_white]"
+                                    className="block w-full bg-primary text-slate-900 font-black uppercase text-2xl py-5 hover:scale-105 transition-transform shadow-lg hover:shadow-xl"
                                 >
                                     Proceder al Pago
                                 </a>
-                                <div className="flex items-center justify-center gap-2 text-gray-400 text-sm">
-                                    <ShieldCheck className="w-4 h-4 text-neon-green" />
+                                <div className="flex items-center justify-center gap-2 text-slate-500 text-sm">
+                                    <ShieldCheck className="w-4 h-4 text-secondary" />
                                     Pago 100% seguro procesado por Mercado Pago
                                 </div>
                                 <div className="flex justify-center pt-2">
@@ -304,19 +363,19 @@ export default function MembershipPage() {
 
             {/* SECTION 4: FAQ */}
             <section className="container mx-auto px-4 py-20 max-w-4xl">
-                <div className="mb-12 border-b-4 border-white pb-4">
-                    <h2 className="text-4xl md:text-5xl font-black uppercase italic">Preguntas Frecuentes</h2>
+                <div className="mb-12 border-b-4 border-slate-900 pb-4">
+                    <h2 className="text-4xl md:text-5xl font-black uppercase italic text-slate-900">Preguntas Frecuentes</h2>
                 </div>
 
                 <div className="space-y-4">
                     {faqs.map((faq, i) => (
-                        <div key={i} className="group border-2 border-white/10 hover:border-acid-yellow transition-colors bg-black/50">
+                        <div key={i} className="group border border-slate-200 hover:border-primary transition-colors bg-white">
                             <details className="group p-6 cursor-pointer">
                                 <summary className="flex justify-between items-center text-xl font-bold uppercase list-none">
-                                    <h3 className="group-hover:text-acid-yellow transition-colors">{faq.q}</h3>
-                                    <ChevronDown className="w-6 h-6 group-open:rotate-180 transition-transform text-white/50 group-hover:text-acid-yellow" />
+                                    <h3 className="text-slate-900 group-hover:text-primary transition-colors">{faq.q}</h3>
+                                    <ChevronDown className="w-6 h-6 group-open:rotate-180 transition-transform text-slate-400 group-hover:text-primary" />
                                 </summary>
-                                <div className="mt-4 text-gray-400 text-lg leading-relaxed pl-2 border-l-2 border-acid-pink">
+                                <div className="mt-4 text-slate-600 text-lg leading-relaxed pl-2 border-l-2 border-primary">
                                     {faq.a}
                                 </div>
                             </details>
@@ -326,12 +385,12 @@ export default function MembershipPage() {
             </section>
 
             {/* STICKY MOBILE CTA */}
-            <div className="fixed bottom-0 left-0 right-0 z-50 p-4 md:hidden bg-gradient-to-t from-black via-black to-transparent pt-8">
+            <div className="fixed bottom-0 left-0 right-0 z-50 p-4 md:hidden bg-gradient-to-t from-white via-white to-transparent pt-8">
                 <a
                     href="https://mpago.la/1fcrBXe"
                     target="_blank"
                     rel="noopener"
-                    className="block w-full bg-white text-black font-black uppercase text-center py-4 text-lg shadow-[0_0_20px_rgba(255,255,255,0.3)]"
+                    className="block w-full bg-primary text-slate-900 font-black uppercase text-center py-4 text-lg shadow-lg"
                 >
                     Comprar Membresía - S/. 99.50
                 </a>

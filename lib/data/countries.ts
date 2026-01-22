@@ -1,6 +1,8 @@
 export interface Pricing {
     zone: string;
     price: number;
+    color?: string;
+    description?: string;
 }
 
 export interface CountryData {
@@ -77,11 +79,60 @@ export const countries: CountryData[] = [
         currency: 'MXN',
         currencySymbol: '$',
         prices: [
-            { zone: 'Ultimate VIP Soundcheck', price: 27600 },
-            { zone: 'Purple Zone', price: 22200 },
-            { zone: 'General', price: 15650 },
-            { zone: 'Lado Este (tribunas)', price: 14300 },
-            { zone: 'Zona Norte', price: 2650 },
+            {
+                zone: 'VIP',
+                price: 17782,
+                color: 'N/A',
+                description: 'Paquete más exclusivo (detalles por confirmar).'
+            },
+            {
+                zone: 'Platino',
+                price: 13330,
+                color: '🟦 Azul / ⬜ Gris',
+                description: 'Asientos a nivel de cancha, lo más cerca al escenario (Secciones A y B).'
+            },
+            {
+                zone: 'Verde A',
+                price: 8953,
+                color: '🟩 Verde',
+                description: 'Grada baja, mejor vista frontal/lateral.'
+            },
+            {
+                zone: 'Naranja A',
+                price: 8482,
+                color: '🟧 Naranja Oscuro',
+                description: 'Grada baja, vista lateral.'
+            },
+            {
+                zone: 'Verde B',
+                price: 8010,
+                color: '🟩 Verde',
+                description: 'Grada nivel medio (arriba de Verde A).'
+            },
+            {
+                zone: 'Naranja B',
+                price: 4948,
+                color: '🔸 Naranja Claro',
+                description: 'Grada nivel medio, vista lateral.'
+            },
+            {
+                zone: 'Verde C',
+                price: 4476,
+                color: '🟩 Verde',
+                description: 'Grada nivel alto (arriba de Verde B).'
+            },
+            {
+                zone: 'Naranja C',
+                price: 2840,
+                color: '🍑 Salmón / Naranja',
+                description: 'Grada nivel alto, vista lateral (parte superior del mapa).'
+            },
+            {
+                zone: 'Morado / General',
+                price: 1767,
+                color: '🟪 Morado',
+                description: 'Grada de fondo o entrada general (sección 100s frente al escenario).'
+            },
         ],
         description: '¡Hola México! BTS llega al coloso de Santa Úrsula para tres fechas inolvidables.',
         openGraphImage: '/images/og-mexico.jpg',

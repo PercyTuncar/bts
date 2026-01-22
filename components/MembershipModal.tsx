@@ -53,50 +53,55 @@ export function MembershipModal({ isOpen, onClose }: Props) {
                             </div>
 
                             {/* Content */}
-                            <div className="p-8 space-y-6 bg-black/90">
-                                <div className="space-y-4">
-                                    <p className="text-xl text-white font-medium leading-relaxed">
-                                        Para poder comprar entradas en esta fase de preventa, es <span className="text-acid-pink font-bold">indispensable contar con tu Membresía</span> Oficial activa.
-                                    </p>
+                            <div className="flex-1 w-full bg-white flex flex-col justify-center relative overflow-hidden">
 
-                                    <div className="bg-white/5 border border-white/10 p-4 rounded-lg flex gap-4 items-start">
-                                        <div className="bg-neon-green/20 p-2 rounded-full mt-1">
-                                            <ShieldCheck className="w-5 h-5 text-neon-green" />
-                                        </div>
-                                        <div>
-                                            <h4 className="text-white font-bold uppercase text-sm mb-1">Beneficio Exclusivo</h4>
-                                            <p className="text-gray-400 text-sm">
-                                                Solo los miembros verificados pueden acceder a la reserva de zonas y precios preferenciales.
-                                            </p>
+                                {/* Content */}
+                                <div className="p-8 space-y-6 bg-white/95">
+                                    <div className="space-y-4">
+                                        <p className="text-xl text-slate-700 font-medium leading-relaxed">
+                                            Para poder comprar entradas en esta fase de preventa, es <span className="text-primary font-bold">indispensable contar con tu Membresía</span> Oficial activa.
+                                        </p>
+
+                                        <div className="bg-slate-50 border border-slate-200 p-4 rounded-lg flex gap-4 items-start">
+                                            <div className="bg-neon-green/20 p-2 rounded-full mt-1">
+                                                <ShieldCheck className="w-5 h-5 text-neon-green" />
+                                            </div>
+                                            <div>
+                                                <h4 className="text-slate-900 font-bold uppercase text-sm mb-1">Nota Importante</h4>
+                                                <p className="text-slate-500 text-sm leading-snug">
+                                                    Venta oficial aún no disponible. Precios y zonas son referenciales y sujetos a cambio por la productora.
+                                                </p>
+                                            </div>
                                         </div>
                                     </div>
-                                </div>
 
-                                <div className="pt-2">
-                                    <Link
-                                        href="/comprar-membresia-bts"
-                                        className="group block w-full bg-acid-pink hover:bg-white hover:text-black transition-all duration-300 text-white font-black uppercase text-xl py-4 text-center shadow-[4px_4px_0_white] hover:shadow-[6px_6px_0_white] hover:-translate-y-1"
-                                    >
-                                        <span className="flex items-center justify-center gap-2">
-                                            Tramitar Membresía Aquí <ArrowRight className="w-6 h-6 group-hover:translate-x-1 transition-transform" />
-                                        </span>
-                                    </Link>
-                                    <p className="text-center text-gray-500 text-xs mt-3 uppercase tracking-widest font-bold">
-                                        S/. 99.50 • Pago Único / 1 Año
-                                    </p>
-                                </div>
+                                    <div className="space-y-3">
+                                        <Link
+                                            href="/comprar-membresia-bts"
+                                            className="group block w-full bg-primary hover:bg-slate-900 hover:text-primary transition-all duration-300 text-slate-900 font-black uppercase text-xl py-4 text-center shadow-md hover:shadow-lg hover:-translate-y-1"
+                                        >
+                                            <span className="flex items-center justify-center gap-2">
+                                                Tramitar Membresía Aquí <ArrowRight className="w-6 h-6 group-hover:translate-x-1 transition-transform" />
+                                            </span>
+                                        </Link>
+                                        <p className="text-center text-gray-500 text-xs mt-3 uppercase tracking-widest font-bold">
+                                            S/. 99.50 • Pago Único / 1 Año
+                                        </p>
+                                    </div>
 
-                                {/* Disclaimer Note requested by user */}
-                                <div className="border-t border-dashed border-white/20 pt-4 mt-2">
-                                    <p className="text-[10px] md:text-xs text-gray-500 text-center leading-relaxed">
-                                        <span className="font-bold text-acid-yellow">NOTA:</span> La compra de la membresía es obligatoria para acceder a la preventa. Los precios y zonas de las entradas solo son referenciales por el momento.
-                                    </p>
+                                    {/* Disclaimer Note requested by user */}
+                                    <div className="border-t border-dashed border-white/20 pt-4 mt-2">
+                                        <p className="text-[10px] md:text-xs text-gray-500 text-center leading-relaxed">
+                                            <span className="font-bold text-acid-yellow">NOTA:</span> La compra de la membresía es obligatoria para acceder a la preventa. Los precios y zonas de las entradas solo son referenciales por el momento.
+                                        </p>
+                                    </div>
                                 </div>
                             </div>
                         </GlassCard>
                     </motion.div>
                 </div>
-            )}
-        </AnimatePresence>
+            )
+            }
+        </AnimatePresence >
     );
 }

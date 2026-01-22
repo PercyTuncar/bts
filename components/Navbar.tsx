@@ -15,7 +15,7 @@ export function Navbar() {
 
     return (
         <>
-            <nav className="fixed top-0 left-0 right-0 z-50 bg-black/50 backdrop-blur-md border-b-2 border-white/20 h-20 transition-all">
+            <nav className="fixed top-0 left-0 right-0 z-50 bg-white/80 backdrop-blur-md border-b border-slate-200 h-20 transition-all shadow-sm">
                 <div className="container mx-auto px-4 h-full flex items-center justify-between">
 
                     {/* Logo */}
@@ -24,20 +24,20 @@ export function Navbar() {
                     </Link>
 
                     {/* Links (Desktop) */}
-                    <div className="hidden md:flex items-center gap-8 font-bold text-sm uppercase tracking-widest text-gray-400">
-                        <Link href="/" className="hover:text-acid-yellow hover:underline decoration-2 underline-offset-4 transition-all">Inicio</Link>
-                        <Link href="/eventos" className="hover:text-acid-pink hover:underline decoration-2 underline-offset-4 transition-all">Eventos</Link>
-                        <Link href="/comprar-membresia-bts" className="hover:text-[#be2bbb] hover:underline decoration-2 underline-offset-4 transition-all">Membresía</Link>
-                        <Link href="/blog" className="hover:text-neon-green hover:underline decoration-2 underline-offset-4 transition-all">Blog</Link>
-                        <Link href="/tienda" className="hover:text-white hover:underline decoration-2 underline-offset-4 transition-all">Tienda</Link>
+                    <div className="hidden md:flex items-center gap-8 font-bold text-sm uppercase tracking-widest text-slate-500">
+                        <Link href="/" className="hover:text-primary hover:underline decoration-2 underline-offset-4 transition-all">Inicio</Link>
+                        <Link href="/eventos" className="hover:text-primary hover:underline decoration-2 underline-offset-4 transition-all">Eventos</Link>
+                        <Link href="/comprar-membresia-bts" className="hover:text-primary hover:underline decoration-2 underline-offset-4 transition-all">Membresía</Link>
+                        <Link href="/blog" className="hover:text-primary hover:underline decoration-2 underline-offset-4 transition-all">Blog</Link>
+                        <Link href="/tienda" className="hover:text-primary hover:underline decoration-2 underline-offset-4 transition-all">Tienda</Link>
                     </div>
 
                     {/* Actions */}
                     <div className="flex items-center gap-6 relative z-50">
-                        <Link href="/tienda/cart" className="relative text-white hover:text-acid-yellow transition-colors group">
+                        <Link href="/tienda/cart" className="relative text-slate-900 hover:text-primary transition-colors group">
                             <ShoppingCart className="w-6 h-6" />
                             {count > 0 && (
-                                <span className="absolute -top-2 -right-2 w-5 h-5 bg-acid-pink text-black text-[10px] font-black flex items-center justify-center rounded-none border border-black group-hover:scale-110 transition-transform">
+                                <span className="absolute -top-2 -right-2 w-5 h-5 bg-primary text-slate-900 text-[10px] font-black flex items-center justify-center rounded-full border border-white group-hover:scale-110 transition-transform">
                                     {count}
                                 </span>
                             )}
@@ -45,7 +45,7 @@ export function Navbar() {
 
                         <button
                             onClick={() => setIsOpen(!isOpen)}
-                            className="md:hidden text-white border-2 border-white p-1 active:bg-white active:text-black transition-colors"
+                            className="md:hidden text-slate-900 border border-slate-200 p-1 active:bg-slate-100 transition-colors"
                         >
                             {isOpen ? <X className="w-6 h-6" /> : <Menu className="w-6 h-6" />}
                         </button>
@@ -61,18 +61,18 @@ export function Navbar() {
                         animate={{ opacity: 1, y: 0 }}
                         exit={{ opacity: 0, y: "-100%" }}
                         transition={{ duration: 0.4, ease: "circOut" }}
-                        className="fixed inset-0 z-40 bg-black flex flex-col justify-center px-8 md:hidden"
+                        className="fixed inset-0 z-40 bg-white flex flex-col justify-center px-8 md:hidden"
                     >
                         {/* Background Decoration */}
-                        <div className="absolute inset-0 bg-noise opacity-20 pointer-events-none"></div>
+                        {/* <div className="absolute inset-0 bg-noise opacity-20 pointer-events-none"></div> */}
 
                         <div className="space-y-8 relative z-10">
                             {[
-                                { href: "/", label: "Inicio", color: "text-white" },
-                                { href: "/eventos", label: "Eventos", color: "text-acid-pink" },
-                                { href: "/comprar-membresia-bts", label: "Membresía", color: "text-[#be2bbb]" },
-                                { href: "/blog", label: "Blog", color: "text-neon-green" },
-                                { href: "/tienda", label: "Tienda", color: "text-acid-yellow" }
+                                { href: "/", label: "Inicio", color: "text-slate-900" },
+                                { href: "/eventos", label: "Eventos", color: "text-slate-500" },
+                                { href: "/comprar-membresia-bts", label: "Membresía", color: "text-primary" },
+                                { href: "/blog", label: "Blog", color: "text-slate-500" },
+                                { href: "/tienda", label: "Tienda", color: "text-slate-900" }
                             ].map((item, i) => (
                                 <motion.div
                                     key={item.href}

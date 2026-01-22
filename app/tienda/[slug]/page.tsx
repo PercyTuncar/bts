@@ -58,14 +58,14 @@ export default async function ProductPage({ params }: Props) {
     };
 
     return (
-        <div className="py-20 container mx-auto px-4 text-white">
+        <div className="py-20 container mx-auto px-4 text-slate-900">
             <script
                 type="application/ld+json"
                 dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
             />
 
             <div className="mb-8">
-                <Link href="/tienda" className="text-gray-400 hover:text-white transition-colors uppercase text-xs font-bold tracking-widest">
+                <Link href="/tienda" className="text-slate-500 hover:text-slate-900 transition-colors uppercase text-xs font-bold tracking-widest">
                     ← Volver a la Tienda
                 </Link>
             </div>
@@ -73,7 +73,7 @@ export default async function ProductPage({ params }: Props) {
             <div className="grid md:grid-cols-2 gap-12">
                 {/* Product Images */}
                 <div className="space-y-4">
-                    <div className="aspect-square bg-white/5 rounded-2xl flex items-center justify-center border border-white/10 relative overflow-hidden group">
+                    <div className="aspect-square bg-slate-50 rounded-2xl flex items-center justify-center border border-slate-200 relative overflow-hidden group">
                         {/* Placeholder for now if image fails, but ideally Image comp */}
                         <div className="text-9xl group-hover:scale-110 transition-transform duration-500 select-none">
                             {product.category === 'Light Stick' ? '💣' : '👕'}
@@ -82,7 +82,7 @@ export default async function ProductPage({ params }: Props) {
                             src={product.image}
                             alt={product.name}
                             fill
-                            className="object-cover opacity-60 group-hover:opacity-80 transition-opacity"
+                            className="object-cover opacity-90 group-hover:opacity-100 transition-opacity"
                         />
                     </div>
                 </div>
@@ -90,20 +90,20 @@ export default async function ProductPage({ params }: Props) {
                 {/* Product Info */}
                 <div className="space-y-8">
                     <div>
-                        <h1 className="text-4xl md:text-5xl font-black uppercase tracking-tight mb-2 leading-none">{product.name}</h1>
-                        <p className="text-xl text-acid-yellow font-serif italic">{product.category}</p>
-                        <div className="flex items-center gap-2 mt-4 text-acid-pink">
-                            ★★★★★ <span className="text-gray-400 text-sm">({product.reviewCount} Reviews)</span>
+                        <h1 className="text-4xl md:text-5xl font-black uppercase tracking-tight mb-2 leading-none text-slate-900">{product.name}</h1>
+                        <p className="text-xl text-primary font-serif italic">{product.category}</p>
+                        <div className="flex items-center gap-2 mt-4 text-secondary">
+                            ★★★★★ <span className="text-slate-400 text-sm">({product.reviewCount} Reviews)</span>
                         </div>
                     </div>
 
-                    <div className="text-4xl font-black text-white">${product.price.toFixed(2)}</div>
+                    <div className="text-4xl font-black text-slate-900">${product.price.toFixed(2)}</div>
 
-                    <GlassCard className="space-y-6 bg-white/5">
-                        <p className="text-gray-300 leading-relaxed text-lg">
+                    <GlassCard className="space-y-6 bg-slate-50/50 border-slate-200">
+                        <p className="text-slate-600 leading-relaxed text-lg">
                             {product.description}
                         </p>
-                        <ul className="list-disc list-inside text-gray-400 space-y-2 font-medium">
+                        <ul className="list-disc list-inside text-slate-500 space-y-2 font-medium">
                             {product.details.map((detail, i) => (
                                 <li key={i}>{detail}</li>
                             ))}

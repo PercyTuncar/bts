@@ -29,25 +29,25 @@ export default function BlogIndex() {
     ];
 
     return (
-        <div className="min-h-screen pt-24 pb-20 container mx-auto px-4 text-white selection:bg-neon-green selection:text-black">
+        <div className="min-h-screen pt-24 pb-20 container mx-auto px-4 text-slate-900 selection:bg-secondary selection:text-white">
             {/* Header */}
-            <div className="text-left space-y-6 mb-16 border-b-4 border-white pb-8">
-                <div className="bg-neon-green text-black inline-block px-4 py-1 font-black uppercase tracking-widest text-lg transform -rotate-1">
+            <div className="text-left space-y-6 mb-16 border-b-4 border-slate-200 pb-8">
+                <div className="bg-secondary text-slate-900 inline-block px-4 py-1 font-black uppercase tracking-widest text-lg transform -rotate-1">
                     RaveHub Insight
                 </div>
                 <h1 className="text-6xl md:text-8xl font-black uppercase tracking-tighter mb-4 leading-none">
-                    Noticias y <span className="text-transparent bg-clip-text bg-white mix-blend-difference italic font-serif">Cultura</span>
+                    Noticias y <span className="text-primary italic font-serif">Cultura</span>
                 </h1>
 
                 {/* Search Bar */}
                 <div className="max-w-xl mt-8 relative">
-                    <div className="flex border-2 border-white bg-black focus-within:border-neon-green transition-colors">
+                    <div className="flex border border-slate-200 bg-white focus-within:border-primary transition-colors shadow-sm">
                         <input
                             type="text"
                             placeholder="BUSCAR ARTÍCULOS..."
-                            className="bg-transparent border-none outline-none text-white w-full px-6 py-4 font-bold uppercase placeholder:text-gray-600 focus:ring-0"
+                            className="bg-transparent border-none outline-none text-slate-900 w-full px-6 py-4 font-bold uppercase placeholder:text-slate-400 focus:ring-0"
                         />
-                        <button className="bg-white text-black px-6 font-black uppercase hover:bg-neon-green transition-colors border-l-2 border-white">
+                        <button className="bg-slate-50 text-slate-900 px-6 font-black uppercase hover:bg-secondary hover:text-white transition-colors border-l border-slate-200">
                             <Search className="w-6 h-6" />
                         </button>
                     </div>
@@ -56,7 +56,7 @@ export default function BlogIndex() {
                 {/* Filters */}
                 <div className="flex flex-wrap gap-2 mt-8">
                     {['Todos', 'Noticias', 'Entrevistas', 'Reseñas'].map((filter, i) => (
-                        <button key={filter} className={`px-4 py-2 text-xs font-bold uppercase border-2 transition-all ${i === 0 ? 'bg-white text-black border-white' : 'border-white/20 text-gray-400 hover:border-neon-green hover:text-white'}`}>
+                        <button key={filter} className={`px-4 py-2 text-xs font-bold uppercase border transition-all ${i === 0 ? 'bg-slate-900 text-white border-slate-900' : 'border-slate-200 text-slate-500 hover:border-primary hover:text-primary'}`}>
                             {filter}
                         </button>
                     ))}
@@ -67,26 +67,26 @@ export default function BlogIndex() {
             <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
                 {posts.map((post) => (
                     <Link href={`/blog/${post.slug}`} key={post.slug} className="group block h-full">
-                        <div className="h-full border-2 border-white bg-black hover:bg-[#111] transition-colors flex flex-col relative">
+                        <div className="h-full border border-slate-200 bg-white hover:shadow-lg transition-all flex flex-col relative">
                             {/* Hover Shadow Effect */}
-                            <div className="absolute inset-0 border-2 border-neon-green translate-x-2 translate-y-2 opacity-0 group-hover:opacity-100 transition-opacity pointer-events-none" />
+                            <div className="absolute inset-0 border-2 border-primary translate-x-2 translate-y-2 opacity-0 group-hover:opacity-100 transition-opacity pointer-events-none" />
 
-                            <div className="aspect-[4/3] bg-gray-900 relative border-b-2 border-white overflow-hidden">
+                            <div className="aspect-[4/3] bg-slate-100 relative border-b border-slate-200 overflow-hidden">
                                 {/* Placeholder for actual image */}
-                                <div className="absolute inset-0 bg-gray-800" />
-                                <div className="absolute top-4 left-4 bg-neon-green text-black px-2 py-1 text-xs font-black uppercase border border-black z-10">
+                                <div className="absolute inset-0 bg-slate-200" />
+                                <div className="absolute top-4 left-4 bg-secondary text-slate-900 px-2 py-1 text-xs font-black uppercase shadow-sm z-10">
                                     {post.category}
                                 </div>
                             </div>
 
                             <div className="p-6 flex-1 flex flex-col justify-between">
                                 <div>
-                                    <h2 className="text-2xl font-black uppercase leading-8 mb-4 group-hover:text-neon-green transition-colors">{post.title}</h2>
-                                    <p className="text-gray-400 font-serif italic text-sm mb-6 line-clamp-3">{post.excerpt}</p>
+                                    <h2 className="text-2xl font-black uppercase leading-8 mb-4 text-slate-900 group-hover:text-primary transition-colors">{post.title}</h2>
+                                    <p className="text-slate-500 font-serif italic text-sm mb-6 line-clamp-3">{post.excerpt}</p>
                                 </div>
-                                <div className="flex items-center justify-between pt-4 border-t border-white/20">
-                                    <span className="text-xs font-bold uppercase tracking-widest text-gray-500">Por Admin</span>
-                                    <span className="text-xs font-bold text-white">2 min lectura</span>
+                                <div className="flex items-center justify-between pt-4 border-t border-slate-100">
+                                    <span className="text-xs font-bold uppercase tracking-widest text-slate-400">Por Admin</span>
+                                    <span className="text-xs font-bold text-slate-900">2 min lectura</span>
                                 </div>
                             </div>
                         </div>

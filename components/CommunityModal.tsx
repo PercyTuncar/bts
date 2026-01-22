@@ -54,12 +54,12 @@ export function CommunityModal({ isOpen, onClose }: CommunityModalProps) {
                         exit={{ scale: 0.9, opacity: 0, y: 50 }}
                         className="relative w-full max-w-lg my-auto"
                     >
-                        <div className="relative bg-[#0a0a0a] border border-white/10 rounded-3xl overflow-hidden shadow-[0_0_100px_rgba(139,92,246,0.3)]">
+                        <div className="relative bg-white border border-slate-200 rounded-3xl overflow-hidden shadow-2xl">
 
                             {/* Close Button */}
                             <button
                                 onClick={onClose}
-                                className="absolute top-4 right-4 z-20 w-8 h-8 bg-black/50 hover:bg-white text-white hover:text-black rounded-full flex items-center justify-center transition-all backdrop-blur-sm"
+                                className="absolute top-4 right-4 z-20 w-8 h-8 bg-white/50 hover:bg-white text-slate-900 shadow-sm rounded-full flex items-center justify-center transition-all backdrop-blur-sm"
                             >
                                 <X className="w-4 h-4" />
                             </button>
@@ -89,14 +89,14 @@ export function CommunityModal({ isOpen, onClose }: CommunityModalProps) {
                                     animate={{ y: 0, opacity: 1 }}
                                     transition={{ delay: 0.1 }}
                                 >
-                                    <div className="inline-block bg-acid-yellow text-black px-4 py-1 text-sm font-black uppercase -rotate-2 mb-4 shadow-[4px_4px_0_white]">
+                                    <div className="inline-block bg-acid-yellow text-slate-900 px-4 py-1 text-sm font-black uppercase -rotate-2 mb-4 shadow-sm">
                                         World Tour 2026
                                     </div>
-                                    <h2 className="text-4xl md:text-5xl font-black uppercase italic text-white mb-2 leading-[0.9]">
-                                        {t.title} <span className="text-transparent bg-clip-text bg-gradient-to-r from-[#25D366] to-acid-green">{t.highlight}</span>
+                                    <h2 className="text-4xl md:text-5xl font-black uppercase italic text-slate-900 mb-2 leading-[0.9]">
+                                        {t.title} <span className="text-primary">{t.highlight}</span>
                                     </h2>
-                                    <p className="text-gray-300 font-medium text-sm md:text-base leading-relaxed mb-8 max-w-xs mx-auto mt-4">
-                                        <strong className="text-white">{isBrazil ? "Entre no chat do seu país" : "Únete al chat de tu país"}</strong>, {isBrazil ? "coordene seus ingressos e prepare-se para o show." : "coordina tus entradas y prepárate para el show."}
+                                    <p className="text-slate-500 font-medium text-sm md:text-base leading-relaxed mb-8 max-w-xs mx-auto mt-4">
+                                        <strong className="text-slate-900">{isBrazil ? "Entre no chat do seu país" : "Únete al chat de tu país"}</strong>, {isBrazil ? "coordene seus ingressos e prepare-se para o show." : "coordina tus entradas y prepárate para el show."}
                                     </p>
                                 </motion.div>
 
@@ -119,26 +119,26 @@ export function CommunityModal({ isOpen, onClose }: CommunityModalProps) {
                                                 animate={{ x: 0, opacity: 1 }}
                                                 transition={{ delay: 0.2 + (i * 0.1) }}
                                                 className={`group flex items-center justify-between p-4 rounded-xl border transition-all duration-300 ${pathname?.includes(country.id)
-                                                    ? 'bg-[#25D366]/20 border-[#25D366] hover:bg-[#25D366]/30'
-                                                    : 'bg-white/5 border-white/10 hover:bg-[#25D366] hover:border-[#25D366]'
+                                                    ? 'bg-[#25D366]/10 border-[#25D366] hover:bg-[#25D366]/20'
+                                                    : 'bg-slate-50 border-slate-200 hover:bg-[#25D366] hover:border-[#25D366]'
                                                     }`}
                                             >
                                                 <div className="flex items-center gap-4">
                                                     <span className="text-2xl">{country.flag}</span>
                                                     <div className="text-left">
-                                                        <span className={`block font-black uppercase text-sm tracking-widest transition-colors ${pathname?.includes(country.id) ? 'text-[#25D366]' : 'text-white group-hover:text-black'
+                                                        <span className={`block font-black uppercase text-sm tracking-widest transition-colors ${pathname?.includes(country.id) ? 'text-[#166534]' : 'text-slate-900 group-hover:text-white'
                                                             }`}>
                                                             Army {country.name}
                                                         </span>
-                                                        <span className={`text-[10px] font-bold uppercase transition-colors flex items-center gap-1 ${pathname?.includes(country.id) ? 'text-white' : 'text-gray-500 group-hover:text-black/70'
+                                                        <span className={`text-[10px] font-bold uppercase transition-colors flex items-center gap-1 ${pathname?.includes(country.id) ? 'text-[#166534]' : 'text-slate-500 group-hover:text-white/90'
                                                             }`}>
                                                             <MessageCircle className="w-3 h-3" /> {t.group}
                                                         </span>
                                                     </div>
                                                 </div>
                                                 <div className={`w-8 h-8 rounded-full flex items-center justify-center transition-colors ${pathname?.includes(country.id)
-                                                    ? 'bg-[#25D366] text-black'
-                                                    : 'bg-white/10 text-gray-400 group-hover:bg-black/20 group-hover:text-black'
+                                                    ? 'bg-[#25D366] text-white'
+                                                    : 'bg-white border border-slate-200 text-slate-400 group-hover:bg-white/20 group-hover:text-black group-hover:border-transparent'
                                                     }`}>
                                                     <ExternalLink className="w-4 h-4" />
                                                 </div>
@@ -146,16 +146,16 @@ export function CommunityModal({ isOpen, onClose }: CommunityModalProps) {
                                         ))}
                                 </div>
 
-                                <div className="mt-8 pt-6 border-t border-white/10 flex flex-col items-center justify-center gap-2">
+                                <div className="mt-8 pt-6 border-t border-slate-100 flex flex-col items-center justify-center gap-2">
                                     <div className="flex -space-x-2 overflow-hidden">
                                         {[1, 2, 3, 4].map(i => (
-                                            <div key={i} className="inline-block h-6 w-6 rounded-full ring-2 ring-black bg-gray-800"></div>
+                                            <div key={i} className="inline-block h-6 w-6 rounded-full ring-2 ring-white bg-slate-200"></div>
                                         ))}
                                     </div>
-                                    <p className="text-[10px] text-gray-500 uppercase tracking-widest font-bold">
+                                    <p className="text-[10px] text-slate-500 uppercase tracking-widest font-bold">
                                         {t.members}
                                     </p>
-                                    <p className="text-[10px] text-gray-400 mt-2 max-w-[200px] mx-auto leading-tight">
+                                    <p className="text-[10px] text-slate-400 mt-2 max-w-[200px] mx-auto leading-tight">
                                         {t.note}
                                     </p>
                                 </div>

@@ -130,5 +130,27 @@ export const countries: CountryData[] = [
         description: 'Aún no hay confirmación oficial del estadio, pero los rumores más fuertes y la capacidad necesaria apuntan al Estadio Monumental (River Plate).',
         openGraphImage: '/images/og-argentina.jpg',
         whatsappLink: 'https://chat.whatsapp.com/placeholder'
+    },
+    {
+        id: 'brasil',
+        name: 'Brasil',
+        flag: '🇧🇷',
+        venue: 'Allianz Parque',
+        city: 'São Paulo',
+        isoCode: 'BR',
+        dates: ['2026-10-28', '2026-10-30', '2026-10-31'],
+        ticketDate: 'Em Breve',
+        currency: 'BRL',
+        currencySymbol: 'R$',
+        prices: [
+            { zone: 'Ultimate VIP Soundcheck', price: 3500 },
+            { zone: 'Purple Zone', price: 2800 },
+            { zone: 'Pista Premium', price: 1900 },
+            { zone: 'Cadeira Inferior', price: 1200 },
+            { zone: 'Cadeira Superior', price: 650 },
+        ],
+        description: 'A Live Nation é a produtora oficial. Rumores fortes apontam para o Allianz Parque ou Estádio MorumBIS. BTS WORLD TOUR "ARIRANG".',
+        openGraphImage: '/images/og-brasil.jpg',
+        whatsappLink: 'https://chat.whatsapp.com/placeholder'
     }
 ];

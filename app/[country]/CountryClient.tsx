@@ -53,25 +53,147 @@ const INSTALLMENT_CONFIG: Record<string, { fee: number; reservation: number }> =
     'chile': { fee: 31000, reservation: 31000 }, // ~110 PEN
     'mexico': { fee: 660, reservation: 660 }, // ~110 PEN
     'colombia': { fee: 121000, reservation: 121000 }, // ~110 PEN
+    'argentina': { fee: 50000, reservation: 50000 }, // ~110 PEN
+    'brasil': { fee: 200, reservation: 200 }, // ~110 PEN
+};
+
+const translations = {
+    es: {
+        worldTour: "Gira Mundial",
+        liveFrom: "En Vivo desde",
+        buyTickets: "Compra tus Entradas",
+        selectDate: "Selecciona una Fecha",
+        tickets: "Entradas",
+        nextEvent: "Próximo Evento",
+        place: "Lugar",
+        days: "Días",
+        hrs: "Hrs",
+        min: "Min",
+        seg: "Seg",
+        cash: "Contado",
+        installments: "Cuotas",
+        selectDateStep: "1. Selecciona la Fecha",
+        chooseInstallments: "2. Elige tus cuotas",
+        initialReservation: "Reserva inicial de",
+        perTicket: "por entrada (incluye fee)",
+        verified: "Verificado",
+        bestSeller: "Best Seller",
+        fee: "Fee",
+        mapStage: "Mapa del Escenario",
+        whatsappGroups: "Grupos de WhatsApp",
+        joinCommunity: "Únete a la comunidad oficial y organiza tu viaje al concierto.",
+        joinNow: "Unirme Ahora",
+        verifiedPartner: "Verified Partner",
+        verifiedBy: "Verificado por RaveHub",
+        guarantee: "Garantía de autenticidad del 100%. Soporte local en",
+        salesStatus: "Status de Venta",
+        live: "LIVE",
+        paymentSchedule: "Cronograma de Pagos",
+        today: "HOY (Reserva + Fee)",
+        quota: "Cuota",
+        finalTotal: "Total Final",
+        secureProcessTitle: "¿Cómo es el proceso de compra segura con RaveHub?",
+        secureProcessDesc: "En RaveHub, hemos simplificado la experiencia de usuario para eliminar fricciones y garantizar transparencia en cada clic. Nuestro proceso de \"Compra Segura\" se estructura en tres pasos blindados tecnológicamente para asegurar que cada fan tenga acceso legítimo a sus entradas.",
+        whySecureTitle: "¿Por qué comprar aquí es seguro?",
+        whySecureDesc: "La Garantía RaveHub es nuestro compromiso de \"Cero Riesgos\". Comprar aquí es seguro porque eliminamos la incertidumbre del mercado secundario informal.",
+        verification: "Verificación:",
+        verificationDesc: "Solo trabajamos con organizadores de eventos verificados.",
+        fraudProtection: "Protección Anti-Fraude:",
+        fraudProtectionDesc: "Nuestro sistema previene la duplicación y falsificación.",
+        support: "Soporte 24/7:",
+        supportDesc: "Canal exclusivo para resolver incidencias.",
+        transparency: "Transparencia:",
+        transparencyDesc: "Precios finales sin comisiones ocultas.",
+        historyTitle: "Historia de BTS en {country}: Un Hito Histórico para el Army",
+        historyDesc1: "La relación entre BTS y {country} es una historia de espera que finalmente se materializa en 2026. A diferencia de visitas anteriores a la región, esta llegada oficial al {venue} marca el evento cultural más importante de la década.",
+        historyDesc2: "La demanda acumulada ha generado una expectativa sin precedentes. Por ello, encontrar dónde",
+        historyDesc3: "comprar entradas para BTS en {city} de forma 100% segura",
+        historyDesc4: "es la prioridad absoluta para proteger tu inversión y tu sueño.",
+        historyDesc5: "Al adquirir tus pases a través de canales verificados como RaveHub, aseguras tu lugar en el evento con total confianza y garantía local.",
+        toPayToday: "A Pagar HOY",
+        totalToPay: "Total a Pagar",
+        installmentsOf: "cuotas de",
+        checkout: "Finalizar Compra"
+    },
+    pt: {
+        worldTour: "Turnê Mundial",
+        liveFrom: "Ao Vivo de",
+        buyTickets: "Compre seus Ingressos",
+        selectDate: "Selecione uma Data",
+        tickets: "Ingressos",
+        nextEvent: "Próximo Evento",
+        place: "Local",
+        days: "Dias",
+        hrs: "Hrs",
+        min: "Min",
+        seg: "Seg",
+        cash: "À Vista",
+        installments: "Parcelado",
+        selectDateStep: "1. Selecione a Data",
+        chooseInstallments: "2. Escolha suas parcelas",
+        initialReservation: "Reserva inicial de",
+        perTicket: "por ingresso (inclui taxa)",
+        verified: "Verificado",
+        bestSeller: "Mais Vendido",
+        fee: "Taxa",
+        mapStage: "Mapa do Palco",
+        whatsappGroups: "Grupos de WhatsApp",
+        joinCommunity: "Junte-se à comunidade oficial e organize sua viagem para o show.",
+        joinNow: "Entrar Agora",
+        verifiedPartner: "Parceiro Verificado",
+        verifiedBy: "Verificado por RaveHub",
+        guarantee: "Garantia de autenticidade de 100%. Suporte local em",
+        salesStatus: "Status de Venda",
+        live: "AO VIVO",
+        paymentSchedule: "Cronograma de Pagamentos",
+        today: "HOJE (Reserva + Taxa)",
+        quota: "Parcela",
+        finalTotal: "Total Final",
+        secureProcessTitle: "Como é o processo de compra segura com a RaveHub?",
+        secureProcessDesc: "Na RaveHub, simplificamos a experiência do usuário para eliminar atritos e garantir transparência em cada clique. Nosso processo de \"Compra Segura\" é estruturado em três passos blindados tecnologicamente para garantir que cada fã tenha acesso legítimo aos seus ingressos.",
+        whySecureTitle: "Por que comprar aqui é seguro?",
+        whySecureDesc: "A Garantia RaveHub é nosso compromisso de \"Risco Zero\". Comprar aqui é seguro porque eliminamos a incerteza do mercado secundário informal.",
+        verification: "Verificação:",
+        verificationDesc: "Trabalhamos apenas com organizadores de eventos verificados.",
+        fraudProtection: "Proteção Antifraude:",
+        fraudProtectionDesc: "Nosso sistema previne duplicação e falsificação.",
+        support: "Suporte 24/7:",
+        supportDesc: "Canal exclusivo para resolver incidentes.",
+        transparency: "Transparência:",
+        transparencyDesc: "Preços finais sem taxas ocultas.",
+        historyTitle: "História do BTS no {country}: Um Marco Histórico para o Army",
+        historyDesc1: "A relação entre BTS e {country} é uma história de espera que finalmente se concretiza em 2026. Ao contrário de visitas anteriores à região, esta chegada oficial ao {venue} marca o evento cultural mais importante da década.",
+        historyDesc2: "A demanda acumulada gerou uma expectativa sem precedentes. Por isso, encontrar onde",
+        historyDesc3: "comprar ingressos para BTS em {city} de forma 100% segura",
+        historyDesc4: "é a prioridade absoluta para proteger seu investimento e seu sonho.",
+        historyDesc5: "Ao adquirir seus ingressos através de canais verificados como a RaveHub, você garante seu lugar no evento com total confiança e garantia local.",
+        toPayToday: "A Pagar HOJE",
+        totalToPay: "Total a Pagar",
+        installmentsOf: "parcelas de",
+        checkout: "Finalizar Compra"
+    }
 };
 
 export default function CountryClient({ country }: Props) {
     const { scrollY } = useScroll();
     const heroY = useTransform(scrollY, [0, 500], [0, 200]);
     const opacity = useTransform(scrollY, [0, 300], [1, 0]);
+    const lang = country.id === 'brasil' ? 'pt' : 'es';
+    const t = translations[lang];
 
     const formatDateRange = (dates: string[]) => {
         if (!dates.length) return '';
         // Append T12:00:00 to prevent timezone shifts (UTC vs Local)
         const parseDate = (d: string) => new Date(d + "T12:00:00");
+        const locale = lang === 'pt' ? 'pt-BR' : 'es-ES';
 
         const d1 = parseDate(dates[0]);
-        const month = d1.toLocaleDateString('es-ES', { month: 'long' });
+        const month = d1.toLocaleDateString(locale, { month: 'long' });
         const year = d1.getFullYear();
 
         if (dates.length === 1) {
             // Capitalize first letter of the day
-            const weekday = d1.toLocaleDateString('es-ES', { weekday: 'long' });
+            const weekday = d1.toLocaleDateString(locale, { weekday: 'long' });
             const capitalizedWeekday = weekday.charAt(0).toUpperCase() + weekday.slice(1);
             return `${capitalizedWeekday}, ${d1.getDate()} de ${month} de ${year}`;
         } else {
@@ -301,7 +423,7 @@ export default function CountryClient({ country }: Props) {
     const generateWhatsAppLink = () => {
         if (!selectedDate) return '#';
         const dateObj = new Date(selectedDate);
-        const dateStr = dateObj.toLocaleDateString('es-ES', { day: 'numeric', month: 'long' });
+        const dateStr = dateObj.toLocaleDateString(lang === 'pt' ? 'pt-BR' : 'es-ES', { day: 'numeric', month: 'long' });
 
         const items = country.prices.filter(z => (quantities[z.zone] || 0) > 0).map(z => `• ${quantities[z.zone]}x ${z.zone}`).join('\n');
         const breakdown = isInstallment
@@ -336,7 +458,7 @@ export default function CountryClient({ country }: Props) {
                 <div className="flex whitespace-nowrap animate-marquee">
                     {[...Array(10)].map((_, i) => (
                         <span key={i} className="text-sm font-black uppercase tracking-widest mx-4">
-                            Gira Mundial 2026 • En Vivo desde {country.city} • Compra tus Entradas • {selectedDate ? new Date(selectedDate).toLocaleDateString('es-ES', { weekday: 'long', day: 'numeric', month: 'long' }) : 'Selecciona una Fecha'} •
+                            {t.worldTour} 2026 • {t.liveFrom} {country.city} • {t.buyTickets} • {selectedDate ? new Date(selectedDate).toLocaleDateString(lang === 'pt' ? 'pt-BR' : 'es-ES', { weekday: 'long', day: 'numeric', month: 'long' }) : t.selectDate} •
                         </span>
                     ))}
                 </div>
@@ -396,7 +518,7 @@ export default function CountryClient({ country }: Props) {
 
                             <h1 className="text-6xl md:text-8xl font-serif italic text-acid-yellow z-20 relative drop-shadow-[0_4px_0_rgba(0,0,0,0.5)]">
                                 {country.city}
-                                <span className="block text-xl md:text-3xl text-white not-italic font-sans font-black tracking-widest mt-2 uppercase">Entradas BTS {country.name}</span>
+                                <span className="block text-xl md:text-3xl text-white not-italic font-sans font-black tracking-widest mt-2 uppercase">{t.tickets} BTS {country.name}</span>
                             </h1>
                         </div>
                     </div>
@@ -408,7 +530,7 @@ export default function CountryClient({ country }: Props) {
 
                             <div className="flex justify-between items-start mb-8">
                                 <div>
-                                    <p className="font-serif italic text-gray-400 text-lg">Próximo Evento</p>
+                                    <p className="font-serif italic text-gray-400 text-lg">{t.nextEvent}</p>
                                     <p className="text-2xl font-bold uppercase">{primaryDate}</p>
                                 </div>
                                 <MapPin className="text-acid-yellow w-8 h-8" />
@@ -419,7 +541,7 @@ export default function CountryClient({ country }: Props) {
                                     <ArrowRight className="-rotate-45" />
                                 </div>
                                 <div>
-                                    <p className="text-xs font-bold uppercase tracking-widest text-gray-400">Lugar</p>
+                                    <p className="text-xs font-bold uppercase tracking-widest text-gray-400">{t.place}</p>
                                     <p className="text-lg font-bold">{country.venue}</p>
                                 </div>
                             </div>
@@ -427,10 +549,10 @@ export default function CountryClient({ country }: Props) {
 
                         {/* CLOCK */}
                         <div className="flex gap-2 md:gap-4">
-                            <Digit val={timeLeft.days} label="Días" />
-                            <Digit val={timeLeft.hours} label="Hrs" />
-                            <Digit val={timeLeft.minutes} label="Min" />
-                            <Digit val={timeLeft.seconds} label="Seg" />
+                            <Digit val={timeLeft.days} label={t.days} />
+                            <Digit val={timeLeft.hours} label={t.hrs} />
+                            <Digit val={timeLeft.minutes} label={t.min} />
+                            <Digit val={timeLeft.seconds} label={t.seg} />
                         </div>
                     </div>
                 </div>
@@ -444,14 +566,14 @@ export default function CountryClient({ country }: Props) {
                     <div className="flex-1">
                         <div className="mb-12 flex flex-col gap-8 border-b-4 border-white pb-8">
                             <div className="flex flex-col md:flex-row md:items-end justify-between gap-6 mb-8">
-                                <h3 className="text-5xl font-black uppercase italic">Entradas</h3>
+                                <h3 className="text-5xl font-black uppercase italic">{t.tickets}</h3>
 
                                 <div className="flex gap-2 w-full md:w-auto">
                                     <button onClick={() => setIsInstallment(false)} className={`flex-1 md:flex-none px-4 py-2 text-xs md:text-sm font-bold uppercase border-2 border-white transition-colors ${!isInstallment ? 'bg-white text-black' : 'hover:bg-white/10 text-white'}`}>
-                                        Contado
+                                        {t.cash}
                                     </button>
                                     <button onClick={() => setIsInstallment(true)} className={`flex-1 md:flex-none px-4 py-2 text-xs md:text-sm font-bold uppercase border-2 border-white transition-colors ${isInstallment ? 'bg-acid-yellow text-black border-acid-yellow' : 'hover:bg-white/10 text-white'}`}>
-                                        Cuotas
+                                        {t.installments}
                                     </button>
                                 </div>
                             </div>
@@ -459,7 +581,7 @@ export default function CountryClient({ country }: Props) {
                             {/* INSTALLMENT SELECTOR (Only if Cuotas selected) */}
                             {isInstallment && (
                                 <div className="animate-fade-in-up">
-                                    <p className="text-sm font-bold uppercase tracking-widest text-gray-400 mb-2">2. Elige tus cuotas</p>
+                                    <p className="text-sm font-bold uppercase tracking-widest text-gray-400 mb-2">{t.chooseInstallments}</p>
                                     <div className="flex gap-2">
                                         {[2, 3].map(m => (
                                             <button
@@ -467,19 +589,19 @@ export default function CountryClient({ country }: Props) {
                                                 onClick={() => setInstallmentMonths(m)}
                                                 className={`flex-1 py-3 text-lg font-black uppercase border-2 transition-all ${installmentMonths === m ? 'bg-white text-black border-white' : 'border-white/20 text-gray-500 hover:border-white hover:text-white'}`}
                                             >
-                                                {m} Cuotas
+                                                {m} {t.installments}
                                             </button>
                                         ))}
                                     </div>
                                     <p className="text-xs text-acid-yellow mt-2 font-mono">
-                                        * Reserva inicial de {country.currencySymbol}{config.reservation.toLocaleString('en-US')} por entrada (incluye fee)
+                                        * {t.initialReservation} {country.currencySymbol}{config.reservation.toLocaleString(lang === 'pt' ? 'pt-BR' : 'en-US')} {t.perTicket}
                                     </p>
                                 </div>
                             )}
 
                             {/* DATE SELECTOR */}
                             <div className="space-y-4">
-                                <p className="text-sm font-bold uppercase tracking-widest text-gray-400">1. Selecciona la Fecha</p>
+                                <p className="text-sm font-bold uppercase tracking-widest text-gray-400">{t.selectDateStep}</p>
                                 <div className="grid grid-cols-2 md:grid-cols-3 gap-4">
                                     {country.dates.map((date) => {
                                         const d = new Date(date + "T12:00:00");
@@ -491,7 +613,7 @@ export default function CountryClient({ country }: Props) {
                                                 className={`p-4 border-2 flex flex-col items-center justify-center transition-all ${isSelected ? 'bg-acid-pink border-acid-pink text-black shadow-[4px_4px_0_white]' : 'border-white/30 text-gray-400 hover:border-white hover:text-white'}`}
                                             >
                                                 <span className="text-3xl font-black uppercase leading-none">{d.getDate()}</span>
-                                                <span className="text-xs font-bold uppercase tracking-widest">{d.toLocaleDateString('es-ES', { month: 'short' })}</span>
+                                                <span className="text-xs font-bold uppercase tracking-widest">{d.toLocaleDateString(lang === 'pt' ? 'pt-BR' : 'es-ES', { month: 'short' })}</span>
                                             </button>
                                         )
                                     })}
@@ -510,16 +632,16 @@ export default function CountryClient({ country }: Props) {
                                             <div>
                                                 <h4 className="text-2xl font-black uppercase leading-none mb-2">{zone.zone}</h4>
                                                 <div className="flex gap-3 text-xs font-bold uppercase tracking-widest text-gray-400">
-                                                    <span className="bg-white/10 px-2 py-1">Verificado</span>
-                                                    {i === 0 && <span className="bg-acid-yellow text-black px-2 py-1">Best Seller</span>}
+                                                    <span className="bg-white/10 px-2 py-1">{t.verified}</span>
+                                                    {i === 0 && <span className="bg-acid-yellow text-black px-2 py-1">{t.bestSeller}</span>}
                                                 </div>
                                             </div>
                                         </div>
 
                                         <div className="flex items-center gap-8">
                                             <div className="text-right">
-                                                <p className="text-3xl font-bold font-mono">{country.currencySymbol}{getPrice(zone.price).toLocaleString('en-US')}</p>
-                                                {isInstallment && <p className="text-[10px] text-gray-400 uppercase">+ Fee {country.currencySymbol}{config.fee}</p>}
+                                                <p className="text-3xl font-bold font-mono">{country.currencySymbol}{getPrice(zone.price).toLocaleString(lang === 'pt' ? 'pt-BR' : 'en-US')}</p>
+                                                {isInstallment && <p className="text-[10px] text-gray-400 uppercase">+ {t.fee} {country.currencySymbol}{config.fee}</p>}
                                             </div>
 
                                             <div className={`flex items-center border-2 ${!selectedDate ? 'border-gray-800 opacity-30 cursor-not-allowed' : 'border-white bg-black'}`}>
@@ -544,7 +666,7 @@ export default function CountryClient({ country }: Props) {
                             <div className="bg-[#1a1a1a] relative aspect-square grayscale hover:grayscale-0 transition-all duration-500">
                                 <Image src="/images/stadium-map.png" alt={`Mapa de zonas y precios ${country.venue} concierto BTS ${country.city}`} fill className="object-contain p-4 mix-blend-lighten" />
                                 <div className="absolute bottom-0 left-0 bg-acid-yellow text-black px-3 py-1 text-xs font-black uppercase">
-                                    Mapa del Escenario
+                                    {t.mapStage}
                                 </div>
                             </div>
                         </div>
@@ -558,13 +680,13 @@ export default function CountryClient({ country }: Props) {
                                 <Image src="/images/whatsapp.svg" alt="WhatsApp" width={48} height={48} className="w-12 h-12" />
                             </div>
                             <h4 className="text-2xl font-black uppercase italic mb-2 relative z-10">
-                                Grupos de WhatsApp
+                                {t.whatsappGroups}
                             </h4>
                             <p className="font-medium text-sm leading-tight relative z-10 max-w-[90%]">
-                                Únete a la comunidad oficial y organiza tu viaje al concierto.
+                                {t.joinCommunity}
                             </p>
                             <div className="mt-4 inline-flex items-center gap-2 font-bold uppercase text-xs tracking-widest border border-black group-hover:border-white px-3 py-1 relative z-10">
-                                Unirme Ahora <ArrowRight className="w-3 h-3" />
+                                {t.joinNow} <ArrowRight className="w-3 h-3" />
                             </div>
                         </div>
 
@@ -577,15 +699,15 @@ export default function CountryClient({ country }: Props) {
                         >
                             <div className="bg-[#111] border-2 border-white/20 p-6 flex items-start gap-4 hover:border-acid-yellow transition-colors relative overflow-hidden">
                                 <div className="absolute top-0 right-0 bg-acid-yellow text-black text-[10px] font-black uppercase px-2 py-1">
-                                    Verified Partner
+                                    {t.verifiedPartner}
                                 </div>
                                 <div className="bg-white/10 p-3 rounded-full text-acid-yellow group-hover:bg-acid-yellow group-hover:text-black transition-colors">
                                     <ShieldCheck className="w-6 h-6" />
                                 </div>
                                 <div>
-                                    <h4 className="font-black uppercase text-white leading-none mb-1 group-hover:text-acid-yellow transition-colors">Verificado por RaveHub</h4>
+                                    <h4 className="font-black uppercase text-white leading-none mb-1 group-hover:text-acid-yellow transition-colors">{t.verifiedBy}</h4>
                                     <p className="text-xs text-gray-400 font-mono leading-relaxed">
-                                        Garantía de autenticidad del 100%. Soporte local en {country.city}.
+                                        {t.guarantee} {country.city}.
                                     </p>
                                 </div>
                             </div>
@@ -593,7 +715,7 @@ export default function CountryClient({ country }: Props) {
 
                         {/* PHASE STATUS */}
                         <div className="bg-white/5 border border-white/20 p-6">
-                            <h4 className="text-sm font-bold uppercase tracking-widest mb-6 border-b border-white/10 pb-2">Status de Venta</h4>
+                            <h4 className="text-sm font-bold uppercase tracking-widest mb-6 border-b border-white/10 pb-2">{t.salesStatus}</h4>
                             <div className="space-y-4">
                                 {PHASES.map((p) => {
                                     const active = currentDate >= p.start && currentDate <= p.end;
@@ -603,7 +725,7 @@ export default function CountryClient({ country }: Props) {
                                                 <div className={`w-2 h-2 rounded-full ${active ? p.color : 'bg-gray-600'}`}></div>
                                                 <span className={`text-sm font-bold uppercase ${active ? 'text-white' : 'text-gray-500'}`}>{p.name}</span>
                                             </div>
-                                            {active && <span className="text-[10px] bg-white text-black px-2 rounded font-bold">LIVE</span>}
+                                            {active && <span className="text-[10px] bg-white text-black px-2 rounded font-bold">{t.live}</span>}
                                         </div>
                                     )
                                 })}
@@ -611,21 +733,21 @@ export default function CountryClient({ country }: Props) {
                             {/* PAYMENT SCHEDULE SUMMARY */}
                             {isInstallment && totalTickets > 0 && (
                                 <div className="bg-[#111] border-2 border-acid-yellow/50 p-6 animate-fade-in-up">
-                                    <h4 className="text-sm font-bold uppercase tracking-widest mb-4 border-b border-white/10 pb-2 text-acid-yellow">Cronograma de Pagos</h4>
+                                    <h4 className="text-sm font-bold uppercase tracking-widest mb-4 border-b border-white/10 pb-2 text-acid-yellow">{t.paymentSchedule}</h4>
                                     <div className="space-y-3 font-mono text-sm">
                                         <div className="flex justify-between items-center text-white font-bold">
-                                            <span>HOY (Reserva + Fee)</span>
-                                            <span>{country.currencySymbol}{reservationAmount.toLocaleString('en-US')}</span>
+                                            <span>{t.today}</span>
+                                            <span>{country.currencySymbol}{reservationAmount.toLocaleString(lang === 'pt' ? 'pt-BR' : 'en-US')}</span>
                                         </div>
                                         {paymentDates.map((date, i) => (
                                             <div key={i} className="flex justify-between items-center text-gray-400">
-                                                <span>Cuota {i + 1} ({date.toLocaleDateString('es-ES', { month: 'short', day: 'numeric' })})</span>
-                                                <span>{country.currencySymbol}{monthlyPayment.toLocaleString('en-US', { maximumFractionDigits: 2 })}</span>
+                                                <span>{t.quota} {i + 1} ({date.toLocaleDateString(lang === 'pt' ? 'pt-BR' : 'es-ES', { month: 'short', day: 'numeric' })})</span>
+                                                <span>{country.currencySymbol}{monthlyPayment.toLocaleString(lang === 'pt' ? 'pt-BR' : 'en-US', { maximumFractionDigits: 2 })}</span>
                                             </div>
                                         ))}
                                         <div className="border-t border-white/20 pt-2 mt-2 flex justify-between items-center text-acid-pink font-bold">
-                                            <span>Total Final</span>
-                                            <span>{country.currencySymbol}{totalAmount.toLocaleString('en-US')}</span>
+                                            <span>{t.finalTotal}</span>
+                                            <span>{country.currencySymbol}{totalAmount.toLocaleString(lang === 'pt' ? 'pt-BR' : 'en-US')}</span>
                                         </div>
                                     </div>
                                 </div>
@@ -640,17 +762,17 @@ export default function CountryClient({ country }: Props) {
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-12 max-w-5xl mx-auto border-t border-white/20 pt-16">
                     <div className="space-y-8">
                         <div>
-                            <h3 className="text-2xl font-bold text-white mb-4 uppercase">¿Cómo es el proceso de compra segura con RaveHub?</h3>
-                            <p className="leading-relaxed">En RaveHub, hemos simplificado la experiencia de usuario para eliminar fricciones y garantizar transparencia en cada clic. Nuestro proceso de "Compra Segura" se estructura en tres pasos blindados tecnológicamente para asegurar que cada fan tenga acceso legítimo a sus entradas.</p>
+                            <h3 className="text-2xl font-bold text-white mb-4 uppercase">{t.secureProcessTitle}</h3>
+                            <p className="leading-relaxed">{t.secureProcessDesc}</p>
                         </div>
                         <div>
-                            <h3 className="text-2xl font-bold text-white mb-4 uppercase">¿Por qué comprar aquí es seguro?</h3>
-                            <p className="leading-relaxed mb-4">La Garantía RaveHub es nuestro compromiso de "Cero Riesgos". Comprar aquí es seguro porque eliminamos la incertidumbre del mercado secundario informal.</p>
+                            <h3 className="text-2xl font-bold text-white mb-4 uppercase">{t.whySecureTitle}</h3>
+                            <p className="leading-relaxed mb-4">{t.whySecureDesc}</p>
                             <ul className="space-y-2 list-disc pl-5">
-                                <li><strong>Verificación:</strong> Solo trabajamos con organizadores de eventos verificados.</li>
-                                <li><strong>Protección Anti-Fraude:</strong> Nuestro sistema previene la duplicación y falsificación.</li>
-                                <li><strong>Soporte 24/7:</strong> Canal exclusivo para resolver incidencias.</li>
-                                <li><strong>Transparencia:</strong> Precios finales sin comisiones ocultas.</li>
+                                <li><strong>{t.verification}</strong> {t.verificationDesc}</li>
+                                <li><strong>{t.fraudProtection}</strong> {t.fraudProtectionDesc}</li>
+                                <li><strong>{t.support}</strong> {t.supportDesc}</li>
+                                <li><strong>{t.transparency}</strong> {t.transparencyDesc}</li>
                             </ul>
                         </div>
                     </div>
@@ -658,25 +780,22 @@ export default function CountryClient({ country }: Props) {
                         <div>
                             {/* CORRECCIÓN: Cambiamos "SEO" por "Hito Histórico" o "Cultural". Suena más épico. */}
                             <h3 className="text-2xl font-bold text-white mb-4 uppercase">
-                                Historia de BTS en {country.name}: Un Hito Histórico para el Army
+                                {t.historyTitle.replace('{country}', country.name)}
                             </h3>
 
                             <p className="leading-relaxed mb-4">
-                                La relación entre BTS y {country.name} es una historia de espera que finalmente se materializa en 2026.
-                                A diferencia de visitas anteriores a la región, esta llegada oficial al {country.venue} marca el
-                                evento cultural más importante de la década.
+                                {t.historyDesc1.replace('{country}', country.name).replace('{venue}', country.venue)}
                             </p>
 
                             {/* CORRECCIÓN: Integramos la keyword de forma natural sin decir "la búsqueda de..." */}
                             <p className="leading-relaxed mb-4">
-                                La demanda acumulada ha generado una expectativa sin precedentes. Por ello, encontrar dónde
-                                <strong className="text-white font-bold"> comprar entradas para BTS en {country.city} de forma 100% segura </strong>
-                                es la prioridad absoluta para proteger tu inversión y tu sueño.
+                                {t.historyDesc2}
+                                <strong className="text-white font-bold"> {t.historyDesc3.replace('{city}', country.city)} </strong>
+                                {t.historyDesc4}
                             </p>
 
                             <p className="leading-relaxed">
-                                Al adquirir tus pases a través de canales verificados como RaveHub, aseguras tu lugar en el
-                                Estadio Nacional con total confianza y garantía local.
+                                {t.historyDesc5}
                             </p>
                         </div>
                     </div>
@@ -701,15 +820,15 @@ export default function CountryClient({ country }: Props) {
                                     </div>
                                     <div>
                                         <p className="text-xs font-black uppercase tracking-widest text-black/60">
-                                            {isInstallment ? 'A Pagar HOY' : 'Total a Pagar'}
+                                            {isInstallment ? t.toPayToday : t.totalToPay}
                                         </p>
                                         <div className="flex flex-col">
                                             <p className="text-3xl font-black font-mono tracking-tight leading-none">
-                                                {country.currencySymbol}{isInstallment ? reservationAmount.toLocaleString('en-US') : totalAmount.toLocaleString('en-US')}
+                                                {country.currencySymbol}{isInstallment ? reservationAmount.toLocaleString(lang === 'pt' ? 'pt-BR' : 'en-US') : totalAmount.toLocaleString(lang === 'pt' ? 'pt-BR' : 'en-US')}
                                             </p>
                                             {isInstallment && (
                                                 <span className="text-xs font-bold text-black/50">
-                                                    + {installmentMonths} cuotas de {country.currencySymbol}{Math.ceil(monthlyPayment).toLocaleString('en-US')}
+                                                    + {installmentMonths} {t.installmentsOf} {country.currencySymbol}{Math.ceil(monthlyPayment).toLocaleString(lang === 'pt' ? 'pt-BR' : 'en-US')}
                                                 </span>
                                             )}
                                         </div>
@@ -720,7 +839,7 @@ export default function CountryClient({ country }: Props) {
                                     onClick={() => setIsMembershipModalOpen(true)}
                                     className="w-full md:w-auto bg-black text-white hover:bg-white hover:text-black px-12 py-4 text-xl font-black uppercase tracking-widest transition-colors flex items-center justify-center gap-2"
                                 >
-                                    Finalizar Compra <ArrowRight className="w-6 h-6" />
+                                    {t.checkout} <ArrowRight className="w-6 h-6" />
                                 </button>
                             </div>
                         </motion.div>

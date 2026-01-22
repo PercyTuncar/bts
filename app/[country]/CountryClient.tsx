@@ -172,6 +172,63 @@ const translations = {
         totalToPay: "Total a Pagar",
         installmentsOf: "parcelas de",
         checkout: "Finalizar Compra"
+    },
+    mx: {
+        worldTour: "Gira Mundial",
+        liveFrom: "En Vivo desde",
+        buyTickets: "Compra tus Boletos",
+        selectDate: "Selecciona una Fecha",
+        tickets: "Boletos",
+        nextEvent: "Próximo Evento",
+        place: "Lugar",
+        days: "Días",
+        hrs: "Hrs",
+        min: "Min",
+        seg: "Seg",
+        cash: "Contado",
+        installments: "Cuotas",
+        selectDateStep: "1. Selecciona la Fecha",
+        chooseInstallments: "2. Elige tus cuotas",
+        initialReservation: "Reserva inicial de",
+        perTicket: "por boleto (incluye fee)",
+        verified: "Verificado",
+        bestSeller: "Best Seller",
+        fee: "Fee",
+        mapStage: "Mapa del Escenario",
+        whatsappGroups: "Grupos de WhatsApp",
+        joinCommunity: "Únete a la comunidad oficial y organiza tu viaje al concierto.",
+        joinNow: "Unirme Ahora",
+        verifiedPartner: "Verified Partner",
+        verifiedBy: "Verificado por RaveHub",
+        guarantee: "Garantía de autenticidad del 100%. Soporte local en",
+        salesStatus: "Status de Venta",
+        live: "LIVE",
+        paymentSchedule: "Cronograma de Pagos",
+        today: "HOY (Reserva + Fee)",
+        quota: "Cuota",
+        finalTotal: "Total Final",
+        secureProcessTitle: "¿Cómo es el proceso de compra segura con RaveHub?",
+        secureProcessDesc: "En RaveHub, hemos simplificado la experiencia de usuario para eliminar fricciones y garantizar transparencia en cada clic. Nuestro proceso de \"Compra Segura\" se estructura en tres pasos blindados tecnológicamente para asegurar que cada fan tenga acceso legítimo a sus entradas.",
+        whySecureTitle: "¿Por qué comprar aquí es seguro?",
+        whySecureDesc: "La Garantía RaveHub es nuestro compromiso de \"Cero Riesgos\". Comprar aquí es seguro porque eliminamos la incertidumbre del mercado secundario informal.",
+        verification: "Verificación:",
+        verificationDesc: "Solo trabajamos con organizadores de eventos verificados.",
+        fraudProtection: "Protección Anti-Fraude:",
+        fraudProtectionDesc: "Nuestro sistema previene la duplicación y falsificación.",
+        support: "Soporte 24/7:",
+        supportDesc: "Canal exclusivo para resolver incidencias.",
+        transparency: "Transparencia:",
+        transparencyDesc: "Precios finales sin comisiones ocultas.",
+        historyTitle: "Historia de BTS en {country}: Un Hito Histórico para el Army",
+        historyDesc1: "La relación entre BTS y {country} es una historia de espera que finalmente se materializa en 2026. A diferencia de visitas anteriores a la región, esta llegada oficial al {venue} marca el evento cultural más importante de la década.",
+        historyDesc2: "La demanda acumulada ha generado una expectativa sin precedentes. Por ello, encontrar dónde",
+        historyDesc3: "comprar boletos para BTS en {city} de forma 100% segura",
+        historyDesc4: "es la prioridad absoluta para proteger tu inversión y tu sueño.",
+        historyDesc5: "Al adquirir tus pases a través de canales verificados como RaveHub, aseguras tu lugar en el evento con total confianza y garantía local.",
+        toPayToday: "A Pagar HOY",
+        totalToPay: "Total a Pagar",
+        installmentsOf: "cuotas de",
+        checkout: "Finalizar Compra"
     }
 };
 
@@ -179,7 +236,7 @@ export default function CountryClient({ country }: Props) {
     const { scrollY } = useScroll();
     const heroY = useTransform(scrollY, [0, 500], [0, 200]);
     const opacity = useTransform(scrollY, [0, 300], [1, 0]);
-    const lang = country.id === 'brasil' ? 'pt' : 'es';
+    const lang = country.id === 'brasil' ? 'pt' : (country.id === 'mexico' ? 'mx' : 'es');
     const t = translations[lang];
 
     const formatDateRange = (dates: string[]) => {

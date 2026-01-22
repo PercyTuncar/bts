@@ -16,20 +16,24 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
     const minPrice = Math.min(...country.prices.map(p => p.price));
     const formattedPrice = country.currencySymbol + minPrice;
 
+    // Localization for Mexico ("Boletos" vs "Entradas")
+    const ticketKeyword = country.id === 'mexico' ? 'Boletos' : 'Entradas';
+    const buyAction = country.id === 'mexico' ? 'Compra tus boletos' : 'Compra tus entradas';
+
     return {
-        title: `Entradas BTS ${country.name} 2026 | Desde ${formattedPrice}`,
-        description: `¡Compra tus entradas para BTS en ${country.name} 2026! Precios desde ${formattedPrice} en ${country.venue}. Compra segura, zonas VIP y mapa del escenario aquí.`,
+        title: `${ticketKeyword} BTS ${country.name} 2026 | Desde ${formattedPrice}`,
+        description: `¡${buyAction} para BTS en ${country.name} 2026! Precios desde ${formattedPrice} en ${country.venue}. Compra segura, zonas VIP y mapa del escenario aquí.`,
         openGraph: {
-            title: `Entradas BTS ${country.name} 2026`,
+            title: `${ticketKeyword} BTS ${country.name} 2026`,
             description: `¡El Army llega a ${country.name}! Compra segura y verificada para el concierto en ${country.venue}.`,
             url: `https://entradasbts.com/${country.id}`,
-            siteName: 'Entradas BTS Tour 2026',
+            siteName: `${ticketKeyword} BTS Tour 2026`,
             images: [
                 {
                     url: `https://entradasbts.com${country.openGraphImage}`,
                     width: 1200,
                     height: 630,
-                    alt: `Entradas Concierto BTS ${country.name} 2026`
+                    alt: `${ticketKeyword} Concierto BTS ${country.name} 2026`
                 },
             ],
             locale: 'es_LA',

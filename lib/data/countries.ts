@@ -65,7 +65,7 @@ export const countries: CountryData[] = [
         ],
         description: 'Santiago, el momento ha llegado. Vive la magia de BTS en el Estadio Monumental.',
         openGraphImage: '/images/og-chile.jpg',
-        whatsappLink: 'https://chat.whatsapp.com/FVBFp5ThbPTKx2PPaBDoyC'
+        whatsappLink: '/registro-whatsapp?country=chile'
     },
     {
         id: 'mexico',
@@ -136,7 +136,7 @@ export const countries: CountryData[] = [
         ],
         description: '¡Hola México! BTS llega al coloso de Santa Úrsula para tres fechas inolvidables.',
         openGraphImage: '/images/og-mexico.jpg',
-        whatsappLink: 'https://chat.whatsapp.com/GImmxPFYqmpEYSRzaNW3Vt'
+        whatsappLink: '/registro-whatsapp?country=mexico'
     },
     {
         id: 'colombia',
@@ -158,7 +158,7 @@ export const countries: CountryData[] = [
         ],
         description: 'Bogotá se viste de morado. No te pierdas el regreso de BTS a Colombia.',
         openGraphImage: '/images/og-colombia.jpg',
-        whatsappLink: 'https://chat.whatsapp.com/GRD1MEmFwR2DVyJSIxEXTE'
+        whatsappLink: '/registro-whatsapp?country=colombia'
     },
     {
         id: 'argentina',
@@ -180,7 +180,7 @@ export const countries: CountryData[] = [
         ],
         description: 'Aún no hay confirmación oficial del estadio, pero los rumores más fuertes y la capacidad necesaria apuntan al Estadio Monumental (River Plate).',
         openGraphImage: '/images/og-argentina.jpg',
-        whatsappLink: 'https://chat.whatsapp.com/E0nVPiYBApNENiqucKhtnH'
+        whatsappLink: '/registro-whatsapp?country=argentina'
     },
     {
         id: 'brasil',
@@ -202,6 +202,6 @@ export const countries: CountryData[] = [
         ],
         description: 'A Live Nation é a produtora oficial. Rumores fortes apontam para o Allianz Parque ou Estádio MorumBIS. BTS WORLD TOUR "ARIRANG".',
         openGraphImage: '/images/og-brasil.jpg',
-        whatsappLink: 'https://chat.whatsapp.com/D3tHDZcb6oL8pkXpfIUnpd'
+        whatsappLink: '/registro-whatsapp?country=brasil'
     }
 ];

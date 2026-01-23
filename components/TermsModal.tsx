@@ -65,7 +65,7 @@ export function TermsModal({ isOpen, onClose, onAccept }: Props) {
                                         <div className="relative z-10 space-y-2">
                                             <div className="flex items-center justify-between border-b border-purple-200/60 pb-2">
                                                 <h4 className="font-black uppercase text-[10px] text-purple-900 flex items-center gap-2">
-                                                    <span className="bg-purple-200 p-0.5 rounded text-[10px]">🇵🇪</span> Pago Rápido (Perú)
+                                                    <span className="bg-purple-200 p-0.5 rounded text-[10px]">🇵🇪</span> Pago Rápido (Perú) YAPE / PLIN
                                                 </h4>
                                                 <span className="bg-acid-yellow text-slate-900 text-[9px] font-bold px-1.5 py-0.5 rounded">
                                                     INCLUYE FEE

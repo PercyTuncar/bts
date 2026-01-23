@@ -2,7 +2,7 @@
 
 import { Suspense, useState, useEffect } from 'react';
 import { useSearchParams, useRouter } from 'next/navigation';
-import { supabase } from '@/lib/supabase';
+
 import { GlassCard } from '@/components/GlassCard';
 import { Button } from '@/components/Button';
 import { motion, AnimatePresence } from 'framer-motion';
@@ -44,31 +44,32 @@ function WaitlistFormContent() {
         setLoading(true);
         setErrorMessage('');
 
-        // Split full name into first and last name for Supabase compatibility
         const nameParts = formData.full_name.trim().split(' ');
         const firstName = nameParts[0];
         const lastName = nameParts.slice(1).join(' ') || '';
 
         const payload = {
-            first_name: firstName,
-            last_name: lastName,
-            phone: formData.phone,
-            country: formData.country,
-            metadata: {
-                userAgent: navigator.userAgent,
-                timestamp: new Date().toISOString(),
-                source: 'web_form'
-            }
+            nombre: firstName,
+            apellido: lastName,
+            telefono: formData.phone,
+            pais: formData.country,
+            fecha: new Date().toISOString()
         };
 
         try {
-            const { error } = await supabase
-                .from('waitlist')
-                .insert([payload]);
+            const response = await fetch('https://sheetdb.io/api/v1/n20o30kichnu0', {
+                method: 'POST',
+                headers: {
+                    'Accept': 'application/json',
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify(payload)
+            });
 
-            if (error) {
-                console.error('Supabase Error Details:', error);
-                throw new Error(error.message || 'Error desconocido al guardar en Supabase');
+            if (!response.ok) {
+                const errorData = await response.json();
+                console.error('SheetDB Error:', errorData);
+                throw new Error('Error al guardar en SheetDB');
             }
 
             setSuccess(true);
@@ -77,7 +78,7 @@ function WaitlistFormContent() {
             }, 3000);
         } catch (error: any) {
             console.error('Error saving data:', error);
-            setErrorMessage(`Error: ${error.message || 'Hubo un error al guardar tus datos.'} Revisa tu conexión o intenta más tarde.`);
+            setErrorMessage('Hubo un error al guardar tus datos. Revisa tu conexión o intenta más tarde.');
         } finally {
             setLoading(false);
         }
@@ -140,7 +141,7 @@ function WaitlistFormContent() {
                         )}
 
                         <div>
-                            <label htmlFor="full_name" className="block text-sm font-bold text-slate-700 mb-2 uppercase tracking-wide">Nombre Completo</label>
+                            <label htmlFor="full_name" className="block text-sm font-bold text-slate-700 mb-2 uppercase tracking-wide">Nombre y Apellido</label>
                             <input
                                 type="text"
                                 id="full_name"

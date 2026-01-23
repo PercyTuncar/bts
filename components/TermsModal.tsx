@@ -113,17 +113,22 @@ export function TermsModal({ isOpen, onClose, onAccept }: Props) {
                                     </label>
                                 </div>
 
-                                <button
-                                    onClick={onAccept}
-                                    disabled={!accepted}
-                                    className={`w-full font-black uppercase text-lg py-4 rounded-lg transition-all flex items-center justify-center gap-2
+                                <div className="space-y-2">
+                                    <p className="text-center text-[10px] text-slate-500 font-bold uppercase leading-tight max-w-[90%] mx-auto">
+                                        Otros países pueden pagar con tarjeta de débito o crédito VISA / Mastercard aquí
+                                    </p>
+                                    <button
+                                        onClick={onAccept}
+                                        disabled={!accepted}
+                                        className={`w-full font-black uppercase text-lg py-4 rounded-lg transition-all flex items-center justify-center gap-2
                                         ${accepted
-                                            ? 'bg-primary text-slate-900 hover:bg-primary/90 hover:scale-[1.02] shadow-lg'
-                                            : 'bg-slate-200 text-slate-400 cursor-not-allowed'
-                                        }`}
-                                >
-                                    PAGAR CON TARJETA AQUÍ
-                                </button>
+                                                ? 'bg-primary text-slate-900 hover:bg-primary/90 hover:scale-[1.02] shadow-lg'
+                                                : 'bg-slate-200 text-slate-400 cursor-not-allowed'
+                                            }`}
+                                    >
+                                        LATAM: PAGAR CON TARJETA AQUÍ
+                                    </button>
+                                </div>
 
                                 <p className="text-center text-[10px] text-slate-400 uppercase tracking-widest font-bold">
                                     AL REALIZAR EL PAGO, ACEPTAS LOS TÉRMINOS Y CONDICIONES

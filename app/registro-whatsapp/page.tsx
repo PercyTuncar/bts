@@ -56,8 +56,10 @@ function WaitlistFormContent() {
             fecha: new Date().toISOString()
         };
 
+        console.log('Sending payload to SheetDB:', payload);
+
         try {
-            const response = await fetch('https://sheetdb.io/api/v1/n20o30kichnu0', {
+            const response = await fetch('https://sheetdb.io/api/v1/tzuofiubczfod', {
                 method: 'POST',
                 headers: {
                     'Accept': 'application/json',

@@ -114,7 +114,7 @@ export function TermsModal({ isOpen, onClose, onAccept }: Props) {
 
                                 <div className="space-y-2">
                                     <p className="text-center text-[10px] text-slate-500 font-bold uppercase leading-tight max-w-[95%] mx-auto">
-                                        Otros países pueden pagar con tarjeta de débito o crédito VISA / Mastercard aquí
+                                        <span className="text-primary font-black">Otros países pueden pagar con tarjeta</span> de débito o crédito VISA / Mastercard aquí
                                     </p>
                                     <button
                                         onClick={onAccept}

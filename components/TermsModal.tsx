@@ -3,6 +3,7 @@
 import { motion, AnimatePresence } from "framer-motion";
 import { X, Check, ShieldCheck, FileText } from "lucide-react";
 import Link from "next/link";
+import Image from "next/image";
 import { useState } from "react";
 import { GlassCard } from "./GlassCard";
 
@@ -71,19 +72,39 @@ export function TermsModal({ isOpen, onClose, onAccept }: Props) {
                                                 </span>
                                             </div>
 
-                                            <div className="flex flex-col gap-0.5">
-                                                <span className="text-[10px] font-bold text-slate-500 uppercase tracking-widest">Monto a Pagar</span>
-                                                <span className="text-2xl font-black text-slate-900">S/. 99.50</span>
-                                            </div>
+                                            <div className="flex gap-4 items-center">
+                                                <div className="flex-1 space-y-2">
+                                                    <div className="flex flex-col gap-0.5">
+                                                        <span className="text-[10px] font-bold text-slate-500 uppercase tracking-widest">Monto a Pagar</span>
+                                                        <span className="text-2xl font-black text-slate-900">S/. 99.50</span>
+                                                    </div>
 
-                                            <div className="bg-white/60 p-2 rounded-lg border border-white/50 space-y-1.5 backdrop-blur-sm">
-                                                <div className="flex items-center gap-2">
-                                                    <div className="w-6 h-6 rounded-full bg-green-100 flex items-center justify-center shrink-0">
-                                                        <span className="font-bold text-green-600 text-[9px]">PLIN</span>
+                                                    <div className="bg-white/60 p-2 rounded-lg border border-white/50 space-y-1.5 backdrop-blur-sm">
+                                                        <div className="flex items-center gap-2">
+                                                            <div className="w-6 h-6 rounded-full overflow-hidden flex items-center justify-center shrink-0 border border-slate-100 bg-white">
+                                                                <Image
+                                                                    src="/images/logo-plin.jpeg"
+                                                                    alt="Plin"
+                                                                    width={24}
+                                                                    height={24}
+                                                                    className="w-full h-full object-cover"
+                                                                />
+                                                            </div>
+                                                            <div>
+                                                                <p className="text-base font-black text-slate-900 tracking-wide">944 784 488</p>
+                                                            </div>
+                                                        </div>
                                                     </div>
-                                                    <div>
-                                                        <p className="text-base font-black text-slate-900 tracking-wide">944 784 488</p>
-                                                    </div>
+                                                </div>
+
+                                                <div className="shrink-0 bg-white p-1 rounded-lg border border-slate-200 shadow-sm self-start mt-2">
+                                                    <Image
+                                                        src="/images/qr-plin.jpeg"
+                                                        alt="QR Plin"
+                                                        width={80}
+                                                        height={80}
+                                                        className="w-20 h-20 object-contain rounded-md"
+                                                    />
                                                 </div>
                                             </div>
 
@@ -125,7 +146,7 @@ export function TermsModal({ isOpen, onClose, onAccept }: Props) {
                                                 : 'bg-slate-200 text-slate-400 cursor-not-allowed'
                                             }`}
                                     >
-                                        PAGAR CON TARJETA AQUÍ
+                                        LATAM: PAGAR CON TARJETA AQUÍ
                                     </button>
                                 </div>
 

@@ -6,6 +6,13 @@ import { Search } from "lucide-react";
 export default function BlogIndex() {
     const posts = [
         {
+            slug: "boletos-bts-mexico",
+            title: "Boletos BTS México 2026: Precios Oficiales y Mapa",
+            excerpt: "Lista confirmada de precios, zonas y guía de preventa Weverse para el Estadio GNP Seguros.",
+            category: "News",
+            image: "/images/mapa-bts-mexico-2026.png"
+        },
+        {
             slug: "guide",
             title: "Guía de Supervivencia: BTS World Tour 2026",
             excerpt: "Todo lo que necesitas saber antes de comprar tu entrada: precios, zonas y consejos para la fila virtual.",
@@ -73,7 +80,15 @@ export default function BlogIndex() {
 
                             <div className="aspect-[4/3] bg-slate-100 relative border-b border-slate-200 overflow-hidden">
                                 {/* Placeholder for actual image */}
-                                <div className="absolute inset-0 bg-slate-200" />
+                                {/* Post Image */}
+                                {post.image && (
+                                    <img
+                                        src={post.image}
+                                        alt={post.title}
+                                        className="absolute inset-0 w-full h-full object-cover transition-transform duration-500 group-hover:scale-110"
+                                    />
+                                )}
+                                {!post.image && <div className="absolute inset-0 bg-slate-200" />}
                                 <div className="absolute top-4 left-4 bg-secondary text-slate-900 px-2 py-1 text-xs font-black uppercase shadow-sm z-10">
                                     {post.category}
                                 </div>

@@ -146,7 +146,7 @@ export function TermsModal({ isOpen, onClose, onAccept }: Props) {
                                                 : 'bg-slate-200 text-slate-400 cursor-not-allowed'
                                             }`}
                                     >
-                                        LATAM: PAGAR CON TARJETA AQUÍ
+                                        PAGAR CON TARJETA AQUÍ
                                     </button>
                                 </div>
 

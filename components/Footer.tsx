@@ -4,9 +4,42 @@ import Link from "next/link";
 import { Facebook, Twitter, Instagram, Youtube, ArrowRight, MessageCircle } from "lucide-react";
 import { useState } from "react";
 import { CommunityModal } from "./CommunityModal";
+import { usePathname } from "next/navigation";
 
 export const Footer = () => {
     const [isCommunityOpen, setIsCommunityOpen] = useState(false);
+    const pathname = usePathname();
+    const isBrazil = pathname?.startsWith('/brasil');
+
+    const t = {
+        joinArmy: isBrazil ? "Junte-se ao" : "Únete al",
+        stayConnected: isBrazil
+            ? "Mantenha-se conectado. Junte-se aos nossos grupos oficiais de WhatsApp para receber notícias e alertas instantaneamente."
+            : "Mantente conectado. Únete a nuestros grupos oficiales de WhatsApp para recibir noticias y alertas al instante.",
+        whatsappGroups: "Grupos de WhatsApp", // Same in both or similar enough? Pt: Grupos de WhatsApp. Es: Grupos de WhatsApp. OK.
+        clickToView: isBrazil ? "Clique para ver tudo" : "Click para ver todos",
+        worldTour: "World Tour 2026",
+        experience: "Experience the energy.",
+        liveFrom: "Live from Latin America.",
+        explore: isBrazil ? "Explorar" : "Explora",
+        home: isBrazil ? "Início" : "Inicio",
+        tourDates: "Tour Dates",
+        merch: isBrazil ? "Merch Oficial" : "Merch Oficial", // Same
+        news: isBrazil ? "Notícias" : "Noticias",
+        support: isBrazil ? "Suporte" : "Soporte",
+        help: isBrazil ? "Ajuda" : "Ayuda",
+        terms: isBrazil ? "Termos" : "Términos",
+        privacy: isBrazil ? "Privacidade" : "Privacidad",
+        contact: isBrazil ? "Contato" : "Contacto",
+        follow: isBrazil ? "Siga-nos" : "Síguenos",
+        rights: isBrazil ? "Todos os direitos reservados." : "All Rights Reserved.", // Keeping English/Spanish mix as consistent with design?
+        // Original was "All Rights Reserved." in English. Let's keep it English or localized? 
+        // User asked for: "Junte-se ao Army", "Notícias", "Ajuda", "Termos", "Privacidade", "Contato".
+        // Let's stick to what was asked + necessary context.
+        disclaimer: isBrazil
+            ? "Entradasbts.com é um serviço independente de gestão de compras operado pela Ravehub."
+            : "Entradasbts.com es un servicio independiente de gestión de compras operado por Ravehub."
+    };
 
     return (
         <footer className="bg-slate-50 text-slate-900 border-t border-slate-200 relative z-50">
@@ -15,10 +48,10 @@ export const Footer = () => {
                 <div className="container mx-auto px-4 md:px-8 py-16 flex flex-col md:flex-row items-center justify-between gap-12">
                     <div className="max-w-xl">
                         <h3 className="text-4xl md:text-6xl font-black uppercase italic tracking-tighter mb-4">
-                            Únete al <span className="text-primary">Army</span>
+                            {t.joinArmy} <span className="text-primary">Army</span>
                         </h3>
                         <p className="text-slate-500 font-mono text-sm md:text-base">
-                            Mantente conectado. Únete a nuestros grupos oficiales de WhatsApp para recibir noticias y alertas al instante.
+                            {t.stayConnected}
                         </p>
                     </div>
 
@@ -34,8 +67,8 @@ export const Footer = () => {
                                         <MessageCircle className="w-6 h-6" />
                                     </div>
                                     <div className="flex flex-col">
-                                        <span className="font-black uppercase text-lg leading-none mb-1">Grupos de WhatsApp</span>
-                                        <span className="text-xs font-mono text-slate-500 uppercase tracking-widest">Click para ver todos</span>
+                                        <span className="font-black uppercase text-lg leading-none mb-1">{t.whatsappGroups}</span>
+                                        <span className="text-xs font-mono text-slate-500 uppercase tracking-widest">{t.clickToView}</span>
                                     </div>
                                 </div>
                                 <div className="w-10 h-10 border-2 border-slate-100 rounded-full flex items-center justify-center text-slate-300 group-hover:border-[#25D366] group-hover:text-[#25D366] transition-colors">
@@ -59,33 +92,33 @@ export const Footer = () => {
                             </div>
                         </Link>
                         <p className="text-xs font-mono text-gray-500 uppercase leading-relaxed">
-                            World Tour 2026<br />
-                            Experience the energy.<br />
-                            Live from Latin America.
+                            {t.worldTour}<br />
+                            {t.experience}<br />
+                            {t.liveFrom}
                         </p>
                     </div>
 
                     {/* LINKS COLUMN 1 */}
                     <div className="flex flex-col space-y-4">
-                        <h4 className="text-secondary font-bold uppercase tracking-widest text-sm mb-2 text-slate-700">Explora</h4>
-                        <FooterLink href="/">Inicio</FooterLink>
-                        <FooterLink href="/eventos">Tour Dates</FooterLink>
-                        <FooterLink href="/tienda">Merch Oficial</FooterLink>
-                        <FooterLink href="/blog">Noticias</FooterLink>
+                        <h4 className="text-secondary font-bold uppercase tracking-widest text-sm mb-2 text-slate-700">{t.explore}</h4>
+                        <FooterLink href="/">{t.home}</FooterLink>
+                        <FooterLink href="/eventos">{t.tourDates}</FooterLink>
+                        <FooterLink href="/tienda">{t.merch}</FooterLink>
+                        <FooterLink href="/blog">{t.news}</FooterLink>
                     </div>
 
                     {/* LINKS COLUMN 2 */}
                     <div className="flex flex-col space-y-4">
-                        <h4 className="text-secondary font-bold uppercase tracking-widest text-sm mb-2 text-slate-700">Soporte</h4>
-                        <FooterLink href="#" rel="nofollow">Ayuda</FooterLink>
-                        <FooterLink href="/legal/terminos">Términos</FooterLink>
-                        <FooterLink href="/legal/privacidad">Privacidad</FooterLink>
-                        <FooterLink href="#" rel="nofollow">Contacto</FooterLink>
+                        <h4 className="text-secondary font-bold uppercase tracking-widest text-sm mb-2 text-slate-700">{t.support}</h4>
+                        <FooterLink href="#" rel="nofollow">{t.help}</FooterLink>
+                        <FooterLink href="/legal/terminos">{t.terms}</FooterLink>
+                        <FooterLink href="/legal/privacidad">{t.privacy}</FooterLink>
+                        <FooterLink href="#" rel="nofollow">{t.contact}</FooterLink>
                     </div>
 
                     {/* SOCIALS */}
                     <div className="flex flex-col space-y-6">
-                        <h4 className="text-secondary font-bold uppercase tracking-widest text-sm text-slate-700">Síguenos</h4>
+                        <h4 className="text-secondary font-bold uppercase tracking-widest text-sm text-slate-700">{t.follow}</h4>
                         <div className="flex gap-4">
                             <SocialIcon icon={<Instagram />} href="#" />
                             <SocialIcon icon={<Twitter />} href="#" />
@@ -101,7 +134,7 @@ export const Footer = () => {
                 <div className="container mx-auto px-4 md:px-8 py-6 flex flex-col md:flex-row items-center justify-between gap-4">
                     <div className="text-[10px] font-mono text-gray-600 uppercase text-center md:text-left">
                         <p>© 2026 EntradasBTS / Ravehub. All Rights Reserved.</p>
-                        <p className="mt-1 text-gray-700">Entradasbts.com es un servicio independiente de gestión de compras operado por Ravehub. </p>
+                        <p className="mt-1 text-gray-700">{t.disclaimer}</p>
                     </div>
                     <div className="flex gap-6 text-[10px] font-mono text-gray-600 uppercase">
                         <span>Made for ARMY</span>

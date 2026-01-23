@@ -67,13 +67,18 @@ export const metadata: Metadata = {
 import { CartProvider } from "@/context/CartContext";
 import { AutoPopup } from "@/components/AutoPopup";
 
-export default function RootLayout({
+import { headers } from "next/headers";
+
+export default async function RootLayout({
   children,
 }: Readonly<{
   children: React.ReactNode;
 }>) {
+  const headersList = await headers();
+  const lang = headersList.get('x-lang') || 'es';
+
   return (
-    <html lang="es">
+    <html lang={lang}>
       <body className={cn(inter.className, "antialiased min-h-screen relative")}>
         <CartProvider>
           <div className="ambient-gradient" aria-hidden="true" />

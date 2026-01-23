@@ -29,6 +29,15 @@ export const metadata = {
   },
   alternates: {
     canonical: 'https://entradasbts.com',
+    languages: {
+      'es-PE': 'https://entradasbts.com/peru',
+      'es-CL': 'https://entradasbts.com/chile',
+      'es-MX': 'https://entradasbts.com/mexico',
+      'es-CO': 'https://entradasbts.com/colombia',
+      'es-AR': 'https://entradasbts.com/argentina',
+      'pt-BR': 'https://entradasbts.com/brasil',
+      'x-default': 'https://entradasbts.com/',
+    },
   },
   twitter: {
     card: 'summary_large_image',

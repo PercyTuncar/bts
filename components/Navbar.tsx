@@ -6,12 +6,29 @@ import { ShoppingCart, Menu, User, X, ArrowRight } from "lucide-react";
 import { Logo } from "./Logo";
 import { Button } from "./Button";
 import { motion, AnimatePresence } from "framer-motion";
+import { usePathname } from "next/navigation";
 
 import { useCart } from "@/context/CartContext";
 
 export function Navbar() {
     const [isOpen, setIsOpen] = useState(false);
     const { count } = useCart();
+    const pathname = usePathname();
+    const isBrazil = pathname?.startsWith('/brasil');
+
+    const menuItems = isBrazil ? [
+        { href: "/", label: "Início" },
+        { href: "/eventos", label: "Eventos" },
+        { href: "/comprar-membresia-bts", label: "Membros" },
+        { href: "/blog", label: "Blog" },
+        { href: "/tienda", label: "Loja" },
+    ] : [
+        { href: "/", label: "Inicio" },
+        { href: "/eventos", label: "Eventos" },
+        { href: "/comprar-membresia-bts", label: "Membresía" },
+        { href: "/blog", label: "Blog" },
+        { href: "/tienda", label: "Tienda" },
+    ];
 
     return (
         <>
@@ -25,11 +42,9 @@ export function Navbar() {
 
                     {/* Links (Desktop) */}
                     <div className="hidden md:flex items-center gap-8 font-bold text-sm uppercase tracking-widest text-slate-500">
-                        <Link href="/" className="hover:text-primary hover:underline decoration-2 underline-offset-4 transition-all">Inicio</Link>
-                        <Link href="/eventos" className="hover:text-primary hover:underline decoration-2 underline-offset-4 transition-all">Eventos</Link>
-                        <Link href="/comprar-membresia-bts" className="hover:text-primary hover:underline decoration-2 underline-offset-4 transition-all">Membresía</Link>
-                        <Link href="/blog" className="hover:text-primary hover:underline decoration-2 underline-offset-4 transition-all">Blog</Link>
-                        <Link href="/tienda" className="hover:text-primary hover:underline decoration-2 underline-offset-4 transition-all">Tienda</Link>
+                        {menuItems.map((item) => (
+                            <Link key={item.href} href={item.href} className="hover:text-primary hover:underline decoration-2 underline-offset-4 transition-all">{item.label}</Link>
+                        ))}
                     </div>
 
                     {/* Actions */}
@@ -67,29 +82,28 @@ export function Navbar() {
                         {/* <div className="absolute inset-0 bg-noise opacity-20 pointer-events-none"></div> */}
 
                         <div className="space-y-8 relative z-10">
-                            {[
-                                { href: "/", label: "Inicio", color: "text-slate-900" },
-                                { href: "/eventos", label: "Eventos", color: "text-slate-500" },
-                                { href: "/comprar-membresia-bts", label: "Membresía", color: "text-primary" },
-                                { href: "/blog", label: "Blog", color: "text-slate-500" },
-                                { href: "/tienda", label: "Tienda", color: "text-slate-900" }
-                            ].map((item, i) => (
-                                <motion.div
-                                    key={item.href}
-                                    initial={{ x: -50, opacity: 0 }}
-                                    animate={{ x: 0, opacity: 1 }}
-                                    transition={{ delay: 0.1 + (i * 0.1) }}
-                                >
-                                    <Link
-                                        href={item.href}
-                                        onClick={() => setIsOpen(false)}
-                                        className={`text-6xl font-black uppercase italic tracking-tighter hover:ml-4 transition-all flex items-center gap-4 group ${item.color}`}
+                            {menuItems.map((item, i) => {
+                                const colors = ["text-slate-900", "text-slate-500", "text-primary", "text-slate-500", "text-slate-900"];
+                                const color = colors[i % colors.length];
+
+                                return (
+                                    <motion.div
+                                        key={item.href}
+                                        initial={{ x: -50, opacity: 0 }}
+                                        animate={{ x: 0, opacity: 1 }}
+                                        transition={{ delay: 0.1 + (i * 0.1) }}
                                     >
-                                        {item.label}
-                                        <ArrowRight className="opacity-0 group-hover:opacity-100 transition-opacity w-8 h-8" />
-                                    </Link>
-                                </motion.div>
-                            ))}
+                                        <Link
+                                            href={item.href}
+                                            onClick={() => setIsOpen(false)}
+                                            className={`text-6xl font-black uppercase italic tracking-tighter hover:ml-4 transition-all flex items-center gap-4 group ${color}`}
+                                        >
+                                            {item.label}
+                                            <ArrowRight className="opacity-0 group-hover:opacity-100 transition-opacity w-8 h-8" />
+                                        </Link>
+                                    </motion.div>
+                                );
+                            })}
                         </div>
 
                         {/* Footer Info */}

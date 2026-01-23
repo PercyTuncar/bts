@@ -16,31 +16,61 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
     const minPrice = Math.min(...country.prices.map(p => p.price));
     const formattedPrice = country.currencySymbol + minPrice;
 
-    // Localization for Mexico ("Boletos" vs "Entradas")
-    const ticketKeyword = country.id === 'mexico' ? 'Boletos' : 'Entradas';
-    const buyAction = country.id === 'mexico' ? 'Compra tus boletos' : 'Compra tus entradas';
+    // Default metadata (Spanish)
+    let title = `Entradas BTS ${country.name} 2026 | Desde ${formattedPrice}`;
+    let description = `¡Compra tus entradas para BTS en ${country.name} 2026! Precios desde ${formattedPrice} en ${country.venue}. Compra segura, zonas VIP y mapa del escenario aquí.`;
+    let ogTitle = `Entradas BTS ${country.name} 2026`;
+    let ogDescription = `¡El Army llega a ${country.name}! Compra segura y verificada para el concierto en ${country.venue}.`;
+    let ogSiteName = `Entradas BTS Tour 2026`;
+    let ogLocale = 'es_LA';
+    let ogUrl = `https://entradasbts.com/${country.id}`;
+
+    // Localization overrides
+    if (country.id === 'brasil') {
+        title = `Ingressos BTS Brasil 2026 | A partir de R$650`;
+        description = `Compre seus ingressos para o BTS no Brasil 2026! Preços a partir de R$650 no Allianz Parque. Compra segura, áreas VIP e mapa de assentos aqui.`;
+        ogTitle = `Ingressos BTS Brasil 2026`;
+        ogDescription = `O Army chega ao Brasil! Compra segura e verificada para o show no Allianz Parque.`;
+        ogSiteName = `Ingressos BTS Tour 2026`;
+        ogLocale = 'pt_BR';
+    } else if (country.id === 'mexico') {
+        title = `Boletos BTS ${country.name} 2026 | Desde ${formattedPrice}`;
+        description = `¡Compra tus boletos para BTS en ${country.name} 2026! Precios desde ${formattedPrice} en ${country.venue}. Compra segura, zonas VIP y mapa del escenario aquí.`;
+        ogTitle = `Boletos BTS ${country.name} 2026`;
+        ogSiteName = `Boletos BTS Tour 2026`;
+    }
+
 
     return {
-        title: `${ticketKeyword} BTS ${country.name} 2026 | Desde ${formattedPrice}`,
-        description: `¡${buyAction} para BTS en ${country.name} 2026! Precios desde ${formattedPrice} en ${country.venue}. Compra segura, zonas VIP y mapa del escenario aquí.`,
+        title,
+        description,
         openGraph: {
-            title: `${ticketKeyword} BTS ${country.name} 2026`,
-            description: `¡El Army llega a ${country.name}! Compra segura y verificada para el concierto en ${country.venue}.`,
-            url: `https://entradasbts.com/${country.id}`,
-            siteName: `${ticketKeyword} BTS Tour 2026`,
+            title: ogTitle,
+            description: ogDescription,
+            url: ogUrl,
+            siteName: ogSiteName,
             images: [
                 {
                     url: `https://entradasbts.com${country.openGraphImage}`,
                     width: 1200,
                     height: 630,
-                    alt: `${ticketKeyword} Concierto BTS ${country.name} 2026`
+                    alt: `${country.id === 'brasil' ? 'Ingressos' : (country.id === 'mexico' ? 'Boletos' : 'Entradas')} Concierto BTS ${country.name} 2026`
                 },
             ],
-            locale: 'es_LA',
+            locale: ogLocale,
             type: 'website',
         },
         alternates: {
             canonical: `https://entradasbts.com/${country.id}/`,
+            languages: {
+                'es-PE': 'https://entradasbts.com/peru',
+                'es-CL': 'https://entradasbts.com/chile',
+                'es-MX': 'https://entradasbts.com/mexico',
+                'es-CO': 'https://entradasbts.com/colombia',
+                'es-AR': 'https://entradasbts.com/argentina',
+                'pt-BR': 'https://entradasbts.com/brasil',
+                'x-default': 'https://entradasbts.com/',
+            },
         }
     };
 }
@@ -53,11 +83,162 @@ export default async function CountryPage({ params }: Props) {
         return notFound();
     }
 
-    return <CountryClient country={country} />;
-}
+    // SERVER-SIDE STRUCTURED DATA GENERATION
+    const minPrice = Math.min(...country.prices.map(p => p.price));
+    const maxPrice = Math.max(...country.prices.map(p => p.price));
+    const isBrazil = country.id === 'brasil';
 
-export async function generateStaticParams() {
-    return countries.map((country) => ({
-        country: country.id,
-    }));
+    const jsonLd = {
+        "@context": "https://schema.org",
+        "@type": "Event",
+        "name": `BTS ${country.name} 2026`,
+        "description": isBrazil ? country.description : country.description, // Can be improved if description in data was localized, but currently reused or static in data
+        "image": [
+            `https://entradasbts.com${country.openGraphImage}`,
+            "https://entradasbts.com/images/concert-bg.png"
+        ],
+        "startDate": `${country.dates[0]}T20:00:00-05:00`,
+        "endDate": `${country.dates[country.dates.length - 1]}T23:00:00-05:00`,
+        "eventStatus": "https://schema.org/EventScheduled",
+        "eventAttendanceMode": "https://schema.org/OfflineEventAttendanceMode",
+        "location": {
+            "@type": "Place",
+            "name": country.venue,
+            "address": {
+                "@type": "PostalAddress",
+                "streetAddress": country.id === 'peru' ? 'C. José Díaz s/n' :
+                    country.id === 'chile' ? 'Av. Marathon 5300' :
+                        country.id === 'mexico' ? 'Calz. de Tlalpan 3465' : 'Cra. 57a #30-97',
+                "addressLocality": country.city,
+                "postalCode": country.id === 'peru' ? '15046' :
+                    country.id === 'chile' ? '7820919' :
+                        country.id === 'mexico' ? '04610' : '111311',
+                "addressCountry": country.isoCode
+            },
+            "geo": {
+                "@type": "GeoCoordinates",
+                "latitude": country.id === 'peru' ? -12.0673 :
+                    country.id === 'chile' ? -33.5131 :
+                        country.id === 'mexico' ? 19.3029 : 4.6459,
+                "longitude": country.id === 'peru' ? -77.0337 :
+                    country.id === 'chile' ? -70.6112 :
+                        country.id === 'mexico' ? -99.1505 : -74.0775
+            }
+        },
+        "organizer": {
+            "@type": "Organization",
+            "name": "Hybe Corporation",
+            "url": "https://ibighit.com"
+        },
+        "performer": {
+            "@type": "PerformingGroup",
+            "name": "BTS",
+            "sameAs": [
+                "https://ibighit.com/bts",
+                "https://en.wikipedia.org/wiki/BTS",
+                "https://open.spotify.com/artist/3Nrfpe0tUJi4K4DXYWgMUX"
+            ]
+        },
+        "offers": {
+            "@type": "AggregateOffer",
+            "url": `https://entradasbts.com/${country.id}/`,
+            "priceCurrency": country.currency,
+            "lowPrice": minPrice.toString(),
+            "highPrice": maxPrice.toString(),
+            "offerCount": country.prices.length.toString(),
+            "availability": "https://schema.org/InStock",
+            "validFrom": "2025-01-01",
+            "seller": {
+                "@type": "Organization",
+                "name": "RaveHub Latam",
+                "url": "https://www.ravehublatam.com",
+                "image": "https://www.ravehublatam.com/logo.png"
+            },
+            "offers": country.prices.map(p => ({
+                "@type": "Offer",
+                "name": p.zone,
+                "category": p.price >= 1000 ? "VIP" : "Seating",
+                "price": p.price.toString(),
+                "priceCurrency": country.currency,
+                "availability": "https://schema.org/InStock",
+                "url": `https://entradasbts.com/${country.id}/`
+            }))
+        }
+    };
+
+    const productLd = {
+        "@context": "https://schema.org/",
+        "@type": "Product",
+        "name": isBrazil ? `Ingressos BTS ${country.name} 2026` : `Entradas BTS ${country.name} 2026`,
+        "image": [
+            `https://entradasbts.com${country.openGraphImage}`,
+            "https://entradasbts.com/images/concert-bg.png"
+        ],
+        "description": isBrazil ? country.description : country.description,
+        "sku": `BTS-TOUR-${country.isoCode}-2026`,
+        "brand": {
+            "@type": "Brand",
+            "name": "BTS World Tour"
+        },
+        "offers": {
+            "@type": "AggregateOffer",
+            "url": `https://entradasbts.com/${country.id}/`,
+            "priceCurrency": country.currency,
+            "lowPrice": minPrice.toString(),
+            "highPrice": maxPrice.toString(),
+            "offerCount": country.prices.length.toString(),
+            "availability": "https://schema.org/InStock",
+            "offers": country.prices.map(p => ({
+                "@type": "Offer",
+                "name": p.zone,
+                "price": p.price.toString(),
+                "priceCurrency": country.currency,
+                "availability": "https://schema.org/InStock",
+                "url": `https://entradasbts.com/${country.id}/`
+            }))
+        }
+    };
+
+
+    const faqLd = {
+        "@context": "https://schema.org",
+        "@type": "FAQPage",
+        "mainEntity": [{
+            "@type": "Question",
+            "name": isBrazil ? "Como funciona o processo de compra segura com a RaveHub?" : "¿Cómo es el proceso de compra segura con RaveHub?",
+            "acceptedAnswer": {
+                "@type": "Answer",
+                "text": isBrazil
+                    ? "Nosso processo de Compra Segura utiliza tecnologia antifraude e verificação de três etapas para garantir que cada fã tenha acesso legítimo aos seus ingressos, eliminando a incerteza do mercado secundário."
+                    : "Nuestro proceso de Compra Segura utiliza tecnología anti-fraude y verificación de tres pasos para asegurar que cada fan tenga acceso legítimo a sus entradas, eliminando la incertidumbre del mercado secundario."
+            }
+        }, {
+            "@type": "Question",
+            "name": isBrazil ? "É seguro comprar ingressos de revenda para o BTS?" : "¿Es seguro comprar entradas de reventa para BTS?",
+            "acceptedAnswer": {
+                "@type": "Answer",
+                "text": isBrazil
+                    ? "Sim, com a Garantia RaveHub. Eliminamos os riscos porque verificamos os vendedores e protegemos seu dinheiro até que você entre no evento."
+                    : "Sí, con la Garantía RaveHub. Eliminamos los riesgos porque verificamos a los vendedores y protegemos tu dinero hasta que ingresas al evento."
+            }
+        }]
+    };
+
+    return (
+        <>
+            <script
+                type="application/ld+json"
+                dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
+            />
+            <script
+                type="application/ld+json"
+                dangerouslySetInnerHTML={{ __html: JSON.stringify(faqLd) }}
+            />
+            <script
+                type="application/ld+json"
+                dangerouslySetInnerHTML={{ __html: JSON.stringify(productLd) }}
+            />
+            <CountryClient country={country} />
+        </>
+    );
 }

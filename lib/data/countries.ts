@@ -20,6 +20,7 @@ export interface CountryData {
     description: string;
     openGraphImage: string;
     whatsappLink: string;
+    phoneCode: string;
 }
 
 export const countries: CountryData[] = [
@@ -43,7 +44,8 @@ export const countries: CountryData[] = [
         ],
         description: 'Lima, prepárate para el océano púrpura. BTS regresa al Estadio Nacional para dos noches históricas.',
         openGraphImage: '/images/og-peru.jpg',
-        whatsappLink: 'https://chat.whatsapp.com/EVEzMF2telL21ZoFzRVUva'
+        whatsappLink: 'https://chat.whatsapp.com/EVEzMF2telL21ZoFzRVUva',
+        phoneCode: '+51'
     },
     {
         id: 'chile',
@@ -65,7 +67,8 @@ export const countries: CountryData[] = [
         ],
         description: 'Santiago, el momento ha llegado. Vive la magia de BTS en el Estadio Monumental.',
         openGraphImage: '/images/og-chile.jpg',
-        whatsappLink: '/registro-whatsapp?country=chile'
+        whatsappLink: '/registro-whatsapp?country=chile',
+        phoneCode: '+56'
     },
     {
         id: 'mexico',
@@ -136,7 +139,8 @@ export const countries: CountryData[] = [
         ],
         description: '¡Hola México! BTS llega al coloso de Santa Úrsula para tres fechas inolvidables.',
         openGraphImage: '/images/og-mexico.jpg',
-        whatsappLink: '/registro-whatsapp?country=mexico'
+        whatsappLink: '/registro-whatsapp?country=mexico',
+        phoneCode: '+52'
     },
     {
         id: 'colombia',
@@ -158,7 +162,8 @@ export const countries: CountryData[] = [
         ],
         description: 'Bogotá se viste de morado. No te pierdas el regreso de BTS a Colombia.',
         openGraphImage: '/images/og-colombia.jpg',
-        whatsappLink: '/registro-whatsapp?country=colombia'
+        whatsappLink: '/registro-whatsapp?country=colombia',
+        phoneCode: '+57'
     },
     {
         id: 'argentina',
@@ -180,7 +185,8 @@ export const countries: CountryData[] = [
         ],
         description: 'Aún no hay confirmación oficial del estadio, pero los rumores más fuertes y la capacidad necesaria apuntan al Estadio Monumental (River Plate).',
         openGraphImage: '/images/og-argentina.jpg',
-        whatsappLink: '/registro-whatsapp?country=argentina'
+        whatsappLink: '/registro-whatsapp?country=argentina',
+        phoneCode: '+54'
     },
     {
         id: 'brasil',
@@ -202,6 +208,7 @@ export const countries: CountryData[] = [
         ],
         description: 'A Live Nation é a produtora oficial. Rumores fortes apontam para o Allianz Parque ou Estádio MorumBIS. BTS WORLD TOUR "ARIRANG".',
         openGraphImage: '/images/og-brasil.jpg',
-        whatsappLink: '/registro-whatsapp?country=brasil'
+        whatsappLink: '/registro-whatsapp?country=brasil',
+        phoneCode: '+55'
     }
 ];

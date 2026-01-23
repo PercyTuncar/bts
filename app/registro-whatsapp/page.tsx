@@ -6,52 +6,78 @@ import { supabase } from '@/lib/supabase';
 import { GlassCard } from '@/components/GlassCard';
 import { Button } from '@/components/Button';
 import { motion, AnimatePresence } from 'framer-motion';
+import { countries } from '@/lib/data/countries';
 
 function WaitlistFormContent() {
     const searchParams = useSearchParams();
     const router = useRouter();
-    const [country, setCountry] = useState('');
+    const [countryName, setCountryName] = useState('');
     const [loading, setLoading] = useState(false);
     const [success, setSuccess] = useState(false);
+    const [errorMessage, setErrorMessage] = useState('');
     const [formData, setFormData] = useState({
-        first_name: '',
-        last_name: '',
-        phone: ''
+        full_name: '',
+        phone: '',
+        country: ''
     });
 
     useEffect(() => {
         const countryParam = searchParams.get('country');
         if (countryParam) {
-            // Capitalize first letter
-            setCountry(countryParam.charAt(0).toUpperCase() + countryParam.slice(1));
+            const foundCountry = countries.find(c => c.id === countryParam);
+            if (foundCountry) {
+                setCountryName(foundCountry.name);
+                setFormData(prev => ({
+                    ...prev,
+                    country: foundCountry.name,
+                    phone: foundCountry.phoneCode || ''
+                }));
+            } else {
+                setCountryName(countryParam.charAt(0).toUpperCase() + countryParam.slice(1));
+                setFormData(prev => ({ ...prev, country: countryParam }));
+            }
         }
     }, [searchParams]);
 
     const handleSubmit = async (e: React.FormEvent) => {
         e.preventDefault();
         setLoading(true);
+        setErrorMessage('');
+
+        // Split full name into first and last name for Supabase compatibility
+        const nameParts = formData.full_name.trim().split(' ');
+        const firstName = nameParts[0];
+        const lastName = nameParts.slice(1).join(' ') || '';
+
+        const payload = {
+            first_name: firstName,
+            last_name: lastName,
+            phone: formData.phone,
+            country: formData.country,
+            metadata: {
+                userAgent: navigator.userAgent,
+                timestamp: new Date().toISOString(),
+                source: 'web_form'
+            }
+        };
 
         try {
             const { error } = await supabase
                 .from('waitlist')
-                .insert([
-                    {
-                        first_name: formData.first_name,
-                        last_name: formData.last_name,
-                        phone: formData.phone,
-                        country: country || 'Unknown'
-                    }
-                ]);
+                .insert([payload]);
 
-            if (error) throw error;
+            if (error) {
+                console.error('Supabase Error Details:', error);
+                throw new Error(error.message || 'Error desconocido al guardar en Supabase');
+            }
 
             setSuccess(true);
             setTimeout(() => {
                 router.push('/');
             }, 3000);
-        } catch (error) {
+        } catch (error: any) {
             console.error('Error saving data:', error);
-            alert('Hubo un error al guardar tus datos. Por favor intenta de nuevo.');
+            setErrorMessage(`Error: ${error.message || 'Hubo un error al guardar tus datos.'} Revisa tu conexión o intenta más tarde.`);
         } finally {
             setLoading(false);
         }
@@ -79,7 +105,7 @@ function WaitlistFormContent() {
                     </motion.div>
                     <h2 className="text-2xl font-black text-slate-900 mb-2">¡Registro Exitoso!</h2>
                     <p className="text-slate-600">
-                        Gracias por unirte a la lista de espera {country ? `de ${country}` : ''}.<br />
+                        Gracias por unirte a la lista de espera {countryName ? `de ${countryName}` : ''}.<br />
                         Te contactaremos pronto.
                     </p>
                 </GlassCard>
@@ -97,41 +123,33 @@ function WaitlistFormContent() {
             >
                 <div className="text-center mb-10">
                     <h1 className="text-3xl md:text-4xl font-black text-slate-900 mb-4 uppercase">
-                        Lista de Espera <span className="text-primary">{country}</span>
+                        Lista de Espera <span className="text-primary">{countryName}</span>
                     </h1>
                     <p className="text-slate-600 text-lg">
-                        El grupo de WhatsApp está lleno o en mantenimiento.
+                        El grupo de WhatsApp está lleno.
                         Déjanos tus datos para avisarte cuando se liberen cupos.
                     </p>
                 </div>
 
                 <GlassCard className="p-8 md:p-10 bg-white/80 backdrop-blur-xl border border-white/20 shadow-xl rounded-3xl">
                     <form onSubmit={handleSubmit} className="space-y-6">
-                        <div>
-                            <label htmlFor="first_name" className="block text-sm font-bold text-slate-700 mb-2 uppercase tracking-wide">Nombre</label>
-                            <input
-                                type="text"
-                                id="first_name"
-                                name="first_name"
-                                required
-                                value={formData.first_name}
-                                onChange={handleChange}
-                                className="w-full px-4 py-3 rounded-xl border border-slate-200 bg-white/50 focus:bg-white focus:ring-2 focus:ring-primary/20 focus:border-primary transition-all outline-none"
-                                placeholder="Tu nombre"
-                            />
-                        </div>
+                        {errorMessage && (
+                            <div className="p-4 bg-red-50 border border-red-200 text-red-600 rounded-lg text-sm text-center font-medium">
+                                {errorMessage}
+                            </div>
+                        )}
 
                         <div>
-                            <label htmlFor="last_name" className="block text-sm font-bold text-slate-700 mb-2 uppercase tracking-wide">Apellido</label>
+                            <label htmlFor="full_name" className="block text-sm font-bold text-slate-700 mb-2 uppercase tracking-wide">Nombre Completo</label>
                             <input
                                 type="text"
-                                id="last_name"
-                                name="last_name"
+                                id="full_name"
+                                name="full_name"
                                 required
-                                value={formData.last_name}
+                                value={formData.full_name}
                                 onChange={handleChange}
                                 className="w-full px-4 py-3 rounded-xl border border-slate-200 bg-white/50 focus:bg-white focus:ring-2 focus:ring-primary/20 focus:border-primary transition-all outline-none"
-                                placeholder="Tu apellido"
+                                placeholder="Nombre y Apellido"
                             />
                         </div>
 
@@ -148,6 +166,8 @@ function WaitlistFormContent() {
                                 placeholder="+51 999 999 999"
                             />
                         </div>
+
+                        <input type="hidden" name="country" value={formData.country} />
 
                         <Button
                             type="submit"

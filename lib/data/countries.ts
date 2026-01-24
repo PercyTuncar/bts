@@ -67,7 +67,7 @@ export const countries: CountryData[] = [
         ],
         description: 'Santiago, el momento ha llegado. Vive la magia de BTS en el Estadio Monumental.',
         openGraphImage: '/images/og-chile.jpg',
-        whatsappLink: '/registro-whatsapp?country=chile',
+        whatsappLink: 'https://chat.whatsapp.com/DRTdR8zpzu3AhmcfErvaw4',
         phoneCode: '+56'
     },
     {
@@ -139,7 +139,7 @@ export const countries: CountryData[] = [
         ],
         description: '¡Hola México! BTS llega al coloso de Santa Úrsula para tres fechas inolvidables.',
         openGraphImage: '/images/og-mexico.jpg',
-        whatsappLink: '/registro-whatsapp?country=mexico',
+        whatsappLink: 'https://chat.whatsapp.com/Fdfq8agXEQM50SVU2ZuFNb',
         phoneCode: '+52'
     },
     {
@@ -162,7 +162,7 @@ export const countries: CountryData[] = [
         ],
         description: 'Bogotá se viste de morado. No te pierdas el regreso de BTS a Colombia.',
         openGraphImage: '/images/og-colombia.jpg',
-        whatsappLink: '/registro-whatsapp?country=colombia',
+        whatsappLink: 'https://chat.whatsapp.com/GfxjwahDQCF3UtkzRPPWKD',
         phoneCode: '+57'
     },
     {
@@ -185,7 +185,7 @@ export const countries: CountryData[] = [
         ],
         description: 'Aún no hay confirmación oficial del estadio, pero los rumores más fuertes y la capacidad necesaria apuntan al Estadio Monumental (River Plate).',
         openGraphImage: '/images/og-argentina.jpg',
-        whatsappLink: '/registro-whatsapp?country=argentina',
+        whatsappLink: 'https://chat.whatsapp.com/I1hggvtoAvA4rhHZIYtS8d',
         phoneCode: '+54'
     },
     {
@@ -208,7 +208,7 @@ export const countries: CountryData[] = [
         ],
         description: 'A Live Nation é a produtora oficial. Rumores fortes apontam para o Allianz Parque ou Estádio MorumBIS. BTS WORLD TOUR "ARIRANG".',
         openGraphImage: '/images/og-brasil.jpg',
-        whatsappLink: '/registro-whatsapp?country=brasil',
+        whatsappLink: 'https://chat.whatsapp.com/D20dvxoUaRi7nYPd5n3ySW',
         phoneCode: '+55'
     }
 ];

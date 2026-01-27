@@ -44,7 +44,7 @@ export const countries: CountryData[] = [
         ],
         description: 'Lima, prepárate para el océano púrpura. BTS regresa al Estadio Nacional para dos noches históricas.',
         openGraphImage: '/images/og-peru.jpg',
-        whatsappLink: 'https://chat.whatsapp.com/IRzKCMtVTPu68FJcljH4hW',
+        whatsappLink: 'https://chat.whatsapp.com/G7kEQYdvtvx1nFEChKPTW3',
         phoneCode: '+51'
     },
     {
@@ -67,7 +67,7 @@ export const countries: CountryData[] = [
         ],
         description: 'Santiago, el momento ha llegado. Vive la magia de BTS en el Estadio Monumental.',
         openGraphImage: '/images/og-chile.jpg',
-        whatsappLink: 'https://chat.whatsapp.com/GFmY4iSLeLWF1RohcjlBxY',
+        whatsappLink: 'https://chat.whatsapp.com/D1DNQrYsmRiIE1o19uLDsp',
         phoneCode: '+56'
     },
     {
@@ -139,7 +139,7 @@ export const countries: CountryData[] = [
         ],
         description: '¡Hola México! BTS llega al coloso de Santa Úrsula para tres fechas inolvidables.',
         openGraphImage: '/images/og-mexico.jpg',
-        whatsappLink: 'https://chat.whatsapp.com/JkjdeT3OKMV9TYnWFg7e4N',
+        whatsappLink: 'https://chat.whatsapp.com/EIxSxGenCj54b9nOT9Jlfp',
         phoneCode: '+52'
     },
     {
@@ -162,7 +162,7 @@ export const countries: CountryData[] = [
         ],
         description: 'Bogotá se viste de morado. No te pierdas el regreso de BTS a Colombia.',
         openGraphImage: '/images/og-colombia.jpg',
-        whatsappLink: 'https://chat.whatsapp.com/KtcMytc20pjFy3u4jZmBs9',
+        whatsappLink: 'https://chat.whatsapp.com/DhgghKRDHYR1veTxb5EgO3',
         phoneCode: '+57'
     },
     {
@@ -185,7 +185,7 @@ export const countries: CountryData[] = [
         ],
         description: 'Aún no hay confirmación oficial del estadio, pero los rumores más fuertes y la capacidad necesaria apuntan al Estadio Monumental (River Plate).',
         openGraphImage: '/images/og-argentina.jpg',
-        whatsappLink: 'https://chat.whatsapp.com/Dliw83pq0vk80ljzSibfqr',
+        whatsappLink: 'https://chat.whatsapp.com/CbgqnAoT2psF4mkTzOCpc8',
         phoneCode: '+54'
     },
     {

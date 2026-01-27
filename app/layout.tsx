@@ -66,6 +66,7 @@ export const metadata: Metadata = {
 
 import { CartProvider } from "@/context/CartContext";
 import { AutoPopup } from "@/components/AutoPopup";
+import { OfficialStatementPopup } from "@/components/OfficialStatementPopup";
 
 import { headers } from "next/headers";
 
@@ -89,6 +90,7 @@ export default async function RootLayout({
           <Footer />
           <GoogleAnalytics />
           <AutoPopup />
+          <OfficialStatementPopup />
         </CartProvider>
       </body>
     </html>

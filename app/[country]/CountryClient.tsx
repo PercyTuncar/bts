@@ -427,9 +427,9 @@ export default function CountryClient({ country }: Props) {
                                 initial={{ scale: 0, rotate: -10 }}
                                 animate={{ scale: 1, rotate: 0 }}
                                 transition={{ delay: 0.3 }}
-                                className="bg-primary text-white px-5 py-2 text-lg md:text-2xl font-black uppercase shadow-xl rounded-full tracking-widest"
+                                className="bg-primary text-white px-5 py-2 text-base md:text-lg font-black uppercase shadow-xl rounded-full tracking-widest"
                             >
-                                World Tour
+                                   'ARIRANG' TOUR
                             </motion.div>
 
                             <h1 className="relative">

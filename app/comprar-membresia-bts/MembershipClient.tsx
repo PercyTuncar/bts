@@ -118,7 +118,7 @@ export default function MembershipClient({ country = 'PE' }: { country?: string 
                             <h1 className="text-5xl md:text-7xl font-black uppercase tracking-tighter leading-[0.9] text-slate-900">
                                 Comprar<br />
                                 <span className="text-primary">Membresía</span><br />
-                                Oficial BTS
+                                 BTS Oficial
                             </h1>
                         </div>
 

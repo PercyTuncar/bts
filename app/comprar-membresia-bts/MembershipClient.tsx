@@ -52,27 +52,27 @@ export default function MembershipClient({ country = 'PE' }: { country?: string 
 
     const benefits = [
         {
-            icon: <Ticket className="w-8 h-8 text-primary" />,
+            icon: <Ticket className="w-8 h-8 transition-colors text-primary group-hover:text-white" />,
             title: "Prioridad en Conciertos",
             description: "Acceso exclusivo a PREVENTAS y sorteos para entradas de conciertos de BTS (Indispensable para conseguir ticket)."
         },
         {
-            icon: <Music className="w-8 h-8 text-primary" />,
+            icon: <Music className="w-8 h-8 transition-colors text-primary group-hover:text-white" />,
             title: "Contenido Exclusivo",
             description: "Acceso a fotos, videos y audios solo para miembros en Weverse."
         },
         {
-            icon: <ShoppingBag className="w-8 h-8 text-primary" />,
+            icon: <ShoppingBag className="w-8 h-8 transition-colors text-primary group-hover:text-white" />,
             title: "Merch Limitado",
             description: "Posibilidad de comprar productos exclusivos \"ARMY Member Only\" en la Weverse Shop."
         },
         {
-            icon: <Star className="w-8 h-8 text-primary" />,
+            icon: <Star className="w-8 h-8 transition-colors text-primary group-hover:text-white" />,
             title: "Participación en Eventos",
             description: "Oportunidad de aplicar para asistir a programas de música y eventos especiales en Corea."
         },
         {
-            icon: <Smartphone className="w-8 h-8 text-primary" />,
+            icon: <Smartphone className="w-8 h-8 transition-colors text-primary group-hover:text-white" />,
             title: "Tarjeta Digital",
             description: "Tarjeta de membresía móvil oficial dentro de tu app Weverse."
         }

@@ -128,7 +128,7 @@ export default function Home() {
       { /* <div className="fixed inset-0 z-0 pointer-events-none opacity-20 bg-noise mix-blend-overlay"></div> */}
 
       {/* Hero Section */}
-      <section className="relative min-h-[80vh] flex flex-col items-center justify-center overflow-hidden pt-24 pb-24 border-b border-slate-200 bg-purple-50">
+      <section className="relative min-h-[80vh] flex flex-col items-center justify-center overflow-hidden pt-24 pb-24 border-b border-slate-200 bg-white">
 
         {/* HERO BACKGROUND IMAGE */}
         <div className="absolute inset-0 z-0 select-none overflow-hidden">
@@ -136,18 +136,17 @@ export default function Home() {
             src="/images/home-hero.jpg"
             alt="Integrantes de BTS en concierto para el tour mundial 2026"
             fill
-            className="object-cover opacity-80" // Increased opacity for better image visibility
+            className="object-cover opacity-90" // Increased opacity for better image visibility
             priority
           />
           {/* Light Mode Overlay System */}
-          <div className="absolute inset-0 bg-white/60 backdrop-blur-[2px]"></div>
-          <div className="absolute inset-0 bg-gradient-to-t from-white via-white/40 to-transparent"></div>
-          <div className="absolute inset-0 bg-gradient-to-r from-white/80 via-transparent to-white/80"></div>
+          <div className="absolute inset-0 bg-white/50 backdrop-blur-[1px]"></div>
+          <div className="absolute inset-0 bg-gradient-to-t from-white via-white/20 to-transparent"></div>
         </div>
 
         {/* GIANT BACK TEXT - Decorative */}
         <div className="absolute inset-0 flex items-center justify-center pointer-events-none select-none overflow-hidden z-0">
-          <div className="text-[15vw] font-black text-primary/10 whitespace-nowrap leading-none mix-blend-multiply" style={{ fontFamily: 'Arial Black' }}>
+          <div className="text-[15vw] font-black text-slate-900/5 whitespace-nowrap leading-none mix-blend-multiply" style={{ fontFamily: 'Arial Black' }}>
             BTS LIVE
           </div>
         </div>
@@ -155,7 +154,7 @@ export default function Home() {
         <div className="relative z-10 container mx-auto px-4 flex flex-col items-center text-center gap-6">
 
           <div className="inline-block animate-fade-in-up">
-            <h1 className="inline-block bg-primary text-white px-6 py-2 text-sm md:text-base font-black uppercase tracking-widest -rotate-2 shadow-[4px_4px_0_#0f172a] mb-6 transform hover:rotate-0 transition-transform duration-300">
+            <h1 className="inline-block bg-slate-900 text-white px-6 py-2 text-sm md:text-base font-black uppercase tracking-widest -rotate-2 shadow-[4px_4px_0_#F01942] mb-6 transform hover:rotate-0 transition-transform duration-300">
               Entradas BTS World Tour 2026
             </h1>
           </div>
@@ -165,15 +164,15 @@ export default function Home() {
             <span className="block text-slate-900 relative">
               La Espera
             </span>
-            <span className="block text-transparent bg-clip-text bg-gradient-to-r from-primary to-secondary italic font-serif pb-4 relative">
+            <span className="block text-transparent bg-clip-text bg-gradient-to-r from-primary to-rose-600 italic font-serif pb-4 relative">
               Terminó
-              <span className="absolute -bottom-1 left-0 right-0 h-2 bg-acid-yellow/60 -z-10 -rotate-1 rounded-full"></span>
+              <span className="absolute -bottom-1 left-0 right-0 h-2 bg-primary/20 -z-10 -rotate-1 rounded-full"></span>
             </span>
           </h2>
 
           <p className="max-w-xl text-slate-600 text-lg md:text-2xl font-medium leading-relaxed animate-fade-in-up delay-100">
             El evento más grande de la historia. <br className="hidden md:block" />
-            <span className="bg-white/50 px-2 py-1 rounded-lg box-decoration-clone">
+            <span className="bg-white/80 px-2 py-1 rounded-lg box-decoration-clone backdrop-blur-sm">
               34 ciudades. 5 continentes.
               <span className="text-primary font-black"> ¿Estás listo?</span>
             </span>
@@ -181,7 +180,7 @@ export default function Home() {
 
           <div className="flex flex-col md:flex-row gap-4 md:gap-6 w-full md:w-auto mt-4 animate-fade-in-up delay-200">
             <Link href="/eventos" className="w-full md:w-auto group">
-              <Button size="lg" variant="primary" className="w-full text-lg h-14 px-8 shadow-[6px_6px_0_#0f172a] group-hover:shadow-[2px_2px_0_#0f172a] group-hover:translate-x-1 group-hover:translate-y-1 transition-all border-2 border-slate-900 text-slate-900 bg-acid-yellow hover:bg-white">
+              <Button size="lg" variant="primary" className="w-full text-lg h-14 px-8 shadow-[6px_6px_0_#0f172a] group-hover:shadow-[2px_2px_0_#0f172a] group-hover:translate-x-1 group-hover:translate-y-1 transition-all border-2 border-slate-900 bg-primary text-white hover:bg-red-600">
                 Ver Entradas
               </Button>
             </Link>

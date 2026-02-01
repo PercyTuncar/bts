@@ -43,14 +43,14 @@ export const Footer = () => {
 
     return (
         <footer className="bg-slate-50 text-slate-900 border-t border-slate-200 relative z-50">
-            {/* WHATSAPP SECTION (Formerly Newsletter) */}
-            <div className="border-b border-slate-200">
-                <div className="container mx-auto px-4 md:px-8 py-16 flex flex-col md:flex-row items-center justify-between gap-12">
+            {/* WHATSAPP SECTION (Refactored to Light Mode/Red Accent) */}
+            <div className="border-b border-slate-200 bg-white">
+                <div className="container mx-auto px-4 md:px-8 py-20 flex flex-col md:flex-row items-center justify-between gap-12">
                     <div className="max-w-xl">
-                        <h3 className="text-4xl md:text-6xl font-black uppercase italic tracking-tighter mb-4">
+                        <h3 className="text-4xl md:text-6xl font-black uppercase tracking-tighter mb-4 text-slate-900">
                             {t.joinArmy} <span className="text-primary">Army</span>
                         </h3>
-                        <p className="text-slate-500 font-mono text-sm md:text-base">
+                        <p className="text-slate-500 text-lg leading-relaxed">
                             {t.stayConnected}
                         </p>
                     </div>
@@ -60,19 +60,19 @@ export const Footer = () => {
                             onClick={() => setIsCommunityOpen(true)}
                             className="group cursor-pointer relative"
                         >
-                            <div className="absolute inset-0 bg-[#25D366] translate-x-2 translate-y-2 transition-transform group-hover:translate-x-3 group-hover:translate-y-3 rounded-xl"></div>
-                            <div className="relative bg-white border border-slate-200 p-4 md:p-6 rounded-xl z-10 flex items-center justify-between hover:-translate-y-1 hover:-translate-x-1 transition-transform duration-200">
-                                <div className="flex items-center gap-4">
-                                    <div className="w-12 h-12 bg-[#25D366] rounded-full flex items-center justify-center text-white shadow-sm group-hover:scale-110 transition-transform">
-                                        <MessageCircle className="w-6 h-6" />
+                            <div className="absolute inset-0 bg-primary/20 translate-x-2 translate-y-2 rounded-2xl group-hover:translate-x-1 group-hover:translate-y-1 transition-transform"></div>
+                            <div className="relative bg-white border-2 border-primary p-6 md:p-8 rounded-2xl z-10 flex items-center justify-between hover:-translate-y-1 hover:-translate-x-1 transition-transform duration-200 shadow-xl shadow-primary/10">
+                                <div className="flex items-center gap-6">
+                                    <div className="w-14 h-14 bg-green-500 rounded-full flex items-center justify-center text-white shadow-md group-hover:scale-110 transition-transform">
+                                        <MessageCircle className="w-8 h-8 fill-current" />
                                     </div>
                                     <div className="flex flex-col">
-                                        <span className="font-black uppercase text-lg leading-none mb-1">{t.whatsappGroups}</span>
-                                        <span className="text-xs font-mono text-slate-500 uppercase tracking-widest">{t.clickToView}</span>
+                                        <span className="font-black uppercase text-xl leading-none mb-1 text-slate-900">{t.whatsappGroups}</span>
+                                        <span className="text-xs font-bold text-primary uppercase tracking-widest">{t.clickToView}</span>
                                     </div>
                                 </div>
-                                <div className="w-10 h-10 border-2 border-slate-100 rounded-full flex items-center justify-center text-slate-300 group-hover:border-[#25D366] group-hover:text-[#25D366] transition-colors">
-                                    <ArrowRight className="w-5 h-5" />
+                                <div className="w-12 h-12 border-2 border-slate-100 rounded-full flex items-center justify-center text-slate-400 group-hover:border-primary group-hover:text-primary transition-colors bg-slate-50">
+                                    <ArrowRight className="w-6 h-6" />
                                 </div>
                             </div>
                         </div>

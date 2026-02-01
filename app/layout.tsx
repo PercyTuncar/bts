@@ -82,7 +82,6 @@ export default async function RootLayout({
     <html lang={lang}>
       <body className={cn(inter.className, "antialiased min-h-screen relative")}>
         <CartProvider>
-          <div className="ambient-gradient" aria-hidden="true" />
           <Navbar />
           <main className="relative">
             {children}

@@ -11,10 +11,15 @@ type Props = {
     isOpen: boolean;
     onClose: () => void;
     onAccept: () => void;
+    currency?: { symbol: string, price: string };
 };
 
-export function TermsModal({ isOpen, onClose, onAccept }: Props) {
+export function TermsModal({ isOpen, onClose, onAccept, currency }: Props) {
     const [accepted, setAccepted] = useState(true);
+    
+    // Default to PE if not provided (though it should be)
+    const currentCurrency = currency || { symbol: 'S/.', price: '99.50' };
+    const isPeru = currentCurrency.symbol === 'S/.';
 
     return (
         <AnimatePresence>
@@ -57,62 +62,74 @@ export function TermsModal({ isOpen, onClose, onAccept }: Props) {
                                 <div className="text-slate-600 font-medium leading-relaxed space-y-3">
 
                                     {/* Designed Payment Option Card */}
-                                    <div className="bg-gradient-to-br from-purple-50 to-pink-50 p-4 rounded-xl border border-purple-100 shadow-sm relative overflow-hidden group hover:shadow-md transition-all">
-                                        <div className="absolute top-0 right-0 p-2 opacity-10">
-                                            <ShieldCheck className="w-20 h-20 text-primary rotate-12" />
-                                        </div>
-
-                                        <div className="relative z-10 space-y-2">
-                                            <div className="flex items-center justify-between border-b border-purple-200/60 pb-2">
-                                                <h4 className="font-black uppercase text-[10px] text-purple-900 flex items-center gap-2">
-                                                    <span className="bg-purple-200 p-0.5 rounded text-[10px]">🇵🇪</span> Pago Rápido (Perú) YAPE / PLIN
-                                                </h4>
-                                                <span className="bg-acid-yellow text-slate-900 text-[9px] font-bold px-1.5 py-0.5 rounded">
-                                                    INCLUYE FEE
-                                                </span>
+                                    {isPeru ? (
+                                        <div className="bg-gradient-to-br from-purple-50 to-pink-50 p-4 rounded-xl border border-purple-100 shadow-sm relative overflow-hidden group hover:shadow-md transition-all">
+                                            <div className="absolute top-0 right-0 p-2 opacity-10">
+                                                <ShieldCheck className="w-20 h-20 text-primary rotate-12" />
                                             </div>
 
-                                            <div className="flex gap-4 items-center">
-                                                <div className="flex-1 space-y-2">
-                                                    <div className="flex flex-col gap-0.5">
-                                                        <span className="text-[10px] font-bold text-slate-500 uppercase tracking-widest">Monto a Pagar</span>
-                                                        <span className="text-2xl font-black text-slate-900">S/. 99.50</span>
-                                                    </div>
+                                            <div className="relative z-10 space-y-2">
+                                                <div className="flex items-center justify-between border-b border-purple-200/60 pb-2">
+                                                    <h4 className="font-black uppercase text-[10px] text-purple-900 flex items-center gap-2">
+                                                        <span className="bg-purple-200 p-0.5 rounded text-[10px]">🇵🇪</span> Pago Rápido (Perú) YAPE / PLIN
+                                                    </h4>
+                                                    <span className="bg-acid-yellow text-white text-[9px] font-bold px-1.5 py-0.5 rounded">
+                                                        INCLUYE FEE
+                                                    </span>
+                                                </div>
 
-                                                    <div className="bg-white/60 p-2 rounded-lg border border-white/50 space-y-1.5 backdrop-blur-sm">
-                                                        <div className="flex items-center gap-2">
-                                                            <div className="w-6 h-6 rounded-full overflow-hidden flex items-center justify-center shrink-0 border border-slate-100 bg-white">
-                                                                <Image
-                                                                    src="/images/logo-plin.jpeg"
-                                                                    alt="Plin"
-                                                                    width={24}
-                                                                    height={24}
-                                                                    className="w-full h-full object-cover"
-                                                                />
-                                                            </div>
-                                                            <div>
-                                                                <p className="text-base font-black text-slate-900 tracking-wide">944 784 488</p>
+                                                <div className="flex gap-4 items-center">
+                                                    <div className="flex-1 space-y-2">
+                                                        <div className="flex flex-col gap-0.5">
+                                                            <span className="text-[10px] font-bold text-slate-500 uppercase tracking-widest">Monto a Pagar</span>
+                                                            <span className="text-2xl font-black text-slate-900">{currentCurrency.symbol} {currentCurrency.price}</span>
+                                                        </div>
+
+                                                        <div className="bg-white/60 p-2 rounded-lg border border-white/50 space-y-1.5 backdrop-blur-sm">
+                                                            <div className="flex items-center gap-2">
+                                                                <div className="w-6 h-6 rounded-full overflow-hidden flex items-center justify-center shrink-0 border border-slate-100 bg-white">
+                                                                    <Image
+                                                                        src="/images/logo-plin.jpeg"
+                                                                        alt="Plin"
+                                                                        width={24}
+                                                                        height={24}
+                                                                        className="w-full h-full object-cover"
+                                                                    />
+                                                                </div>
+                                                                <div>
+                                                                    <p className="text-base font-black text-slate-900 tracking-wide">944 784 488</p>
+                                                                </div>
                                                             </div>
                                                         </div>
                                                     </div>
+
+                                                    <div className="shrink-0 bg-white p-1 rounded-lg border border-slate-200 shadow-sm self-start mt-2">
+                                                        <Image
+                                                            src="/images/qr-plin.jpeg"
+                                                            alt="QR Plin"
+                                                            width={80}
+                                                            height={80}
+                                                            className="w-20 h-20 object-contain rounded-md"
+                                                        />
+                                                    </div>
                                                 </div>
 
-                                                <div className="shrink-0 bg-white p-1 rounded-lg border border-slate-200 shadow-sm self-start mt-2">
-                                                    <Image
-                                                        src="/images/qr-plin.jpeg"
-                                                        alt="QR Plin"
-                                                        width={80}
-                                                        height={80}
-                                                        className="w-20 h-20 object-contain rounded-md"
-                                                    />
+                                                <div className="text-[10px] text-slate-600 leading-relaxed pl-1 pt-0.5 opacity-80">
+                                                    *Envía tu comprobante al WhatsApp <strong className="text-green-600">+51 944 784 488</strong>
                                                 </div>
-                                            </div>
-
-                                            <div className="text-[10px] text-slate-600 leading-relaxed pl-1 pt-0.5 opacity-80">
-                                                *Envía tu comprobante al WhatsApp <strong className="text-green-600">+51 944 784 488</strong>
                                             </div>
                                         </div>
-                                    </div>
+                                    ) : (
+                                        <div className="bg-gradient-to-br from-slate-50 to-slate-100 p-6 rounded-xl border border-slate-200 shadow-sm text-center">
+                                            <div className="flex flex-col gap-1 mb-4">
+                                                <span className="text-xs font-bold text-slate-500 uppercase tracking-widest">Monto Total a Pagar</span>
+                                                <span className="text-4xl font-black text-slate-900">{currentCurrency.symbol} {currentCurrency.price}</span>
+                                            </div>
+                                            <p className="text-sm text-slate-600">
+                                                Selecciona "Pagar con Tarjeta" para completar tu compra de forma segura.
+                                            </p>
+                                        </div>
+                                    )}
                                 </div>
 
                                 <div className="bg-purple-50 p-3 rounded-lg border border-purple-100">
@@ -142,7 +159,7 @@ export function TermsModal({ isOpen, onClose, onAccept }: Props) {
                                         disabled={!accepted}
                                         className={`w-full font-black uppercase text-base py-3 rounded-lg transition-all flex items-center justify-center gap-2
                                             ${accepted
-                                                ? 'bg-primary text-slate-900 hover:bg-primary/90 hover:scale-[1.02] shadow-lg'
+                                                ? 'bg-primary text-white hover:bg-primary/90 hover:scale-[1.02] shadow-lg'
                                                 : 'bg-slate-200 text-slate-400 cursor-not-allowed'
                                             }`}
                                     >

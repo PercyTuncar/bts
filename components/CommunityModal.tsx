@@ -89,7 +89,7 @@ export function CommunityModal({ isOpen, onClose }: CommunityModalProps) {
                                     animate={{ y: 0, opacity: 1 }}
                                     transition={{ delay: 0.1 }}
                                 >
-                                    <div className="inline-block bg-acid-yellow text-slate-900 px-4 py-1 text-sm font-black uppercase -rotate-2 mb-4 shadow-sm">
+                                    <div className="inline-block bg-primary text-white px-4 py-1 text-sm font-black uppercase -rotate-2 mb-4 shadow-sm">
                                         World Tour 2026
                                     </div>
                                     <h2 className="text-4xl md:text-5xl font-black uppercase italic text-slate-900 mb-2 leading-[0.9]">

@@ -1,8 +1,12 @@
-import { NextResponse } from 'next/server';
-import type { NextRequest } from 'next/server';
+// middleware.ts
+import { NextResponse } from 'next/server'
+import type { NextRequest } from 'next/server'
 
 export function middleware(request: NextRequest) {
     const { pathname } = request.nextUrl;
+
+    // Cloudflare inyecta este header
+    const country = request.headers.get('CF-IPCountry') || 'US';
 
     // Default to Spanish
     let lang = 'es';
@@ -15,6 +19,7 @@ export function middleware(request: NextRequest) {
     // Clone the request headers and add our custom header
     const requestHeaders = new Headers(request.headers);
     requestHeaders.set('x-lang', lang);
+    requestHeaders.set('x-user-country', country);
 
     // Return the response with the modified headers
     return NextResponse.next({

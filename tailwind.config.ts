@@ -10,26 +10,29 @@ const config: Config = {
     theme: {
         extend: {
             colors: {
-                primary: "#A855F7", // Purple 500 (More saturated Baby Purple/Lilac)
-                secondary: "#F472B6", // Pink 400 (More saturated Pink)
+                primary: "#F01942", // The new BTS Red Accent
+                secondary: "#111827", // Using Slate 900 as secondary for deep contrast
                 black: "#0f172a", // Slate 900
                 white: "#ffffff",
-                // Lively Pastels (Replacing Acid/Neon with saturated pastels)
-                "acid-yellow": "#FACC15", // Yellow 400 (Sunny, not neon)
-                "acid-pink": "#F472B6", // Pink 400 (Matches secondary)
-                "neon-green": "#4ADE80", // Green 400 (Lively green)
-                "off-white": "#F8FAFC", // Slate 50
-                // New semantic names for clarity if needed, but keeping legacy names for compatibility
+                // Keeping some legacy names to avoid immediate breaks, but remapping them
+                "acid-yellow": "#F01942", // Remapped to primary for now to catch old buttons
+                "acid-pink": "#F01942",   // Remapped to primary
+                "neon-green": "#22c55e",  // Standard green for success states
+                "off-white": "#F8FAFC",   // Slate 50
+
+                // Functional palette
+                surface: "#F8FAFC",
+                "surface-highlight": "#F1F5F9",
             },
             fontFamily: {
                 serif: ['"Times New Roman"', "Times", "serif"],
+                // Sans is already default, typically Inter from next/font
             },
-            backgroundImage: {
-                // Removed noise for cleaner look or make it very subtle if needed. 
-                // Using a very subtle noise for texture if desired, or just removing it.
-                // For now, keeping a very subtle version or removing to ensure "clean" look.
-                // Let's remove it for a pure clean light mode as requested.
-            },
+            boxShadow: {
+                'card': '0 4px 6px -1px rgba(0, 0, 0, 0.05), 0 2px 4px -1px rgba(0, 0, 0, 0.03)',
+                'card-hover': '0 10px 15px -3px rgba(0, 0, 0, 0.05), 0 4px 6px -2px rgba(0, 0, 0, 0.025)',
+                'button': '0 4px 14px 0 rgba(240, 25, 66, 0.39)', // Red glow for primary buttons
+            }
         },
     },
     plugins: [],

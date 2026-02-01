@@ -32,7 +32,7 @@ export function Navbar() {
 
     return (
         <>
-            <nav className="fixed top-0 left-0 right-0 z-50 bg-white/80 backdrop-blur-md border-b border-slate-200 h-20 transition-all shadow-sm">
+            <nav className="fixed top-0 left-0 right-0 z-50 bg-white/95 backdrop-blur-md border-b border-slate-100 h-20 transition-all shadow-sm">
                 <div className="container mx-auto px-4 h-full flex items-center justify-between">
 
                     {/* Logo */}
@@ -43,7 +43,7 @@ export function Navbar() {
                     {/* Links (Desktop) */}
                     <div className="hidden md:flex items-center gap-8 font-bold text-sm uppercase tracking-widest text-slate-500">
                         {menuItems.map((item) => (
-                            <Link key={item.href} href={item.href} className="hover:text-primary hover:underline decoration-2 underline-offset-4 transition-all">{item.label}</Link>
+                            <Link key={item.href} href={item.href} className="hover:text-primary hover:underline decoration-2 underline-offset-8 decoration-primary transition-all">{item.label}</Link>
                         ))}
                     </div>
 
@@ -52,7 +52,7 @@ export function Navbar() {
                         <Link href="/tienda/cart" className="relative text-slate-900 hover:text-primary transition-colors group">
                             <ShoppingCart className="w-6 h-6" />
                             {count > 0 && (
-                                <span className="absolute -top-2 -right-2 w-5 h-5 bg-primary text-slate-900 text-[10px] font-black flex items-center justify-center rounded-full border border-white group-hover:scale-110 transition-transform">
+                                <span className="absolute -top-1 -right-1 w-5 h-5 bg-primary text-white text-[10px] font-bold flex items-center justify-center rounded-full shadow-sm group-hover:scale-110 transition-transform">
                                     {count}
                                 </span>
                             )}
@@ -60,7 +60,7 @@ export function Navbar() {
 
                         <button
                             onClick={() => setIsOpen(!isOpen)}
-                            className="md:hidden text-slate-900 border border-slate-200 p-1 active:bg-slate-100 transition-colors"
+                            className="md:hidden text-slate-900 border border-slate-200 p-2 rounded-lg active:bg-slate-50 transition-colors hover:border-primary/50"
                         >
                             {isOpen ? <X className="w-6 h-6" /> : <Menu className="w-6 h-6" />}
                         </button>

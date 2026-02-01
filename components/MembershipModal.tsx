@@ -31,23 +31,23 @@ export function MembershipModal({ isOpen, onClose }: Props) {
                         exit={{ opacity: 0, scale: 0.9, y: 20 }}
                         className="relative w-full max-w-lg"
                     >
-                        <GlassCard className="p-0 overflow-hidden border-2 border-acid-yellow shadow-[0_0_50px_rgba(234,255,0,0.2)]">
+                        <GlassCard className="p-0 overflow-hidden border-2 border-primary shadow-[0_0_50px_rgba(240,25,66,0.2)]">
 
                             {/* Header */}
-                            <div className="bg-acid-yellow p-6 relative overflow-hidden">
+                            <div className="bg-primary p-6 relative overflow-hidden">
                                 <div className="absolute top-0 right-0 p-4 opacity-10">
-                                    <Star className="w-32 h-32 text-black rotate-12" />
+                                    <Star className="w-32 h-32 text-white rotate-12" />
                                 </div>
                                 <button
                                     onClick={onClose}
-                                    className="absolute top-4 right-4 p-2 bg-black/10 hover:bg-black/20 rounded-full transition-colors"
+                                    className="absolute top-4 right-4 p-2 bg-white/10 hover:bg-white/20 rounded-full transition-colors"
                                 >
-                                    <X className="w-5 h-5 text-black" />
+                                    <X className="w-5 h-5 text-white" />
                                 </button>
-                                <h3 className="text-3xl font-black uppercase text-black leading-none mb-2 relative z-10">
+                                <h3 className="text-3xl font-black uppercase text-white leading-none mb-2 relative z-10">
                                     ¡Espera Army!
                                 </h3>
-                                <p className="font-bold text-black/80 uppercase tracking-widest text-sm relative z-10">
+                                <p className="font-bold text-white/90 uppercase tracking-widest text-sm relative z-10">
                                     Requisito Obligatorio de Preventa
                                 </p>
                             </div>

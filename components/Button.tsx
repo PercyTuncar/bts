@@ -12,14 +12,17 @@ export const Button = forwardRef<HTMLButtonElement, ButtonProps>(
             <button
                 ref={ref}
                 className={cn(
-                    "inline-flex items-center justify-center font-black uppercase tracking-widest transition-all duration-200 active:translate-y-1 active:translate-x-1 active:shadow-none border-2",
+                    "inline-flex items-center justify-center font-bold tracking-tight transition-all duration-200 active:scale-95 disabled:opacity-50 disabled:pointer-events-none rounded-full",
                     {
-                        'bg-acid-yellow text-black border-black shadow-[4px_4px_0_#000] hover:-translate-y-1 hover:-translate-x-1 hover:shadow-[6px_6px_0_#000]': variant === 'primary',
-                        'bg-acid-pink text-black border-black shadow-[4px_4px_0_#000] hover:-translate-y-1 hover:-translate-x-1 hover:shadow-[6px_6px_0_#000]': variant === 'secondary',
-                        'bg-transparent border-white text-white hover:bg-white hover:text-black': variant === 'outline',
-                        'px-4 py-2 text-xs': size === 'sm',
-                        'px-8 py-3 text-sm': size === 'md',
-                        'px-12 py-4 text-base': size === 'lg',
+                        // Primary: Red background, white text, subtle red glow
+                        'bg-primary text-white shadow-lg shadow-primary/30 hover:bg-red-600 hover:shadow-primary/50': variant === 'primary',
+                        // Secondary: Slate 900 background
+                        'bg-slate-900 text-white shadow-lg shadow-slate-900/20 hover:bg-slate-800': variant === 'secondary',
+                        // Outline: Transparent with Red border
+                        'bg-transparent border-2 border-primary text-primary hover:bg-primary hover:text-white': variant === 'outline',
+                        'px-4 py-2 text-sm': size === 'sm',
+                        'px-8 py-3 text-base': size === 'md',
+                        'px-10 py-4 text-lg': size === 'lg',
                     },
                     className
                 )}

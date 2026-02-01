@@ -17,7 +17,7 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
     const formattedPrice = country.currencySymbol + minPrice;
 
     // Default metadata (Spanish)
-    let title = `Entradas BTS ${country.name} 2026 | Desde ${formattedPrice}`;
+    let title: string; // Declare title here
     let description = `¡Compra tus entradas para BTS en ${country.name} 2026! Precios desde ${formattedPrice} en ${country.venue}. Compra segura, zonas VIP y mapa del escenario aquí.`;
     let ogTitle = `Entradas BTS ${country.name} 2026`;
     let ogDescription = `¡El Army llega a ${country.name}! Compra segura y verificada para el concierto en ${country.venue}.`;
@@ -27,22 +27,27 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
 
     // Localization overrides
     if (country.id === 'brasil') {
-        title = `Ingressos BTS Brasil 2026 | A partir de R$650`;
+        title = `Ingressos BTS Brasil 2026: A partir de R$650`;
         description = `Compre seus ingressos para o BTS no Brasil 2026! Preços a partir de R$650 no Allianz Parque. Compra segura, áreas VIP e mapa de assentos aqui.`;
         ogTitle = `Ingressos BTS Brasil 2026`;
         ogDescription = `O Army chega ao Brasil! Compra segura e verificada para o show no Allianz Parque.`;
         ogSiteName = `Ingressos BTS Tour 2026`;
         ogLocale = 'pt_BR';
     } else if (country.id === 'mexico') {
-        title = `Boletos BTS ${country.name} 2026 | Desde ${formattedPrice}`;
+        title = `Boletos BTS ${country.name} 2026: Precios desde ${formattedPrice}`;
         description = `¡Compra tus boletos para BTS en ${country.name} 2026! Precios desde ${formattedPrice} en ${country.venue}. Compra segura, zonas VIP y mapa del escenario aquí.`;
         ogTitle = `Boletos BTS ${country.name} 2026`;
         ogSiteName = `Boletos BTS Tour 2026`;
+    } else {
+        // Default title structure for other countries (Peru, Chile, Colombia, etc.)
+        title = `Entradas BTS ${country.name} 2026: Precios desde ${formattedPrice}`;
     }
 
 
     return {
-        title,
+        title: {
+            absolute: title
+        },
         description,
         openGraph: {
             title: ogTitle,

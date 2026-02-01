@@ -12,10 +12,25 @@ type Props = {
     onClose: () => void;
     onAccept: () => void;
     currency?: { symbol: string, price: string };
+    content?: Record<string, string>;
 };
 
-export function TermsModal({ isOpen, onClose, onAccept, currency }: Props) {
+export function TermsModal({ isOpen, onClose, onAccept, currency, content }: Props) {
     const [accepted, setAccepted] = useState(true);
+    
+    // Default fallback if content isn't passed (handled gracefully or assume Spanish defaults)
+    const t = content || {
+        modal_total_amount: "Monto Total a Pagar",
+        modal_select_card_instruct: "Selecciona \"Pagar con Tarjeta\" para completar tu compra de forma segura.",
+        modal_terms_read_accept: "He leído y acepto los",
+        modal_terms_conditions: "Términos y Condiciones",
+        modal_terms_and: "y la",
+        modal_terms_privacy: "Política de Privacidad",
+        modal_other_countries_pay: "Otros países pueden pagar con tarjeta",
+        modal_debit_credit_here: "de débito o crédito VISA / Mastercard aquí",
+        modal_pay_card_btn: "PAGAR CON TARJETA AQUÍ",
+        modal_pay_accepts_terms: "AL REALIZAR EL PAGO, ACEPTAS LOS TÉRMINOS Y CONDICIONES"
+    };
     
     // Default to PE if not provided (though it should be)
     const currentCurrency = currency || { symbol: 'S/.', price: '99.50' };
@@ -47,7 +62,7 @@ export function TermsModal({ isOpen, onClose, onAccept, currency }: Props) {
                             <div className="bg-slate-50 p-4 flex justify-between items-center border-b border-slate-100">
                                 <h3 className="text-base font-black uppercase text-slate-900 flex items-center gap-2">
                                     <ShieldCheck className="w-5 h-5 text-primary" />
-                                    Términos y Condiciones
+                                    {t.modal_terms_conditions}
                                 </h3>
                                 <button
                                     onClick={onClose}
@@ -122,11 +137,11 @@ export function TermsModal({ isOpen, onClose, onAccept, currency }: Props) {
                                     ) : (
                                         <div className="bg-gradient-to-br from-slate-50 to-slate-100 p-6 rounded-xl border border-slate-200 shadow-sm text-center">
                                             <div className="flex flex-col gap-1 mb-4">
-                                                <span className="text-xs font-bold text-slate-500 uppercase tracking-widest">Monto Total a Pagar</span>
+                                                <span className="text-xs font-bold text-slate-500 uppercase tracking-widest">{t.modal_total_amount}</span>
                                                 <span className="text-4xl font-black text-slate-900">{currentCurrency.symbol} {currentCurrency.price}</span>
                                             </div>
                                             <p className="text-sm text-slate-600">
-                                                Selecciona "Pagar con Tarjeta" para completar tu compra de forma segura.
+                                                {t.modal_select_card_instruct}
                                             </p>
                                         </div>
                                     )}
@@ -145,14 +160,14 @@ export function TermsModal({ isOpen, onClose, onAccept, currency }: Props) {
                                             <Check className="absolute w-3 h-3 text-white opacity-0 peer-checked:opacity-100 left-0.5 top-0.5 transition-opacity" />
                                         </div>
                                         <div className="text-[10px] text-slate-600 select-none leading-snug">
-                                            He leído y acepto los <Link href="/legal/terminos" target="_blank" className="text-primary font-bold hover:underline">Términos y Condiciones</Link> y la <Link href="/legal/privacidad" target="_blank" className="text-primary font-bold hover:underline">Política de Privacidad</Link>.
+                                            {t.modal_terms_read_accept} <Link href="/legal/terminos" target="_blank" className="text-primary font-bold hover:underline">{t.modal_terms_conditions}</Link> {t.modal_terms_and} <Link href="/legal/privacidad" target="_blank" className="text-primary font-bold hover:underline">{t.modal_terms_privacy}</Link>.
                                         </div>
                                     </label>
                                 </div>
 
                                 <div className="space-y-2">
                                     <p className="text-center text-[10px] text-slate-500 font-bold uppercase leading-tight max-w-[95%] mx-auto">
-                                        <span className="text-primary font-black">Otros países pueden pagar con tarjeta</span> de débito o crédito VISA / Mastercard aquí
+                                        <span className="text-primary font-black">{t.modal_other_countries_pay}</span> {t.modal_debit_credit_here}
                                     </p>
                                     <button
                                         onClick={onAccept}
@@ -163,12 +178,12 @@ export function TermsModal({ isOpen, onClose, onAccept, currency }: Props) {
                                                 : 'bg-slate-200 text-slate-400 cursor-not-allowed'
                                             }`}
                                     >
-                                        PAGAR CON TARJETA AQUÍ
+                                        {t.modal_pay_card_btn}
                                     </button>
                                 </div>
 
                                 <p className="text-center text-[9px] text-slate-400 uppercase tracking-widest font-bold">
-                                    AL REALIZAR EL PAGO, ACEPTAS LOS TÉRMINOS Y CONDICIONES
+                                    {t.modal_pay_accepts_terms}
                                 </p>
                             </div>
                         </GlassCard>

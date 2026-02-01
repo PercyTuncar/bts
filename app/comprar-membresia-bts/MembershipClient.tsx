@@ -9,10 +9,10 @@ import { useState, useEffect } from 'react';
 
 const PRICING: Record<string, { symbol: string, price: string, link: string }> = {
     PE: { symbol: 'S/.', price: '99.50', link: 'https://mpago.la/1fcrBXe' },
-    MX: { symbol: 'MXN', price: '450.00', link: '#' },
-    CO: { symbol: 'COP', price: '110,000', link: '#' },
-    CL: { symbol: 'CLP', price: '25,000', link: '#' },
-    DEFAULT: { symbol: 'USD', price: '29.50', link: '#' }
+    MX: { symbol: 'MXN', price: '490.00', link: 'https://mpago.la/1fcrBXe' },
+    CO: { symbol: 'COP', price: '115,000', link: 'https://mpago.la/1fcrBXe' },
+    CL: { symbol: 'CLP', price: '26,000', link: 'https://mpago.la/1fcrBXe' },
+    DEFAULT: { symbol: 'USD', price: '29.50', link: 'https://mpago.la/1fcrBXe' }
 };
 
 export default function MembershipClient({ country = 'PE' }: { country?: string }) {

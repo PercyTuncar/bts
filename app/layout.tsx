@@ -39,25 +39,25 @@ export const metadata: Metadata = {
   },
 
   openGraph: {
-    title: 'Entradas BTS Perú 2026 - Estadio Nacional',
-    description: '¡El Army llega a Lima! Revisa precios y zonas disponibles aquí.',
+    title: 'Entradas BTS 2026 | Latinoamérica y España',
+    description: 'Compra tus entradas para el BTS World Tour 2026. Fechas confirmadas en Latinoamérica y Europa. Preventa ARMY, precios y mapas aquí.',
     url: 'https://entradasbts.com',
-    siteName: 'BTS Tickets Perú',
+    siteName: 'BTS Tickets 2026',
     images: [
       {
-        url: '/images/og-peru.jpg',
+        url: '/images/bts-hero-bg.png', // Generic image
         width: 1200,
         height: 630,
       },
     ],
-    locale: 'es_PE',
+    locale: 'es_LA',
     type: 'website',
   },
   twitter: {
     card: 'summary_large_image',
-    title: 'Entradas BTS Perú 2026',
+    title: 'Entradas BTS 2026 | World Tour',
     description: 'Venta verificada y segura de entradas con Garantía RaveHub.',
-    images: ['/images/og-peru.jpg'],
+    images: ['/images/bts-hero-bg.png'],
   },
   alternates: {
     canonical: 'https://entradasbts.com',

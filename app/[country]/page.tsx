@@ -38,6 +38,13 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
         description = `¡Compra tus boletos para BTS en ${country.name} 2026! Precios desde ${formattedPrice} en ${country.venue}. Compra segura, zonas VIP y mapa del escenario aquí.`;
         ogTitle = `Boletos BTS ${country.name} 2026`;
         ogSiteName = `Boletos BTS Tour 2026`;
+    } else if (country.id === 'madrid') {
+        title = `ENTRADAS BTS MADRID 2026: Precios desde ${formattedPrice}`;
+        description = `¡Consigue tus ENTRADAS BTS MADRID 2026! Concierto oficial en ${country.venue}. Precios desde ${formattedPrice}. Compra segura y verificada.`;
+        ogTitle = `ENTRADAS BTS MADRID 2026`;
+        ogDescription = `BTS llega a España. Compra tus ENTRADAS BTS MADRID 2026 de forma segura para el Metropolitano.`;
+        ogSiteName = `Entradas BTS Madrid 2026`;
+        ogLocale = 'es_ES';
     } else {
         // Default title structure for other countries (Peru, Chile, Colombia, etc.)
         title = `Entradas BTS ${country.name} 2026: Precios desde ${formattedPrice}`;
@@ -65,6 +72,12 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
             locale: ogLocale,
             type: 'website',
         },
+        twitter: {
+            card: 'summary_large_image',
+            title: ogTitle,
+            description: ogDescription,
+            images: [`https://entradasbts.com${country.openGraphImage}`],
+        },
         alternates: {
             canonical: `https://entradasbts.com/${country.id}/`,
             languages: {
@@ -73,6 +86,7 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
                 'es-MX': 'https://entradasbts.com/mexico',
                 'es-CO': 'https://entradasbts.com/colombia',
                 'es-AR': 'https://entradasbts.com/argentina',
+                'es-ES': 'https://entradasbts.com/madrid',
                 'pt-BR': 'https://entradasbts.com/brasil',
                 'x-default': 'https://entradasbts.com/',
             },
@@ -92,6 +106,7 @@ export default async function CountryPage({ params }: Props) {
     const minPrice = Math.min(...country.prices.map(p => p.price));
     const maxPrice = Math.max(...country.prices.map(p => p.price));
     const isBrazil = country.id === 'brasil';
+    const isMadrid = country.id === 'madrid';
 
     const jsonLd = {
         "@context": "https://schema.org",
@@ -113,21 +128,33 @@ export default async function CountryPage({ params }: Props) {
                 "@type": "PostalAddress",
                 "streetAddress": country.id === 'peru' ? 'C. José Díaz s/n' :
                     country.id === 'chile' ? 'Av. Marathon 5300' :
-                        country.id === 'mexico' ? 'Calz. de Tlalpan 3465' : 'Cra. 57a #30-97',
+                        country.id === 'mexico' ? 'Viad. Río de la Piedad S/N, Granjas México, Iztacalco' : 
+                            (isMadrid ? 'Av. de Luis Aragonés, 4' : 
+                                (isBrazil ? 'Av. Francisco Matarazzo, 1705' : 
+                                    (country.id === 'argentina' ? 'Av. Pres. Figueroa Alcorta 7597' : 'Cra. 57a #30-97'))),
                 "addressLocality": country.city,
                 "postalCode": country.id === 'peru' ? '15046' :
                     country.id === 'chile' ? '7820919' :
-                        country.id === 'mexico' ? '04610' : '111311',
+                        country.id === 'mexico' ? '08400' : 
+                            (isMadrid ? '28022' : 
+                                (isBrazil ? '05001-200' : 
+                                    (country.id === 'argentina' ? 'C1428' : '111311'))),
                 "addressCountry": country.isoCode
             },
             "geo": {
                 "@type": "GeoCoordinates",
                 "latitude": country.id === 'peru' ? -12.0673 :
                     country.id === 'chile' ? -33.5131 :
-                        country.id === 'mexico' ? 19.3029 : 4.6459,
+                        country.id === 'mexico' ? 19.4053 : 
+                             (isMadrid ? 40.4361 : 
+                                (isBrazil ? -23.5274 : 
+                                    (country.id === 'argentina' ? -34.5453 : 4.6459))),
                 "longitude": country.id === 'peru' ? -77.0337 :
                     country.id === 'chile' ? -70.6112 :
-                        country.id === 'mexico' ? -99.1505 : -74.0775
+                        country.id === 'mexico' ? -99.0921 : 
+                            (isMadrid ? -3.5995 : 
+                                (isBrazil ? -46.6784 : 
+                                    (country.id === 'argentina' ? -58.4497 : -74.0775)))
             }
         },
         "organizer": {
@@ -152,6 +179,7 @@ export default async function CountryPage({ params }: Props) {
             "highPrice": maxPrice.toString(),
             "offerCount": country.prices.length.toString(),
             "availability": "https://schema.org/InStock",
+            "priceValidUntil": country.dates[0],
             "validFrom": "2025-01-01",
             "seller": {
                 "@type": "Organization",
@@ -166,6 +194,7 @@ export default async function CountryPage({ params }: Props) {
                 "price": p.price.toString(),
                 "priceCurrency": country.currency,
                 "availability": "https://schema.org/InStock",
+                "priceValidUntil": country.dates[0],
                 "url": `https://entradasbts.com/${country.id}/`
             }))
         }
@@ -193,12 +222,14 @@ export default async function CountryPage({ params }: Props) {
             "highPrice": maxPrice.toString(),
             "offerCount": country.prices.length.toString(),
             "availability": "https://schema.org/InStock",
+            "priceValidUntil": country.dates[0],
             "offers": country.prices.map(p => ({
                 "@type": "Offer",
                 "name": p.zone,
                 "price": p.price.toString(),
                 "priceCurrency": country.currency,
                 "availability": "https://schema.org/InStock",
+                "priceValidUntil": country.dates[0],
                 "url": `https://entradasbts.com/${country.id}/`
             }))
         }

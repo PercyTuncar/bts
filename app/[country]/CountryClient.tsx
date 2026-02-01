@@ -108,7 +108,7 @@ const translations = {
         historyTitle: "Historia de BTS en {country}: Un Hito Histórico para el Army",
         historyDesc1: "La relación entre BTS y {country} es una historia de espera que finalmente se materializa en 2026. A diferencia de visitas anteriores a la región, esta llegada oficial al {venue} marca el evento cultural más importante de la década.",
         historyDesc2: "La demanda acumulada ha generado una expectativa sin precedentes. Por ello, encontrar dónde",
-        historyDesc3: "comprar entradas para BTS en {city} de forma 100% segura",
+        historyDesc3: "comprar boletos para BTS en {city} de forma 100% segura",
         historyDesc4: "es la prioridad absoluta para proteger tu inversión y tu sueño.",
         historyDesc5: "Al adquirir tus pases a través de canales verificados como RaveHub, aseguras tu lugar en el evento con total confianza y garantía local.",
         toPayToday: "A Pagar HOY",
@@ -429,10 +429,15 @@ export default function CountryClient({ country }: Props) {
                                 transition={{ delay: 0.3 }}
                                 className="bg-primary text-white px-5 py-2 text-lg md:text-2xl font-black uppercase shadow-xl rounded-full tracking-widest"
                             >
-                                World Tour '26
+                                World Tour
                             </motion.div>
 
                             <h1 className="relative">
+                                <span className="sr-only">
+                                    {country.id === 'brasil' 
+                                        ? `Ingressos BTS ${country.name} ` 
+                                        : (country.id === 'mexico' ? `Boletos BTS ${country.name} ` : `Entradas BTS ${country.name} `)}
+                                </span>
                                 <span className="block text-6xl md:text-8xl font-black italic text-white relative z-20 tracking-tighter drop-shadow-[0_4px_4px_rgba(0,0,0,0.5)]" style={{ WebkitTextStroke: '1.5px black' }}>
                                     {country.city}
                                 </span>
@@ -465,6 +470,21 @@ export default function CountryClient({ country }: Props) {
                             <Digit val={timeLeft.seconds} label={t.seg} />
                         </div>
                     </div>
+
+                    {/* SEO TEXT DYNAMIC FOR ALL COUNTRIES */}
+                    <div className="relative mt-8 max-w-4xl bg-white/50 backdrop-blur-sm p-6 rounded-2xl border border-slate-100 mx-auto w-full">
+                        <p className="text-slate-800 text-lg font-medium leading-relaxed text-center">
+                            {country.id === 'brasil' ? (
+                                <>
+                                    A espera acabou. <strong>BTS chega a {country.city}</strong> para conquistar o <strong className="text-primary">{country.venue}</strong>. Garanta seus <strong>ingressos para o BTS no {country.name}</strong> e viva o maior show de K-pop da história. Preços a partir de {country.currencySymbol}{Math.min(...country.prices.map(p => p.price))} com compra 100% segura. Confira o mapa e preços agora!
+                                </>
+                            ) : (
+                                <>
+                                    La espera ha terminado. <strong>BTS llega a {country.city}</strong> para conquistar el <strong className="text-primary">{country.venue}</strong>. Asegura tus <strong>entradas para BTS en {country.name}</strong> y vive el concierto K-pop más grande de la historia. Precios desde {country.currencySymbol}{Math.min(...country.prices.map(p => p.price))} con compra 100% segura. ¡Consulta el mapa y precios ahora!
+                                </>
+                            )}
+                        </p>
+                    </div>
                 </div>
             </section>
 
@@ -479,12 +499,16 @@ export default function CountryClient({ country }: Props) {
                                 <h3 className="text-4xl font-black uppercase italic text-slate-900 tracking-tighter">{t.tickets}</h3>
 
                                 <div className="flex gap-2 w-full md:w-auto p-1 bg-slate-100 rounded-xl">
-                                    <button onClick={() => setIsInstallment(false)} className={`flex-1 md:flex-none px-6 py-3 text-xs md:text-sm font-bold uppercase rounded-lg transition-all ${!isInstallment ? 'bg-white text-slate-900 shadow-sm' : 'bg-transparent text-slate-400 hover:text-slate-600'}`}>
-                                        {t.cash}
-                                    </button>
-                                    <button onClick={() => setIsInstallment(true)} className={`flex-1 md:flex-none px-6 py-3 text-xs md:text-sm font-bold uppercase rounded-lg transition-all ${isInstallment ? 'bg-slate-900 text-white shadow-sm' : 'bg-transparent text-slate-400 hover:text-slate-600'}`}>
-                                        {t.installments}
-                                    </button>
+                                    {(country.allowInstallments !== false) && (
+                                        <>
+                                            <button onClick={() => setIsInstallment(false)} className={`flex-1 md:flex-none px-6 py-3 text-xs md:text-sm font-bold uppercase rounded-lg transition-all ${!isInstallment ? 'bg-white text-slate-900 shadow-sm' : 'bg-transparent text-slate-400 hover:text-slate-600'}`}>
+                                                {t.cash}
+                                            </button>
+                                            <button onClick={() => setIsInstallment(true)} className={`flex-1 md:flex-none px-6 py-3 text-xs md:text-sm font-bold uppercase rounded-lg transition-all ${isInstallment ? 'bg-slate-900 text-white shadow-sm' : 'bg-transparent text-slate-400 hover:text-slate-600'}`}>
+                                                {t.installments}
+                                            </button>
+                                        </>
+                                    )}
                                 </div>
                             </div>
 
@@ -543,11 +567,48 @@ export default function CountryClient({ country }: Props) {
                                                     <p className="text-sm text-slate-500 mt-2 font-medium leading-tight max-w-md mx-auto md:mx-0">{zone.description}</p>
                                                 )}
                                                 <div className="flex flex-wrap justify-center md:justify-start gap-2 mt-3">
-                                                    <span className={`px-2 py-1 rounded text-[10px] font-bold uppercase tracking-wider ${country.id === 'mexico' ? 'bg-slate-100 text-slate-500' : 'bg-orange-50 text-orange-600'}`}>
-                                                        {country.id === 'mexico' ? t.verified : "Precio Ref."}
+                                                    <span className={`px-2 py-1 rounded text-[10px] font-bold uppercase tracking-wider ${['mexico', 'madrid'].includes(country.id) ? 'bg-green-100 text-green-700' : 'bg-orange-50 text-orange-600'}`}>
+                                                        {['mexico', 'madrid'].includes(country.id) ? "Precio Oficial" : "Precio Ref."}
                                                     </span>
                                                     {i === 0 && <span className="bg-primary/10 text-primary px-2 py-1 rounded text-[10px] font-bold uppercase tracking-wider">{t.bestSeller}</span>}
                                                 </div>
+
+                                                {/* MADRID PROGRESS BAR */}
+                                                {country.id === 'madrid' && (
+                                                    <div className="mt-4 w-full max-w-xs">
+                                                        <div className="flex justify-between items-end mb-1">
+                                                            <span className="text-[10px] font-bold uppercase text-slate-400">Disponibilidad</span>
+                                                            <span className="text-[10px] font-black text-rose-500 animate-pulse">
+                                                                {(() => {
+                                                                    const remainingDays = timeLeft.days;
+                                                                    let p = 100 - (remainingDays / 10);
+                                                                    if (p < 90) p = 90;
+                                                                    if (p > 100) p = 100;
+                                                                    // Show inverse? "Agotado"? Usually high % means sold out or high capacity?
+                                                                    // User said "Starts at 90% (which is 0%)... gives sensation of running out".
+                                                                    // So 90% = "Low urgency"? No, usually 90% means "90% sold".
+                                                                    // If 100 days left, p=90. If 50 days left, p=95.
+                                                                    // This implies "Sold Percentage" increases as date approaches.
+                                                                    return `${p.toFixed(0)}% Agotado`;
+                                                                })()}
+                                                            </span>
+                                                        </div>
+                                                        <div className="h-2 w-full bg-slate-100 rounded-full overflow-hidden">
+                                                            <div 
+                                                                className="h-full bg-gradient-to-r from-rose-500 to-primary transition-all duration-1000 ease-out"
+                                                                style={{ 
+                                                                    width: `${(() => {
+                                                                        const remainingDays = timeLeft.days;
+                                                                        let p = 100 - (remainingDays / 10);
+                                                                        if (p < 90) p = 90;
+                                                                        if (p > 100) p = 100;
+                                                                        return p;
+                                                                    })()}%` 
+                                                                }}
+                                                            ></div>
+                                                        </div>
+                                                    </div>
+                                                )}
                                             </div>
                                         </div>
 
@@ -578,7 +639,16 @@ export default function CountryClient({ country }: Props) {
                         {/* MAPA CARD */}
                         <div className="bg-white p-2 rounded-3xl shadow-lg border border-slate-100 overflow-hidden transform hover:scale-[1.02] transition-transform duration-500">
                             <div className="bg-slate-50 relative aspect-square rounded-2xl overflow-hidden">
-                                <Image src={country.id === 'mexico' ? "/images/mapa-mexico.png" : "/images/stadium-map.png"} alt={`Mapa de zonas y precios ${country.venue}`} fill className="object-contain p-4" />
+                                <Image 
+                                    src={
+                                        country.id === 'mexico' ? "/images/mapa-mexico.png" : 
+                                        country.id === 'madrid' ? "/images/bts-madrid-mapa.png" : 
+                                        "/images/stadium-map.png"
+                                    } 
+                                    alt={`Mapa de zonas y precios ${country.venue}`} 
+                                    fill 
+                                    className="object-contain p-4" 
+                                />
                                 <div className="absolute bottom-4 left-4 bg-white/90 backdrop-blur pl-2 pr-4 py-2 rounded-full flex items-center gap-2 shadow-sm">
                                     <div className="bg-primary p-1.5 rounded-full text-white">
                                         <MapPin className="w-3 h-3" />
@@ -629,7 +699,30 @@ export default function CountryClient({ country }: Props) {
                                                 <p className="text-xs text-slate-400">Vie, 23 ene 2026</p>
                                             </div>
                                         </div>
-                                        {/* ... other mexico items simplified for brevity, following same pattern ... */}
+                                    </div>
+                                ) : country.id === 'madrid' ? (
+                                    <div className="space-y-5">
+                                        {/* MADRID CUSTOM PHASES */}
+                                        <div className="flex items-center justify-between opacity-60 grayscale">
+                                            <div className="flex items-center gap-4">
+                                                <div className="w-3 h-3 rounded-full bg-slate-300"></div>
+                                                <span className="text-sm font-bold uppercase text-slate-500 line-through decoration-slate-400">Preventa Army</span>
+                                            </div>
+                                            <span className="text-[10px] bg-slate-100 text-slate-500 px-2 py-1 rounded-full font-bold uppercase">Agotado</span>
+                                        </div>
+
+                                        <div className="flex items-center justify-between opacity-100">
+                                            <div className="flex items-center gap-4">
+                                                <div className="relative">
+                                                    <div className="w-3 h-3 rounded-full bg-green-500 shadow-[0_0_10px_rgba(34,197,94,0.5)]"></div>
+                                                    <div className="absolute inset-0 rounded-full bg-green-500 animate-ping opacity-75"></div>
+                                                </div>
+                                                <span className="text-sm font-black uppercase text-slate-900">Venta General</span>
+                                            </div>
+                                            <span className="text-[10px] bg-green-100 text-green-700 px-2.5 py-1 rounded-full font-extrabold uppercase animate-pulse shadow-sm border border-green-200">
+                                                Disponible
+                                            </span>
+                                        </div>
                                     </div>
                                 ) : (
                                     PHASES.map((p) => {

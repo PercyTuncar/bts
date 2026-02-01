@@ -21,9 +21,31 @@ export interface CountryData {
     openGraphImage: string;
     whatsappLink: string;
     phoneCode: string;
+    allowInstallments?: boolean; // Optional flag to disable installments
 }
 
 export const countries: CountryData[] = [
+    {
+        id: 'madrid',
+        name: 'España',
+        flag: '🇪🇸',
+        venue: 'Riyadh Air Metropolitano (Metropolitano Stadium)',
+        city: 'Madrid',
+        isoCode: 'ES',
+        dates: ['2026-06-26', '2026-06-27'],
+        ticketDate: '1 de Marzo', // Placeholder or as needed
+        currency: 'EUR',
+        currencySymbol: '€',
+        prices: [
+            { zone: 'Sección 225 - Nivel 200', price: 375, description: 'Vista privilegiada del escenario principal' },
+            { zone: 'Sección 226 - Nivel 200', price: 375, description: 'Vista privilegiada del escenario principal' },
+        ],
+        description: 'Madrid, prepárate. BTS llega al Metropolitano para dos noches inolvidables en España.',
+        openGraphImage: '/images/bts-madrid-mapa.png', // Using the map as OG image for now, or specific one
+        whatsappLink: 'https://chat.whatsapp.com/JxPJWsWylPmBbTIFjQgrtO',
+        phoneCode: '+34',
+        allowInstallments: false
+    },
     {
         id: 'peru',
         name: 'Perú',
@@ -208,7 +230,7 @@ export const countries: CountryData[] = [
         ],
         description: 'A Live Nation é a produtora oficial. Rumores fortes apontam para o Allianz Parque ou Estádio MorumBIS. BTS WORLD TOUR "ARIRANG".',
         openGraphImage: '/images/og-brasil.jpg',
-        whatsappLink: 'https://chat.whatsapp.com/BfGtJmU8HOU94X2lJTEWz9',
+        whatsappLink: 'https://chat.whatsapp.com/JdQMGagSdkaI2165o4WVFQ',
         phoneCode: '+55'
     }
 ];

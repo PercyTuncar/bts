@@ -35,6 +35,7 @@ export const metadata = {
       'es-MX': 'https://entradasbts.com/mexico',
       'es-CO': 'https://entradasbts.com/colombia',
       'es-AR': 'https://entradasbts.com/argentina',
+      'es-ES': 'https://entradasbts.com/madrid',
       'pt-BR': 'https://entradasbts.com/brasil',
       'x-default': 'https://entradasbts.com/',
     },

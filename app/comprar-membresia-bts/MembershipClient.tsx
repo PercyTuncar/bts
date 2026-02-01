@@ -8,13 +8,13 @@ import { Star, ShoppingBag, Music, ShieldCheck, ChevronDown, Ticket, Smartphone 
 import { useState, useEffect } from 'react';
 
 const PRICING: Record<string, { symbol: string, price: string, link: string }> = {
-    PE: { symbol: 'S/.', price: '99.50', link: 'https://mpago.la/1fcrBXe' },
-    MX: { symbol: 'MXN', price: '490.00', link: 'https://mpago.la/1fcrBXe' },
-    CO: { symbol: 'COP', price: '115,000', link: 'https://mpago.la/1fcrBXe' },
-    CL: { symbol: 'CLP', price: '26,000', link: 'https://mpago.la/1fcrBXe' },
-    BR: { symbol: 'R$', price: '180,00', link: 'https://mpago.la/1fcrBXe' },
-    AR: { symbol: 'ARS', price: '30,000', link: 'https://mpago.la/1fcrBXe' },
-    DEFAULT: { symbol: 'USD', price: '29.50', link: 'https://mpago.la/1fcrBXe' }
+    PE: { symbol: 'S/.', price: '99.50', link: 'https://secure.micuentaweb.pe/t/o6d5a6ps' },
+    MX: { symbol: 'MXN', price: '490.00', link: 'https://secure.micuentaweb.pe/t/o6d5a6ps' },
+    CO: { symbol: 'COP', price: '115,000', link: 'https://secure.micuentaweb.pe/t/o6d5a6ps' },
+    CL: { symbol: 'CLP', price: '26,000', link: 'https://secure.micuentaweb.pe/t/o6d5a6ps' },
+    BR: { symbol: 'R$', price: '180,00', link: 'https://secure.micuentaweb.pe/t/o6d5a6ps' },
+    AR: { symbol: 'ARS', price: '30,000', link: 'https://secure.micuentaweb.pe/t/o6d5a6ps' },
+    DEFAULT: { symbol: 'USD', price: '29.50', link: 'https://secure.micuentaweb.pe/t/o6d5a6ps' }
 };
 
 const TEXTS = {

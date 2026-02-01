@@ -108,27 +108,28 @@ export default function MembershipClient({ country = 'PE' }: { country?: string 
                 <div className="relative z-20 w-full max-w-6xl grid grid-cols-1 lg:grid-cols-2 gap-16 items-center">
 
                     {/* Left Column: Text Content */}
-                    <div className="order-1 lg:order-1 flex flex-col items-center lg:items-start text-center lg:text-left space-y-6">
+                    <div className="order-1 lg:order-1 flex flex-col items-center lg:items-start text-center lg:text-left gap-6">
                         
-                        <span className="text-sm font-bold tracking-[0.2em] text-slate-500 uppercase mb-2">
-                            Servicio de asistencia para 
-                        </span>
+                        <div className="flex flex-col items-center lg:items-start gap-2">
+                            <span className="text-sm font-bold tracking-[0.2em] text-slate-500 uppercase">
+                                Servicio de asistencia para 
+                            </span>
 
-                        <h1 className="text-5xl md:text-7xl font-black uppercase tracking-tighter leading-[0.85] text-slate-900 text-center lg:text-left">
-                            comprar
-                            <span className="text-primary">    Membresía  </span> Oficial
-                           BTS
-                        </h1>
+                            <h1 className="text-5xl md:text-7xl font-black uppercase tracking-tighter leading-[0.9] text-slate-900">
+                                Comprar<br />
+                                <span className="text-primary">Membresía</span><br />
+                                Oficial BTS
+                            </h1>
+                        </div>
 
                         <div className="flex flex-col gap-1 max-w-lg">
                             <p className="text-xl md:text-2xl text-slate-600 leading-snug">
                                 Asegura tu acceso a la <span className="bg-[#fcd34d] px-2 py-0.5 font-bold text-slate-900 mx-1 box-decoration-clone">preventa del Tour 2026</span>
                                 hoy mismo.
                             </p>
-                          
                         </div>
 
-                        <div className="pt-6 w-full flex flex-col sm:flex-row items-center gap-6">
+                        <div className="w-full flex flex-col sm:flex-row items-center gap-6">
                             <button
                                 onClick={handleBuyClick}
                                 className="group bg-slate-900 text-white hover:bg-[#8A2BE2] transition-all text-xl font-black uppercase py-5 px-10 rounded-xl flex items-center justify-center gap-4 w-full sm:w-auto shadow-xl hover:shadow-2xl shadow-slate-900/20 hover:-translate-y-1"
@@ -143,7 +144,7 @@ export default function MembershipClient({ country = 'PE' }: { country?: string 
                             </div>
                         </div>
 
-                        <div className="flex items-center gap-2 mt-2">
+                        <div className="flex items-center gap-2">
                             <ShieldCheck className="w-5 h-5 text-green-500" />
                             <p className="text-xs font-bold text-slate-400 uppercase tracking-wider">
                                 Gestionamos tu pago en la web oficial.

@@ -8,13 +8,22 @@ export const metadata: Metadata = {
   title: 'BTS en Dubai 2026: Confirman Viaje de los 7 Miembros y Rumores de Gira Mundial',
   description: '¡ÚLTIMA HORA! Confirmado: Jin, RM, J-Hope, Suga, Jimin, V y Jungkook viajan juntos a Dubai. Todo sobre su agenda en Emiratos Árabes y posible venta de entradas.',
   keywords: ['BTS Dubai', 'BTS 2026', 'BTS Aeropuerto', 'Kpop Conciertos 2026', 'Entradas BTS'],
+  alternates: {
+    canonical: '/blog/bts-en-dubai-2026-confirmado-viaje',
+  },
   openGraph: {
     title: '¡BTS RUMBO A DUBAI! 🇦🇪 Los 7 miembros confirman viaje juntos',
     description: 'El fandom ARMY en alerta máxima. Fotos exclusivas del aeropuerto y teorías sobre su regreso a los escenarios en Emiratos Árabes.',
     type: 'article',
     publishedTime: '2026-02-02T20:00:00.000Z',
+    modifiedTime: '2026-02-02T21:30:00.000Z',
     authors: ['Percy Tunccar'],
-    images: ['/images/bts-dubai-2026-cover.jpg'],
+    images: [{
+      url: '/images/bts-dubai-2026-cover.jpg',
+      width: 1200,
+      height: 630,
+      alt: 'BTS en el Aeropuerto de Incheon rumbo a Dubai'
+    }],
   },
   twitter: {
     card: 'summary_large_image',
@@ -58,6 +67,28 @@ export default function BTSDubaiNewsPage() {
     "keywords": "BTS, Dubai, Concierto 2026, Kpop, Entradas BTS, Incheon Airport"
   };
 
+  const videoSchema = {
+    "@context": "https://schema.org",
+    "@type": "VideoObject",
+    "name": "BTS en Aeropuerto Incheon - Salida a Dubai 2026",
+    "description": "Video exclusivo de los 7 integrantes de BTS en el aeropuerto de Incheon partiendo hacia Dubai para su agenda oficial.",
+    "thumbnailUrl": "https://entradasbts.com/images/bts-incheon-airport-feb-2026.jpeg",
+    "uploadDate": "2026-02-02T20:00:00+00:00",
+    "duration": "PT0M45S",
+    "contentUrl": "https://entradasbts.com/images/video-bts-en-el-aeropuerto.mp4",
+    "embedUrl": "https://entradasbts.com/images/video-bts-en-el-aeropuerto.mp4",
+    "publisher": {
+      "@type": "Organization",
+      "name": "EntradasBTS",
+      "logo": {
+        "@type": "ImageObject",
+        "url": "https://entradasbts.com/logo.png",
+        "width": 190,
+        "height": 60
+      }
+    }
+  };
+
   const faqSchema = {
     "@context": "https://schema.org",
     "@type": "FAQPage",
@@ -86,6 +117,10 @@ export default function BTSDubaiNewsPage() {
       <script
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
+      />
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(videoSchema) }}
       />
       <script
         type="application/ld+json"

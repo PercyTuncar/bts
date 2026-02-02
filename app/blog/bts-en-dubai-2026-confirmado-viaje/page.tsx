@@ -206,13 +206,13 @@ export default function BTSDubaiNewsPage() {
           Recordemos su paso por el KCON en Abu Dhabi en años anteriores y las múltiples visitas de los miembros individualmente. Esta vez, la sinergia de los siete promete un evento de proporciones épicas que podría marcar el inicio de una gira mundial muy esperada.
         </p>
 
-        <h2 className="text-3xl font-black text-slate-900 mt-16 mb-6 uppercase tracking-tight">Latinoamérica: Asegura tu lugar</h2>
+        <h2 className="text-3xl font-black text-slate-900 mt-16 mb-6 uppercase tracking-tight">Latinoamérica:</h2>
         
         <div className="bg-slate-900 text-white p-8 md:p-10 rounded-3xl shadow-2xl my-10 relative overflow-hidden group">
           <div className="absolute top-0 right-0 w-64 h-64 bg-primary rounded-full filter blur-[80px] opacity-20 group-hover:opacity-30 transition-opacity"></div>
           
           <div className="relative z-10">
-            <h3 className="text-2xl md:text-3xl font-black mb-4 text-white uppercase italic">¡Aegura tu lugar en la preventa!</h3>
+            <h3 className="text-2xl md:text-3xl font-black mb-4 text-white uppercase italic">¡Asegura tu lugar en la preventa!</h3>
             <p className="mb-8 text-slate-300 text-lg leading-relaxed">
                 Cuando se confirmen las fechas para <strong className="text-white">Perú, Chile, Colombia y Argentina</strong>, las entradas volarán en segundos. Solo los portadores de la Membresía tendrán acceso garantizado a la preventa exclusiva.
             </p>

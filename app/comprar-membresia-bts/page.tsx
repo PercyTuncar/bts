@@ -3,7 +3,7 @@ import { headers } from 'next/headers';
 import MembershipClient from './MembershipClient';
 
 export const metadata: Metadata = {
-    title: 'Comprar Membresía BTS Oficial (ARMY Membership 2026)',
+    title: 'Comprar Membresía BTS Oficial',
     description: 'Únete al ARMY oficial y asegura tu preventa para el Tour 2026. Compra tu Membresía BTS Global hoy. Precios en tu moneda local. Acceso inmediato a Weverse.',
     keywords: ['comprar membresía bts', 'army membership precio', 'bts fanclub oficial latinoamerica', 'cuanto cuesta la membresia de bts', 'weverse shop bts español'],
     alternates: {

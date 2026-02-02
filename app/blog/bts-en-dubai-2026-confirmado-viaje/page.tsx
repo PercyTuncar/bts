@@ -19,7 +19,7 @@ export const metadata: Metadata = {
     modifiedTime: '2026-02-02T21:30:00.000Z',
     authors: ['Percy Tunccar'],
     images: [{
-      url: '/images/bts-dubai-2026-cover.jpg',
+      url: '/images/bts-incheon-airport-feb-2026.jpeg',
       width: 1200,
       height: 630,
       alt: 'BTS en el Aeropuerto de Incheon rumbo a Dubai'
@@ -29,6 +29,7 @@ export const metadata: Metadata = {
     card: 'summary_large_image',
     site: '@ravehub',
     creator: '@percytunccar',
+    images: ['/images/bts-incheon-airport-feb-2026.jpeg'],
   }
 }
 
@@ -42,7 +43,6 @@ export default function BTSDubaiNewsPage() {
     },
     "headline": "BTS en Dubai 2026: Confirman Viaje de los 7 Miembros",
     "image": [
-      "https://entradasbts.com/images/bts-dubai-2026-cover.jpg",
       "https://entradasbts.com/images/bts-incheon-airport-feb-2026.jpeg"
     ],
     "datePublished": "2026-02-02T20:00:00+00:00",

@@ -6,6 +6,13 @@ import { Search } from "lucide-react";
 export default function BlogIndex() {
     const posts = [
         {
+            slug: "bts-en-dubai-2026-confirmado-viaje",
+            title: "BTS en Dubai 2026: Confirman Viaje",
+            excerpt: "¡ÚLTIMA HORA! Confirmado: OT7 viajan juntos a Dubai. Todo sobre su agenda y posible concierto.",
+            category: "News",
+            image: "/images/bts-incheon-airport-feb-2026.jpeg"
+        },
+        {
             slug: "boletos-bts-mexico",
             title: "Boletos BTS México 2026: Precios Oficiales y Mapa",
             excerpt: "Lista confirmada de precios, zonas y guía de preventa Weverse para el Estadio GNP Seguros.",

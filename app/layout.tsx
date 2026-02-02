@@ -65,8 +65,7 @@ export const metadata: Metadata = {
 };
 
 import { CartProvider } from "@/context/CartContext";
-import { AutoPopup } from "@/components/AutoPopup";
-import { OfficialStatementPopup } from "@/components/OfficialStatementPopup";
+import { PopupManager } from "@/components/PopupManager";
 
 import { headers } from "next/headers";
 
@@ -77,6 +76,7 @@ export default async function RootLayout({
 }>) {
   const headersList = await headers();
   const lang = headersList.get('x-lang') || 'es';
+  const userCountry = headersList.get('x-user-country') || undefined;
 
   return (
     <html lang={lang}>
@@ -88,8 +88,7 @@ export default async function RootLayout({
           </main>
           <Footer />
           <GoogleAnalytics />
-          <AutoPopup />
-          <OfficialStatementPopup />
+          <PopupManager userCountryCode={userCountry} />
         </CartProvider>
       </body>
     </html>

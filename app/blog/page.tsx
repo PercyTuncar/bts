@@ -6,6 +6,13 @@ import { Search } from "lucide-react";
 export default function BlogIndex() {
     const posts = [
         {
+            slug: "bts-en-netflix",
+            title: "BTS en Netflix: Comeback en Vivo y Documental",
+            excerpt: "¡Confirmado! BTS llega a Netflix con un concierto en vivo desde Seúl y el documental 'El Regreso'. Horarios para Latinoamérica.",
+            category: "News",
+            image: "/images/bts-en-netflix-portada.avif"
+        },
+        {
             slug: "bts-en-dubai-2026-confirmado-viaje",
             title: "BTS en Dubai 2026: Confirman Viaje",
             excerpt: "¡ÚLTIMA HORA! Confirmado: OT7 viajan juntos a Dubai. Todo sobre su agenda y posible concierto.",

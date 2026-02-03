@@ -43,6 +43,18 @@ export default function sitemap(): MetadataRoute.Sitemap {
     // Add explicit blog posts here if/when you have a data source for them
     const blogRoutes = [
         {
+            url: `${baseUrl}/blog/bts-en-netflix`,
+            lastModified: new Date('2026-02-02'),
+            changeFrequency: 'weekly' as const,
+            priority: 0.9,
+        },
+        {
+            url: `${baseUrl}/blog/bts-en-dubai-2026-confirmado-viaje`,
+            lastModified: new Date('2026-02-02'),
+            changeFrequency: 'weekly' as const,
+            priority: 0.9,
+        },
+        {
             url: `${baseUrl}/blog/guide`,
             lastModified: new Date(),
             changeFrequency: 'monthly' as const,

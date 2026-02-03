@@ -455,21 +455,23 @@ export default function CountryClient({ country }: Props) {
                     {/* Main Content */}
                     <div className="max-w-2xl">
                         
-                        {/* Title Block */}
+                        {/* Title Block - SEO Optimized: Single H1 with complete keyword */}
                         <motion.div
                             initial={{ opacity: 0, x: -20 }}
                             animate={{ opacity: 1, x: 0 }}
                             transition={{ delay: 0.2, duration: 0.5 }}
                         >
-                            <p className="text-white/50 text-xs md:text-sm font-medium uppercase tracking-[0.3em] mb-2">
-                                {country.id === 'brasil' ? 'Ingressos' : (country.id === 'mexico' ? 'Boletos' : 'Entradas')}
-                            </p>
-                            <h1 className="text-6xl sm:text-7xl md:text-8xl lg:text-9xl font-black text-white uppercase tracking-tight leading-[0.85]">
-                                BTS
+                            <h1 className="flex flex-col">
+                                <span className="text-white/50 text-xs md:text-sm font-medium uppercase tracking-[0.3em] mb-2">
+                                    {country.id === 'brasil' ? 'Ingressos para' : (country.id === 'mexico' ? 'Boletos para' : 'Entradas para')}
+                                </span>
+                                <span className="text-6xl sm:text-7xl md:text-8xl lg:text-9xl font-black text-white uppercase tracking-tight leading-[0.85]">
+                                    BTS
+                                </span>
+                                <span className="text-5xl sm:text-6xl md:text-7xl lg:text-8xl font-black uppercase tracking-tight leading-[0.85] bg-gradient-to-r from-primary to-rose-400 bg-clip-text text-transparent">
+                                    {country.id === 'madrid' ? 'Madrid' : country.name}
+                                </span>
                             </h1>
-                            <h2 className="text-5xl sm:text-6xl md:text-7xl lg:text-8xl font-black uppercase tracking-tight leading-[0.85] bg-gradient-to-r from-primary to-rose-400 bg-clip-text text-transparent">
-                                {country.name}
-                            </h2>
                         </motion.div>
 
                         {/* Info Row */}
@@ -535,7 +537,7 @@ export default function CountryClient({ country }: Props) {
                             </a>
                         </motion.div>
 
-                        {/* SEO Text - Compact */}
+                        {/* SEO Text - Enriched with keyword variations */}
                         <motion.p 
                             initial={{ opacity: 0 }}
                             animate={{ opacity: 1 }}
@@ -544,11 +546,15 @@ export default function CountryClient({ country }: Props) {
                         >
                             {country.id === 'brasil' ? (
                                 <>
-                                    A espera acabou. <span className="text-white/60">BTS chega a {country.city}</span> para conquistar o <span className="text-primary/70">{country.venue}</span>. Garanta seus ingressos para o BTS no {country.name}. Preços a partir de {country.currencySymbol}{Math.min(...country.prices.map(p => p.price))}.
+                                    A espera acabou. <span className="text-white/60">BTS chega a {country.city}, {country.name}</span> neste 2026. A venda oficial de <strong className="text-white/70 font-semibold">ingressos para BTS no {country.name}</strong> já está disponível para o <span className="text-primary/70">{country.venue}</span>. Confira os preços a partir de {country.currencySymbol}{Math.min(...country.prices.map(p => p.price)).toLocaleString('pt-BR')}, zonas VIP e garanta seu ticket hoje mesmo.
+                                </>
+                            ) : country.id === 'mexico' ? (
+                                <>
+                                    La espera ha terminado. <span className="text-white/60">BTS llega a {country.city}, {country.name}</span> este 2026. La venta oficial de <strong className="text-white/70 font-semibold">boletos para BTS en {country.name}</strong> ya está disponible para el <span className="text-primary/70">{country.venue}</span>. Revisa los precios desde {country.currencySymbol}{Math.min(...country.prices.map(p => p.price)).toLocaleString('es-MX')}, zonas VIP y asegura tu boleto hoy mismo.
                                 </>
                             ) : (
                                 <>
-                                    La espera ha terminado. <span className="text-white/60">BTS llega a {country.city}</span> para conquistar el <span className="text-primary/70">{country.venue}</span>. Asegura tus entradas para BTS en {country.name}. Precios desde {country.currencySymbol}{Math.min(...country.prices.map(p => p.price))}.
+                                    La espera ha terminado. <span className="text-white/60">BTS llega a {country.city}, {country.name}</span> este 2026. La venta oficial de <strong className="text-white/70 font-semibold">entradas para BTS en {country.name}</strong> ya está disponible para el <span className="text-primary/70">{country.venue}</span>. Revisa los precios desde {country.currencySymbol}{Math.min(...country.prices.map(p => p.price)).toLocaleString('es-ES')}, zonas VIP y asegura tu ticket hoy mismo.
                                 </>
                             )}
                         </motion.p>

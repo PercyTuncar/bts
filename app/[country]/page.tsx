@@ -111,7 +111,9 @@ export default async function CountryPage({ params }: Props) {
     const jsonLd = {
         "@context": "https://schema.org",
         "@type": "Event",
-        "name": `BTS ${country.name} 2026`,
+        "name": isBrazil 
+            ? `Show BTS ${country.name} 2026` 
+            : `Concierto BTS ${country.name} 2026`,
         "description": isBrazil ? country.description : country.description, // Can be improved if description in data was localized, but currently reused or static in data
         "image": [
             `https://entradasbts.com${country.openGraphImage}`,

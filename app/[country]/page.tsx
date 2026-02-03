@@ -200,41 +200,6 @@ export default async function CountryPage({ params }: Props) {
         }
     };
 
-    const productLd = {
-        "@context": "https://schema.org/",
-        "@type": "Product",
-        "name": isBrazil ? `Ingressos BTS ${country.name} 2026` : `Entradas BTS ${country.name} 2026`,
-        "image": [
-            `https://entradasbts.com${country.openGraphImage}`,
-            "https://entradasbts.com/images/concert-bg.png"
-        ],
-        "description": isBrazil ? country.description : country.description,
-        "sku": `BTS-TOUR-${country.isoCode}-2026`,
-        "brand": {
-            "@type": "Brand",
-            "name": "BTS World Tour"
-        },
-        "offers": {
-            "@type": "AggregateOffer",
-            "url": `https://entradasbts.com/${country.id}/`,
-            "priceCurrency": country.currency,
-            "lowPrice": minPrice.toString(),
-            "highPrice": maxPrice.toString(),
-            "offerCount": country.prices.length.toString(),
-            "availability": "https://schema.org/InStock",
-            "priceValidUntil": country.dates[0],
-            "offers": country.prices.map(p => ({
-                "@type": "Offer",
-                "name": p.zone,
-                "price": p.price.toString(),
-                "priceCurrency": country.currency,
-                "availability": "https://schema.org/InStock",
-                "priceValidUntil": country.dates[0],
-                "url": `https://entradasbts.com/${country.id}/`
-            }))
-        }
-    };
-
 
     const faqLd = {
         "@context": "https://schema.org",
@@ -269,10 +234,6 @@ export default async function CountryPage({ params }: Props) {
             <script
                 type="application/ld+json"
                 dangerouslySetInnerHTML={{ __html: JSON.stringify(faqLd) }}
-            />
-            <script
-                type="application/ld+json"
-                dangerouslySetInnerHTML={{ __html: JSON.stringify(productLd) }}
             />
             <CountryClient country={country} />
         </>

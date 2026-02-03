@@ -114,7 +114,14 @@ const translations = {
         toPayToday: "A Pagar HOY",
         totalToPay: "Total a Pagar",
         installmentsOf: "cuotas de",
-        checkout: "Finalizar Compra"
+        checkout: "Finalizar Compra",
+        faqTitle: "Preguntas Frecuentes sobre el Concierto",
+        q1: "¿Cuándo salen a la venta las entradas?",
+        a1: "Las fechas varían por país. Revisa la sección de cronograma más arriba para ver las fechas específicas de Preventa Army, Preventa General y Venta General en tu país.",
+        q2: "¿Qué incluye el paquete VIP?",
+        a2: "Los paquetes VIP suelen incluir entrada anticipada, acceso a soundcheck, merch exclusivo y lanyard conmemorativo. Consulta los detalles de cada zona en la selección de entradas.",
+        q3: "¿Cómo llegar al Estadio?",
+        a3: "El evento se realizará en {venue}. Recomendamos usar transporte público y llegar con tiempo de antelación para evitar congestiones."
     },
     pt: {
         worldTour: "Turnê Mundial",
@@ -171,7 +178,14 @@ const translations = {
         toPayToday: "A Pagar HOJE",
         totalToPay: "Total a Pagar",
         installmentsOf: "parcelas de",
-        checkout: "Finalizar Compra"
+        checkout: "Finalizar Compra",
+        faqTitle: "Perguntas Frequentes sobre o Show",
+        q1: "Quando começam as vendas dos ingressos?",
+        a1: "As datas variam por país. Verifique a seção de cronograma acima para ver as datas específicas da Pré-venda Army, Pré-venda Geral e Venda Geral no seu país.",
+        q2: "O que inclui o pacote VIP?",
+        a2: "Os pacotes VIP geralmente incluem entrada antecipada, acesso à passagem de som, merch exclusivo e cordão comemorativo. Consulte os detalhes de cada setor na seleção de ingressos.",
+        q3: "Como chegar ao Estádio?",
+        a3: "O evento será realizado no {venue}. Recomendamos usar transporte público e chegar com antecedência para evitar congestionamentos."
     },
     mx: {
         worldTour: "Gira Mundial",
@@ -228,7 +242,14 @@ const translations = {
         toPayToday: "A Pagar HOY",
         totalToPay: "Total a Pagar",
         installmentsOf: "cuotas de",
-        checkout: "Finalizar Compra"
+        checkout: "Finalizar Compra",
+        faqTitle: "Preguntas Frecuentes sobre el Concierto",
+        q1: "¿Cuándo salen a la venta los boletos?",
+        a1: "Las fechas varían. Checa la sección de cronograma arriba para ver las fechas de Preventa Army, Preventa General y Venta General.",
+        q2: "¿Qué incluye el paquete VIP?",
+        a2: "Los paquetes VIP incluyen entrada anticipada, soundcheck, merch exclusivo y lanyard. Checa los detalles de cada zona.",
+        q3: "¿Cómo llegar al Foro?",
+        a3: "El evento es en {venue}. Te recomendamos llegar en transporte público o usar los estacionamientos oficiales con tiempo."
     }
 };
 
@@ -267,6 +288,7 @@ export default function CountryClient({ country }: Props) {
     const [isMembershipModalOpen, setIsMembershipModalOpen] = useState(false);
     const [installmentMonths, setInstallmentMonths] = useState(3);
     const [mounted, setMounted] = useState(false);
+    const [videoLoaded, setVideoLoaded] = useState(false);
 
     // Initial tick to avoid hydration mismatch
     const [timeLeft, setTimeLeft] = useState({ days: 0, hours: 0, minutes: 0, seconds: 0 });
@@ -396,94 +418,140 @@ export default function CountryClient({ country }: Props) {
                 </div>
             </div>
 
-            {/* HERO SECTION */}
-            <section className="relative min-h-[90vh] flex flex-col pt-36 pb-20 overflow-hidden border-b border-slate-200 bg-white">
-                <motion.div style={{ y: heroY, opacity }} className="absolute inset-0 w-screen h-full z-0">
+            {/* HERO SECTION - Split Layout */}
+            <section className="relative h-[100svh] min-h-[650px] max-h-[850px] pt-32 overflow-hidden bg-black">
+                {/* Background Video & Image */}
+                <div className="absolute inset-0 w-full h-full z-0">
+                    {/* Placeholder Image */}
                     <Image
                         src="https://images.prestigeonline.com/wp-content/uploads/sites/6/2022/08/09215459/BTS-members-1600x900.jpg"
-                        alt={`Concierto BTS ${country.name} ${country.venue} lleno Army Kpop`}
+                        alt={`Integrantes de BTS actuando en vivo en ${country.venue}, ${country.name}`}
                         fill
-                        className="object-cover opacity-90"
+                        className={`object-cover object-[center_20%] transition-opacity duration-1000 ${videoLoaded ? 'opacity-0' : 'opacity-100'}`}
                         priority
                         sizes="100vw"
                     />
-                    {/* Clean Gradient Overlay */}
-                    <div className="absolute inset-0 bg-gradient-to-t from-white via-white/40 to-transparent"></div>
-                </motion.div>
+                    
+                    {/* Background Video */}
+                    <video
+                        autoPlay
+                        muted
+                        loop
+                        playsInline
+                        onCanPlayThrough={() => setVideoLoaded(true)}
+                        className={`absolute inset-0 w-full h-full object-cover object-[center_20%] transition-opacity duration-1000 ${videoLoaded ? 'opacity-100' : 'opacity-0'}`}
+                    >
+                        <source src="/images/video-bts.mp4" type="video/mp4" />
+                    </video>
+                    
+                    {/* Gradient Overlay - Strong on left for text readability */}
+                    <div className="absolute inset-0 bg-gradient-to-r from-black via-black/70 to-transparent"></div>
+                    <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-black/40"></div>
+                </div>
 
-                <div className="container mx-auto px-4 md:px-8 relative z-10 flex flex-col justify-between flex-1 mt-12">
-                    <div className="max-w-5xl relative">
+                {/* Content - Left Aligned */}
+                <div className="relative z-10 h-full container mx-auto px-4 md:px-8 flex flex-col justify-center">
+
+                    {/* Main Content */}
+                    <div className="max-w-2xl">
+                        
+                        {/* Title Block */}
                         <motion.div
-                            initial={{ x: -20, opacity: 0 }}
-                            animate={{ x: 0, opacity: 1 }}
-                            transition={{ duration: 1, ease: "easeOut" }}
-                            className="text-[6rem] sm:text-[8rem] md:text-[16rem] leading-[0.8] md:leading-[0.75] font-black tracking-tighter select-none relative z-0 text-slate-900 [-webkit-text-stroke:1.5px_white] md:[-webkit-text-stroke:0px]"
+                            initial={{ opacity: 0, x: -20 }}
+                            animate={{ opacity: 1, x: 0 }}
+                            transition={{ delay: 0.2, duration: 0.5 }}
                         >
-                            BTS
+                            <p className="text-white/50 text-xs md:text-sm font-medium uppercase tracking-[0.3em] mb-2">
+                                {country.id === 'brasil' ? 'Ingressos' : (country.id === 'mexico' ? 'Boletos' : 'Entradas')}
+                            </p>
+                            <h1 className="text-6xl sm:text-7xl md:text-8xl lg:text-9xl font-black text-white uppercase tracking-tight leading-[0.85]">
+                                BTS
+                            </h1>
+                            <h2 className="text-5xl sm:text-6xl md:text-7xl lg:text-8xl font-black uppercase tracking-tight leading-[0.85] bg-gradient-to-r from-primary to-rose-400 bg-clip-text text-transparent">
+                                {country.name}
+                            </h2>
                         </motion.div>
 
-                        <div className="flex flex-col md:flex-row items-start md:items-end gap-4 md:gap-6 mt-2 md:-mt-16 ml-1 md:ml-4 relative z-20">
-                            <motion.div
-                                initial={{ scale: 0, rotate: -10 }}
-                                animate={{ scale: 1, rotate: 0 }}
-                                transition={{ delay: 0.3 }}
-                                className="bg-primary text-white px-5 py-2 text-base md:text-lg font-black uppercase shadow-xl rounded-full tracking-widest"
+                        {/* Info Row */}
+                        <motion.div 
+                            initial={{ opacity: 0, x: -20 }}
+                            animate={{ opacity: 1, x: 0 }}
+                            transition={{ delay: 0.3 }}
+                            className="flex flex-wrap items-center gap-3 mt-3"
+                        >
+                            <span className="inline-flex items-center gap-2 text-white text-base font-medium">
+                                <MapPin className="w-5 h-5 text-primary" />
+                                {country.city}
+                            </span>
+                            <span className="text-white/30">•</span>
+                            <span className="text-white/60 text-base">{country.venue}</span>
+                        </motion.div>
+
+                        {/* Date & Countdown Row */}
+                        <motion.div 
+                            initial={{ opacity: 0, x: -20 }}
+                            animate={{ opacity: 1, x: 0 }}
+                            transition={{ delay: 0.4 }}
+                            className="flex flex-wrap items-center gap-5 mt-3"
+                        >
+                            <div className="flex items-center gap-2 bg-primary/20 border border-primary/30 text-white text-base font-semibold px-4 py-2 rounded-xl">
+                                <Calendar className="w-5 h-5 text-primary" />
+                                {primaryDate}
+                            </div>
+                            
+                            <div className="flex items-center gap-4 text-white">
+                                {[
+                                    { val: timeLeft.days, label: t.days },
+                                    { val: timeLeft.hours, label: t.hrs },
+                                    { val: timeLeft.minutes, label: t.min },
+                                    { val: timeLeft.seconds, label: t.seg }
+                                ].map((item, idx) => (
+                                    <div key={idx} className="text-center">
+                                        <span className="block text-2xl md:text-3xl font-black tabular-nums">{item.val.toString().padStart(2, '0')}</span>
+                                        <span className="block text-[10px] uppercase tracking-wider text-white/40">{item.label}</span>
+                                    </div>
+                                ))}
+                                <span className="flex items-center gap-1.5 text-xs font-bold text-primary uppercase ml-2">
+                                    <span className="w-2 h-2 rounded-full bg-primary animate-pulse"></span>
+                                    {t.live}
+                                </span>
+                            </div>
+                        </motion.div>
+
+                        {/* CTA Button */}
+                        <motion.div 
+                            initial={{ opacity: 0, x: -20 }}
+                            animate={{ opacity: 1, x: 0 }}
+                            transition={{ delay: 0.5 }}
+                            className="mt-5"
+                        >
+                            <a 
+                                href="#tickets" 
+                                className="group inline-flex items-center gap-3 bg-primary hover:bg-primary/90 text-white font-bold uppercase tracking-wider text-base px-8 py-4 rounded-2xl transition-all duration-300 shadow-[0_0_30px_rgba(225,29,72,0.5)] hover:shadow-[0_0_50px_rgba(225,29,72,0.7)] hover:scale-[1.02]"
                             >
-                                   'ARIRANG' TOUR
-                            </motion.div>
+                                <Ticket className="w-6 h-6" />
+                                {t.buyTickets}
+                                <ArrowRight className="w-5 h-5 group-hover:translate-x-1 transition-transform" />
+                            </a>
+                        </motion.div>
 
-                            <h1 className="relative">
-                                <span className="sr-only">
-                                    {country.id === 'brasil' 
-                                        ? `Ingressos BTS ${country.name} ` 
-                                        : (country.id === 'mexico' ? `Boletos BTS ${country.name} ` : `Entradas BTS ${country.name} `)}
-                                </span>
-                                <span className="block text-6xl md:text-8xl font-black italic text-white relative z-20 tracking-tighter drop-shadow-[0_4px_4px_rgba(0,0,0,0.5)]" style={{ WebkitTextStroke: '1.5px black' }}>
-                                    {country.city}
-                                </span>
-                            </h1>
-                        </div>
-                    </div>
-
-                    <div className="flex flex-col lg:flex-row items-center lg:items-end justify-between gap-6 md:gap-8 mt-8 md:mt-12 pb-8">
-                        {/* INFO BLOCK */}
-                        <div className="bg-white/80 backdrop-blur-md rounded-2xl p-6 max-w-sm w-full relative shadow-sm hover:shadow-md transition-all border border-slate-100">
-                            <div className="flex justify-between items-start mb-4">
-                                <div>
-                                    <p className="font-bold text-slate-400 text-xs uppercase tracking-wider mb-1">{t.nextEvent}</p>
-                                    <p className="text-xl font-black uppercase text-slate-900 leading-tight">{primaryDate}</p>
-                                </div>
-                                <div className="text-primary bg-primary/10 p-2 rounded-full">
-                                    <MapPin className="w-5 h-5" />
-                                </div>
-                            </div>
-                            <div className="flex items-center gap-4 pt-4 border-t border-slate-100">
-                                <p className="text-base font-bold text-slate-700 leading-tight">{country.venue}</p>
-                            </div>
-                        </div>
-
-                        {/* CLOCK */}
-                        <div className="flex gap-4 md:gap-6 bg-white/60 backdrop-blur-sm p-6 rounded-3xl border border-white shadow-sm">
-                            <Digit val={timeLeft.days} label={t.days} />
-                            <Digit val={timeLeft.hours} label={t.hrs} />
-                            <Digit val={timeLeft.minutes} label={t.min} />
-                            <Digit val={timeLeft.seconds} label={t.seg} />
-                        </div>
-                    </div>
-
-                    {/* SEO TEXT DYNAMIC FOR ALL COUNTRIES */}
-                    <div className="relative mt-8 max-w-4xl bg-white/50 backdrop-blur-sm p-6 rounded-2xl border border-slate-100 mx-auto w-full">
-                        <p className="text-slate-800 text-lg font-medium leading-relaxed text-center">
+                        {/* SEO Text - Compact */}
+                        <motion.p 
+                            initial={{ opacity: 0 }}
+                            animate={{ opacity: 1 }}
+                            transition={{ delay: 0.6 }}
+                            className="text-white/40 text-xs md:text-sm leading-relaxed mt-4 max-w-xl"
+                        >
                             {country.id === 'brasil' ? (
                                 <>
-                                    A espera acabou. <strong>BTS chega a {country.city}</strong> para conquistar o <strong className="text-primary">{country.venue}</strong>. Garanta seus <strong>ingressos para o BTS no {country.name}</strong> e viva o maior show de K-pop da história. Preços a partir de {country.currencySymbol}{Math.min(...country.prices.map(p => p.price))} com compra 100% segura. Confira o mapa e preços agora!
+                                    A espera acabou. <span className="text-white/60">BTS chega a {country.city}</span> para conquistar o <span className="text-primary/70">{country.venue}</span>. Garanta seus ingressos para o BTS no {country.name}. Preços a partir de {country.currencySymbol}{Math.min(...country.prices.map(p => p.price))}.
                                 </>
                             ) : (
                                 <>
-                                    La espera ha terminado. <strong>BTS llega a {country.city}</strong> para conquistar el <strong className="text-primary">{country.venue}</strong>. Asegura tus <strong>entradas para BTS en {country.name}</strong> y vive el concierto K-pop más grande de la historia. Precios desde {country.currencySymbol}{Math.min(...country.prices.map(p => p.price))} con compra 100% segura. ¡Consulta el mapa y precios ahora!
+                                    La espera ha terminado. <span className="text-white/60">BTS llega a {country.city}</span> para conquistar el <span className="text-primary/70">{country.venue}</span>. Asegura tus entradas para BTS en {country.name}. Precios desde {country.currencySymbol}{Math.min(...country.prices.map(p => p.price))}.
                                 </>
                             )}
-                        </p>
+                        </motion.p>
                     </div>
                 </div>
             </section>
@@ -496,7 +564,7 @@ export default function CountryClient({ country }: Props) {
                     <div className="flex-1">
                         <div className="mb-12 flex flex-col gap-8 border-b border-slate-200 pb-8">
                             <div className="flex flex-col md:flex-row md:items-end justify-between gap-6 mb-8">
-                                <h3 className="text-4xl font-black uppercase italic text-slate-900 tracking-tighter">{t.tickets}</h3>
+                                <h2 className="text-4xl font-black uppercase italic text-slate-900 tracking-tighter">{t.tickets}</h2>
 
                                 <div className="flex gap-2 w-full md:w-auto p-1 bg-slate-100 rounded-xl">
                                     {(country.allowInstallments !== false) && (
@@ -745,15 +813,15 @@ export default function CountryClient({ country }: Props) {
             </section >
 
             {/* INFO & SEO */}
-            <section className="container mx-auto px-4 md:px-8 pb-32 pt-12 border-t border-slate-200">
+            <section className="container mx-auto px-4 md:px-8 pb-12 pt-12 border-t border-slate-200">
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-16 max-w-5xl mx-auto text-slate-600">
                     <div className="space-y-8">
                         <div>
-                            <h3 className="text-2xl font-black text-slate-900 mb-4 uppercase">{t.secureProcessTitle}</h3>
+                            <h2 className="text-2xl font-black text-slate-900 mb-4 uppercase">{t.secureProcessTitle}</h2>
                             <p className="leading-relaxed text-lg">{t.secureProcessDesc}</p>
                         </div>
                         <div>
-                            <h3 className="text-xl font-bold text-slate-900 mb-4 uppercase">{t.whySecureTitle}</h3>
+                            <h2 className="text-xl font-bold text-slate-900 mb-4 uppercase">{t.whySecureTitle}</h2>
                             <ul className="space-y-4">
                                 <li className="flex gap-3">
                                     <ShieldCheck className="w-6 h-6 text-primary shrink-0" />
@@ -768,9 +836,9 @@ export default function CountryClient({ country }: Props) {
                     </div>
                     <div className="space-y-8">
                         <div>
-                            <h3 className="text-2xl font-black text-slate-900 mb-4 uppercase">
+                            <h2 className="text-2xl font-black text-slate-900 mb-4 uppercase">
                                 {t.historyTitle.replace('{country}', country.name)}
-                            </h3>
+                            </h2>
                             <div className="space-y-4 text-lg leading-relaxed">
                                 <p>{t.historyDesc1.replace('{country}', country.name).replace('{venue}', country.venue)}</p>
                                 <div className="bg-slate-100 p-6 rounded-2xl border-l-4 border-primary italic text-slate-700">
@@ -778,6 +846,27 @@ export default function CountryClient({ country }: Props) {
                                 </div>
                                 <p>{t.historyDesc5}</p>
                             </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            {/* FAQ SECTION */}
+            <section className="container mx-auto px-4 md:px-8 pb-32 pt-12 border-t border-slate-200">
+                <div className="max-w-3xl mx-auto">
+                    <h2 className="text-3xl font-black text-slate-900 mb-8 uppercase text-center">{t.faqTitle}</h2>
+                    <div className="space-y-6">
+                        <div className="bg-white border border-slate-100 p-6 rounded-2xl shadow-sm">
+                            <h3 className="font-bold text-lg text-slate-900 mb-2">{t.q1}</h3>
+                            <p className="text-slate-600">{t.a1}</p>
+                        </div>
+                        <div className="bg-white border border-slate-100 p-6 rounded-2xl shadow-sm">
+                            <h3 className="font-bold text-lg text-slate-900 mb-2">{t.q2}</h3>
+                            <p className="text-slate-600">{t.a2}</p>
+                        </div>
+                        <div className="bg-white border border-slate-100 p-6 rounded-2xl shadow-sm">
+                            <h3 className="font-bold text-lg text-slate-900 mb-2">{t.q3}</h3>
+                            <p className="text-slate-600">{t.a3.replace('{venue}', country.venue)}</p>
                         </div>
                     </div>
                 </div>

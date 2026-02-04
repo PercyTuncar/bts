@@ -2,10 +2,8 @@
 
 import { motion, AnimatePresence } from "framer-motion";
 import { countries } from "@/lib/data/countries";
-import { X, ExternalLink, MessageCircle, Heart } from "lucide-react";
-import { GlassCard } from "./GlassCard";
+import { X, ExternalLink, MessageCircle } from "lucide-react";
 import Image from "next/image";
-
 import { usePathname } from "next/navigation";
 
 interface CommunityModalProps {
@@ -17,21 +15,18 @@ export function CommunityModal({ isOpen, onClose }: CommunityModalProps) {
     const pathname = usePathname();
     const isBrazil = pathname?.startsWith('/brasil');
 
-    // Translations
     const t = isBrazil ? {
         title: "Junte-se ao",
         highlight: "Grupo",
-        description: "Entre no chat do seu país, coordene seus ingressos e prepare-se para o show.",
         group: "Grupo Oficial",
         members: "+50.000 Armys unidos",
-        note: "Nota: Venda oficial ainda não disponível. Preços e setores são referenciais."
+        note: "Nota: Venda oficial ainda nao disponivel."
     } : {
-        title: "Únete al",
+        title: "Unete al",
         highlight: "Grupo",
-        description: "Únete al chat de tu país, coordina tus entradas y prepárate para el show.",
         group: "Grupo Oficial",
         members: "+50,000 Armys unidos",
-        note: "Nota: Venta oficial aún no lo tenemos disponible. Precios y zonas son referenciales."
+        note: "Nota: Venta oficial aun no disponible."
     };
 
     return (
@@ -44,7 +39,7 @@ export function CommunityModal({ isOpen, onClose }: CommunityModalProps) {
                         animate={{ opacity: 1 }}
                         exit={{ opacity: 0 }}
                         onClick={onClose}
-                        className="fixed inset-0 bg-black/90 backdrop-blur-md"
+                        className="fixed inset-0 bg-black/95 backdrop-blur-xl"
                     />
 
                     {/* Modal Content */}
@@ -54,55 +49,52 @@ export function CommunityModal({ isOpen, onClose }: CommunityModalProps) {
                         exit={{ scale: 0.9, opacity: 0, y: 50 }}
                         className="relative w-full max-w-lg my-auto"
                     >
-                        <div className="relative bg-white border border-slate-200 rounded-3xl overflow-hidden shadow-2xl">
+                        <div className="relative glass-card rounded-3xl overflow-hidden border-primary/20">
 
                             {/* Close Button */}
                             <button
                                 onClick={onClose}
-                                className="absolute top-4 right-4 z-20 w-8 h-8 bg-white/50 hover:bg-white text-slate-900 shadow-sm rounded-full flex items-center justify-center transition-all backdrop-blur-sm"
+                                className="absolute top-4 right-4 z-20 w-8 h-8 bg-white/10 hover:bg-white/20 text-white rounded-full flex items-center justify-center transition-all"
                             >
                                 <X className="w-4 h-4" />
                             </button>
 
                             {/* Cover Image */}
-                            <div className="relative h-52 w-full">
+                            <div className="relative h-44 w-full">
                                 <Image
                                     src="/images/home-hero.jpg"
                                     alt="BTS Army Purple Ocean"
                                     fill
                                     className="object-cover"
                                 />
-                                <div className="absolute inset-0 bg-gradient-to-t from-[#0a0a0a] via-[#0a0a0a]/40 to-transparent"></div>
+                                <div className="absolute inset-0 bg-gradient-to-t from-[#0a0a0a] via-[#0a0a0a]/60 to-transparent" />
 
                                 {/* Floating Badge */}
                                 <div className="absolute -bottom-10 left-1/2 -translate-x-1/2 z-10">
-                                    <div className="w-24 h-24 bg-[#25D366] rounded-full p-1 shadow-[0_0_40px_rgba(37,211,102,0.4)] flex items-center justify-center border-[6px] border-[#0a0a0a]">
-                                        <img src="/images/whatsapp.svg" alt="WhatsApp" className="w-12 h-12" />
+                                    <div className="w-20 h-20 bg-green-500 rounded-2xl p-1 shadow-[0_0_40px_rgba(37,211,102,0.4)] flex items-center justify-center border-4 border-[#0a0a0a]">
+                                        <MessageCircle className="w-10 h-10 text-white fill-current" />
                                     </div>
                                 </div>
                             </div>
 
                             {/* Content */}
-                            <div className="pt-16 pb-12 px-8 md:px-12 text-center relative z-10">
+                            <div className="pt-14 pb-8 px-6 md:px-8 text-center relative z-10">
                                 <motion.div
                                     initial={{ y: 20, opacity: 0 }}
                                     animate={{ y: 0, opacity: 1 }}
                                     transition={{ delay: 0.1 }}
                                 >
-                                    <div className="inline-block bg-primary text-white px-4 py-1 text-sm font-black uppercase -rotate-2 mb-4 shadow-sm">
+                                    <div className="inline-flex items-center gap-2 px-3 py-1.5 rounded-full bg-primary/20 border border-primary/30 text-primary text-xs font-bold uppercase tracking-wider mb-4">
                                         World Tour 2026
                                     </div>
-                                    <h2 className="text-4xl md:text-5xl font-black uppercase italic text-slate-900 mb-2 leading-[0.9]">
-                                        {t.title} <span className="text-primary">{t.highlight}</span>
+                                    <h2 className="text-3xl md:text-4xl font-black uppercase text-white mb-6 leading-[0.9]">
+                                        {t.title} <span className="gradient-text">{t.highlight}</span>
                                     </h2>
-                                    <p className="text-slate-500 font-medium text-sm md:text-base leading-relaxed mb-8 max-w-xs mx-auto mt-4">
-                                        <strong className="text-slate-900">{isBrazil ? "Entre no chat do seu país" : "Únete al chat de tu país"}</strong>, {isBrazil ? "coordene seus ingressos e prepare-se para o show." : "coordina tus entradas y prepárate para el show."}
-                                    </p>
                                 </motion.div>
 
-                                <div className="space-y-3">
+                                <div className="space-y-2 max-h-[300px] overflow-y-auto pr-2">
                                     {countries
-                                        .slice() // Create a copy to avoid mutating the original array
+                                        .slice()
                                         .sort((a, b) => {
                                             const currentCountryId = pathname?.split('/')[1];
                                             if (a.id === currentCountryId) return -1;
@@ -117,28 +109,26 @@ export function CommunityModal({ isOpen, onClose }: CommunityModalProps) {
                                                 rel="noopener noreferrer"
                                                 initial={{ x: -20, opacity: 0 }}
                                                 animate={{ x: 0, opacity: 1 }}
-                                                transition={{ delay: 0.2 + (i * 0.1) }}
-                                                className={`group flex items-center justify-between p-4 rounded-xl border transition-all duration-300 ${pathname?.includes(country.id)
-                                                    ? 'bg-[#25D366]/10 border-[#25D366] hover:bg-[#25D366]/20'
-                                                    : 'bg-slate-50 border-slate-200 hover:bg-[#25D366] hover:border-[#25D366]'
+                                                transition={{ delay: 0.1 + (i * 0.05) }}
+                                                className={`group flex items-center justify-between p-3 rounded-xl border transition-all duration-300 ${pathname?.includes(country.id)
+                                                    ? 'bg-green-500/20 border-green-500/50'
+                                                    : 'bg-white/5 border-white/10 hover:bg-green-500/10 hover:border-green-500/30'
                                                     }`}
                                             >
-                                                <div className="flex items-center gap-4">
-                                                    <span className="text-2xl">{country.flag}</span>
+                                                <div className="flex items-center gap-3">
+                                                    <span className="text-xl">{country.flag}</span>
                                                     <div className="text-left">
-                                                        <span className={`block font-black uppercase text-sm tracking-widest transition-colors ${pathname?.includes(country.id) ? 'text-[#166534]' : 'text-slate-900 group-hover:text-white'
-                                                            }`}>
+                                                        <span className="block font-bold text-sm text-white">
                                                             Army {country.name}
                                                         </span>
-                                                        <span className={`text-[10px] font-bold uppercase transition-colors flex items-center gap-1 ${pathname?.includes(country.id) ? 'text-[#166534]' : 'text-slate-500 group-hover:text-white/90'
-                                                            }`}>
+                                                        <span className="text-[10px] text-white/40 flex items-center gap-1">
                                                             <MessageCircle className="w-3 h-3" /> {t.group}
                                                         </span>
                                                     </div>
                                                 </div>
-                                                <div className={`w-8 h-8 rounded-full flex items-center justify-center transition-colors ${pathname?.includes(country.id)
-                                                    ? 'bg-[#25D366] text-white'
-                                                    : 'bg-white border border-slate-200 text-slate-400 group-hover:bg-white/20 group-hover:text-black group-hover:border-transparent'
+                                                <div className={`w-8 h-8 rounded-lg flex items-center justify-center transition-colors ${pathname?.includes(country.id)
+                                                    ? 'bg-green-500 text-white'
+                                                    : 'bg-white/5 text-white/30 group-hover:bg-green-500 group-hover:text-white'
                                                     }`}>
                                                     <ExternalLink className="w-4 h-4" />
                                                 </div>
@@ -146,16 +136,16 @@ export function CommunityModal({ isOpen, onClose }: CommunityModalProps) {
                                         ))}
                                 </div>
 
-                                <div className="mt-8 pt-6 border-t border-slate-100 flex flex-col items-center justify-center gap-2">
+                                <div className="mt-6 pt-4 border-t border-white/10 flex flex-col items-center justify-center gap-2">
                                     <div className="flex -space-x-2 overflow-hidden">
                                         {[1, 2, 3, 4].map(i => (
-                                            <div key={i} className="inline-block h-6 w-6 rounded-full ring-2 ring-white bg-slate-200"></div>
+                                            <div key={i} className="inline-block h-6 w-6 rounded-full ring-2 ring-[#0a0a0a] bg-gradient-to-br from-primary to-secondary" />
                                         ))}
                                     </div>
-                                    <p className="text-[10px] text-slate-500 uppercase tracking-widest font-bold">
+                                    <p className="text-[10px] text-white/50 uppercase tracking-widest font-bold">
                                         {t.members}
                                     </p>
-                                    <p className="text-[10px] text-slate-400 mt-2 max-w-[200px] mx-auto leading-tight">
+                                    <p className="text-[10px] text-white/30 mt-1 max-w-[200px] mx-auto leading-tight">
                                         {t.note}
                                     </p>
                                 </div>

@@ -4,7 +4,7 @@ import { GlassCard } from "@/components/GlassCard";
 import { Button } from "@/components/Button";
 import Link from "next/link";
 import { countries } from "@/lib/data/countries";
-import { ArrowRight, Ticket, Music, ShoppingBag } from "lucide-react";
+import { ArrowRight, Ticket, ShoppingBag, Sparkles, Calendar } from "lucide-react";
 import Image from "next/image";
 import { HomeCommunityBanner } from "@/components/HomeCommunityBanner";
 
@@ -118,18 +118,14 @@ export default function Home() {
   };
 
   return (
-    <div className="min-h-screen text-slate-900 selection:bg-secondary selection:text-white pb-20">
+    <div className="min-h-screen bg-black text-white selection:bg-primary/30 selection:text-white">
       <script
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
       />
 
-      {/* BACKGROUND NOISE */}
-      {/* BACKGROUND NOISE - REMOVED FOR CLEAN LIGHT MODE */}
-      { /* <div className="fixed inset-0 z-0 pointer-events-none opacity-20 bg-noise mix-blend-overlay"></div> */}
-
       {/* Hero Section */}
-      <section className="relative min-h-[80vh] flex flex-col items-center justify-center overflow-hidden pt-24 pb-24 border-b border-slate-200 bg-white">
+      <section className="relative min-h-[100vh] flex flex-col items-center justify-center overflow-hidden">
 
         {/* HERO BACKGROUND IMAGE */}
         <div className="absolute inset-0 z-0 select-none overflow-hidden">
@@ -137,93 +133,116 @@ export default function Home() {
             src="/images/home-hero.jpg"
             alt="Integrantes de BTS en concierto para el tour mundial 2026"
             fill
-            className="object-cover opacity-90" // Increased opacity for better image visibility
+            className="object-cover"
             priority
           />
-          {/* Light Mode Overlay System */}
-          <div className="absolute inset-0 bg-white/50 backdrop-blur-[1px]"></div>
-          <div className="absolute inset-0 bg-gradient-to-t from-white via-white/20 to-transparent"></div>
+          {/* Dark Overlays */}
+          <div className="absolute inset-0 bg-gradient-to-t from-black via-black/70 to-black/40" />
+          <div className="absolute inset-0 bg-gradient-to-r from-black/60 via-transparent to-black/60" />
+          {/* Purple Glow */}
+          <div className="absolute bottom-0 left-1/2 -translate-x-1/2 w-[200%] h-1/2 bg-purple-glow opacity-40" />
         </div>
 
         {/* GIANT BACK TEXT - Decorative */}
         <div className="absolute inset-0 flex items-center justify-center pointer-events-none select-none overflow-hidden z-0">
-          <div className="text-[15vw] font-black text-slate-900/5 whitespace-nowrap leading-none mix-blend-multiply" style={{ fontFamily: 'Arial Black' }}>
-            BTS LIVE
+          <div className="text-[20vw] font-black text-white/[0.02] whitespace-nowrap leading-none" style={{ fontFamily: 'Arial Black' }}>
+            BTS 2026
           </div>
         </div>
 
-        <div className="relative z-10 container mx-auto px-4 flex flex-col items-center text-center gap-6">
+        <div className="relative z-10 container mx-auto px-4 flex flex-col items-center text-center gap-8">
 
-          <div className="inline-block animate-fade-in-up">
-            <h1 className="inline-block bg-slate-900 text-white px-6 py-2 text-sm md:text-base font-black uppercase tracking-widest -rotate-2 shadow-[4px_4px_0_#F01942] mb-6 transform hover:rotate-0 transition-transform duration-300">
-              Entradas BTS World Tour 2026
-            </h1>
+          {/* Live Badge */}
+          <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-primary/20 border border-primary/30 text-primary text-sm font-bold uppercase tracking-wider animate-fade-in-up">
+            <span className="w-2 h-2 rounded-full bg-primary animate-pulse" />
+            World Tour 2026
           </div>
 
-          {/* Visual Title - Semantically H2 */}
-          <h2 className="flex flex-col items-center justify-center text-5xl md:text-8xl font-black tracking-tighter uppercase leading-[0.85] drop-shadow-sm">
-            <span className="block text-slate-900 relative">
-              La Espera
+          {/* Main Title */}
+          <h1 className="flex flex-col items-center justify-center text-6xl md:text-9xl font-black tracking-tight uppercase leading-[0.85] animate-fade-in-up">
+            <span className="block text-white">
+              Entradas BTS
             </span>
-            <span className="block text-transparent bg-clip-text bg-gradient-to-r from-primary to-rose-600 italic font-serif pb-4 relative">
-              Terminó
-              <span className="absolute -bottom-1 left-0 right-0 h-2 bg-primary/20 -z-10 -rotate-1 rounded-full"></span>
+            <span className="block gradient-text">
+              World Tour
             </span>
-          </h2>
+          </h1>
 
-          <p className="max-w-xl text-slate-600 text-lg md:text-2xl font-medium leading-relaxed animate-fade-in-up delay-100">
-            El evento más grande de la historia. <br className="hidden md:block" />
-            <span className="bg-white/80 px-2 py-1 rounded-lg box-decoration-clone backdrop-blur-sm">
-              34 ciudades. 5 continentes.
-              <span className="text-primary font-black"> ¿Estás listo?</span>
-            </span>
+          <p className="max-w-2xl text-white/60 text-lg md:text-xl font-medium leading-relaxed animate-fade-in-up">
+            El evento mas grande de la historia.
+            <span className="text-white"> 34 ciudades. 5 continentes.</span>
+            <span className="gradient-text font-bold"> El oceano purpura te espera.</span>
           </p>
 
-          <div className="flex flex-col md:flex-row gap-4 md:gap-6 w-full md:w-auto mt-4 animate-fade-in-up delay-200">
-            <Link href="/eventos" className="w-full md:w-auto group">
-              <Button size="lg" variant="primary" className="w-full text-lg h-14 px-8 shadow-[6px_6px_0_#0f172a] group-hover:shadow-[2px_2px_0_#0f172a] group-hover:translate-x-1 group-hover:translate-y-1 transition-all border-2 border-slate-900 bg-primary text-white hover:bg-red-600">
+          <div className="flex flex-col md:flex-row gap-4 w-full md:w-auto mt-4 animate-fade-in-up">
+            <Link href="/eventos" className="w-full md:w-auto">
+              <Button size="lg" variant="glow" className="w-full text-lg h-14 px-10">
+                <Ticket className="w-5 h-5 mr-2" />
                 Ver Entradas
+                <ArrowRight className="w-5 h-5 ml-2" />
               </Button>
             </Link>
-            <Link href="#tour-dates" className="w-full md:w-auto group">
-              <Button size="lg" variant="outline" className="w-full text-lg h-14 px-8 border-2 border-slate-900 text-slate-900 bg-white hover:bg-slate-50 shadow-[6px_6px_0_#cbd5e1] group-hover:shadow-[2px_2px_0_#cbd5e1] group-hover:translate-x-1 group-hover:translate-y-1 transition-all">
+            <Link href="#tour-dates" className="w-full md:w-auto">
+              <Button size="lg" variant="secondary" className="w-full text-lg h-14 px-10">
+                <Calendar className="w-5 h-5 mr-2" />
                 Ver Fechas
               </Button>
             </Link>
           </div>
         </div>
+
+        {/* Scroll Indicator */}
+        <div className="absolute bottom-8 left-1/2 -translate-x-1/2 flex flex-col items-center gap-2 animate-fade-in-up">
+          <span className="text-white/30 text-xs uppercase tracking-widest">Scroll</span>
+          <div className="w-6 h-10 rounded-full border-2 border-white/20 flex items-start justify-center p-1">
+            <div className="w-1.5 h-3 bg-primary rounded-full animate-bounce" />
+          </div>
+        </div>
       </section>
 
       {/* QUICK SELECT GRID */}
-      <section id="tour-dates" className="container mx-auto px-4 py-24">
-        <div className="flex items-end justify-between mb-12 border-b-4 border-slate-200 pb-4">
-          <h2 className="text-5xl font-black uppercase italic">Fechas del Tour</h2>
-          <div className="text-sm font-bold uppercase tracking-widest text-gray-500">Selecciona tu ciudad</div>
-        </div>
+      <section id="tour-dates" className="py-24 relative">
+        {/* Background Glow */}
+        <div className="absolute top-0 left-1/2 -translate-x-1/2 w-full max-w-4xl h-[500px] bg-purple-glow opacity-20 pointer-events-none" />
+        
+        <div className="container mx-auto px-4">
+          <div className="flex flex-col md:flex-row md:items-end justify-between mb-12 gap-4">
+            <div>
+              <span className="text-primary text-sm font-bold uppercase tracking-widest mb-2 block">Selecciona tu ciudad</span>
+              <h2 className="text-4xl md:text-6xl font-black uppercase tracking-tight">Fechas del Tour</h2>
+            </div>
+            <p className="text-white/40 text-sm max-w-xs">Latinoamerica y Europa. Elige tu destino y asegura tu lugar.</p>
+          </div>
 
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
-          {countries.map((country, i) => (
-            <Link key={country.id} href={`/${country.id}`} className="group block">
-              <GlassCard variant="interactive" className="h-full flex flex-col justify-between min-h-[300px] hover:bg-white/80 transition-colors border border-slate-200 shadow-sm hover:shadow-md">
-                <div className="flex justify-between items-start">
-                  <span className="text-6xl font-black text-slate-100 group-hover:text-primary/20 transition-colors">0{i + 1}</span>
-                  <div className="bg-slate-900 text-white text-xs font-bold px-2 py-1 uppercase">Disponible</div>
-                </div>
-
-                <div className="space-y-4">
-                  <div>
-                    <h3 className="text-4xl font-black uppercase leading-none mb-1 text-slate-900 group-hover:text-primary transition-colors">{country.city}</h3>
-                    <p className="text-slate-500 font-serif italic text-lg">{country.name}</p>
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
+            {countries.map((country, i) => (
+              <Link key={country.id} href={`/${country.id}`} className="group block">
+                <div className="glass-card p-6 rounded-2xl h-full flex flex-col justify-between min-h-[280px] transition-all duration-300 hover:shadow-glow hover:-translate-y-1 hover:border-primary/40">
+                  <div className="flex justify-between items-start">
+                    <span className="text-5xl font-black text-white/5 group-hover:text-primary/20 transition-colors">0{i + 1}</span>
+                    <div className="px-2 py-1 rounded-full bg-primary/20 text-primary text-[10px] font-bold uppercase">Disponible</div>
                   </div>
 
-                  <div className="border-t border-slate-200 pt-4 flex justify-between items-center">
-                    <span className="text-xs font-bold uppercase tracking-widest text-slate-400">{country.venue}</span>
-                    <ArrowRight className="w-5 h-5 -rotate-45 group-hover:rotate-0 transition-transform text-primary" />
+                  <div className="space-y-4">
+                    <div>
+                      <h3 className="text-3xl font-black uppercase leading-none mb-1 text-white group-hover:gradient-text transition-colors">{country.city}</h3>
+                      <p className="text-white/40 text-sm">{country.name}</p>
+                    </div>
+
+                    <div className="border-t border-white/10 pt-4 flex justify-between items-center">
+                      <div>
+                        <span className="text-[10px] font-bold uppercase tracking-widest text-white/30 block">{country.venue}</span>
+                        <span className="text-lg font-bold gradient-text">{country.currencySymbol}{Math.min(...country.prices.map(p => p.price)).toLocaleString()}</span>
+                      </div>
+                      <div className="w-10 h-10 rounded-full border border-white/10 flex items-center justify-center text-white/30 group-hover:border-primary group-hover:text-primary group-hover:bg-primary/10 transition-all">
+                        <ArrowRight className="w-4 h-4 -rotate-45 group-hover:rotate-0 transition-transform" />
+                      </div>
+                    </div>
                   </div>
                 </div>
-              </GlassCard>
-            </Link>
-          ))}
+              </Link>
+            ))}
+          </div>
         </div>
       </section>
 
@@ -233,56 +252,55 @@ export default function Home() {
       <HomeCommunityBanner />
 
       {/* BLOG & SHOP TEASERS */}
-      <section className="container mx-auto px-4 pb-20">
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
+      <section className="container mx-auto px-4 py-20">
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
 
           {/* Shop Teaser */}
-          <div className="bg-orange-50 p-1 border border-orange-100">
-            <div className="bg-white border-2 border-white h-full p-8 md:p-12 flex flex-col items-start justify-center relative overflow-hidden group">
-              {/* Hover Effect */}
-              <div className="absolute inset-0 bg-primary/10 translate-y-full group-hover:translate-y-0 transition-transform duration-500 z-0"></div>
+          <div className="glass-card p-8 md:p-10 rounded-2xl relative overflow-hidden group hover:shadow-glow transition-all">
+            {/* Hover Effect */}
+            <div className="absolute inset-0 bg-gradient-to-br from-primary/10 to-secondary/10 opacity-0 group-hover:opacity-100 transition-opacity duration-500 z-0" />
 
-              <div className="relative z-10 group-hover:text-slate-900 transition-colors">
-                <div className="bg-secondary w-12 h-12 flex items-center justify-center border-2 border-slate-100 group-hover:border-slate-200 mb-6 rounded-full">
-                  <ShoppingBag className="w-6 h-6 text-slate-900" />
-                </div>
-                <h3 className="text-4xl font-black uppercase mb-4 text-slate-900">Merch Oficial</h3>
-                <p className="mb-8 font-serif italic text-xl max-w-sm text-slate-600">Army Bombs, Hoodies y ediciones limitadas disponibles ahora.</p>
-                <Link href="/tienda">
-                  <Button variant="outline" className="border-slate-300 text-slate-900 hover:bg-slate-900 hover:text-white">
-                    Ir a la Tienda
-                  </Button>
-                </Link>
+            <div className="relative z-10">
+              <div className="w-12 h-12 rounded-xl bg-primary/20 flex items-center justify-center mb-6">
+                <ShoppingBag className="w-6 h-6 text-primary" />
               </div>
+              <h3 className="text-3xl font-black uppercase mb-3 text-white">Merch Oficial</h3>
+              <p className="mb-6 text-white/50 max-w-sm">Army Bombs, Hoodies y ediciones limitadas disponibles.</p>
+              <Link href="/tienda">
+                <Button variant="outline" className="border-primary/50 text-primary hover:bg-primary hover:text-white">
+                  <Sparkles className="w-4 h-4 mr-2" />
+                  Ir a la Tienda
+                </Button>
+              </Link>
             </div>
           </div>
 
           {/* Blog Teaser */}
-          <div className="border-2 border-slate-200 p-8 md:p-12 flex flex-col justify-between hover:bg-slate-50 transition-colors bg-white">
+          <div className="glass-card p-8 md:p-10 rounded-2xl flex flex-col justify-between">
             <div>
-              <h3 className="text-4xl font-black uppercase mb-8">Últimas Noticias</h3>
-              <div className="space-y-6">
+              <h3 className="text-3xl font-black uppercase mb-6 text-white">Ultimas Noticias</h3>
+              <div className="space-y-4">
                 <Link href="/blog/guide" className="block group">
-                  <div className="flex items-start gap-4">
-                    <span className="text-primary font-mono font-bold">01</span>
+                  <div className="flex items-start gap-4 p-3 rounded-xl hover:bg-white/5 transition-colors -mx-3">
+                    <span className="text-primary font-mono font-bold text-sm">01</span>
                     <div>
-                      <h4 className="text-xl font-bold uppercase text-slate-900 group-hover:text-primary transition-colors">Guía de Supervivencia</h4>
-                      <p className="text-sm text-slate-500">Tips esenciales para la fila virtual.</p>
+                      <h4 className="text-base font-bold text-white group-hover:text-primary transition-colors">Guia de Supervivencia</h4>
+                      <p className="text-sm text-white/40">Tips esenciales para la fila virtual.</p>
                     </div>
                   </div>
                 </Link>
                 <Link href="/blog/setlist" className="block group">
-                  <div className="flex items-start gap-4">
-                    <span className="text-secondary font-mono font-bold">02</span>
+                  <div className="flex items-start gap-4 p-3 rounded-xl hover:bg-white/5 transition-colors -mx-3">
+                    <span className="text-secondary font-mono font-bold text-sm">02</span>
                     <div>
-                      <h4 className="text-xl font-bold uppercase text-slate-900 group-hover:text-primary transition-colors">Rumores del Setlist</h4>
-                      <p className="text-sm text-slate-500">¿Qué canciones esperamos escuchar?</p>
+                      <h4 className="text-base font-bold text-white group-hover:text-primary transition-colors">Rumores del Setlist</h4>
+                      <p className="text-sm text-white/40">Que canciones esperamos escuchar?</p>
                     </div>
                   </div>
                 </Link>
               </div>
             </div>
-            <Link href="/blog" className="mt-8 flex items-center gap-2 text-sm font-bold uppercase tracking-widest text-slate-900 hover:text-primary transition-colors">
+            <Link href="/blog" className="mt-6 flex items-center gap-2 text-sm font-bold uppercase tracking-widest text-white/50 hover:text-primary transition-colors">
               Leer todo <ArrowRight className="w-4 h-4" />
             </Link>
           </div>
@@ -291,20 +309,20 @@ export default function Home() {
       </section>
 
       {/* PARTNERS MARQUEE */}
-      <section className="border-y border-slate-200 bg-slate-50 py-4 overflow-hidden mb-20">
+      <section className="border-y border-white/5 bg-surface-dark py-4 overflow-hidden">
         <div className="flex whitespace-nowrap animate-marquee">
           {[...Array(10)].map((_, i) => (
-            <div key={i} className="flex items-center gap-12 mx-8 opacity-40 grayscale hover:grayscale-0 hover:opacity-100 transition-all duration-300">
-              <span className="text-xl font-black uppercase text-slate-800">HYBE CORP</span>
-              <span className="text-xl font-black uppercase text-slate-800">BIGHIT MUSIC</span>
-              <Link href="https://www.ravehublatam.com" target="_blank" rel="noopener" className="text-xl font-black uppercase text-primary hover:underline decoration-2">RAVEHUB</Link>
-              <span className="text-xl font-black uppercase text-slate-800">LIVE NATION</span>
-              <span className="text-xl font-black uppercase text-slate-800">TICKETMASTER</span>
+            <div key={i} className="flex items-center gap-12 mx-8">
+              <span className="text-lg font-black uppercase text-white/20">HYBE CORP</span>
+              <span className="text-lg font-black uppercase text-white/20">BIGHIT MUSIC</span>
+              <Link href="https://www.ravehublatam.com" target="_blank" rel="noopener" className="text-lg font-black uppercase text-primary/60 hover:text-primary transition-colors">RAVEHUB</Link>
+              <span className="text-lg font-black uppercase text-white/20">LIVE NATION</span>
+              <span className="text-lg font-black uppercase text-white/20">TICKETMASTER</span>
             </div>
           ))}
         </div>
       </section>
 
-    </div >
+    </div>
   );
 }

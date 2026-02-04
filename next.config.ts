@@ -1,8 +1,6 @@
 import type { NextConfig } from 'next';
 
 const nextConfig: NextConfig = {
-
-  trailingSlash: true, // Evita redirecciones 301 en rutas estáticas
   images: {
     unoptimized: true, // Fix for Cloudflare Pages Free Tier (No Image Resizing Add-on)
     remotePatterns: [

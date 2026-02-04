@@ -123,78 +123,84 @@ export default function Home() {
         dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
       />
 
-      {/* Hero Section */}
-      <section className="relative min-h-[100vh] flex flex-col items-center justify-center overflow-hidden">
-
-        {/* HERO BACKGROUND IMAGE */}
-        <div className="absolute inset-0 z-0 select-none overflow-hidden">
+      {/* Hero Section - DICE.fm Style */}
+      <section className="relative h-screen max-h-[900px] min-h-[600px] flex items-end overflow-hidden">
+        {/* Background Image */}
+        <div className="absolute inset-0 z-0">
           <Image
             src="/images/home-hero.jpg"
-            alt="Integrantes de BTS en concierto para el tour mundial 2026"
+            alt="BTS World Tour 2026"
             fill
-            className="object-cover"
+            className="object-cover object-top"
             priority
           />
-          {/* Dark Overlays */}
-          <div className="absolute inset-0 bg-gradient-to-t from-black via-black/70 to-black/40" />
-          <div className="absolute inset-0 bg-gradient-to-r from-black/60 via-transparent to-black/60" />
-          {/* Purple Glow */}
-          <div className="absolute bottom-0 left-1/2 -translate-x-1/2 w-[200%] h-1/2 bg-purple-glow opacity-40" />
+          {/* Gradient Overlays */}
+          <div className="absolute inset-0 bg-gradient-to-t from-black via-black/80 to-transparent" />
+          <div className="absolute inset-0 bg-gradient-to-r from-primary/20 via-transparent to-secondary/20 mix-blend-overlay" />
         </div>
 
-        {/* GIANT BACK TEXT - Decorative */}
-        <div className="absolute inset-0 flex items-center justify-center pointer-events-none select-none overflow-hidden z-0">
-          <div className="text-[20vw] font-black text-white/[0.02] whitespace-nowrap leading-none" style={{ fontFamily: 'Arial Black' }}>
-            BTS 2026
+        {/* Content */}
+        <div className="relative z-10 w-full pb-16 md:pb-20">
+          <div className="container mx-auto px-4 md:px-8">
+            <div className="max-w-4xl">
+              {/* Badge */}
+              <div className="inline-flex items-center gap-2 px-3 py-1.5 rounded-full bg-white/10 backdrop-blur-sm border border-white/10 mb-6">
+                <span className="w-2 h-2 rounded-full bg-success animate-pulse" />
+                <span className="text-xs font-bold uppercase tracking-wider text-white/80">Venta Activa</span>
+              </div>
+
+              {/* Title */}
+              <h1 className="text-5xl sm:text-6xl md:text-8xl font-black uppercase leading-[0.9] tracking-tighter mb-4">
+                <span className="block text-white">BTS</span>
+                <span className="block bg-gradient-to-r from-primary via-secondary to-primary bg-clip-text text-transparent bg-[length:200%_auto] animate-gradient">World Tour</span>
+              </h1>
+
+              {/* Subtitle */}
+              <p className="text-lg md:text-xl text-white/60 mb-8 max-w-xl leading-relaxed">
+                <span className="text-white font-semibold">34 ciudades. 5 continentes.</span> Latinoamerica y Europa confirmados.
+              </p>
+
+              {/* CTA Buttons */}
+              <div className="flex flex-wrap gap-3">
+                <Link href="/eventos">
+                  <button className="group flex items-center gap-2 px-6 py-3.5 bg-white text-black font-bold text-sm uppercase tracking-wide rounded-full hover:bg-primary hover:text-white transition-all duration-300">
+                    <Ticket className="w-4 h-4" />
+                    Ver Entradas
+                    <ArrowRight className="w-4 h-4 group-hover:translate-x-0.5 transition-transform" />
+                  </button>
+                </Link>
+                <Link href="#tour-dates">
+                  <button className="flex items-center gap-2 px-6 py-3.5 bg-white/10 backdrop-blur-sm text-white font-bold text-sm uppercase tracking-wide rounded-full border border-white/20 hover:bg-white/20 hover:border-white/40 transition-all duration-300">
+                    <Calendar className="w-4 h-4" />
+                    Ver Fechas
+                  </button>
+                </Link>
+              </div>
+
+              {/* Quick Stats */}
+              <div className="flex flex-wrap gap-6 mt-10 pt-8 border-t border-white/10">
+                <div>
+                  <span className="block text-3xl md:text-4xl font-black text-white">7</span>
+                  <span className="text-xs text-white/40 uppercase tracking-wider">Paises</span>
+                </div>
+                <div>
+                  <span className="block text-3xl md:text-4xl font-black text-white">14+</span>
+                  <span className="text-xs text-white/40 uppercase tracking-wider">Shows</span>
+                </div>
+                <div>
+                  <span className="block text-3xl md:text-4xl font-black gradient-text">2026</span>
+                  <span className="text-xs text-white/40 uppercase tracking-wider">Tour</span>
+                </div>
+              </div>
+            </div>
           </div>
         </div>
 
-        <div className="relative z-10 container mx-auto px-4 flex flex-col items-center text-center gap-8">
-
-          {/* Live Badge */}
-          <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-primary/20 border border-primary/30 text-primary text-sm font-bold uppercase tracking-wider animate-fade-in-up">
-            <span className="w-2 h-2 rounded-full bg-primary animate-pulse" />
-            World Tour 2026
-          </div>
-
-          {/* Main Title */}
-          <h1 className="flex flex-col items-center justify-center text-6xl md:text-9xl font-black tracking-tight uppercase leading-[0.85] animate-fade-in-up">
-            <span className="block text-white">
-              Entradas BTS
-            </span>
-            <span className="block gradient-text">
-              World Tour
-            </span>
-          </h1>
-
-          <p className="max-w-2xl text-white/60 text-lg md:text-xl font-medium leading-relaxed animate-fade-in-up">
-            El evento mas grande de la historia.
-            <span className="text-white"> 34 ciudades. 5 continentes.</span>
-            <span className="gradient-text font-bold"> El oceano purpura te espera.</span>
-          </p>
-
-          <div className="flex flex-col md:flex-row gap-4 w-full md:w-auto mt-4 animate-fade-in-up">
-            <Link href="/eventos" className="w-full md:w-auto">
-              <Button size="lg" variant="glow" className="w-full text-lg h-14 px-10">
-                <Ticket className="w-5 h-5 mr-2" />
-                Ver Entradas
-                <ArrowRight className="w-5 h-5 ml-2" />
-              </Button>
-            </Link>
-            <Link href="#tour-dates" className="w-full md:w-auto">
-              <Button size="lg" variant="secondary" className="w-full text-lg h-14 px-10">
-                <Calendar className="w-5 h-5 mr-2" />
-                Ver Fechas
-              </Button>
-            </Link>
-          </div>
-        </div>
-
-        {/* Scroll Indicator */}
-        <div className="absolute bottom-8 left-1/2 -translate-x-1/2 flex flex-col items-center gap-2 animate-fade-in-up">
-          <span className="text-white/30 text-xs uppercase tracking-widest">Scroll</span>
-          <div className="w-6 h-10 rounded-full border-2 border-white/20 flex items-start justify-center p-1">
-            <div className="w-1.5 h-3 bg-primary rounded-full animate-bounce" />
+        {/* Scroll hint - subtle */}
+        <div className="absolute bottom-4 right-4 md:bottom-8 md:right-8 flex items-center gap-2 text-white/30">
+          <span className="text-[10px] uppercase tracking-widest hidden md:block">Scroll</span>
+          <div className="w-5 h-8 rounded-full border border-white/20 flex items-start justify-center p-1">
+            <div className="w-1 h-2 bg-white/40 rounded-full animate-bounce" />
           </div>
         </div>
       </section>

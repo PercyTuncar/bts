@@ -56,39 +56,39 @@ export function TermsModal({ isOpen, onClose, onAccept, currency, content }: Pro
                         exit={{ opacity: 0, scale: 0.95, y: 20 }}
                         className="relative w-full max-w-sm md:max-w-md"
                     >
-                        <GlassCard className="p-0 overflow-hidden border-2 border-slate-200 shadow-2xl bg-white">
+                        <GlassCard className="p-0 overflow-hidden border-primary/20">
 
                             {/* Header */}
-                            <div className="bg-slate-50 p-4 flex justify-between items-center border-b border-slate-100">
-                                <h3 className="text-base font-black uppercase text-slate-900 flex items-center gap-2">
+                            <div className="bg-white/5 p-4 flex justify-between items-center border-b border-white/10">
+                                <h3 className="text-base font-black uppercase text-white flex items-center gap-2">
                                     <ShieldCheck className="w-5 h-5 text-primary" />
                                     {t.modal_terms_conditions}
                                 </h3>
                                 <button
                                     onClick={onClose}
-                                    className="p-1.5 hover:bg-slate-200 rounded-full transition-colors"
+                                    className="p-1.5 hover:bg-white/10 rounded-full transition-colors"
                                 >
-                                    <X className="w-4 h-4 text-slate-500" />
+                                    <X className="w-4 h-4 text-white/50" />
                                 </button>
                             </div>
 
                             {/* Content */}
                             <div className="p-6 space-y-4">
-                                <div className="text-slate-600 font-medium leading-relaxed space-y-3">
+                                <div className="text-white/70 font-medium leading-relaxed space-y-3">
 
                                     {/* Designed Payment Option Card */}
                                     {isPeru ? (
-                                        <div className="bg-gradient-to-br from-purple-50 to-pink-50 p-4 rounded-xl border border-purple-100 shadow-sm relative overflow-hidden group hover:shadow-md transition-all">
+                                        <div className="bg-primary/10 p-4 rounded-xl border border-primary/30 relative overflow-hidden group hover:border-primary/50 transition-all">
                                             <div className="absolute top-0 right-0 p-2 opacity-10">
                                                 <ShieldCheck className="w-20 h-20 text-primary rotate-12" />
                                             </div>
 
                                             <div className="relative z-10 space-y-2">
-                                                <div className="flex items-center justify-between border-b border-purple-200/60 pb-2">
-                                                    <h4 className="font-black uppercase text-[10px] text-purple-900 flex items-center gap-2">
-                                                        <span className="bg-purple-200 p-0.5 rounded text-[10px]">🇵🇪</span> Pago Rápido (Perú) YAPE / PLIN
+                                                <div className="flex items-center justify-between border-b border-white/10 pb-2">
+                                                    <h4 className="font-black uppercase text-[10px] text-white flex items-center gap-2">
+                                                        <span className="bg-primary/30 p-0.5 rounded text-[10px]">🇵🇪</span> Pago Rapido (Peru) YAPE / PLIN
                                                     </h4>
-                                                    <span className="bg-acid-yellow text-white text-[9px] font-bold px-1.5 py-0.5 rounded">
+                                                    <span className="bg-success text-white text-[9px] font-bold px-1.5 py-0.5 rounded">
                                                         INCLUYE FEE
                                                     </span>
                                                 </div>
@@ -96,13 +96,13 @@ export function TermsModal({ isOpen, onClose, onAccept, currency, content }: Pro
                                                 <div className="flex gap-4 items-center">
                                                     <div className="flex-1 space-y-2">
                                                         <div className="flex flex-col gap-0.5">
-                                                            <span className="text-[10px] font-bold text-slate-500 uppercase tracking-widest">Monto a Pagar</span>
-                                                            <span className="text-2xl font-black text-slate-900">{currentCurrency.symbol} {currentCurrency.price}</span>
+                                                            <span className="text-[10px] font-bold text-white/50 uppercase tracking-widest">Monto a Pagar</span>
+                                                            <span className="text-2xl font-black text-white">{currentCurrency.symbol} {currentCurrency.price}</span>
                                                         </div>
 
-                                                        <div className="bg-white/60 p-2 rounded-lg border border-white/50 space-y-1.5 backdrop-blur-sm">
+                                                        <div className="bg-white/5 p-2 rounded-lg border border-white/10 space-y-1.5">
                                                             <div className="flex items-center gap-2">
-                                                                <div className="w-6 h-6 rounded-full overflow-hidden flex items-center justify-center shrink-0 border border-slate-100 bg-white">
+                                                                <div className="w-6 h-6 rounded-full overflow-hidden flex items-center justify-center shrink-0 border border-white/20 bg-white">
                                                                     <Image
                                                                         src="/images/logo-plin.jpeg"
                                                                         alt="Plin"
@@ -112,13 +112,13 @@ export function TermsModal({ isOpen, onClose, onAccept, currency, content }: Pro
                                                                     />
                                                                 </div>
                                                                 <div>
-                                                                    <p className="text-base font-black text-slate-900 tracking-wide">944 784 488</p>
+                                                                    <p className="text-base font-black text-white tracking-wide">944 784 488</p>
                                                                 </div>
                                                             </div>
                                                         </div>
                                                     </div>
 
-                                                    <div className="shrink-0 bg-white p-1 rounded-lg border border-slate-200 shadow-sm self-start mt-2">
+                                                    <div className="shrink-0 bg-white p-1 rounded-lg shadow-sm self-start mt-2">
                                                         <Image
                                                             src="/images/qr-plin.jpeg"
                                                             alt="QR Plin"
@@ -129,25 +129,25 @@ export function TermsModal({ isOpen, onClose, onAccept, currency, content }: Pro
                                                     </div>
                                                 </div>
 
-                                                <div className="text-[10px] text-slate-600 leading-relaxed pl-1 pt-0.5 opacity-80">
-                                                    *Envía tu comprobante al WhatsApp <strong className="text-green-600">+51 944 784 488</strong>
+                                                <div className="text-[10px] text-white/50 leading-relaxed pl-1 pt-0.5">
+                                                    *Envia tu comprobante al WhatsApp <strong className="text-success">+51 944 784 488</strong>
                                                 </div>
                                             </div>
                                         </div>
                                     ) : (
-                                        <div className="bg-gradient-to-br from-slate-50 to-slate-100 p-6 rounded-xl border border-slate-200 shadow-sm text-center">
+                                        <div className="bg-white/5 p-6 rounded-xl border border-white/10 text-center">
                                             <div className="flex flex-col gap-1 mb-4">
-                                                <span className="text-xs font-bold text-slate-500 uppercase tracking-widest">{t.modal_total_amount}</span>
-                                                <span className="text-4xl font-black text-slate-900">{currentCurrency.symbol} {currentCurrency.price}</span>
+                                                <span className="text-xs font-bold text-white/50 uppercase tracking-widest">{t.modal_total_amount}</span>
+                                                <span className="text-4xl font-black text-white">{currentCurrency.symbol} {currentCurrency.price}</span>
                                             </div>
-                                            <p className="text-sm text-slate-600">
+                                            <p className="text-sm text-white/60">
                                                 {t.modal_select_card_instruct}
                                             </p>
                                         </div>
                                     )}
                                 </div>
 
-                                <div className="bg-purple-50 p-3 rounded-lg border border-purple-100">
+                                <div className="bg-white/5 p-3 rounded-lg border border-white/10">
                                     <label className="flex items-start gap-2 cursor-pointer group">
                                         <div className="relative flex items-center mt-0.5">
                                             <input
@@ -156,33 +156,33 @@ export function TermsModal({ isOpen, onClose, onAccept, currency, content }: Pro
                                                 checked={accepted}
                                                 onChange={(e) => setAccepted(e.target.checked)}
                                             />
-                                            <div className="w-4 h-4 border-2 border-slate-300 rounded peer-checked:bg-primary peer-checked:border-primary transition-all"></div>
+                                            <div className="w-4 h-4 border-2 border-white/30 rounded peer-checked:bg-primary peer-checked:border-primary transition-all"></div>
                                             <Check className="absolute w-3 h-3 text-white opacity-0 peer-checked:opacity-100 left-0.5 top-0.5 transition-opacity" />
                                         </div>
-                                        <div className="text-[10px] text-slate-600 select-none leading-snug">
+                                        <div className="text-[10px] text-white/60 select-none leading-snug">
                                             {t.modal_terms_read_accept} <Link href="/legal/terminos" target="_blank" className="text-primary font-bold hover:underline">{t.modal_terms_conditions}</Link> {t.modal_terms_and} <Link href="/legal/privacidad" target="_blank" className="text-primary font-bold hover:underline">{t.modal_terms_privacy}</Link>.
                                         </div>
                                     </label>
                                 </div>
 
                                 <div className="space-y-2">
-                                    <p className="text-center text-[10px] text-slate-500 font-bold uppercase leading-tight max-w-[95%] mx-auto">
+                                    <p className="text-center text-[10px] text-white/50 font-bold uppercase leading-tight max-w-[95%] mx-auto">
                                         <span className="text-primary font-black">{t.modal_other_countries_pay}</span> {t.modal_debit_credit_here}
                                     </p>
                                     <button
                                         onClick={onAccept}
                                         disabled={!accepted}
-                                        className={`w-full font-black uppercase text-base py-3 rounded-lg transition-all flex items-center justify-center gap-2
+                                        className={`w-full font-black uppercase text-base py-3 rounded-xl transition-all flex items-center justify-center gap-2
                                             ${accepted
-                                                ? 'bg-primary text-white hover:bg-primary/90 hover:scale-[1.02] shadow-lg'
-                                                : 'bg-slate-200 text-slate-400 cursor-not-allowed'
+                                                ? 'bg-gradient-to-r from-primary to-secondary text-white hover:shadow-glow hover:scale-[1.02]'
+                                                : 'bg-white/10 text-white/30 cursor-not-allowed'
                                             }`}
                                     >
                                         {t.modal_pay_card_btn}
                                     </button>
                                 </div>
 
-                                <p className="text-center text-[9px] text-slate-400 uppercase tracking-widest font-bold">
+                                <p className="text-center text-[9px] text-white/30 uppercase tracking-widest font-bold">
                                     {t.modal_pay_accepts_terms}
                                 </p>
                             </div>

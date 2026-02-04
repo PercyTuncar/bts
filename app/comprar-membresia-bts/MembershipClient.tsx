@@ -198,7 +198,7 @@ export default function MembershipClient({ country = 'PE' }: { country?: string 
     ];
 
     return (
-        <div className="min-h-screen pb-20 pt-16 bg-white">
+        <div className="min-h-screen pb-20 pt-16 bg-black">
             
             <TermsModal
                 isOpen={isTermsOpen}
@@ -208,28 +208,28 @@ export default function MembershipClient({ country = 'PE' }: { country?: string 
                 content={content}
             />
 
-            {/* SECTION 1: HERO (CLEAN WHITE) */}
-            <section className="relative w-full overflow-hidden flex flex-col items-center pt-16 pb-20 px-4 md:px-12 bg-white">
+            {/* SECTION 1: HERO */}
+            <section className="relative w-full overflow-hidden flex flex-col items-center pt-16 pb-20 px-4 md:px-12">
                 <div className="relative z-20 w-full max-w-6xl grid grid-cols-1 lg:grid-cols-2 gap-16 items-center">
 
                     {/* Left Column: Text Content */}
                     <div className="order-1 lg:order-1 flex flex-col items-center lg:items-start text-center lg:text-left gap-6">
                         
                         <div className="flex flex-col items-center lg:items-start gap-2">
-                            <span className="text-sm font-bold tracking-[0.2em] text-slate-500 uppercase">
+                            <span className="text-sm font-bold tracking-[0.2em] text-white/50 uppercase">
                                 {content.assistance_service}
                             </span>
 
-                            <h1 className="text-5xl md:text-7xl font-black uppercase tracking-tighter leading-[0.9] text-slate-900">
+                            <h1 className="text-5xl md:text-7xl font-black uppercase tracking-tighter leading-[0.9] text-white">
                                 {content.title_top}<br />
-                                <span className="text-primary">{content.title_middle}</span><br />
+                                <span className="gradient-text">{content.title_middle}</span><br />
                                 {content.title_bottom}
                             </h1>
                         </div>
 
                         <div className="flex flex-col gap-1 max-w-lg">
-                            <p className="text-xl md:text-2xl text-slate-600 leading-snug">
-                                {content.hero_subtitle_pre} <span className="bg-[#fcd34d] px-2 py-0.5 font-bold text-slate-900 mx-1 box-decoration-clone">{content.hero_highlight}</span>
+                            <p className="text-xl md:text-2xl text-white/70 leading-snug">
+                                {content.hero_subtitle_pre} <span className="bg-gradient-to-r from-primary to-secondary text-white px-2 py-0.5 font-bold mx-1 rounded">{content.hero_highlight}</span>
                                 {content.hero_subtitle_post}
                             </p>
                         </div>
@@ -237,21 +237,21 @@ export default function MembershipClient({ country = 'PE' }: { country?: string 
                         <div className="w-full flex flex-col sm:flex-row items-center gap-6">
                             <button
                                 onClick={handleBuyClick}
-                                className="group bg-slate-900 text-white hover:bg-[#8A2BE2] transition-all text-xl font-black uppercase py-5 px-10 rounded-xl flex items-center justify-center gap-4 w-full sm:w-auto shadow-xl hover:shadow-2xl shadow-slate-900/20 hover:-translate-y-1"
+                                className="group bg-gradient-to-r from-primary to-secondary text-white hover:shadow-glow transition-all text-xl font-black uppercase py-5 px-10 rounded-xl flex items-center justify-center gap-4 w-full sm:w-auto shadow-glow hover:-translate-y-1"
                             >
                                 <Ticket className="w-6 h-6" />
                                 <span>{content.activate_membership_btn}</span>
                             </button>
                             
                             <div className="text-center sm:text-left flex flex-col justify-center leading-tight">
-                                <p className="text-sm font-black text-slate-400 uppercase tracking-widest">{content.price_label} {currency.symbol} {currency.price}</p>
-                                <p className="text-[10px] font-bold text-slate-300 uppercase tracking-[0.2em]">{content.one_time_payment}</p>
+                                <p className="text-sm font-black text-white/60 uppercase tracking-widest">{content.price_label} {currency.symbol} {currency.price}</p>
+                                <p className="text-[10px] font-bold text-white/40 uppercase tracking-[0.2em]">{content.one_time_payment}</p>
                             </div>
                         </div>
 
                         <div className="flex items-center gap-2">
-                            <ShieldCheck className="w-5 h-5 text-green-500" />
-                            <p className="text-xs font-bold text-slate-400 uppercase tracking-wider">
+                            <ShieldCheck className="w-5 h-5 text-success" />
+                            <p className="text-xs font-bold text-white/40 uppercase tracking-wider">
                                 {content.secure_payment}
                             </p>
                         </div>
@@ -260,14 +260,14 @@ export default function MembershipClient({ country = 'PE' }: { country?: string 
                     {/* Right Column: Hero Visual (Clean Image) */}
                     <div className="order-2 lg:order-2 flex justify-center lg:justify-end relative">
                         <div className="relative transform hover:scale-105 transition-transform duration-500">
-                            {/* Simple shadow instead of glow */}
-                            <div className="relative rounded-2xl overflow-hidden shadow-2xl shadow-slate-200">
+                            {/* Glow effect */}
+                            <div className="relative rounded-2xl overflow-hidden shadow-glow">
                                 <Image
                                     src="/images/membership-card.png"
                                     alt="Tarjeta Membresía BTS ARMY Oficial"
                                     width={500}
                                     height={320}
-                                    className="w-full max-w-md h-auto object-cover bg-slate-100"
+                                    className="w-full max-w-md h-auto object-cover bg-white/5"
                                     priority
                                 />
                             </div>
@@ -277,23 +277,23 @@ export default function MembershipClient({ country = 'PE' }: { country?: string 
             </section>
 
             {/* SECTION 2: BENEFITS */}
-            <section className="container mx-auto px-4 py-24 bg-slate-50">
+            <section className="container mx-auto px-4 py-24">
                 <div className="text-center mb-16">
-                    <h2 className="text-3xl md:text-4xl font-black uppercase mb-4 text-slate-900">
+                    <h2 className="text-3xl md:text-4xl font-black uppercase mb-4 text-white">
                         {content.exclusive_benefits_title}
                     </h2>
-                    <div className="w-24 h-1 bg-primary mx-auto rounded-full"></div>
+                    <div className="w-24 h-1 bg-gradient-to-r from-primary to-secondary mx-auto rounded-full"></div>
                 </div>
 
                 <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 max-w-7xl mx-auto">
                     {benefits.map((benefit, i) => (
-                        <div key={i} className="flex flex-col items-start gap-4 bg-white p-8 rounded-2xl shadow-sm hover:shadow-md transition-shadow border border-slate-100 group">
-                            <div className="p-3 bg-red-50 rounded-xl group-hover:bg-primary group-hover:text-white transition-colors text-primary">
+                        <div key={i} className="flex flex-col items-start gap-4 glass-card p-8 rounded-2xl group">
+                            <div className="p-3 bg-primary/20 rounded-xl group-hover:bg-primary group-hover:text-white transition-colors text-primary">
                                 {benefit.icon}
                             </div>
                             <div>
-                                <h3 className="text-lg font-bold uppercase mb-2 text-slate-900">{benefit.title}</h3>
-                                <p className="text-slate-500 text-sm leading-relaxed">
+                                <h3 className="text-lg font-bold uppercase mb-2 text-white">{benefit.title}</h3>
+                                <p className="text-white/50 text-sm leading-relaxed">
                                     {benefit.description}
                                 </p>
                             </div>
@@ -303,12 +303,12 @@ export default function MembershipClient({ country = 'PE' }: { country?: string 
             </section>
 
             {/* SECTION 3: PURCHASE & PRICE */}
-            <section className="py-24 bg-white border-t border-slate-100">
+            <section className="py-24 border-t border-white/5">
                 <div className="container mx-auto px-4 max-w-5xl">
-                    <div className="bg-white rounded-3xl shadow-2xl border border-slate-100 overflow-hidden flex flex-col md:flex-row">
+                    <div className="glass-card rounded-3xl overflow-hidden flex flex-col md:flex-row">
 
                         {/* Image Side */}
-                        <div className="md:w-1/2 relative min-h-[300px] bg-slate-100">
+                        <div className="md:w-1/2 relative min-h-[300px] bg-white/5">
                             <Image
                                 src="/images/bts-tour-2026-latinoamerica-preventa.jpg"
                                 alt="BTS Group"
@@ -320,13 +320,13 @@ export default function MembershipClient({ country = 'PE' }: { country?: string 
 
                         {/* Content Side */}
                         <div className="md:w-1/2 p-12 flex flex-col justify-center items-center text-center">
-                            <h2 className="text-2xl font-bold uppercase mb-2 text-slate-900">{content.limited_offer}</h2>
-                            <div className="text-6xl font-black text-primary mb-2">{currency.symbol} {currency.price}</div>
-                            <span className="text-sm font-bold text-slate-400 uppercase tracking-widest mb-8">{content.one_time_payment_1_year}</span>
+                            <h2 className="text-2xl font-bold uppercase mb-2 text-white">{content.limited_offer}</h2>
+                            <div className="text-6xl font-black gradient-text mb-2">{currency.symbol} {currency.price}</div>
+                            <span className="text-sm font-bold text-white/40 uppercase tracking-widest mb-8">{content.one_time_payment_1_year}</span>
 
                             <button
                                 onClick={handleBuyClick}
-                                className="w-full bg-slate-900 text-white font-bold uppercase py-4 rounded-xl hover:bg-[#8A2BE2] transition-colors shadow-lg hover:shadow-xl mb-6"
+                                className="w-full bg-gradient-to-r from-primary to-secondary text-white font-bold uppercase py-4 rounded-xl hover:shadow-glow transition-all mb-6"
                             >
                                 {content.proceed_to_payment}
                             </button>
@@ -348,18 +348,18 @@ export default function MembershipClient({ country = 'PE' }: { country?: string 
             {/* SECTION 4: FAQ */}
             <section className="container mx-auto px-4 py-24 max-w-3xl">
                 <div className="text-center mb-12">
-                    <h2 className="text-3xl font-black uppercase text-slate-900">{content.faq_title}</h2>
+                    <h2 className="text-3xl font-black uppercase text-white">{content.faq_title}</h2>
                 </div>
 
                 <div className="space-y-4">
                     {faqs.map((faq, i) => (
-                        <div key={i} className="border-b border-slate-200">
+                        <div key={i} className="border-b border-white/10">
                             <details className="group py-6 cursor-pointer">
-                                <summary className="flex justify-between items-center text-lg font-bold text-slate-900 list-none hover:text-primary transition-colors">
+                                <summary className="flex justify-between items-center text-lg font-bold text-white list-none hover:text-primary transition-colors">
                                     {faq.q}
-                                    <ChevronDown className="w-5 h-5 group-open:rotate-180 transition-transform text-slate-400" />
+                                    <ChevronDown className="w-5 h-5 group-open:rotate-180 transition-transform text-white/40" />
                                 </summary>
-                                <div className="mt-4 text-slate-600 leading-relaxed">
+                                <div className="mt-4 text-white/60 leading-relaxed">
                                     {faq.a}
                                 </div>
                             </details>
@@ -369,10 +369,10 @@ export default function MembershipClient({ country = 'PE' }: { country?: string 
             </section>
 
             {/* STICKY MOBILE CTA */}
-            <div className="fixed bottom-0 left-0 right-0 z-50 p-4 md:hidden bg-white/90 backdrop-blur-lg border-t border-slate-200">
+            <div className="fixed bottom-0 left-0 right-0 z-50 p-4 md:hidden bg-black/90 backdrop-blur-lg border-t border-white/10">
                 <button
                     onClick={handleBuyClick}
-                    className="block w-full bg-primary text-white font-bold uppercase text-center py-4 text-lg shadow-lg rounded-xl"
+                    className="block w-full bg-gradient-to-r from-primary to-secondary text-white font-bold uppercase text-center py-4 text-lg shadow-glow rounded-xl"
                 >
                     {content.sticky_buy} {currency.symbol} {currency.price}
                 </button>

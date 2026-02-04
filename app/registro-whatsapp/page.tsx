@@ -95,19 +95,19 @@ function WaitlistFormContent() {
 
     if (success) {
         return (
-            <div className="min-h-screen pt-32 pb-20 flex items-center justify-center px-4 bg-slate-50/50">
+            <div className="min-h-screen pt-32 pb-20 flex items-center justify-center px-4 bg-black">
                 <GlassCard className="max-w-md w-full text-center py-12">
                     <motion.div
                         initial={{ scale: 0 }}
                         animate={{ scale: 1 }}
-                        className="w-20 h-20 bg-green-100 rounded-full flex items-center justify-center mx-auto mb-6"
+                        className="w-20 h-20 bg-success/20 rounded-full flex items-center justify-center mx-auto mb-6"
                     >
-                        <svg className="w-10 h-10 text-green-600" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <svg className="w-10 h-10 text-success" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                             <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
                         </svg>
                     </motion.div>
-                    <h2 className="text-2xl font-black text-slate-900 mb-2">¡Registro Exitoso!</h2>
-                    <p className="text-slate-600">
+                    <h2 className="text-2xl font-black text-white mb-2">Registro Exitoso!</h2>
+                    <p className="text-white/60">
                         Gracias por unirte a la lista de espera {countryName ? `de ${countryName}` : ''}.<br />
                         Te contactaremos pronto.
                     </p>
@@ -117,7 +117,7 @@ function WaitlistFormContent() {
     }
 
     return (
-        <div className="min-h-screen pt-32 pb-20 px-4 bg-slate-50/50 flex flex-col items-center justify-center">
+        <div className="min-h-screen pt-32 pb-20 px-4 bg-black flex flex-col items-center justify-center">
 
             <motion.div
                 initial={{ opacity: 0, y: 20 }}
@@ -125,25 +125,25 @@ function WaitlistFormContent() {
                 className="w-full max-w-lg"
             >
                 <div className="text-center mb-10">
-                    <h1 className="text-3xl md:text-4xl font-black text-slate-900 mb-4 uppercase">
-                        Lista de Espera <span className="text-primary">{countryName}</span>
+                    <h1 className="text-3xl md:text-4xl font-black text-white mb-4 uppercase">
+                        Lista de Espera <span className="gradient-text">{countryName}</span>
                     </h1>
-                    <p className="text-slate-600 text-lg">
+                    <p className="text-white/60 text-lg">
                         El grupo de WhatsApp está lleno.
                         Déjanos tus datos para avisarte cuando se liberen cupos.
                     </p>
                 </div>
 
-                <GlassCard className="p-8 md:p-10 bg-white/80 backdrop-blur-xl border border-white/20 shadow-xl rounded-3xl">
+                <GlassCard className="p-8 md:p-10">
                     <form onSubmit={handleSubmit} className="space-y-6">
                         {errorMessage && (
-                            <div className="p-4 bg-red-50 border border-red-200 text-red-600 rounded-lg text-sm text-center font-medium">
+                            <div className="p-4 bg-primary/10 border border-primary/30 text-primary rounded-xl text-sm text-center font-medium">
                                 {errorMessage}
                             </div>
                         )}
 
                         <div>
-                            <label htmlFor="full_name" className="block text-sm font-bold text-slate-700 mb-2 uppercase tracking-wide">Nombre y Apellido</label>
+                            <label htmlFor="full_name" className="block text-sm font-bold text-white/70 mb-2 uppercase tracking-wide">Nombre y Apellido</label>
                             <input
                                 type="text"
                                 id="full_name"
@@ -151,13 +151,13 @@ function WaitlistFormContent() {
                                 required
                                 value={formData.full_name}
                                 onChange={handleChange}
-                                className="w-full px-4 py-3 rounded-xl border border-slate-200 bg-white/50 focus:bg-white focus:ring-2 focus:ring-primary/20 focus:border-primary transition-all outline-none"
+                                className="w-full px-4 py-3 rounded-xl border border-white/10 bg-white/5 text-white placeholder:text-white/30 focus:bg-white/10 focus:ring-2 focus:ring-primary/20 focus:border-primary transition-all outline-none"
                                 placeholder="Nombre y Apellido"
                             />
                         </div>
 
                         <div>
-                            <label htmlFor="phone" className="block text-sm font-bold text-slate-700 mb-2 uppercase tracking-wide">Teléfono (con código país)</label>
+                            <label htmlFor="phone" className="block text-sm font-bold text-white/70 mb-2 uppercase tracking-wide">Telefono (con codigo pais)</label>
                             <input
                                 type="tel"
                                 id="phone"
@@ -165,7 +165,7 @@ function WaitlistFormContent() {
                                 required
                                 value={formData.phone}
                                 onChange={handleChange}
-                                className="w-full px-4 py-3 rounded-xl border border-slate-200 bg-white/50 focus:bg-white focus:ring-2 focus:ring-primary/20 focus:border-primary transition-all outline-none"
+                                className="w-full px-4 py-3 rounded-xl border border-white/10 bg-white/5 text-white placeholder:text-white/30 focus:bg-white/10 focus:ring-2 focus:ring-primary/20 focus:border-primary transition-all outline-none"
                                 placeholder="+51 999 999 999"
                             />
                         </div>
@@ -188,7 +188,7 @@ function WaitlistFormContent() {
                             ) : 'Enviar Solicitud'}
                         </Button>
 
-                        <p className="text-xs text-center text-slate-400 mt-4">
+                        <p className="text-xs text-center text-white/40 mt-4">
                             Tus datos están seguros. Solo los usaremos para contactarte sobre entradas de BTS.
                         </p>
                     </form>

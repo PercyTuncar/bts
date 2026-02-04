@@ -230,7 +230,7 @@ export default function BtsNetflixPage() {
 
       {/* Header Section */}
       <header className="mb-10 text-center md:text-left">
-        <div className="text-sm font-bold text-red-600 uppercase tracking-wide mb-2">
+        <div className="text-sm font-bold text-primary uppercase tracking-wide mb-2">
           Noticias • Netflix 2026
         </div>
         <h1 className="text-4xl md:text-6xl lg:text-7xl font-black tracking-tighter leading-none mb-6 text-slate-900 uppercase">
@@ -288,39 +288,39 @@ export default function BtsNetflixPage() {
         </p>
 
         {/* Horarios Box */}
-        <div className="bg-red-50 border-l-4 border-red-600 p-6 md:p-8 rounded-r-xl shadow-sm my-8">
-          <h3 className="text-xl font-black text-red-700 mb-4 uppercase tracking-wide flex items-center gap-2">
+        <div className="bg-primary/10 border-l-4 border-primary p-6 md:p-8 rounded-r-xl shadow-sm my-8">
+          <h3 className="text-xl font-black text-primary mb-4 uppercase tracking-wide flex items-center gap-2">
             <span>📅</span> Horarios Confirmados del Concierto
           </h3>
           <ul className="space-y-3 text-slate-800">
             <li className="flex items-start gap-2">
-              <span className="text-red-600 font-bold">•</span>
+              <span className="text-primary font-bold">•</span>
               <span><strong>Evento:</strong> Concierto en Plaza Gwanghwamun, Seúl.</span>
             </li>
             <li className="flex items-start gap-2">
-              <span className="text-red-600 font-bold">•</span>
+              <span className="text-primary font-bold">•</span>
               <span><strong>Fecha:</strong> 21 de marzo de 2026.</span>
             </li>
             <li className="flex items-start gap-2">
-              <span className="text-red-600 font-bold">•</span>
+              <span className="text-primary font-bold">•</span>
               <span><strong>Hora México (CDMX):</strong> 5:00 a.m.</span>
             </li>
             <li className="flex items-start gap-2">
-              <span className="text-red-600 font-bold">•</span>
+              <span className="text-primary font-bold">•</span>
               <span><strong>Hora Perú / Colombia:</strong> 6:00 a.m.</span>
             </li>
             <li className="flex items-start gap-2">
-              <span className="text-red-600 font-bold">•</span>
+              <span className="text-primary font-bold">•</span>
               <span><strong>Hora Argentina / Chile:</strong> 8:00 a.m.</span>
             </li>
             <li className="flex items-start gap-2">
-              <span className="text-red-600 font-bold">•</span>
-              <span><strong>Dónde ver:</strong> <span className="text-red-600 font-bold">Exclusivamente en Netflix</span>.</span>
+              <span className="text-primary font-bold">•</span>
+              <span><strong>Dónde ver:</strong> <span className="text-primary font-bold">Exclusivamente en Netflix</span>.</span>
             </li>
           </ul>
         </div>
 
-        <blockquote className="border-l-4 border-primary pl-6 py-4 italic bg-purple-50 text-slate-900 rounded-r-lg my-10 shadow-sm">
+        <blockquote className="border-l-4 border-primary pl-6 py-4 italic bg-primary/10 text-slate-900 rounded-r-lg my-10 shadow-sm">
           <strong className="text-primary block mb-1 uppercase text-xs tracking-wider">Dato Importante</strong>
           La transmisión será simultánea a nivel mundial. Asegúrate de configurar tu alarma y tener tu suscripción de Netflix activa antes del evento.
         </blockquote>
@@ -391,7 +391,7 @@ export default function BtsNetflixPage() {
               <div className="bg-white/5 backdrop-blur-sm p-6 rounded-2xl border border-white/10 hover:bg-white/10 transition-colors flex flex-col justify-center">
                 <div className="font-bold text-primary uppercase text-xs mb-2 tracking-widest">Única Oportunidad</div>
                 <Link href="/comprar-membresia-bts">
-                  <Button className="w-full bg-primary hover:bg-red-600 text-white border-none shadow-lg shadow-primary/30 font-bold py-4 h-auto">
+                  <Button className="w-full bg-gradient-to-r from-primary to-secondary hover:shadow-glow text-white border-none font-bold py-4 h-auto">
                     Adquirir Membresía Ahora
                   </Button>
                 </Link>

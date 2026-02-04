@@ -180,7 +180,7 @@ export default function BTSDubaiNewsPage() {
           </li>
         </ul>
 
-        <blockquote className="border-l-4 border-primary pl-6 py-4 italic bg-red-50 text-slate-900 rounded-r-lg my-10 shadow-sm">
+        <blockquote className="border-l-4 border-primary pl-6 py-4 italic bg-primary/10 text-slate-900 rounded-r-lg my-10 shadow-sm">
           <strong className="text-primary block mb-1 uppercase text-xs tracking-wider">Dato Importante</strong>
           No se trata de vacaciones. La agencia ha confirmado brevemente que se trata de una &quot;agenda oficial en el extranjero&quot;.
         </blockquote>
@@ -225,7 +225,7 @@ export default function BTSDubaiNewsPage() {
                 <div className="bg-white/5 backdrop-blur-sm p-6 rounded-2xl border border-white/10 hover:bg-white/10 transition-colors flex flex-col justify-center">
                     <div className="font-bold text-primary uppercase text-xs mb-2 tracking-widest">Única Oportunidad</div>
                     <Link href="/comprar-membresia-bts">
-                      <Button className="w-full bg-primary hover:bg-red-600 text-white border-none shadow-lg shadow-primary/30 font-bold py-4 h-auto">
+                      <Button className="w-full bg-gradient-to-r from-primary to-secondary hover:shadow-glow text-white border-none font-bold py-4 h-auto">
                           Adquirir Membresía Ahora
                       </Button>
                     </Link>

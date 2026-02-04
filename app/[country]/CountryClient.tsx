@@ -5,7 +5,7 @@ import { CountryData } from "@/lib/data/countries";
 import { Calendar, MapPin, Ticket, CreditCard, Minus, Plus, ArrowRight, ShieldCheck, Info, Sparkles, Clock, Users } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
-import { motion, AnimatePresence, useScroll, useTransform } from "framer-motion";
+import { motion, AnimatePresence } from "framer-motion";
 import { CommunityModal } from "@/components/CommunityModal";
 import { MembershipModal } from "@/components/MembershipModal";
 import { MessageCircle } from "lucide-react";
@@ -190,8 +190,6 @@ const translations = {
 };
 
 export default function CountryClient({ country }: Props) {
-    const { scrollY } = useScroll();
-    const heroY = useTransform(scrollY, [0, 500], [0, 200]);
     const lang = country.id === 'brasil' ? 'pt' : (country.id === 'mexico' ? 'mx' : 'es');
     const t = translations[lang];
 

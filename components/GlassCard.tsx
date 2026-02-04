@@ -21,10 +21,7 @@ export const GlassCard = ({ children, className, variant = 'default' }: GlassCar
 
     return (
         <div className={cn(baseStyles, variants[variant], className)}>
-            {/* Subtle inner glow effect */}
-            <div className="absolute inset-0 rounded-inherit bg-gradient-to-br from-primary/5 via-transparent to-secondary/5 pointer-events-none opacity-0 group-hover:opacity-100 transition-opacity" />
-            {/* Content container */}
-            <div className="relative z-10">{children}</div>
+            {children}
         </div>
     );
 };

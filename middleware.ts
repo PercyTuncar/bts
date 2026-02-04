@@ -5,33 +5,36 @@ import type { NextRequest } from 'next/server'
 export function middleware(request: NextRequest) {
     const { pathname } = request.nextUrl;
 
+    // Skip middleware for static files and internal paths
+    if (
+        pathname.includes('.') ||
+        pathname.startsWith('/_next') ||
+        pathname.startsWith('/api') ||
+        pathname.startsWith('/images') ||
+        pathname.startsWith('/favicon')
+    ) {
+        return NextResponse.next();
+    }
+
+    // Create response
+    const response = NextResponse.next();
+
     // Cloudflare inyecta este header
     const country = request.headers.get('CF-IPCountry') || 'US';
 
-    // Default to Spanish
-    let lang = 'es';
+    // Default to Spanish, Portuguese for Brazil
+    const lang = pathname.startsWith('/brasil') ? 'pt-BR' : 'es';
 
-    // Check if path is for Brazil
-    if (pathname.startsWith('/brasil')) {
-        lang = 'pt-BR';
-    }
+    // Set headers on response instead of modifying request
+    response.headers.set('x-lang', lang);
+    response.headers.set('x-user-country', country);
 
-    // Clone the request headers and add our custom header
-    const requestHeaders = new Headers(request.headers);
-    requestHeaders.set('x-lang', lang);
-    requestHeaders.set('x-user-country', country);
-
-    // Return the response with the modified headers
-    return NextResponse.next({
-        request: {
-            headers: requestHeaders,
-        },
-    });
+    return response;
 }
 
 export const config = {
     matcher: [
-        // Match all paths except static files, api, _next
-        '/((?!api|_next/static|_next/image|favicon.ico|images|.*\\..*).*)',
+        // Only match page routes, not static files
+        '/((?!_next|api|favicon.ico|images|.*\\.[\\w]+$).*)',
     ],
 };

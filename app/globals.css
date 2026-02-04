@@ -3,8 +3,26 @@
 @tailwind utilities;
 
 :root {
+  /* Primary BTS Purple Palette */
+  --bts-purple: #9B59B6;
+  --bts-purple-dark: #6C3A7C;
+  --bts-purple-light: #D4A5D4;
+  
+  /* Base Colors */
   --background: #ffffff;
   --foreground: #111827;
+  --neutral-50: #F5F5F5;
+  --neutral-900: #1A1A1A;
+  
+  /* Accent Colors */
+  --accent-gold: #FFD700;
+  --accent-green: #4CAF50;
+  --accent-red: #E74C3C;
+  
+  /* Functional Colors */
+  --success: #4CAF50;
+  --warning: #FFD700;
+  --error: #E74C3C;
 }
 
 html,

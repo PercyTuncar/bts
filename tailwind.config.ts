@@ -10,28 +10,46 @@ const config: Config = {
     theme: {
         extend: {
             colors: {
-                primary: "#F01942", // The new BTS Red Accent
-                secondary: "#111827", // Using Slate 900 as secondary for deep contrast
-                black: "#0f172a", // Slate 900
+                // BTS Purple Palette - Primary Brand Colors
+                "bts-purple": "#9B59B6",        // Main BTS Purple
+                "bts-purple-dark": "#6C3A7C",  // Dark Purple for accents
+                "bts-purple-light": "#D4A5D4", // Light Purple for backgrounds
+                
+                // Legacy mappings for transition
+                primary: "#9B59B6",             // BTS Purple
+                secondary: "#111827",           // Slate 900
+                black: "#0f172a",              // Slate 900
                 white: "#ffffff",
-                // Keeping some legacy names to avoid immediate breaks, but remapping them
-                "acid-yellow": "#F01942", // Remapped to primary for now to catch old buttons
-                "acid-pink": "#F01942",   // Remapped to primary
-                "neon-green": "#22c55e",  // Standard green for success states
-                "off-white": "#F8FAFC",   // Slate 50
-
-                // Functional palette
+                
+                // Functional Colors
+                "success": "#4CAF50",          // Green for confirmations
+                "warning": "#FFD700",          // Gold for highlights
+                "error": "#E74C3C",            // Red for alerts
+                "neutral-50": "#F5F5F5",       // Light gray backgrounds
+                "neutral-900": "#1A1A1A",      // Dark text
+                
+                // Accent colors
+                "accent-gold": "#FFD700",
+                "accent-green": "#4CAF50",
+                "accent-red": "#E74C3C",
+                
+                // Surface colors
                 surface: "#F8FAFC",
                 "surface-highlight": "#F1F5F9",
+                "off-white": "#F8FAFC",
             },
             fontFamily: {
                 serif: ['"Times New Roman"', "Times", "serif"],
-                // Sans is already default, typically Inter from next/font
             },
             boxShadow: {
                 'card': '0 4px 6px -1px rgba(0, 0, 0, 0.05), 0 2px 4px -1px rgba(0, 0, 0, 0.03)',
                 'card-hover': '0 10px 15px -3px rgba(0, 0, 0, 0.05), 0 4px 6px -2px rgba(0, 0, 0, 0.025)',
-                'button': '0 4px 14px 0 rgba(240, 25, 66, 0.39)', // Red glow for primary buttons
+                'button': '0 4px 14px 0 rgba(155, 89, 182, 0.39)', // Purple glow for primary buttons
+                'purple-glow': '0 0 20px rgba(155, 89, 182, 0.3)',
+            },
+            backgroundImage: {
+                'bts-gradient': 'linear-gradient(135deg, #9B59B6 0%, #6C3A7C 100%)',
+                'bts-gradient-light': 'linear-gradient(135deg, #D4A5D4 0%, #9B59B6 100%)',
             }
         },
     },

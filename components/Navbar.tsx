@@ -1,7 +1,7 @@
 "use client";
 
 import Link from "next/link";
-import { useState, useEffect } from "react";
+import { useState } from "react";
 import { ShoppingCart, Menu, X, ArrowRight, Ticket } from "lucide-react";
 import { Logo } from "./Logo";
 import { motion, AnimatePresence } from "framer-motion";
@@ -11,18 +11,9 @@ import { useCart } from "@/context/CartContext";
 
 export function Navbar() {
     const [isOpen, setIsOpen] = useState(false);
-    const [scrolled, setScrolled] = useState(false);
     const { count } = useCart();
     const pathname = usePathname();
     const isBrazil = pathname?.startsWith('/brasil');
-
-    useEffect(() => {
-        const handleScroll = () => {
-            setScrolled(window.scrollY > 20);
-        };
-        window.addEventListener('scroll', handleScroll);
-        return () => window.removeEventListener('scroll', handleScroll);
-    }, []);
 
     const menuItems = isBrazil ? [
         { href: "/", label: "Inicio" },
@@ -40,11 +31,7 @@ export function Navbar() {
 
     return (
         <>
-            <nav className={`fixed top-0 left-0 right-0 z-50 h-20 transition-all duration-300 ${
-                scrolled 
-                    ? 'bg-black/80 backdrop-blur-xl border-b border-white/5' 
-                    : 'bg-transparent'
-            }`}>
+            <nav className="fixed top-0 left-0 right-0 z-50 h-20 transition-all duration-300 bg-black/60 backdrop-blur-xl border-b border-white/10">
                 <div className="container mx-auto px-4 h-full flex items-center justify-between">
 
                     {/* Logo */}

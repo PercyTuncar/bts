@@ -2,7 +2,6 @@
 
 import { usePathname } from "next/navigation";
 import { AutoPopup } from "./AutoPopup";
-import { OfficialStatementPopup } from "./OfficialStatementPopup";
 import { BlogPromoPopup } from "./BlogPromoPopup";
 import { countries } from "@/lib/data/countries";
 
@@ -24,7 +23,6 @@ export function PopupManager({ userCountryCode }: Props) {
     return (
         <>
             <AutoPopup />
-            <OfficialStatementPopup />
         </>
     );
 }

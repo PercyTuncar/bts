@@ -27,19 +27,19 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
 
     // Localization overrides
     if (country.id === 'brasil') {
-        title = `Ingressos BTS Brasil 2026: A partir de R$650`;
+        title = `Ingressos BTS Brasil`;
         description = `Compre seus ingressos para o BTS no Brasil 2026! Preços a partir de R$650 no Allianz Parque. Compra segura, áreas VIP e mapa de assentos aqui.`;
         ogTitle = `Ingressos BTS Brasil 2026`;
         ogDescription = `O Army chega ao Brasil! Compra segura e verificada para o show no Allianz Parque.`;
         ogSiteName = `Ingressos BTS Tour 2026`;
         ogLocale = 'pt_BR';
     } else if (country.id === 'mexico') {
-        title = `Boletos BTS ${country.name} 2026: Precios desde ${formattedPrice}`;
+        title = `Entradas BTS ${country.name}`;
         description = `¡Compra tus boletos para BTS en ${country.name} 2026! Precios desde ${formattedPrice} en ${country.venue}. Compra segura, zonas VIP y mapa del escenario aquí.`;
         ogTitle = `Boletos BTS ${country.name} 2026`;
         ogSiteName = `Boletos BTS Tour 2026`;
     } else if (country.id === 'madrid') {
-        title = `ENTRADAS BTS MADRID 2026: Precios desde ${formattedPrice}`;
+        title = `Entradas BTS Madrid`;
         description = `¡Consigue tus ENTRADAS BTS MADRID 2026! Concierto oficial en ${country.venue}. Precios desde ${formattedPrice}. Compra segura y verificada.`;
         ogTitle = `ENTRADAS BTS MADRID 2026`;
         ogDescription = `BTS llega a España. Compra tus ENTRADAS BTS MADRID 2026 de forma segura para el Metropolitano.`;
@@ -47,7 +47,7 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
         ogLocale = 'es_ES';
     } else {
         // Default title structure for other countries (Peru, Chile, Colombia, etc.)
-        title = `Entradas BTS ${country.name} 2026: Precios desde ${formattedPrice}`;
+        title = `Entradas BTS ${country.name}`;
     }
 
 
@@ -108,13 +108,16 @@ export default async function CountryPage({ params }: Props) {
     const isBrazil = country.id === 'brasil';
     const isMadrid = country.id === 'madrid';
 
+    const countryDisplayName = country.id === 'madrid' ? 'Madrid' : country.name;
     const jsonLd = {
         "@context": "https://schema.org",
         "@type": "Event",
-        "name": isBrazil 
-            ? `Show BTS ${country.name} 2026` 
-            : `Concierto BTS ${country.name} 2026`,
-        "description": isBrazil ? country.description : country.description, // Can be improved if description in data was localized, but currently reused or static in data
+        "name": isBrazil
+            ? `Ingressos BTS Brasil 2026 - Show em ${country.city}`
+            : `Entradas BTS ${countryDisplayName} 2026 - Concierto en ${country.city}`,
+        "description": isBrazil
+            ? `Comprar ingressos BTS Brasil 2026. Informacoes oficiais sobre precos, preventa e setores para o show em ${country.venue}.`
+            : `Comprar entradas BTS ${countryDisplayName} 2026. Informacion oficial sobre precios, preventa y zonas para el concierto en ${country.venue}.`,
         "image": [
             `https://entradasbts.com${country.openGraphImage}`,
             "https://entradasbts.com/images/concert-bg.png"
@@ -170,7 +173,9 @@ export default async function CountryPage({ params }: Props) {
             "sameAs": [
                 "https://ibighit.com/bts",
                 "https://en.wikipedia.org/wiki/BTS",
-                "https://open.spotify.com/artist/3Nrfpe0tUJi4K4DXYWgMUX"
+                "https://open.spotify.com/artist/3Nrfpe0tUJi4K4DXYWgMUX",
+                "https://www.instagram.com/bts.bighitofficial/",
+                "https://twitter.com/bts_bighit"
             ]
         },
         "offers": {

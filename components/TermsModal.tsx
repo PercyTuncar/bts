@@ -1,7 +1,7 @@
 "use client";
 
 import { motion, AnimatePresence } from "framer-motion";
-import { X, Check, ShieldCheck, FileText } from "lucide-react";
+import { X, Check, ShieldCheck } from "lucide-react";
 import Link from "next/link";
 import Image from "next/image";
 import { useEffect, useRef, useState } from "react";
@@ -40,6 +40,12 @@ export function TermsModal({ isOpen, onClose, currency, content }: Props) {
     const isPeru = currentCurrency.symbol === 'S/.';
 
     useEffect(() => {
+        if (isOpen) {
+            setAccepted(true);
+        }
+    }, [isOpen]);
+
+    useEffect(() => {
         if (!isOpen || !accepted || !mpButtonRef.current) {
             return;
         }
@@ -50,8 +56,8 @@ export function TermsModal({ isOpen, onClose, currency, content }: Props) {
         const script = document.createElement("script");
         script.src = MP_SCRIPT_SRC;
         script.async = true;
-        script.dataset.preferenceId = MP_PREFERENCE_ID;
-        script.dataset.source = "button";
+        script.setAttribute("data-preference-id", MP_PREFERENCE_ID);
+        script.setAttribute("data-source", "button");
 
         container.appendChild(script);
 

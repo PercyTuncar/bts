@@ -4,19 +4,22 @@ import { motion, AnimatePresence } from "framer-motion";
 import { X, Check, ShieldCheck, FileText } from "lucide-react";
 import Link from "next/link";
 import Image from "next/image";
-import { useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { GlassCard } from "./GlassCard";
 
 type Props = {
     isOpen: boolean;
     onClose: () => void;
-    onAccept: () => void;
     currency?: { symbol: string, price: string };
     content?: Record<string, string>;
 };
 
-export function TermsModal({ isOpen, onClose, onAccept, currency, content }: Props) {
+const MP_SCRIPT_SRC = "https://www.mercadopago.com.pe/integrations/v1/web-payment-checkout.js";
+const MP_PREFERENCE_ID = "261475954-d56003f9-3b9c-4b00-9645-c09be392d344";
+
+export function TermsModal({ isOpen, onClose, currency, content }: Props) {
     const [accepted, setAccepted] = useState(true);
+    const mpButtonRef = useRef<HTMLDivElement | null>(null);
     
     // Default fallback if content isn't passed (handled gracefully or assume Spanish defaults)
     const t = content || {
@@ -35,6 +38,27 @@ export function TermsModal({ isOpen, onClose, onAccept, currency, content }: Pro
     // Default to PE if not provided (though it should be)
     const currentCurrency = currency || { symbol: 'S/.', price: '99.50' };
     const isPeru = currentCurrency.symbol === 'S/.';
+
+    useEffect(() => {
+        if (!isOpen || !accepted || !mpButtonRef.current) {
+            return;
+        }
+
+        const container = mpButtonRef.current;
+        container.innerHTML = "";
+
+        const script = document.createElement("script");
+        script.src = MP_SCRIPT_SRC;
+        script.async = true;
+        script.dataset.preferenceId = MP_PREFERENCE_ID;
+        script.dataset.source = "button";
+
+        container.appendChild(script);
+
+        return () => {
+            container.innerHTML = "";
+        };
+    }, [accepted, isOpen]);
 
     return (
         <AnimatePresence>
@@ -169,17 +193,20 @@ export function TermsModal({ isOpen, onClose, onAccept, currency, content }: Pro
                                     <p className="text-center text-[10px] text-slate-500 font-bold uppercase leading-tight max-w-[95%] mx-auto">
                                         <span className="text-primary font-black">{t.modal_other_countries_pay}</span> {t.modal_debit_credit_here}
                                     </p>
-                                    <button
-                                        onClick={onAccept}
-                                        disabled={!accepted}
-                                        className={`w-full font-black uppercase text-base py-3 rounded-lg transition-all flex items-center justify-center gap-2
-                                            ${accepted
-                                                ? 'bg-primary text-white hover:bg-primary/90 hover:scale-[1.02] shadow-lg'
-                                                : 'bg-slate-200 text-slate-400 cursor-not-allowed'
-                                            }`}
-                                    >
-                                        {t.modal_pay_card_btn}
-                                    </button>
+                                    {accepted ? (
+                                        <div
+                                            ref={mpButtonRef}
+                                            className="flex justify-center"
+                                            aria-label={t.modal_pay_card_btn}
+                                        />
+                                    ) : (
+                                        <button
+                                            disabled
+                                            className="w-full font-black uppercase text-base py-3 rounded-lg transition-all flex items-center justify-center gap-2 bg-slate-200 text-slate-400 cursor-not-allowed"
+                                        >
+                                            {t.modal_pay_card_btn}
+                                        </button>
+                                    )}
                                 </div>
 
                                 <p className="text-center text-[9px] text-slate-400 uppercase tracking-widest font-bold">

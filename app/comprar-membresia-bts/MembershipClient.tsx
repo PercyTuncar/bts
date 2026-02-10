@@ -149,10 +149,6 @@ export default function MembershipClient({ country = 'PE' }: { country?: string 
         setIsTermsOpen(true);
     };
 
-    const handleTermsAccept = () => {
-        window.location.href = currency.link;
-    };
-
 
     const benefits = [
         {
@@ -203,7 +199,6 @@ export default function MembershipClient({ country = 'PE' }: { country?: string 
             <TermsModal
                 isOpen={isTermsOpen}
                 onClose={() => setIsTermsOpen(false)}
-                onAccept={handleTermsAccept}
                 currency={currency}
                 content={content}
             />

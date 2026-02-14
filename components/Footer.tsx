@@ -18,9 +18,7 @@ export const Footer = () => {
             : "Mantente conectado. Únete a nuestros grupos oficiales de WhatsApp para recibir noticias y alertas al instante.",
         whatsappGroups: "Grupos de WhatsApp", // Same in both or similar enough? Pt: Grupos de WhatsApp. Es: Grupos de WhatsApp. OK.
         clickToView: isBrazil ? "Clique para ver tudo" : "Click para ver todos",
-        worldTour: "World Tour 2026",
-        experience: "Experience the energy.",
-        liveFrom: "Live from Latin America.",
+
         explore: isBrazil ? "Explorar" : "Explora",
         home: isBrazil ? "Início" : "Inicio",
         tourDates: "Tour Dates",
@@ -91,11 +89,14 @@ export const Footer = () => {
                                 <span className="font-black text-2xl text-slate-900">B</span>
                             </div>
                         </Link>
-                        <p className="text-xs font-mono text-gray-500 uppercase leading-relaxed">
-                            {t.worldTour}<br />
-                            {t.experience}<br />
-                            {t.liveFrom}
-                        </p>
+                        <div className="text-[10px] font-mono text-gray-500 uppercase leading-relaxed">
+                            <p className="mb-2">
+                                <span className="font-bold text-slate-700">Aviso de Autonomía:</span> Operamos como una plataforma independiente de Personal Shopper para la adquisición de entradas y membresias, funcionando como una entidad ajena a las redes de ticketeras y organizadores oficiales.
+                            </p>
+                            <p>
+                                Todo encargo aplica según nuestros <Link href="/legal/terminos" className="underline hover:text-slate-900 transition-colors font-bold">Términos y Condiciones</Link>. Léelos aquí.
+                            </p>
+                        </div>
                     </div>
 
                     {/* LINKS COLUMN 1 */}

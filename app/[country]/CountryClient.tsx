@@ -62,7 +62,7 @@ const translations = {
     es: {
         worldTour: "Gira Mundial",
         liveFrom: "En Vivo desde",
-        buyTickets: "Compra tus Entradas",
+        buyTickets: "Gestionar Membresía / Encargo",
         selectDate: "Selecciona una Fecha",
         tickets: "Entradas",
         nextEvent: "Próximo Evento",
@@ -73,6 +73,8 @@ const translations = {
         seg: "Seg",
         cash: "Contado",
         installments: "Cuotas",
+        installments: "Cuotas",
+        ticketDisclaimer: "Nota: Los precios mostrados son referenciales de taquilla. El botón de selección iniciará la contratación de nuestro servicio de gestión de Membresía ARMY, requisito previo para la compra de tickets.",
         selectDateStep: "1. Selecciona la Fecha",
         chooseInstallments: "2. Elige tus cuotas",
         initialReservation: "Reserva inicial de",
@@ -97,8 +99,8 @@ const translations = {
         secureProcessDesc: "En RaveHub, hemos simplificado la experiencia de usuario para eliminar fricciones y garantizar transparencia en cada clic. Nuestro proceso de \"Compra Segura\" se estructura en tres pasos blindados tecnológicamente para asegurar que cada fan tenga acceso legítimo a sus entradas.",
         whySecureTitle: "¿Por qué comprar aquí es seguro?",
         whySecureDesc: "La Garantía RaveHub es nuestro compromiso de \"Cero Riesgos\". Comprar aquí es seguro porque eliminamos la incertidumbre del mercado secundario informal.",
-        verification: "Verificación:",
-        verificationDesc: "Solo trabajamos con organizadores de eventos verificados.",
+        verification: "Adquisición Oficial:",
+        verificationDesc: "Nuestro equipo de gestores realiza las compras únicamente a través de las ticketeras y plataformas oficiales del evento, garantizando la legitimidad del acceso.",
         fraudProtection: "Protección Anti-Fraude:",
         fraudProtectionDesc: "Nuestro sistema previene la duplicación y falsificación.",
         support: "Soporte 24/7:",
@@ -110,11 +112,11 @@ const translations = {
         historyDesc2: "La demanda acumulada ha generado una expectativa sin precedentes. Por ello, encontrar dónde",
         historyDesc3: "comprar boletos para BTS en {city} de forma 100% segura",
         historyDesc4: "es la prioridad absoluta para proteger tu inversión y tu sueño.",
-        historyDesc5: "Al adquirir tus pases a través de canales verificados como RaveHub, aseguras tu lugar en el evento con total confianza y garantía local.",
+        historyDesc5: "Al asegurar tu gestión de compra a través de plataformas de Personal Shopper como RaveHub, delegas el estrés de las filas virtuales y aseguras que expertos intenten conseguir tu lugar con total transparencia.",
         toPayToday: "A Pagar HOY",
         totalToPay: "Total a Pagar",
         installmentsOf: "cuotas de",
-        checkout: "Finalizar Compra",
+        checkout: "Gestionar Membresía / Encargo",
         faqTitle: "Preguntas Frecuentes sobre el Concierto",
         q1: "¿Cuándo salen a la venta las entradas?",
         a1: "Las fechas varían por país. Revisa la sección de cronograma más arriba para ver las fechas específicas de Preventa Army, Preventa General y Venta General en tu país.",
@@ -126,7 +128,7 @@ const translations = {
     pt: {
         worldTour: "Turnê Mundial",
         liveFrom: "Ao Vivo de",
-        buyTickets: "Compre seus Ingressos",
+        buyTickets: "Gerenciar Membresia / Encomenda",
         selectDate: "Selecione uma Data",
         tickets: "Ingressos",
         nextEvent: "Próximo Evento",
@@ -137,6 +139,8 @@ const translations = {
         seg: "Seg",
         cash: "À Vista",
         installments: "Parcelado",
+        installments: "Parcelado",
+        ticketDisclaimer: "Nota: Os preços mostrados são referenciais de bilheteria. O botão de seleção iniciará a contratação de nosso serviço de gestão de Membresia ARMY, pré-requisito para a compra de ingressos.",
         selectDateStep: "1. Selecione a Data",
         chooseInstallments: "2. Escolha suas parcelas",
         initialReservation: "Reserva inicial de",
@@ -161,8 +165,8 @@ const translations = {
         secureProcessDesc: "Na RaveHub, simplificamos a experiência do usuário para eliminar atritos e garantir transparência em cada clique. Nosso processo de \"Compra Segura\" é estruturado em três passos blindados tecnologicamente para garantir que cada fã tenha acesso legítimo aos seus ingressos.",
         whySecureTitle: "Por que comprar aqui é seguro?",
         whySecureDesc: "A Garantia RaveHub é nosso compromisso de \"Risco Zero\". Comprar aqui é seguro porque eliminamos a incerteza do mercado secundário informal.",
-        verification: "Verificação:",
-        verificationDesc: "Trabalhamos apenas com organizadores de eventos verificados.",
+        verification: "Aquisição Oficial:",
+        verificationDesc: "Nossa equipe de gestores realiza as compras unicamente através das bilheterias e plataformas oficiais do evento, garantindo a legitimidade do acesso.",
         fraudProtection: "Proteção Antifraude:",
         fraudProtectionDesc: "Nosso sistema previne duplicação e falsificação.",
         support: "Suporte 24/7:",
@@ -174,11 +178,11 @@ const translations = {
         historyDesc2: "A demanda acumulada gerou uma expectativa sem precedentes. Por isso, encontrar onde",
         historyDesc3: "comprar ingressos para BTS em {city} de forma 100% segura",
         historyDesc4: "é a prioridade absoluta para proteger seu investimento e seu sonho.",
-        historyDesc5: "Ao adquirir seus ingressos através de canais verificados como a RaveHub, você garante seu lugar no evento com total confiança e garantia local.",
+        historyDesc5: "Ao garantir sua gestão de compra através de plataformas de Personal Shopper como a RaveHub, você delega o estresse das filas virtuais e garante que especialistas tentem conseguir seu lugar com total transparência.",
         toPayToday: "A Pagar HOJE",
         totalToPay: "Total a Pagar",
         installmentsOf: "parcelas de",
-        checkout: "Finalizar Compra",
+        checkout: "Gerenciar Membresia / Encomenda",
         faqTitle: "Perguntas Frequentes sobre o Show",
         q1: "Quando começam as vendas dos ingressos?",
         a1: "As datas variam por país. Verifique a seção de cronograma acima para ver as datas específicas da Pré-venda Army, Pré-venda Geral e Venda Geral no seu país.",
@@ -190,7 +194,7 @@ const translations = {
     mx: {
         worldTour: "Gira Mundial",
         liveFrom: "En Vivo desde",
-        buyTickets: "Compra tus Boletos",
+        buyTickets: "Gestionar Membresía / Encargo",
         selectDate: "Selecciona una Fecha",
         tickets: "Boletos",
         nextEvent: "Próximo Evento",
@@ -201,6 +205,8 @@ const translations = {
         seg: "Seg",
         cash: "Contado",
         installments: "Cuotas",
+        installments: "Cuotas",
+        ticketDisclaimer: "Nota: Los precios mostrados son referenciales de taquilla. El botón de selección iniciará la contratación de nuestro servicio de gestión de Membresía ARMY, requisito previo para la compra de tickets.",
         selectDateStep: "1. Selecciona la Fecha",
         chooseInstallments: "2. Elige tus cuotas",
         initialReservation: "Reserva inicial de",
@@ -225,8 +231,8 @@ const translations = {
         secureProcessDesc: "En RaveHub, hemos simplificado la experiencia de usuario para eliminar fricciones y garantizar transparencia en cada clic. Nuestro proceso de \"Compra Segura\" se estructura en tres pasos blindados tecnológicamente para asegurar que cada fan tenga acceso legítimo a sus entradas.",
         whySecureTitle: "¿Por qué comprar aquí es seguro?",
         whySecureDesc: "La Garantía RaveHub es nuestro compromiso de \"Cero Riesgos\". Comprar aquí es seguro porque eliminamos la incertidumbre del mercado secundario informal.",
-        verification: "Verificación:",
-        verificationDesc: "Solo trabajamos con organizadores de eventos verificados.",
+        verification: "Adquisición Oficial:",
+        verificationDesc: "Nuestro equipo de gestores realiza las compras únicamente a través de las ticketeras y plataformas oficiales del evento, garantizando la legitimidad del acceso.",
         fraudProtection: "Protección Anti-Fraude:",
         fraudProtectionDesc: "Nuestro sistema previene la duplicación y falsificación.",
         support: "Soporte 24/7:",
@@ -238,11 +244,11 @@ const translations = {
         historyDesc2: "La demanda acumulada ha generado una expectativa sin precedentes. Por ello, encontrar dónde",
         historyDesc3: "comprar boletos para BTS en {city} de forma 100% segura",
         historyDesc4: "es la prioridad absoluta para proteger tu inversión y tu sueño.",
-        historyDesc5: "Al adquirir tus pases a través de canales verificados como RaveHub, aseguras tu lugar en el evento con total confianza y garantía local.",
+        historyDesc5: "Al asegurar tu gestión de compra a través de plataformas de Personal Shopper como RaveHub, delegas el estrés de las filas virtuales y aseguras que expertos intenten conseguir tu lugar con total transparencia.",
         toPayToday: "A Pagar HOY",
         totalToPay: "Total a Pagar",
         installmentsOf: "cuotas de",
-        checkout: "Finalizar Compra",
+        checkout: "Gestionar Membresía / Encargo",
         faqTitle: "Preguntas Frecuentes sobre el Concierto",
         q1: "¿Cuándo salen a la venta los boletos?",
         a1: "Las fechas varían. Checa la sección de cronograma arriba para ver las fechas de Preventa Army, Preventa General y Venta General.",
@@ -431,7 +437,7 @@ export default function CountryClient({ country }: Props) {
                         priority
                         sizes="100vw"
                     />
-                    
+
                     {/* Background Video */}
                     <video
                         autoPlay
@@ -443,7 +449,7 @@ export default function CountryClient({ country }: Props) {
                     >
                         <source src="/images/video-bts.mp4" type="video/mp4" />
                     </video>
-                    
+
                     {/* Gradient Overlay - Strong on left for text readability */}
                     <div className="absolute inset-0 bg-gradient-to-r from-black via-black/70 to-transparent"></div>
                     <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-black/40"></div>
@@ -454,7 +460,7 @@ export default function CountryClient({ country }: Props) {
 
                     {/* Main Content */}
                     <div className="max-w-2xl">
-                        
+
                         {/* Title Block - SEO Optimized: Single H1 with complete keyword */}
                         <motion.div
                             initial={{ opacity: 0, x: -20 }}
@@ -475,7 +481,7 @@ export default function CountryClient({ country }: Props) {
                         </motion.div>
 
                         {/* Info Row */}
-                        <motion.div 
+                        <motion.div
                             initial={{ opacity: 0, x: -20 }}
                             animate={{ opacity: 1, x: 0 }}
                             transition={{ delay: 0.3 }}
@@ -490,7 +496,7 @@ export default function CountryClient({ country }: Props) {
                         </motion.div>
 
                         {/* Date & Countdown Row */}
-                        <motion.div 
+                        <motion.div
                             initial={{ opacity: 0, x: -20 }}
                             animate={{ opacity: 1, x: 0 }}
                             transition={{ delay: 0.4 }}
@@ -500,7 +506,7 @@ export default function CountryClient({ country }: Props) {
                                 <Calendar className="w-5 h-5 text-primary" />
                                 {primaryDate}
                             </div>
-                            
+
                             <div className="flex items-center gap-4 text-white">
                                 {[
                                     { val: timeLeft.days, label: t.days },
@@ -521,14 +527,14 @@ export default function CountryClient({ country }: Props) {
                         </motion.div>
 
                         {/* CTA Button */}
-                        <motion.div 
+                        <motion.div
                             initial={{ opacity: 0, x: -20 }}
                             animate={{ opacity: 1, x: 0 }}
                             transition={{ delay: 0.5 }}
                             className="mt-5"
                         >
-                            <a 
-                                href="#tickets" 
+                            <a
+                                href="#tickets"
                                 className="group inline-flex items-center gap-3 bg-primary hover:bg-primary/90 text-white font-bold uppercase tracking-wider text-base px-8 py-4 rounded-2xl transition-all duration-300 shadow-[0_0_30px_rgba(225,29,72,0.5)] hover:shadow-[0_0_50px_rgba(225,29,72,0.7)] hover:scale-[1.02]"
                             >
                                 <Ticket className="w-6 h-6" />
@@ -538,7 +544,7 @@ export default function CountryClient({ country }: Props) {
                         </motion.div>
 
                         {/* SEO Text - Enriched with keyword variations */}
-                        <motion.p 
+                        <motion.p
                             initial={{ opacity: 0 }}
                             animate={{ opacity: 1 }}
                             transition={{ delay: 0.6 }}
@@ -546,15 +552,15 @@ export default function CountryClient({ country }: Props) {
                         >
                             {country.id === 'brasil' ? (
                                 <>
-                                    A espera acabou. <span className="text-white/60">BTS chega a {country.city}, {country.name}</span> neste 2026. A venda oficial de <strong className="text-white/70 font-semibold">ingressos para BTS no {country.name}</strong> já está disponível para o <span className="text-primary/70">{country.venue}</span>. Confira os preços a partir de {country.currencySymbol}{Math.min(...country.prices.map(p => p.price)).toLocaleString('pt-BR')}, zonas VIP e garanta seu ticket hoje mesmo.
+                                    A espera acabou. <span className="text-white/60">BTS chega a {country.city}, {country.name}</span> neste 2026. Garanta seu lugar para a venda oficial de <strong className="text-white/70 font-semibold">ingressos para BTS no {country.name}</strong>. Prepare-se para sua chegada ao <span className="text-primary/70">{country.venue}</span>. Confira os preços referenciais a partir de {country.currencySymbol}{Math.min(...country.prices.map(p => p.price)).toLocaleString('pt-BR')} e contrate nosso serviço de Personal Shopper para gerenciar sua membresia e compra de forma antecipada.
                                 </>
                             ) : country.id === 'mexico' ? (
                                 <>
-                                    La espera ha terminado. <span className="text-white/60">BTS llega a {country.city}, {country.name}</span> este 2026. La venta oficial de <strong className="text-white/70 font-semibold">boletos para BTS en {country.name}</strong> ya está disponible para el <span className="text-primary/70">{country.venue}</span>. Revisa los precios desde {country.currencySymbol}{Math.min(...country.prices.map(p => p.price)).toLocaleString('es-MX')}, zonas VIP y asegura tu boleto hoy mismo.
+                                    La espera ha terminado. <span className="text-white/60">BTS llega a {country.city}, {country.name}</span> este 2026. Asegura tu lugar para la venta oficial de <strong className="text-white/70 font-semibold">boletos para BTS en {country.name}</strong>. Prepárate para su llegada al <span className="text-primary/70">{country.venue}</span>. Conoce los precios referenciales desde {country.currencySymbol}{Math.min(...country.prices.map(p => p.price)).toLocaleString('es-MX')} y contrata nuestro servicio de Personal Shopper para gestionar tu membresía y compra de forma anticipada.
                                 </>
                             ) : (
                                 <>
-                                    La espera ha terminado. <span className="text-white/60">BTS llega a {country.city}, {country.name}</span> este 2026. La venta oficial de <strong className="text-white/70 font-semibold">entradas para BTS en {country.name}</strong> ya está disponible para el <span className="text-primary/70">{country.venue}</span>. Revisa los precios desde {country.currencySymbol}{Math.min(...country.prices.map(p => p.price)).toLocaleString('es-ES')}, zonas VIP y asegura tu ticket hoy mismo.
+                                    La espera ha terminado. <span className="text-white/60">BTS llega a {country.city}, {country.name}</span> este 2026. Asegura tu lugar para la venta oficial de <strong className="text-white/70 font-semibold">entradas para BTS en {country.name}</strong>. Prepárate para su llegada al <span className="text-primary/70">{country.venue}</span>. Conoce los precios referenciales desde {country.currencySymbol}{Math.min(...country.prices.map(p => p.price)).toLocaleString('es-ES')} y contrata nuestro servicio de Personal Shopper para gestionar tu membresía y compra de forma anticipada.
                                 </>
                             )}
                         </motion.p>
@@ -609,6 +615,9 @@ export default function CountryClient({ country }: Props) {
 
                             {/* DATE SELECTOR */}
                             <div className="space-y-4">
+                                <p className="text-[10px] text-slate-500 font-medium mb-3 border-l-2 border-slate-300 pl-3 bg-slate-50 py-2 rounded-r-lg">
+                                    {t.ticketDisclaimer}
+                                </p>
                                 <p className="text-sm font-bold uppercase tracking-widest text-slate-400 pl-1">{t.selectDateStep}</p>
                                 <div className="grid grid-cols-2 md:grid-cols-3 gap-4">
                                     {country.dates.map((date) => {
@@ -668,16 +677,16 @@ export default function CountryClient({ country }: Props) {
                                                             </span>
                                                         </div>
                                                         <div className="h-2 w-full bg-slate-100 rounded-full overflow-hidden">
-                                                            <div 
+                                                            <div
                                                                 className="h-full bg-gradient-to-r from-rose-500 to-primary transition-all duration-1000 ease-out"
-                                                                style={{ 
+                                                                style={{
                                                                     width: `${(() => {
                                                                         const remainingDays = timeLeft.days;
                                                                         let p = 100 - (remainingDays / 10);
                                                                         if (p < 90) p = 90;
                                                                         if (p > 100) p = 100;
                                                                         return p;
-                                                                    })()}%` 
+                                                                    })()}%`
                                                                 }}
                                                             ></div>
                                                         </div>
@@ -713,15 +722,15 @@ export default function CountryClient({ country }: Props) {
                         {/* MAPA CARD */}
                         <div className="bg-white p-2 rounded-3xl shadow-lg border border-slate-100 overflow-hidden transform hover:scale-[1.02] transition-transform duration-500">
                             <div className="bg-slate-50 relative aspect-square rounded-2xl overflow-hidden">
-                                <Image 
+                                <Image
                                     src={
-                                        country.id === 'mexico' ? "/images/mapa-mexico.png" : 
-                                        country.id === 'madrid' ? "/images/bts-madrid-mapa.png" : 
-                                        "/images/stadium-map.png"
-                                    } 
-                                    alt={`Mapa de zonas y precios ${country.venue}`} 
-                                    fill 
-                                    className="object-contain p-4" 
+                                        country.id === 'mexico' ? "/images/mapa-mexico.png" :
+                                            country.id === 'madrid' ? "/images/bts-madrid-mapa.png" :
+                                                "/images/stadium-map.png"
+                                    }
+                                    alt={`Mapa de zonas y precios ${country.venue}`}
+                                    fill
+                                    className="object-contain p-4"
                                 />
                                 <div className="absolute bottom-4 left-4 bg-white/90 backdrop-blur pl-2 pr-4 py-2 rounded-full flex items-center gap-2 shadow-sm">
                                     <div className="bg-primary p-1.5 rounded-full text-white">

@@ -13,7 +13,33 @@ type Props = {
 };
 
 export function TermsModal({ isOpen, onClose, isPeruVisitor = false }: Props) {
+    const PHONE_DISPLAY = '944 784 488';
+    const PHONE_RAW = '944784488';
     const [isLocalPaymentOpen, setIsLocalPaymentOpen] = useState(false);
+    const [copiedTarget, setCopiedTarget] = useState<'desktop' | 'mobile' | null>(null);
+
+    const handleCopyPhone = async (target: 'desktop' | 'mobile') => {
+        try {
+            if (typeof navigator !== 'undefined' && navigator.clipboard?.writeText) {
+                await navigator.clipboard.writeText(PHONE_RAW);
+            } else if (typeof document !== 'undefined') {
+                const textArea = document.createElement('textarea');
+                textArea.value = PHONE_RAW;
+                textArea.setAttribute('readonly', '');
+                textArea.style.position = 'absolute';
+                textArea.style.left = '-9999px';
+                document.body.appendChild(textArea);
+                textArea.select();
+                document.execCommand('copy');
+                document.body.removeChild(textArea);
+            }
+
+            setCopiedTarget(target);
+            setTimeout(() => setCopiedTarget(null), 1800);
+        } catch {
+            setCopiedTarget(null);
+        }
+    };
 
     return (
         <AnimatePresence>
@@ -69,7 +95,17 @@ export function TermsModal({ isOpen, onClose, isPeruVisitor = false }: Props) {
                                                         </div>
                                                         <div className="text-center">
                                                             <p className="text-xs text-slate-600">o al número:</p>
-                                                            <p className="text-2xl font-black text-slate-900 tracking-wide">944 784 488</p>
+                                                            <button
+                                                                type="button"
+                                                                onClick={() => handleCopyPhone('desktop')}
+                                                                className="text-2xl font-black text-slate-900 tracking-wide hover:text-primary transition-colors cursor-pointer"
+                                                                aria-label="Copiar número 944784488"
+                                                            >
+                                                                {PHONE_DISPLAY}
+                                                            </button>
+                                                            {copiedTarget === 'desktop' && (
+                                                                <p className="text-[11px] font-bold text-green-600 mt-1">Numero copiado</p>
+                                                            )}
                                                             <p className="text-[10px] text-slate-600 mt-1">A nombre de: <span className="font-bold">PERCY TUNCAR</span></p>
                                                         </div>
                                                     </div>
@@ -105,7 +141,7 @@ export function TermsModal({ isOpen, onClose, isPeruVisitor = false }: Props) {
                                                         </div>
                                                         <div className="flex flex-col items-end gap-1">
                                                             <span className="text-[10px] font-black uppercase tracking-wide text-purple-700 bg-purple-100 px-2 py-0.5 rounded-full">
-                                                                {isLocalPaymentOpen ? 'Ocultar' : 'Tocar'}
+                                                                {isLocalPaymentOpen ? 'Ocultar' : 'Mostrar'}
                                                             </span>
                                                             <ChevronDown className={`w-5 h-5 text-purple-900 transition-transform ${isLocalPaymentOpen ? 'rotate-180' : ''}`} />
                                                         </div>
@@ -140,7 +176,17 @@ export function TermsModal({ isOpen, onClose, isPeruVisitor = false }: Props) {
                                                             </div>
                                                             <div className="text-center">
                                                                 <p className="text-xs text-slate-600">o al número:</p>
-                                                                <p className="text-xl font-black text-slate-900 tracking-wide">944 784 488</p>
+                                                                <button
+                                                                    type="button"
+                                                                    onClick={() => handleCopyPhone('mobile')}
+                                                                    className="text-xl font-black text-slate-900 tracking-wide hover:text-primary transition-colors cursor-pointer"
+                                                                    aria-label="Copiar número 944784488"
+                                                                >
+                                                                    {PHONE_DISPLAY}
+                                                                </button>
+                                                                {copiedTarget === 'mobile' && (
+                                                                    <p className="text-[11px] font-bold text-green-600 mt-1">Numero copiado</p>
+                                                                )}
                                                                 <p className="text-[10px] text-slate-600 mt-1">A nombre de: <span className="font-bold">PERCY TUNCAR</span></p>
                                                             </div>
                                                             <a

@@ -5,8 +5,11 @@ import type { NextRequest } from 'next/server'
 export function middleware(request: NextRequest) {
     const { pathname } = request.nextUrl;
 
-    // Cloudflare inyecta este header
-    const country = request.headers.get('CF-IPCountry') || 'US';
+    // Cloudflare (and some proxies) provide country headers.
+    const country =
+        request.headers.get('CF-IPCountry') ||
+        request.headers.get('x-vercel-ip-country') ||
+        'ZZ';
 
     // Default to Spanish
     let lang = 'es';

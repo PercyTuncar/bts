@@ -3,6 +3,7 @@ import { headers } from 'next/headers';
 import MembershipClient from './MembershipClient';
 
 const IPINFO_TOKEN = process.env.IPINFO_TOKEN || 'c06aff7891c73b';
+export const dynamic = 'force-dynamic';
 
 function getClientIp(headersList: Headers): string | undefined {
   const cfConnectingIp = headersList.get('cf-connecting-ip');
@@ -20,11 +21,19 @@ function getClientIp(headersList: Headers): string | undefined {
 }
 
 async function detectCountryWithIpInfo(headersList: Headers): Promise<string> {
-  const fallbackCountry = headersList.get('x-user-country') || 'PE';
+  const middlewareCountry = headersList.get('x-user-country')?.trim().toUpperCase();
+  const acceptLanguage = headersList.get('accept-language')?.toLowerCase() || '';
+
+  // If Cloudflare already identified Peru, trust it immediately.
+  if (middlewareCountry === 'PE') {
+    return 'PE';
+  }
+
   const clientIp = getClientIp(headersList);
 
   if (!clientIp || !IPINFO_TOKEN) {
-    return fallbackCountry;
+    if (acceptLanguage.includes('es-pe')) return 'PE';
+    return middlewareCountry || 'PE';
   }
 
   try {
@@ -33,13 +42,23 @@ async function detectCountryWithIpInfo(headersList: Headers): Promise<string> {
     });
 
     if (!response.ok) {
-      return fallbackCountry;
+      if (acceptLanguage.includes('es-pe')) return 'PE';
+      return middlewareCountry || 'PE';
     }
 
-    const data = await response.json() as { country_code?: string };
-    return data.country_code?.toUpperCase() || fallbackCountry;
+    const data = await response.json() as { country_code?: string; country?: string };
+    const ipInfoCountry =
+      data.country_code?.toUpperCase() ||
+      (data.country && data.country.length === 2 ? data.country.toUpperCase() : undefined);
+
+    // Any source confirming Peru should enable Yape/Plin.
+    if (ipInfoCountry === 'PE') return 'PE';
+    if (acceptLanguage.includes('es-pe')) return 'PE';
+
+    return middlewareCountry || ipInfoCountry || 'PE';
   } catch {
-    return fallbackCountry;
+    if (acceptLanguage.includes('es-pe')) return 'PE';
+    return middlewareCountry || 'PE';
   }
 }
 

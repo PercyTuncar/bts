@@ -2,6 +2,47 @@ import type { Metadata } from 'next';
 import { headers } from 'next/headers';
 import MembershipClient from './MembershipClient';
 
+const IPINFO_TOKEN = process.env.IPINFO_TOKEN || 'c06aff7891c73b';
+
+function getClientIp(headersList: Headers): string | undefined {
+  const cfConnectingIp = headersList.get('cf-connecting-ip');
+  if (cfConnectingIp) return cfConnectingIp;
+
+  const xForwardedFor = headersList.get('x-forwarded-for');
+  if (xForwardedFor) {
+    return xForwardedFor.split(',')[0]?.trim();
+  }
+
+  const xRealIp = headersList.get('x-real-ip');
+  if (xRealIp) return xRealIp;
+
+  return undefined;
+}
+
+async function detectCountryWithIpInfo(headersList: Headers): Promise<string> {
+  const fallbackCountry = headersList.get('x-user-country') || 'PE';
+  const clientIp = getClientIp(headersList);
+
+  if (!clientIp || !IPINFO_TOKEN) {
+    return fallbackCountry;
+  }
+
+  try {
+    const response = await fetch(`https://api.ipinfo.io/lite/${clientIp}?token=${IPINFO_TOKEN}`, {
+      cache: 'no-store',
+    });
+
+    if (!response.ok) {
+      return fallbackCountry;
+    }
+
+    const data = await response.json() as { country_code?: string };
+    return data.country_code?.toUpperCase() || fallbackCountry;
+  } catch {
+    return fallbackCountry;
+  }
+}
+
 export const metadata: Metadata = {
     title: 'Comprar Membresía BTS Oficial',
     description: 'Únete al ARMY oficial y asegura tu preventa para el Tour 2026. Compra tu Membresía BTS Global hoy. Precios en tu moneda local. Acceso inmediato a Weverse.',
@@ -89,7 +130,7 @@ const jsonLd = {
 
 export default async function MembershipPage() {
     const headersList = await headers();
-    const country = headersList.get('x-user-country') || 'PE';
+  const country = await detectCountryWithIpInfo(headersList);
 
     return (
         <>

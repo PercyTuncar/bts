@@ -1,11 +1,9 @@
 "use client";
 
 import Image from 'next/image';
-import Link from 'next/link';
-import { GlassCard } from '@/components/GlassCard';
 import { TermsModal } from '@/components/TermsModal';
 import { Star, ShoppingBag, Music, ShieldCheck, ChevronDown, Ticket, Smartphone } from 'lucide-react';
-import { useState, useEffect } from 'react';
+import { useState } from 'react';
 
 const PRICING: Record<string, { symbol: string, price: string, link: string }> = {
     PE: { symbol: 'S/.', price: '99.50', link: 'https://secure.micuentaweb.pe/t/o6d5a6ps' },
@@ -114,35 +112,10 @@ const TEXTS = {
 
 export default function MembershipClient({ country = 'PE' }: { country?: string }) {
     const [isTermsOpen, setIsTermsOpen] = useState(false);
-    const [currency, setCurrency] = useState(PRICING[country] || PRICING.DEFAULT);
-    const [content, setContent] = useState(country === 'BR' ? TEXTS.PT : TEXTS.ES);
-
-    useEffect(() => {
-        const detectCountry = async () => {
-             try {
-                 const response = await fetch('https://ipinfo.io/json?token=083e31e242486c');
-                 const data = await response.json();
-                 if (data && data.country) {
-                     const detectedCountry = data.country; // e.g., "PE", "US"
-                     if (PRICING[detectedCountry]) {
-                         setCurrency(PRICING[detectedCountry]);
-                     } else {
-                         setCurrency(PRICING.DEFAULT);
-                     }
-
-                     if (detectedCountry === 'BR') {
-                         setContent(TEXTS.PT);
-                     } else {
-                         setContent(TEXTS.ES);
-                     }
-                 }
-             } catch (error) {
-                 console.error("Error detecting country", error);
-             }
-        };
-
-        detectCountry();
-    }, []);
+    const normalizedCountry = country.toUpperCase();
+    const currency = PRICING[normalizedCountry] || PRICING.DEFAULT;
+    const content = normalizedCountry === 'BR' ? TEXTS.PT : TEXTS.ES;
+    const isPeruVisitor = normalizedCountry === 'PE';
 
     const handleBuyClick = (e: React.MouseEvent) => {
         e.preventDefault();
@@ -199,8 +172,7 @@ export default function MembershipClient({ country = 'PE' }: { country?: string 
             <TermsModal
                 isOpen={isTermsOpen}
                 onClose={() => setIsTermsOpen(false)}
-                currency={currency}
-                content={content}
+                isPeruVisitor={isPeruVisitor}
             />
 
             {/* SECTION 1: HERO (CLEAN WHITE) */}

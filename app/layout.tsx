@@ -68,6 +68,7 @@ import { CartProvider } from "@/context/CartContext";
 import { PopupManager } from "@/components/PopupManager";
 
 import { headers } from "next/headers";
+import Script from "next/script";
 
 export default async function RootLayout({
   children,
@@ -80,6 +81,13 @@ export default async function RootLayout({
 
   return (
     <html lang={lang}>
+      <head>
+        <Script
+          src="https://www.paypal.com/sdk/js?client-id=BAAa3-7GvLFL-Yj8lVIRkzve8wz_NyvMLwwiP0luzM_GUrmZujpbK2ikByE62VasK54tguRkwDOKZdTTfg&components=hosted-buttons&disable-funding=venmo&currency=USD"
+          crossOrigin="anonymous"
+          async
+        />
+      </head>
       <body className={cn(inter.className, "antialiased min-h-screen relative")}>
         <CartProvider>
           <Navbar />

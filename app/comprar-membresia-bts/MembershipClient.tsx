@@ -26,7 +26,7 @@ const TEXTS = {
         hero_subtitle_pre: "Asegura tu acceso a la",
         hero_highlight: "preventa del Tour 2026",
         hero_subtitle_post: "hoy mismo.",
-        activate_membership_btn: "Activar Membresía",
+        activate_membership_btn: "Comprar Membresía",
         price_label: "Precio:",
         one_time_payment: "Pago Único",
         secure_payment: "Gestionamos tu pago en la web oficial.",

@@ -1,10 +1,8 @@
 "use client";
 
 import { motion, AnimatePresence } from "framer-motion";
-import { X, Check, ShieldCheck } from "lucide-react";
-import Link from "next/link";
+import { X, ShieldCheck, MessageCircle } from "lucide-react";
 import Image from "next/image";
-import { useEffect, useRef, useState } from "react";
 import { GlassCard } from "./GlassCard";
 
 type Props = {
@@ -14,213 +12,118 @@ type Props = {
     content?: Record<string, string>;
 };
 
-const MP_SCRIPT_SRC = "https://www.mercadopago.com.pe/integrations/v1/web-payment-checkout.js";
-const MP_PREFERENCE_ID = "261475954-d56003f9-3b9c-4b00-9645-c09be392d344";
-
 export function TermsModal({ isOpen, onClose, currency, content }: Props) {
-    const [accepted, setAccepted] = useState(true);
-    const mpButtonRef = useRef<HTMLDivElement | null>(null);
     
-    // Default fallback if content isn't passed (handled gracefully or assume Spanish defaults)
-    const t = content || {
-        modal_total_amount: "Monto Total a Pagar",
-        modal_select_card_instruct: "Selecciona \"Pagar con Tarjeta\" para completar tu compra de forma segura.",
-        modal_terms_read_accept: "He leído y acepto los",
-        modal_terms_conditions: "Términos y Condiciones",
-        modal_terms_and: "y la",
-        modal_terms_privacy: "Política de Privacidad",
-        modal_other_countries_pay: "Otros países pueden pagar con tarjeta",
-        modal_debit_credit_here: "de débito o crédito VISA / Mastercard aquí",
-        modal_pay_card_btn: "PAGAR CON TARJETA AQUÍ",
-        modal_pay_accepts_terms: "AL REALIZAR EL PAGO, ACEPTAS LOS TÉRMINOS Y CONDICIONES"
-    };
-    
-    // Default to PE if not provided (though it should be)
     const currentCurrency = currency || { symbol: 'S/.', price: '99.50' };
-    const isPeru = currentCurrency.symbol === 'S/.';
-
-    useEffect(() => {
-        if (isOpen) {
-            setAccepted(true);
-        }
-    }, [isOpen]);
-
-    useEffect(() => {
-        if (!isOpen || !accepted || !mpButtonRef.current) {
-            return;
-        }
-
-        const container = mpButtonRef.current;
-        container.innerHTML = "";
-
-        const script = document.createElement("script");
-        script.src = MP_SCRIPT_SRC;
-        script.async = true;
-        script.setAttribute("data-preference-id", MP_PREFERENCE_ID);
-        script.setAttribute("data-source", "button");
-
-        container.appendChild(script);
-
-        return () => {
-            container.innerHTML = "";
-        };
-    }, [accepted, isOpen]);
 
     return (
         <AnimatePresence>
             {isOpen && (
-                <div className="fixed inset-0 z-[100] flex items-center justify-center p-4">
-                    {/* Backdrop */}
+                <div className="fixed inset-0 z-[100] p-4 overflow-y-auto">
                     <motion.div
                         initial={{ opacity: 0 }}
                         animate={{ opacity: 1 }}
                         exit={{ opacity: 0 }}
                         onClick={onClose}
                         className="absolute inset-0 bg-black/80 backdrop-blur-sm"
+                        aria-hidden="true"
                     />
 
-                    {/* Modal */}
-                    <motion.div
-                        initial={{ opacity: 0, scale: 0.95, y: 20 }}
-                        animate={{ opacity: 1, scale: 1, y: 0 }}
-                        exit={{ opacity: 0, scale: 0.95, y: 20 }}
-                        className="relative w-full max-w-sm md:max-w-md"
-                    >
-                        <GlassCard className="p-0 overflow-hidden border-2 border-slate-200 shadow-2xl bg-white">
+                    <div className="flex items-center justify-center min-h-full">
+                        <motion.div
+                            initial={{ opacity: 0, scale: 0.95, y: 20 }}
+                            animate={{ opacity: 1, scale: 1, y: 0 }}
+                            exit={{ opacity: 0, scale: 0.95, y: 20 }}
+                            className="relative w-full max-w-sm lg:max-w-2xl"
+                        >
+                            <GlassCard className="p-0 border-2 border-slate-200 shadow-2xl bg-white rounded-2xl">
 
-                            {/* Header */}
-                            <div className="bg-slate-50 p-4 flex justify-between items-center border-b border-slate-100">
-                                <h3 className="text-base font-black uppercase text-slate-900 flex items-center gap-2">
-                                    <ShieldCheck className="w-5 h-5 text-primary" />
-                                    {t.modal_terms_conditions}
-                                </h3>
-                                <button
-                                    onClick={onClose}
-                                    className="p-1.5 hover:bg-slate-200 rounded-full transition-colors"
-                                >
-                                    <X className="w-4 h-4 text-slate-500" />
-                                </button>
-                            </div>
+                                <div className="bg-slate-50 p-3 flex justify-between items-center border-b border-slate-100">
+                                    <h3 className="text-sm font-black uppercase text-slate-900 flex items-center gap-2">
+                                        <ShieldCheck className="w-5 h-5 text-primary" />
+                                        Elige tu método de pago
+                                    </h3>
+                                    <button
+                                        onClick={onClose}
+                                        className="p-1.5 hover:bg-slate-200 rounded-full transition-colors"
+                                    >
+                                        <X className="w-4 h-4 text-slate-500" />
+                                    </button>
+                                </div>
 
-                            {/* Content */}
-                            <div className="p-6 space-y-4">
-                                <div className="text-slate-600 font-medium leading-relaxed space-y-3">
+                                <div className="p-4 lg:p-6">
+                                    <div className="grid grid-cols-1 lg:grid-cols-2 lg:gap-6">
+                                        
 
-                                    {/* Designed Payment Option Card */}
-                                    {isPeru ? (
-                                        <div className="bg-gradient-to-br from-purple-50 to-pink-50 p-4 rounded-xl border border-purple-100 shadow-sm relative overflow-hidden group hover:shadow-md transition-all">
-                                            <div className="absolute top-0 right-0 p-2 opacity-10">
-                                                <ShieldCheck className="w-20 h-20 text-primary rotate-12" />
+                                        {/* Opción 1: Pago Manual (Yape/Plin) */}
+                                        <div className="text-center bg-purple-50 p-4 rounded-xl border-2 border-purple-200 space-y-3">
+                                            <p className="font-bold text-purple-900 text-base">Paga con Yape o Plin</p>
+                                            <div className="flex justify-center items-center gap-4">
+                                                <Image src="https://startupeable.com/directorio/wp-content/uploads/2021/03/yape.png" alt="Yape" width={60} height={24} />
+                                                <Image src="/images/logo-plin.jpeg" alt="Plin" width={60} height={24} />
                                             </div>
-
-                                            <div className="relative z-10 space-y-2">
-                                                <div className="flex items-center justify-between border-b border-purple-200/60 pb-2">
-                                                    <h4 className="font-black uppercase text-[10px] text-purple-900 flex items-center gap-2">
-                                                        <span className="bg-purple-200 p-0.5 rounded text-[10px]">🇵🇪</span> Pago Rápido (Perú) YAPE / PLIN
-                                                    </h4>
-                                                    <span className="bg-acid-yellow text-white text-[9px] font-bold px-1.5 py-0.5 rounded">
-                                                        INCLUYE FEE
-                                                    </span>
+                                            <div className="flex flex-col items-center gap-3">
+                                                <div className="bg-white p-1 rounded-lg border border-slate-200 shadow-sm">
+                                                    <Image src="/images/qr-plin.jpeg" alt="QR Plin" width={120} height={120} className="w-32 h-32 object-contain rounded-md" />
                                                 </div>
-
-                                                <div className="flex gap-4 items-center">
-                                                    <div className="flex-1 space-y-2">
-                                                        <div className="flex flex-col gap-0.5">
-                                                            <span className="text-[10px] font-bold text-slate-500 uppercase tracking-widest">Monto a Pagar</span>
-                                                            <span className="text-2xl font-black text-slate-900">{currentCurrency.symbol} {currentCurrency.price}</span>
-                                                        </div>
-
-                                                        <div className="bg-white/60 p-2 rounded-lg border border-white/50 space-y-1.5 backdrop-blur-sm">
-                                                            <div className="flex items-center gap-2">
-                                                                <div className="w-6 h-6 rounded-full overflow-hidden flex items-center justify-center shrink-0 border border-slate-100 bg-white">
-                                                                    <Image
-                                                                        src="/images/logo-plin.jpeg"
-                                                                        alt="Plin"
-                                                                        width={24}
-                                                                        height={24}
-                                                                        className="w-full h-full object-cover"
-                                                                    />
-                                                                </div>
-                                                                <div>
-                                                                    <p className="text-base font-black text-slate-900 tracking-wide">944 784 488</p>
-                                                                </div>
-                                                            </div>
-                                                        </div>
-                                                    </div>
-
-                                                    <div className="shrink-0 bg-white p-1 rounded-lg border border-slate-200 shadow-sm self-start mt-2">
-                                                        <Image
-                                                            src="/images/qr-plin.jpeg"
-                                                            alt="QR Plin"
-                                                            width={80}
-                                                            height={80}
-                                                            className="w-20 h-20 object-contain rounded-md"
-                                                        />
-                                                    </div>
+                                                <div className="text-center">
+                                                    <p className="text-xs text-slate-600">o al número:</p>
+                                                    <p className="text-2xl font-black text-slate-900 tracking-wide">944 784 488</p>
+                                                    <p className="text-[10px] text-slate-600 mt-1">A nombre de: <span className="font-bold">PERCY TUNCAR</span></p>
                                                 </div>
-
-                                                <div className="text-[10px] text-slate-600 leading-relaxed pl-1 pt-0.5 opacity-80">
-                                                    *Envía tu comprobante al WhatsApp <strong className="text-green-600">+51 944 784 488</strong>
-                                                </div>
+                                            </div>
+                                            <div className="pt-2">
+                                                <a
+                                                    href="https://wa.me/51944784488"
+                                                    target="_blank"
+                                                    rel="noopener noreferrer"
+                                                    className="w-full font-bold uppercase text-sm py-3 rounded-lg transition-all flex items-center justify-center gap-2 bg-green-500 text-white hover:bg-green-600 shadow-md hover:shadow-lg"
+                                                >
+                                                    <MessageCircle className="w-5 h-5" />
+                                                    Enviar Comprobante
+                                                </a>
                                             </div>
                                         </div>
-                                    ) : (
-                                        <div className="bg-gradient-to-br from-slate-50 to-slate-100 p-6 rounded-xl border border-slate-200 shadow-sm text-center">
-                                            <div className="flex flex-col gap-1 mb-4">
-                                                <span className="text-xs font-bold text-slate-500 uppercase tracking-widest">{t.modal_total_amount}</span>
-                                                <span className="text-4xl font-black text-slate-900">{currentCurrency.symbol} {currentCurrency.price}</span>
-                                            </div>
-                                            <p className="text-sm text-slate-600">
-                                                {t.modal_select_card_instruct}
+
+                                        {/* Separador (solo en móvil) */}
+                                        <div className="flex items-center lg:hidden my-4">
+                                            <hr className="flex-grow border-slate-200" />
+                                            <span className="px-2 text-xs font-bold text-slate-400 uppercase">O</span>
+                                            <hr className="flex-grow border-slate-200" />
+                                        </div>
+
+                                        {/* Opción 2: PayPal */}
+                                        <div className="space-y-4 text-center bg-blue-50 p-6 rounded-xl border-2 border-blue-200 flex flex-col items-center justify-center">
+                                            <Image src="https://w7.pngwing.com/pngs/32/363/png-transparent-visa-master-card-and-american-express-mastercard-payment-visa-credit-card-emv-credit-card-visa-and-master-card-background-text-display-advertising-logo.png" alt="Visa, Mastercard, American Express" width={120} height={40} className="object-contain"/>
+                                            <p className="text-base text-blue-900 font-bold pt-2">
+                                                Paga con Tarjeta de Débito/Crédito
                                             </p>
+                                            <div className="flex items-center w-full max-w-[200px]">
+                                                <hr className="flex-grow border-slate-300" />
+                                                <span className="px-2 text-xs font-bold text-slate-400 uppercase">O</span>
+                                                <hr className="flex-grow border-slate-300" />
+                                            </div>
+                                            <Image src="https://upload.wikimedia.org/wikipedia/commons/thumb/b/b5/PayPal.svg/960px-PayPal.svg.png" alt="PayPal" width={80} height={25} className="object-contain"/>
+                                            
+                                            <p className="text-xs text-slate-500 max-w-xs mx-auto pt-2">
+                                                Serás redirigido a una pasarela de pago segura para completar tu compra.
+                                            </p>
+                                            <div className="pt-3 w-full">
+                                                <a
+                                                    href="https://www.paypal.com/ncp/payment/8XABRYNE7AXY4"
+                                                    target="_blank"
+                                                    rel="noopener noreferrer"
+                                                    className="w-full font-bold uppercase text-sm py-3 rounded-lg transition-all flex items-center justify-center gap-2 bg-blue-600 text-white hover:bg-blue-700 shadow-md hover:shadow-lg"
+                                                >
+                                                    Pagar con Tarjeta o PayPal
+                                                </a>
+                                            </div>
                                         </div>
-                                    )}
+                                    </div>
                                 </div>
-
-                                <div className="bg-purple-50 p-3 rounded-lg border border-purple-100">
-                                    <label className="flex items-start gap-2 cursor-pointer group">
-                                        <div className="relative flex items-center mt-0.5">
-                                            <input
-                                                type="checkbox"
-                                                className="peer sr-only"
-                                                checked={accepted}
-                                                onChange={(e) => setAccepted(e.target.checked)}
-                                            />
-                                            <div className="w-4 h-4 border-2 border-slate-300 rounded peer-checked:bg-primary peer-checked:border-primary transition-all"></div>
-                                            <Check className="absolute w-3 h-3 text-white opacity-0 peer-checked:opacity-100 left-0.5 top-0.5 transition-opacity" />
-                                        </div>
-                                        <div className="text-[10px] text-slate-600 select-none leading-snug">
-                                            {t.modal_terms_read_accept} <Link href="/legal/terminos" target="_blank" className="text-primary font-bold hover:underline">{t.modal_terms_conditions}</Link> {t.modal_terms_and} <Link href="/legal/privacidad" target="_blank" className="text-primary font-bold hover:underline">{t.modal_terms_privacy}</Link>.
-                                        </div>
-                                    </label>
-                                </div>
-
-                                <div className="space-y-2">
-                                    <p className="text-center text-[10px] text-slate-500 font-bold uppercase leading-tight max-w-[95%] mx-auto">
-                                        <span className="text-primary font-black">{t.modal_other_countries_pay}</span> {t.modal_debit_credit_here}
-                                    </p>
-                                    {accepted ? (
-                                        <div
-                                            ref={mpButtonRef}
-                                            className="flex justify-center"
-                                            aria-label={t.modal_pay_card_btn}
-                                        />
-                                    ) : (
-                                        <button
-                                            disabled
-                                            className="w-full font-black uppercase text-base py-3 rounded-lg transition-all flex items-center justify-center gap-2 bg-slate-200 text-slate-400 cursor-not-allowed"
-                                        >
-                                            {t.modal_pay_card_btn}
-                                        </button>
-                                    )}
-                                </div>
-
-                                <p className="text-center text-[9px] text-slate-400 uppercase tracking-widest font-bold">
-                                    {t.modal_pay_accepts_terms}
-                                </p>
-                            </div>
-                        </GlassCard>
-                    </motion.div>
+                            </GlassCard>
+                        </motion.div>
+                    </div>
                 </div>
             )}
         </AnimatePresence>

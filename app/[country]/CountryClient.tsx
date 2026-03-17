@@ -2,14 +2,11 @@
 
 import { useState, useEffect } from "react";
 import { CountryData } from "@/lib/data/countries";
-import { Calendar, MapPin, Ticket, CreditCard, Minus, Plus, Music, ArrowRight, X, ShieldCheck, Info } from "lucide-react";
+import { Calendar, MapPin, Ticket, Minus, Plus, ArrowRight, ShieldCheck } from "lucide-react";
 import Image from "next/image";
-import Link from "next/link";
-import { motion, AnimatePresence, useScroll, useTransform, Variants } from "framer-motion";
+import { motion, AnimatePresence } from "framer-motion";
 import { CommunityModal } from "@/components/CommunityModal";
 import { MembershipModal } from "@/components/MembershipModal";
-import { MessageCircle } from "lucide-react";
-import { useRouter } from "next/navigation";
 
 type Props = {
     country: CountryData;
@@ -319,71 +316,6 @@ const translations = {
         q3: "¿Cómo llegar al Estadio Metropolitano?",
         a3: "El {venue} tiene excelente conexión. Recomendamos usar la Línea 7 de Metro (estación 'Estadio Metropolitano') y llegar con antelación."
     },
-    pt: {
-        worldTour: "Turnê Mundial",
-        liveFrom: "Ao Vivo de",
-        buyTickets: "Gerenciar Membresia / Encomenda",
-        selectDate: "Selecione uma Data",
-        tickets: "Ingressos",
-        nextEvent: "Próximo Evento",
-        place: "Local",
-        days: "Dias",
-        hrs: "Hrs",
-        min: "Min",
-        seg: "Seg",
-        cash: "À Vista",
-        installments: "Parcelado",
-        ticketDisclaimer: "Nota: Os preços mostrados são referenciais de bilheteria. O botão de seleção iniciará a contratação de nosso serviço de gestão de Membresia ARMY, pré-requisito para a compra de ingressos.",
-        selectDateStep: "1. Selecione a Data",
-        chooseInstallments: "2. Escolha suas parcelas",
-        initialReservation: "Reserva inicial de",
-        perTicket: "por ingresso (inclui taxa)",
-        verified: "Verificado",
-        bestSeller: "Mais Vendido",
-        fee: "Taxa",
-        mapStage: "Mapa do Palco",
-        whatsappGroups: "Grupos de WhatsApp",
-        joinCommunity: "Junte-se à comunidade oficial e organize sua viagem para o show.",
-        joinNow: "Entrar Agora",
-        verifiedPartner: "Parceiro Verificado",
-        verifiedBy: "Verificado por RaveHub",
-        guarantee: "Garantia de autenticidade de 100%. Suporte local em",
-        salesStatus: "Status de Venda",
-        live: "AO VIVO",
-        paymentSchedule: "Cronograma de Pagamentos",
-        today: "HOJE (Reserva + Taxa)",
-        quota: "Parcela",
-        finalTotal: "Total Final",
-        secureProcessTitle: "Como é o processo de compra segura com a RaveHub?",
-        secureProcessDesc: "Na RaveHub, simplificamos a experiência do usuário para eliminar atritos e garantir transparência em cada clique. Nosso processo de \"Compra Segura\" é estruturado em três passos blindados tecnologicamente para garantir que cada fã tenha acesso legítimo aos seus ingressos.",
-        whySecureTitle: "Por que comprar aqui é seguro?",
-        whySecureDesc: "A Garantia RaveHub é nosso compromisso de \"Risco Zero\". Comprar aqui é seguro porque eliminamos a incerteza do mercado secundário informal.",
-        verification: "Aquisição Oficial:",
-        verificationDesc: "Nossa equipe de gestores realiza as compras unicamente através das bilheterias e plataformas oficiais do evento, garantindo a legitimidade do acesso.",
-        fraudProtection: "Proteção Antifraude:",
-        fraudProtectionDesc: "Nosso sistema previne duplicação e falsificação.",
-        support: "Suporte 24/7:",
-        supportDesc: "Canal exclusivo para resolver incidentes.",
-        transparency: "Transparência:",
-        transparencyDesc: "Preços finais sem taxas ocultas.",
-        historyTitle: "História do BTS no {country}: Um Marco Histórico para o Army",
-        historyDesc1: "A relação entre BTS e {country} é uma história de espera que finalmente se concretiza em 2026. Ao contrário de visitas anteriores à região, esta chegada oficial ao {venue} marca o evento cultural mais importante da década.",
-        historyDesc2: "A demanda acumulada gerou uma expectativa sem precedentes. Por isso, encontrar onde",
-        historyDesc3: "comprar ingressos para BTS em {city} de forma 100% segura",
-        historyDesc4: "é a prioridade absoluta para proteger seu investimento e seu sonho.",
-        historyDesc5: "Ao garantir sua gestão de compra através de plataformas de Personal Shopper como a RaveHub, você delega o estresse das filas virtuais e garante que especialistas tentem conseguir seu lugar com total transparência.",
-        toPayToday: "A Pagar HOY",
-        totalToPay: "Total a Pagar",
-        installmentsOf: "parcelas de",
-        checkout: "Gerenciar Membresia / Encomenda",
-        faqTitle: "Perguntas Frequentes sobre o Show",
-        q1: "Quando começam as vendas dos ingressos?",
-        a1: "As datas varían. Checa a seção de cronograma acima para ver as datas de Preventa Army, Preventa Geral e Venda Geral.",
-        q2: "O que inclui o pacote VIP?",
-        a2: "Os pacotes VIP incluem entrada antecipada, soundcheck, merch exclusivo e lanyard. Checa os detalhes de cada zona.",
-        q3: "Como chegar ao Estádio?",
-        a3: "O evento será realizado no {venue}. Recomendamos usar transporte público e chegar com antecedência para evitar congestionamentos."
-    },
     mx: {
         worldTour: "Gira Mundial",
         liveFrom: "En Vivo desde",
@@ -452,9 +384,6 @@ const translations = {
 };
 
 export default function CountryClient({ country }: Props) {
-    const { scrollY } = useScroll();
-    const heroY = useTransform(scrollY, [0, 500], [0, 200]);
-    const opacity = useTransform(scrollY, [0, 300], [1, 0]);
     const lang = country.id === 'brasil' ? 'pt' : (country.id === 'mexico' ? 'mx' : (country.id === 'colombia' ? 'co' : (country.id === 'madrid' ? 'es_ES' : 'es')));
     const t = translations[lang] || translations.es;
 
@@ -478,7 +407,6 @@ export default function CountryClient({ country }: Props) {
     };
 
     const primaryDate = formatDateRange(country.dates);
-    const whatsappNumber = "51944784488";
 
     const [quantities, setQuantities] = useState<Record<string, number>>({});
     const [isInstallment, setIsInstallment] = useState(false);
@@ -491,7 +419,6 @@ export default function CountryClient({ country }: Props) {
     // Initial tick to avoid hydration mismatch
     const [timeLeft, setTimeLeft] = useState({ days: 0, hours: 0, minutes: 0, seconds: 0 });
     const [selectedDate, setSelectedDate] = useState<string | null>(null);
-    const router = useRouter();
 
     // MEXICO SPECIFIC DATES
     const MEXICO_DATES = {
@@ -572,28 +499,6 @@ export default function CountryClient({ country }: Props) {
     const reservationAmount = isInstallment ? totalTickets * config.reservation : 0;
     const remainingAmount = totalAmount - reservationAmount;
     const monthlyPayment = isInstallment && installmentMonths > 0 ? remainingAmount / installmentMonths : 0;
-
-    const getPaymentDates = () => {
-        const dates = [];
-        const start = new Date();
-        for (let i = 1; i <= installmentMonths; i++) {
-            const d = new Date(start);
-            d.setMonth(start.getMonth() + i);
-            dates.push(d);
-        }
-        return dates;
-    };
-    const paymentDates = getPaymentDates();
-
-    // Modern Minimal Clock Component
-    const Digit = ({ val, label }: { val: number, label: string }) => (
-        <div className="flex flex-col items-center">
-            <div className="w-14 h-16 md:w-16 md:h-20 bg-white border border-slate-100 flex items-center justify-center relative overflow-hidden shadow-sm rounded-xl">
-                <span className="text-2xl md:text-4xl font-black text-slate-900 z-10">{val.toString().padStart(2, '0')}</span>
-            </div>
-            <span className="text-[10px] md:text-xs font-bold uppercase tracking-wider mt-2 text-slate-400">{label}</span>
-        </div>
-    );
 
     return (
         <div className="min-h-screen bg-slate-50 text-slate-900 font-sans selection:bg-primary/20 selection:text-primary overflow-x-hidden">
@@ -1049,7 +954,7 @@ export default function CountryClient({ country }: Props) {
                             <div className="space-y-4 text-lg leading-relaxed">
                                 <p>{t.historyDesc1.replace('{country}', country.name).replace('{venue}', country.venue)}</p>
                                 <div className="bg-slate-100 p-6 rounded-2xl border-l-4 border-primary italic text-slate-700">
-                                    "{t.historyDesc3.replace('{city}', country.city)} {t.historyDesc4}"
+                                    &ldquo;{t.historyDesc3.replace('{city}', country.city)} {t.historyDesc4}&rdquo;
                                 </div>
                                 <p>{t.historyDesc5}</p>
                             </div>

@@ -1,7 +1,7 @@
 "use client";
 
 import { motion, AnimatePresence } from "framer-motion";
-import { X, ShieldCheck, MessageCircle, ChevronDown } from "lucide-react";
+import { X, ShieldCheck, MessageCircle, ChevronDown, QrCode } from "lucide-react";
 import Image from "next/image";
 import { GlassCard } from "./GlassCard";
 import { useState } from "react";
@@ -87,17 +87,48 @@ export function TermsModal({ isOpen, onClose, isPeruVisitor = false }: Props) {
                                                 </div>
 
                                                 {/* Opción 1: Pago Manual (Mobile Accordion) */}
-                                                <div className="lg:hidden mb-4 rounded-xl border-2 border-purple-200 bg-purple-50 overflow-hidden">
+                                                <div className="lg:hidden mb-4 rounded-xl border-2 border-purple-300 bg-gradient-to-b from-purple-50 to-white overflow-hidden shadow-sm">
                                                     <button
                                                         type="button"
                                                         onClick={() => setIsLocalPaymentOpen((prev) => !prev)}
                                                         className="w-full flex items-center justify-between px-4 py-3 text-left"
+                                                        aria-expanded={isLocalPaymentOpen}
                                                     >
-                                                        <span className="font-bold text-purple-900">Para pagar con Yape o Plin</span>
-                                                        <ChevronDown className={`w-5 h-5 text-purple-900 transition-transform ${isLocalPaymentOpen ? 'rotate-180' : ''}`} />
+                                                        <div className="flex items-start gap-3">
+                                                            <div className="mt-0.5 p-1.5 rounded-lg bg-purple-100 border border-purple-200">
+                                                                <QrCode className="w-4 h-4 text-purple-800" />
+                                                            </div>
+                                                            <div className="flex flex-col">
+                                                                <span className="font-extrabold text-purple-900 text-sm">Pagar con Yape o Plin</span>
+                                                                <span className="text-[11px] text-purple-700 font-semibold">Toca aqui para ver el QR y datos de pago</span>
+                                                            </div>
+                                                        </div>
+                                                        <div className="flex flex-col items-end gap-1">
+                                                            <span className="text-[10px] font-black uppercase tracking-wide text-purple-700 bg-purple-100 px-2 py-0.5 rounded-full">
+                                                                {isLocalPaymentOpen ? 'Ocultar' : 'Tocar'}
+                                                            </span>
+                                                            <ChevronDown className={`w-5 h-5 text-purple-900 transition-transform ${isLocalPaymentOpen ? 'rotate-180' : ''}`} />
+                                                        </div>
                                                     </button>
+
+                                                    {!isLocalPaymentOpen && (
+                                                        <div className="px-4 pb-3">
+                                                            <div className="rounded-lg border border-dashed border-purple-300 bg-white px-3 py-2 text-center">
+                                                                <p className="text-[11px] text-slate-600">Monto a pagar por Yape/Plin</p>
+                                                                <p className="text-lg font-black text-purple-800">S/. 99.50</p>
+                                                            </div>
+                                                        </div>
+                                                    )}
+
+                                                    <AnimatePresence initial={false}>
                                                     {isLocalPaymentOpen && (
-                                                        <div className="px-4 pb-4 space-y-3 border-t border-purple-200">
+                                                        <motion.div
+                                                            initial={{ opacity: 0, height: 0 }}
+                                                            animate={{ opacity: 1, height: 'auto' }}
+                                                            exit={{ opacity: 0, height: 0 }}
+                                                            transition={{ duration: 0.2 }}
+                                                            className="px-4 pb-4 space-y-3 border-t border-purple-200 overflow-hidden"
+                                                        >
                                                             <p className="text-sm font-bold text-slate-700 mt-3">Monto a yapear/plinear</p>
                                                             <p className="text-2xl font-black text-purple-800">S/. 99.50</p>
                                                             <div className="flex justify-center items-center gap-4">
@@ -121,8 +152,9 @@ export function TermsModal({ isOpen, onClose, isPeruVisitor = false }: Props) {
                                                                 <MessageCircle className="w-4 h-4" />
                                                                 Enviar Comprobante
                                                             </a>
-                                                        </div>
+                                                        </motion.div>
                                                     )}
+                                                    </AnimatePresence>
                                                 </div>
 
                                                 {/* Separador */}

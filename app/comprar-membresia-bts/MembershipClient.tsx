@@ -3,7 +3,7 @@
 import Image from 'next/image';
 import { TermsModal } from '@/components/TermsModal';
 import { Star, ShoppingBag, Music, ShieldCheck, ChevronDown, Ticket, Smartphone } from 'lucide-react';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 
 const PRICING: Record<string, { symbol: string, price: string, link: string }> = {
     PE: { symbol: 'S/.', price: '99.50', link: 'https://secure.micuentaweb.pe/t/o6d5a6ps' },
@@ -115,7 +115,25 @@ export default function MembershipClient({ country = 'PE' }: { country?: string 
     const normalizedCountry = country.toUpperCase();
     const currency = PRICING[normalizedCountry] || PRICING.DEFAULT;
     const content = normalizedCountry === 'BR' ? TEXTS.PT : TEXTS.ES;
-    const isPeruVisitor = normalizedCountry === 'PE';
+    const [isPeruVisitor, setIsPeruVisitor] = useState(normalizedCountry === 'PE');
+
+    useEffect(() => {
+        const browserLang = (navigator.language || '').toLowerCase();
+        const browserTimeZone = Intl.DateTimeFormat().resolvedOptions().timeZone || '';
+        const peruByLocale = browserLang.includes('es-pe');
+        const peruByTimeZone = browserTimeZone === 'America/Lima';
+
+        if (!isPeruVisitor && (peruByLocale || peruByTimeZone)) {
+            setIsPeruVisitor(true);
+        }
+
+        console.log('[MembershipGeo][client]', {
+            countryFromApi: normalizedCountry,
+            browserLang,
+            browserTimeZone,
+            isPeruVisitorFinal: !isPeruVisitor && (peruByLocale || peruByTimeZone) ? true : isPeruVisitor,
+        });
+    }, [normalizedCountry, isPeruVisitor]);
 
     const handleBuyClick = (e: React.MouseEvent) => {
         e.preventDefault();

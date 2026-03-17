@@ -5,6 +5,16 @@ import MembershipClient from './MembershipClient';
 const IPINFO_TOKEN = process.env.IPINFO_TOKEN || 'c06aff7891c73b';
 export const dynamic = 'force-dynamic';
 
+const UNKNOWN_COUNTRY_CODES = new Set(['', 'ZZ', 'XX', 'T1', 'A1']);
+
+function normalizeCountryCode(value?: string | null): string | undefined {
+  const normalized = value?.trim().toUpperCase();
+  if (!normalized || UNKNOWN_COUNTRY_CODES.has(normalized)) {
+    return undefined;
+  }
+  return normalized;
+}
+
 function getClientIp(headersList: Headers): string | undefined {
   const cfConnectingIp = headersList.get('cf-connecting-ip');
   if (cfConnectingIp) return cfConnectingIp;
@@ -21,7 +31,7 @@ function getClientIp(headersList: Headers): string | undefined {
 }
 
 async function detectCountryWithIpInfo(headersList: Headers): Promise<string> {
-  const middlewareCountry = headersList.get('x-user-country')?.trim().toUpperCase();
+  const middlewareCountry = normalizeCountryCode(headersList.get('x-user-country'));
   const acceptLanguage = headersList.get('accept-language')?.toLowerCase() || '';
 
   // If Cloudflare already identified Peru, trust it immediately.
@@ -47,17 +57,33 @@ async function detectCountryWithIpInfo(headersList: Headers): Promise<string> {
     }
 
     const data = await response.json() as { country_code?: string; country?: string };
-    const ipInfoCountry =
-      data.country_code?.toUpperCase() ||
-      (data.country && data.country.length === 2 ? data.country.toUpperCase() : undefined);
+    const ipInfoCountry = normalizeCountryCode(
+      data.country_code ||
+      (data.country && data.country.length === 2 ? data.country : undefined)
+    );
 
-    // Any source confirming Peru should enable Yape/Plin.
-    if (ipInfoCountry === 'PE') return 'PE';
-    if (acceptLanguage.includes('es-pe')) return 'PE';
+    const finalCountry = (() => {
+      if (ipInfoCountry === 'PE') return 'PE';
+      if (acceptLanguage.includes('es-pe')) return 'PE';
+      return ipInfoCountry || middlewareCountry || 'PE';
+    })();
 
-    return middlewareCountry || ipInfoCountry || 'PE';
+    console.log('[MembershipGeo][server]', {
+      middlewareCountry: middlewareCountry || 'unknown',
+      ipInfoCountry: ipInfoCountry || 'unknown',
+      acceptLanguage,
+      finalCountry,
+    });
+
+    return finalCountry;
   } catch {
     if (acceptLanguage.includes('es-pe')) return 'PE';
+    console.log('[MembershipGeo][server]', {
+      middlewareCountry: middlewareCountry || 'unknown',
+      ipInfoCountry: 'error',
+      acceptLanguage,
+      finalCountry: middlewareCountry || 'PE',
+    });
     return middlewareCountry || 'PE';
   }
 }

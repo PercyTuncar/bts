@@ -3,10 +3,17 @@
 import { useEffect, useState } from "react";
 import { X, AlertTriangle, ShieldCheck } from "lucide-react";
 import { motion, AnimatePresence } from "framer-motion";
-import { countries } from "@/lib/data/countries";
+import { getOrderedWhatsappCountries } from "@/lib/data/countries";
+import { usePathname } from "next/navigation";
 
-export const OfficialStatementPopup = () => {
+type OfficialStatementPopupProps = {
+    userCountryCode?: string;
+};
+
+export const OfficialStatementPopup = ({ userCountryCode }: OfficialStatementPopupProps) => {
     const [isOpen, setIsOpen] = useState(false);
+    const pathname = usePathname();
+    const orderedCountries = getOrderedWhatsappCountries({ pathname, userCountryCode });
 
     useEffect(() => {
         const timer = setTimeout(() => {
@@ -117,7 +124,7 @@ export const OfficialStatementPopup = () => {
                                             <p className="text-xs text-slate-600 mt-1 mb-3">Únete a nuestra comunidad oficial:</p>
 
                                             <div className="grid grid-cols-2 sm:grid-cols-3 gap-2 mt-2">
-                                                {countries.map((country) => (
+                                                {orderedCountries.map((country) => (
                                                     <a
                                                         key={country.id}
                                                         href={country.whatsappLink}

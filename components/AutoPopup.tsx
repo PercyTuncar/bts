@@ -3,7 +3,11 @@
 import { useEffect, useState } from "react";
 import { CommunityModal } from "./CommunityModal";
 
-export function AutoPopup() {
+type AutoPopupProps = {
+    userCountryCode?: string;
+};
+
+export function AutoPopup({ userCountryCode }: AutoPopupProps) {
     const [isOpen, setIsOpen] = useState(false);
     const [hasOpened, setHasOpened] = useState(false);
 
@@ -22,6 +26,7 @@ export function AutoPopup() {
         <CommunityModal
             isOpen={isOpen}
             onClose={() => setIsOpen(false)}
+            userCountryCode={userCountryCode}
         />
     );
 }

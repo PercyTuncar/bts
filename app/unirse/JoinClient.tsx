@@ -1,15 +1,22 @@
 "use client";
 
 import { GlassCard } from "@/components/GlassCard";
-import { countries } from "@/lib/data/countries";
+import { getOrderedWhatsappCountries } from "@/lib/data/countries";
 import { ExternalLink, ShieldCheck, Lock, Users } from "lucide-react";
 import Link from "next/link";
 import { useEffect, useState } from "react";
+import { usePathname } from "next/navigation";
 
-export default function JoinClient() {
+type JoinClientProps = {
+    userCountryCode?: string;
+};
+
+export default function JoinClient({ userCountryCode }: JoinClientProps) {
     // Initial static values for SSR consistency (to avoid hydration mismatch, initially static)
     // Actually, to avoid hydration mismatch, we should render same thing or just use useEffect to start randomizing
     const [queueCounts, setQueueCounts] = useState([142, 98, 76, 54]);
+    const pathname = usePathname();
+    const orderedCountries = getOrderedWhatsappCountries({ pathname, userCountryCode });
 
     useEffect(() => {
         const intervals = queueCounts.map((_, index) => {
@@ -99,7 +106,7 @@ export default function JoinClient() {
                         </h2>
 
                         <div className="space-y-3">
-                            {countries.map((country, i) => (
+                            {orderedCountries.map((country, i) => (
                                 <Link
                                     key={country.id}
                                     href={country.whatsappLink}

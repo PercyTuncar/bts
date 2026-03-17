@@ -1,7 +1,7 @@
 "use client";
 
 import { motion, AnimatePresence } from "framer-motion";
-import { countries } from "@/lib/data/countries";
+import { getCountryIdFromPathname, getOrderedWhatsappCountries } from "@/lib/data/countries";
 import { X, ExternalLink, MessageCircle, Heart } from "lucide-react";
 import { GlassCard } from "./GlassCard";
 import Image from "next/image";
@@ -11,11 +11,14 @@ import { usePathname } from "next/navigation";
 interface CommunityModalProps {
     isOpen: boolean;
     onClose: () => void;
+    userCountryCode?: string;
 }
 
-export function CommunityModal({ isOpen, onClose }: CommunityModalProps) {
+export function CommunityModal({ isOpen, onClose, userCountryCode }: CommunityModalProps) {
     const pathname = usePathname();
     const isBrazil = pathname?.startsWith('/brasil');
+    const orderedCountries = getOrderedWhatsappCountries({ pathname, userCountryCode });
+    const currentCountryId = getCountryIdFromPathname(pathname);
 
     // Translations
     const t = isBrazil ? {
@@ -101,15 +104,7 @@ export function CommunityModal({ isOpen, onClose }: CommunityModalProps) {
                                 </motion.div>
 
                                 <div className="space-y-3">
-                                    {countries
-                                        .slice() // Create a copy to avoid mutating the original array
-                                        .sort((a, b) => {
-                                            const currentCountryId = pathname?.split('/')[1];
-                                            if (a.id === currentCountryId) return -1;
-                                            if (b.id === currentCountryId) return 1;
-                                            return 0;
-                                        })
-                                        .map((country, i) => (
+                                    {orderedCountries.map((country, i) => (
                                             <motion.a
                                                 key={country.id}
                                                 href={country.whatsappLink}
@@ -118,7 +113,7 @@ export function CommunityModal({ isOpen, onClose }: CommunityModalProps) {
                                                 initial={{ x: -20, opacity: 0 }}
                                                 animate={{ x: 0, opacity: 1 }}
                                                 transition={{ delay: 0.2 + (i * 0.1) }}
-                                                className={`group flex items-center justify-between p-4 rounded-xl border transition-all duration-300 ${pathname?.includes(country.id)
+                                                className={`group flex items-center justify-between p-4 rounded-xl border transition-all duration-300 ${currentCountryId === country.id
                                                     ? 'bg-[#25D366]/10 border-[#25D366] hover:bg-[#25D366]/20'
                                                     : 'bg-slate-50 border-slate-200 hover:bg-[#25D366] hover:border-[#25D366]'
                                                     }`}
@@ -126,17 +121,17 @@ export function CommunityModal({ isOpen, onClose }: CommunityModalProps) {
                                                 <div className="flex items-center gap-4">
                                                     <span className="text-2xl">{country.flag}</span>
                                                     <div className="text-left">
-                                                        <span className={`block font-black uppercase text-sm tracking-widest transition-colors ${pathname?.includes(country.id) ? 'text-[#166534]' : 'text-slate-900 group-hover:text-white'
+                                                        <span className={`block font-black uppercase text-sm tracking-widest transition-colors ${currentCountryId === country.id ? 'text-[#166534]' : 'text-slate-900 group-hover:text-white'
                                                             }`}>
                                                             Army {country.name}
                                                         </span>
-                                                        <span className={`text-[10px] font-bold uppercase transition-colors flex items-center gap-1 ${pathname?.includes(country.id) ? 'text-[#166534]' : 'text-slate-500 group-hover:text-white/90'
+                                                        <span className={`text-[10px] font-bold uppercase transition-colors flex items-center gap-1 ${currentCountryId === country.id ? 'text-[#166534]' : 'text-slate-500 group-hover:text-white/90'
                                                             }`}>
                                                             <MessageCircle className="w-3 h-3" /> {t.group}
                                                         </span>
                                                     </div>
                                                 </div>
-                                                <div className={`w-8 h-8 rounded-full flex items-center justify-center transition-colors ${pathname?.includes(country.id)
+                                                <div className={`w-8 h-8 rounded-full flex items-center justify-center transition-colors ${currentCountryId === country.id
                                                     ? 'bg-[#25D366] text-white'
                                                     : 'bg-white border border-slate-200 text-slate-400 group-hover:bg-white/20 group-hover:text-black group-hover:border-transparent'
                                                     }`}>

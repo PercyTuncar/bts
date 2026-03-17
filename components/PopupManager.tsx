@@ -3,7 +3,6 @@
 import { usePathname } from "next/navigation";
 import { AutoPopup } from "./AutoPopup";
 import { BlogPromoPopup } from "./BlogPromoPopup";
-import { countries } from "@/lib/data/countries";
 
 type Props = {
     userCountryCode?: string;
@@ -12,9 +11,6 @@ type Props = {
 export function PopupManager({ userCountryCode }: Props) {
     const pathname = usePathname();
     const isBlog = pathname?.startsWith('/blog');
-
-    // Find country name if code matches one of our event countries
-    const targetCountry = countries.find(c => c.isoCode === userCountryCode);
     
     if (isBlog) {
         return <BlogPromoPopup />;
@@ -22,7 +18,7 @@ export function PopupManager({ userCountryCode }: Props) {
 
     return (
         <>
-            <AutoPopup />
+            <AutoPopup userCountryCode={userCountryCode} />
         </>
     );
 }

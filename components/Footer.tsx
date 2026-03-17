@@ -6,7 +6,11 @@ import { useState } from "react";
 import { CommunityModal } from "./CommunityModal";
 import { usePathname } from "next/navigation";
 
-export const Footer = () => {
+type FooterProps = {
+    userCountryCode?: string;
+};
+
+export const Footer = ({ userCountryCode }: FooterProps) => {
     const [isCommunityOpen, setIsCommunityOpen] = useState(false);
     const pathname = usePathname();
     const isBrazil = pathname?.startsWith('/brasil');
@@ -78,7 +82,7 @@ export const Footer = () => {
                 </div>
             </div>
 
-            <CommunityModal isOpen={isCommunityOpen} onClose={() => setIsCommunityOpen(false)} />
+            <CommunityModal isOpen={isCommunityOpen} onClose={() => setIsCommunityOpen(false)} userCountryCode={userCountryCode} />
 
             {/* MAIN LINKS */}
             <div className="container mx-auto px-4 md:px-8 py-16">

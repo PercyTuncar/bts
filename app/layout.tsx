@@ -94,7 +94,7 @@ export default async function RootLayout({
           <main className="relative">
             {children}
           </main>
-          <Footer />
+          <Footer userCountryCode={userCountry} />
           <GoogleAnalytics />
           <PopupManager userCountryCode={userCountry} />
         </CartProvider>

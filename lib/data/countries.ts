@@ -24,6 +24,18 @@ export interface CountryData {
     allowInstallments?: boolean; // Optional flag to disable installments
 }
 
+export const COLOMBIA_WHATSAPP_LINK = 'https://chat.whatsapp.com/DhgghKRDHYR1veTxb5EgO3';
+
+export const WHATSAPP_COUNTRY_FALLBACK_ORDER = [
+    'peru',
+    'chile',
+    'argentina',
+    'colombia',
+    'brasil',
+    'madrid',
+    'mexico',
+] as const;
+
 export const countries: CountryData[] = [
     {
         id: 'madrid',
@@ -184,7 +196,7 @@ export const countries: CountryData[] = [
         ],
         description: 'Bogotá se viste de morado. No te pierdas el regreso de BTS a Colombia.',
         openGraphImage: '/images/og-colombia.jpg',
-        whatsappLink: 'https://chat.whatsapp.com/DhgghKRDHYR1veTxb5EgO3',
+        whatsappLink: COLOMBIA_WHATSAPP_LINK,
         phoneCode: '+57'
     },
     {
@@ -234,3 +246,54 @@ export const countries: CountryData[] = [
         phoneCode: '+55'
     }
 ];
+
+export function getCountryByIsoCode(countryCode?: string) {
+    if (!countryCode) {
+        return undefined;
+    }
+
+    const normalizedCountryCode = countryCode.trim().toUpperCase();
+    return countries.find((country) => country.isoCode === normalizedCountryCode);
+}
+
+export function getCountryIdFromPathname(pathname?: string | null) {
+    const routeCountryId = pathname?.split('/').filter(Boolean)[0];
+
+    if (!routeCountryId) {
+        return undefined;
+    }
+
+    return countries.some((country) => country.id === routeCountryId)
+        ? routeCountryId
+        : undefined;
+}
+
+export function getOrderedWhatsappCountries({
+    pathname,
+    userCountryCode,
+}: {
+    pathname?: string | null;
+    userCountryCode?: string;
+}) {
+    const detectedCountryId = getCountryByIsoCode(userCountryCode)?.id;
+    const routeCountryId = getCountryIdFromPathname(pathname);
+    const orderedIds = Array.from(
+        new Set([
+            detectedCountryId,
+            routeCountryId,
+            ...WHATSAPP_COUNTRY_FALLBACK_ORDER,
+        ].filter((countryId): countryId is string => Boolean(countryId)))
+    );
+    const countryPriority = new Map(orderedIds.map((countryId, index) => [countryId, index]));
+
+    return countries.slice().sort((firstCountry, secondCountry) => {
+        const firstPriority = countryPriority.get(firstCountry.id) ?? Number.MAX_SAFE_INTEGER;
+        const secondPriority = countryPriority.get(secondCountry.id) ?? Number.MAX_SAFE_INTEGER;
+
+        if (firstPriority !== secondPriority) {
+            return firstPriority - secondPriority;
+        }
+
+        return firstCountry.name.localeCompare(secondCountry.name, 'es');
+    });
+}

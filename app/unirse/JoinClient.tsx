@@ -122,6 +122,11 @@ export default function JoinClient({ userCountryCode }: JoinClientProps) {
                                                 <span className="block font-black uppercase text-sm text-white group-hover:text-[#25D366] transition-colors">
                                                     Unirme al Grupo {country.name}
                                                 </span>
+                                                {country.id === 'argentina' && (
+                                                    <span className="mt-1 inline-flex items-center rounded-full bg-gradient-to-r from-violet-500 via-fuchsia-500 to-purple-700 px-2 py-0.5 text-[9px] font-black uppercase tracking-wider text-white shadow-md">
+                                                        Nuevo grupo · +1500 ARMY
+                                                    </span>
+                                                )}
                                                 <span className="text-[10px] text-gray-500 font-bold uppercase flex items-center gap-1">
                                                     <div className="w-1.5 h-1.5 rounded-full bg-[#25D366] animate-pulse"></div>
                                                     {queueCounts[i] || Math.floor(Math.random() * 50) + 40} personas en fila

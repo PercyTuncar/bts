@@ -134,6 +134,11 @@ export const OfficialStatementPopup = ({ userCountryCode }: OfficialStatementPop
                                                     >
                                                         <span className="text-base">{country.flag}</span>
                                                         <span>{country.name}</span>
+                                                        {country.id === 'argentina' && (
+                                                            <span className="rounded-full bg-gradient-to-r from-violet-500 via-fuchsia-500 to-purple-700 px-2 py-0.5 text-[9px] font-black uppercase tracking-wider text-white">
+                                                                Nuevo +1500
+                                                            </span>
+                                                        )}
                                                     </a>
                                                 ))}
                                             </div>

@@ -219,7 +219,7 @@ export const countries: CountryData[] = [
         ],
         description: 'Aún no hay confirmación oficial del estadio, pero los rumores más fuertes y la capacidad necesaria apuntan al Estadio Monumental (River Plate).',
         openGraphImage: '/images/og-argentina.jpg',
-        whatsappLink: 'https://chat.whatsapp.com/CbgqnAoT2psF4mkTzOCpc8',
+        whatsappLink: 'https://chat.whatsapp.com/GIrRWJ1CGXp5m8TSRkKVNL',
         phoneCode: '+54'
     },
     {

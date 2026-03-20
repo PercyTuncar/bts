@@ -125,6 +125,11 @@ export function CommunityModal({ isOpen, onClose, userCountryCode }: CommunityMo
                                                             }`}>
                                                             Army {country.name}
                                                         </span>
+                                                        {country.id === 'argentina' && (
+                                                            <span className="mt-1 inline-flex items-center rounded-full bg-gradient-to-r from-violet-500 via-fuchsia-500 to-purple-700 px-2 py-0.5 text-[9px] font-black uppercase tracking-wider text-white shadow-sm">
+                                                                Nuevo grupo 
+                                                            </span>
+                                                        )}
                                                         <span className={`text-[10px] font-bold uppercase transition-colors flex items-center gap-1 ${currentCountryId === country.id ? 'text-[#166534]' : 'text-slate-500 group-hover:text-white/90'
                                                             }`}>
                                                             <MessageCircle className="w-3 h-3" /> {t.group}

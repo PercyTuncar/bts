@@ -6,7 +6,7 @@ import { Star, ShoppingBag, Music, ShieldCheck, ChevronDown, Ticket, Smartphone 
 import { useEffect, useState } from 'react';
 
 const PRICING: Record<string, { symbol: string, price: string, link: string }> = {
-    PE: { symbol: 'S/.', price: '99.50', link: 'https://secure.micuentaweb.pe/t/o6d5a6ps' },
+    PE: { symbol: 'S/.', price: '99.95', link: 'https://secure.micuentaweb.pe/t/o6d5a6ps' },
     MX: { symbol: 'MXN', price: '490.00', link: 'https://secure.micuentaweb.pe/t/o6d5a6ps' },
     CO: { symbol: 'COP', price: '115,000', link: 'https://secure.micuentaweb.pe/t/o6d5a6ps' },
     CL: { symbol: 'CLP', price: '26,000', link: 'https://secure.micuentaweb.pe/t/o6d5a6ps' },

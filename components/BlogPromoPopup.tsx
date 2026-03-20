@@ -31,7 +31,7 @@ const COUNTRY_NAMES: Record<string, string> = {
 };
 
 const PRICING: Record<string, { symbol: string, price: string }> = {
-    PE: { symbol: 'S/.', price: '99.50' },
+    PE: { symbol: 'S/.', price: '99.95' },
     MX: { symbol: 'MXN', price: '490.00' },
     CO: { symbol: 'COP', price: '115,000' },
     CL: { symbol: 'CLP', price: '26,000' },

@@ -84,7 +84,7 @@ export function TermsModal({ isOpen, onClose, isPeruVisitor = false }: Props) {
                                                 <div className="hidden lg:block text-center bg-purple-50 p-4 rounded-xl border-2 border-purple-200 space-y-3">
                                                     <p className="font-bold text-purple-900 text-base">Paga con Yape o Plin</p>
                                                     <p className="text-sm font-bold text-slate-700">Monto a yapear/plinear</p>
-                                                    <p className="text-3xl font-black text-purple-800">S/. 99.50</p>
+                                                    <p className="text-3xl font-black text-purple-800">S/. 99.95</p>
                                                     <div className="flex justify-center items-center gap-4">
                                                         <Image src="https://startupeable.com/directorio/wp-content/uploads/2021/03/yape.png" alt="Yape" width={60} height={24} />
                                                         <Image src="/images/logo-plin.jpeg" alt="Plin" width={60} height={24} />
@@ -106,7 +106,7 @@ export function TermsModal({ isOpen, onClose, isPeruVisitor = false }: Props) {
                                                             {copiedTarget === 'desktop' && (
                                                                 <p className="text-[11px] font-bold text-green-600 mt-1">Numero copiado</p>
                                                             )}
-                                                            <p className="text-[10px] text-slate-600 mt-1">A nombre de: <span className="font-bold">PERCY TUNCAR</span></p>
+        
                                                         </div>
                                                     </div>
                                                     <div className="pt-2">
@@ -151,7 +151,7 @@ export function TermsModal({ isOpen, onClose, isPeruVisitor = false }: Props) {
                                                         <div className="px-4 pb-3">
                                                             <div className="rounded-lg border border-dashed border-purple-300 bg-white px-3 py-2 text-center">
                                                                 <p className="text-[11px] text-slate-600">Monto a pagar por Yape/Plin</p>
-                                                                <p className="text-lg font-black text-purple-800">S/. 99.50</p>
+                                                                <p className="text-lg font-black text-purple-800">S/. 99.95</p>
                                                             </div>
                                                         </div>
                                                     )}
@@ -166,7 +166,7 @@ export function TermsModal({ isOpen, onClose, isPeruVisitor = false }: Props) {
                                                             className="px-4 pb-4 space-y-3 border-t border-purple-200 overflow-hidden"
                                                         >
                                                             <p className="text-sm font-bold text-slate-700 mt-3">Monto a yapear/plinear</p>
-                                                            <p className="text-2xl font-black text-purple-800">S/. 99.50</p>
+                                                            <p className="text-2xl font-black text-purple-800">S/. 99.95</p>
                                                             <div className="flex justify-center items-center gap-4">
                                                                 <Image src="https://startupeable.com/directorio/wp-content/uploads/2021/03/yape.png" alt="Yape" width={56} height={22} />
                                                                 <Image src="/images/logo-plin.jpeg" alt="Plin" width={56} height={22} />
@@ -187,7 +187,7 @@ export function TermsModal({ isOpen, onClose, isPeruVisitor = false }: Props) {
                                                                 {copiedTarget === 'mobile' && (
                                                                     <p className="text-[11px] font-bold text-green-600 mt-1">Numero copiado</p>
                                                                 )}
-                                                                <p className="text-[10px] text-slate-600 mt-1">A nombre de: <span className="font-bold">PERCY TUNCAR</span></p>
+                                                               
                                                             </div>
                                                             <a
                                                                 href="https://wa.me/51944784488"
@@ -220,22 +220,21 @@ export function TermsModal({ isOpen, onClose, isPeruVisitor = false }: Props) {
                                             </p>
                                             <div className="flex items-center w-full max-w-[200px]">
                                                 <hr className="flex-grow border-slate-300" />
-                                                <span className="px-2 text-xs font-bold text-slate-400 uppercase">O</span>
+                                                
                                                 <hr className="flex-grow border-slate-300" />
                                             </div>
-                                            <Image src="https://upload.wikimedia.org/wikipedia/commons/thumb/b/b5/PayPal.svg/960px-PayPal.svg.png" alt="PayPal" width={80} height={25} className="object-contain"/>
-                                            
+                                             
                                             <p className="text-xs text-slate-500 max-w-xs mx-auto pt-2">
                                                 Serás redirigido a una pasarela de pago segura para completar tu compra.
                                             </p>
                                             <div className="pt-3 w-full">
                                                 <a
-                                                    href="https://www.paypal.com/ncp/payment/8XABRYNE7AXY4"
+                                                    href="https://mpago.la/1PRFcRC"
                                                     target="_blank"
                                                     rel="noopener noreferrer"
                                                     className="w-full font-bold uppercase text-sm py-3 rounded-lg transition-all flex items-center justify-center gap-2 bg-blue-600 text-white hover:bg-blue-700 shadow-md hover:shadow-lg"
                                                 >
-                                                    Pagar con Tarjeta o PayPal
+                                                    Pagar con Tarjeta
                                                 </a>
                                             </div>
                                         </div>

@@ -212,11 +212,11 @@ export function TermsModal({ isOpen, onClose, isPeruVisitor = false }: Props) {
                                             </>
                                         )}
 
-                                        {/* Opción 2: Tarjeta/MercadoPago */}
+                                        {/* Opción 2: Tarjeta/PayPal */}
                                         <div className="space-y-4 text-center bg-blue-50 p-6 rounded-xl border-2 border-blue-200 flex flex-col items-center justify-center">
                                             <Image src="https://w7.pngwing.com/pngs/32/363/png-transparent-visa-master-card-and-american-express-mastercard-payment-visa-credit-card-emv-credit-card-visa-and-master-card-background-text-display-advertising-logo.png" alt="Visa, Mastercard, American Express" width={120} height={40} className="object-contain"/>
                                             <p className="text-base text-blue-900 font-bold pt-2">
-                                                Paga con MercadoPago
+                                                Paga con PayPal
                                             </p>
                                             <div className="flex items-center w-full max-w-[200px]">
                                                 <hr className="flex-grow border-slate-300" />
@@ -225,16 +225,16 @@ export function TermsModal({ isOpen, onClose, isPeruVisitor = false }: Props) {
                                             </div>
                                              
                                             <p className="text-xs text-slate-500 max-w-xs mx-auto pt-2">
-                                                Serás redirigido a MercadoPago para completar tu compra de forma segura.
+                                                Serás redirigido a PayPal para completar tu compra de forma segura.
                                             </p>
                                             <div className="pt-3 w-full">
                                                 <a
-                                                    href="https://mpago.la/1PRFcRC"
+                                                    href="https://www.paypal.com/ncp/payment/8XABRYNE7AXY4"
                                                     target="_blank"
                                                     rel="noopener noreferrer"
                                                     className="w-full font-bold uppercase text-sm py-3 rounded-lg transition-all flex items-center justify-center gap-2 bg-blue-600 text-white hover:bg-blue-700 shadow-md hover:shadow-lg"
                                                 >
-                                                    Pagar con MercadoPago
+                                                    Pagar con PayPal
                                                 </a>
                                             </div>
                                         </div>

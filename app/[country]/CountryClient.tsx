@@ -50,7 +50,7 @@ const PHASES = [
 
 const INSTALLMENT_CONFIG: Record<string, { fee: number; reservation: number }> = {
     'peru': { fee: 399, reservation: 0 },
-    'chile': { fee: 31000, reservation: 31000 }, // ~110 PEN
+    'chile': { fee: 79000, reservation: 0 },
     'mexico': { fee: 660, reservation: 660 }, // ~110 PEN
     'colombia': { fee: 121000, reservation: 121000 }, // ~110 PEN
     'argentina': { fee: 50000, reservation: 50000 }, // ~110 PEN
@@ -59,6 +59,8 @@ const INSTALLMENT_CONFIG: Record<string, { fee: number; reservation: number }> =
 
 const PERU_SERVICE_FEE = 299;
 const PERU_INSTALLMENT_INTEREST = 399;
+const CHILE_SERVICE_FEE = 49000;
+const CHILE_INSTALLMENT_INTEREST = 79000;
 
 const translations = {
     es: {
@@ -394,6 +396,8 @@ export default function CountryClient({ country }: Props) {
     const lang = country.id === 'brasil' ? 'pt' : (country.id === 'mexico' ? 'mx' : (country.id === 'colombia' ? 'co' : (country.id === 'madrid' ? 'es_ES' : 'es')));
     const t = translations[lang] || translations.es;
     const isPeru = country.id === 'peru';
+    const isChile = country.id === 'chile';
+    const isAndesFlow = isPeru || isChile;
 
     const formatDateRange = (dates: string[]) => {
         if (!dates.length) return '';
@@ -495,6 +499,9 @@ export default function CountryClient({ country }: Props) {
         if (isPeru) {
             return isInstallment ? basePrice + PERU_INSTALLMENT_INTEREST : basePrice;
         }
+        if (isChile) {
+            return isInstallment ? basePrice + CHILE_INSTALLMENT_INTEREST : basePrice;
+        }
         return isInstallment ? basePrice + config.fee : basePrice;
     };
     const totalTickets = Object.values(quantities).reduce((a, b) => a + b, 0);
@@ -509,13 +516,17 @@ export default function CountryClient({ country }: Props) {
     };
 
     const baseAmount = country.prices.reduce((sum, zone) => sum + ((quantities[zone.zone] || 0) * zone.price), 0);
-    const serviceFeeAmount = isPeru ? totalTickets * PERU_SERVICE_FEE : 0;
-    const installmentInterestAmount = isPeru && isInstallment ? totalTickets * PERU_INSTALLMENT_INTEREST : 0;
+    const serviceFeeAmount = isPeru
+        ? totalTickets * PERU_SERVICE_FEE
+        : (isChile ? totalTickets * CHILE_SERVICE_FEE : 0);
+    const installmentInterestAmount = isInstallment
+        ? (isPeru ? totalTickets * PERU_INSTALLMENT_INTEREST : (isChile ? totalTickets * CHILE_INSTALLMENT_INTEREST : 0))
+        : 0;
     const totalAmount = calculateTotal() + serviceFeeAmount;
     const reservationAmount = isInstallment ? totalTickets * config.reservation : 0;
     const remainingAmount = totalAmount - reservationAmount;
     const monthlyPayment = isInstallment && installmentMonths > 0
-        ? (isPeru ? totalAmount / installmentMonths : remainingAmount / installmentMonths)
+        ? (isAndesFlow ? totalAmount / installmentMonths : remainingAmount / installmentMonths)
         : 0;
 
     const handleCheckout = () => {
@@ -523,7 +534,7 @@ export default function CountryClient({ country }: Props) {
             return;
         }
 
-        if (isPeru) {
+        if (isAndesFlow) {
             country.prices.forEach((zone) => {
                 const quantity = quantities[zone.zone] || 0;
                 if (quantity <= 0) {
@@ -541,8 +552,8 @@ export default function CountryClient({ country }: Props) {
                         countryId: country.id,
                         currency: country.currency,
                         currencySymbol: country.currencySymbol,
-                        serviceFeePerTicket: PERU_SERVICE_FEE,
-                        installmentInterestPerTicket: isInstallment ? PERU_INSTALLMENT_INTEREST : 0,
+                        serviceFeePerTicket: isPeru ? PERU_SERVICE_FEE : CHILE_SERVICE_FEE,
+                        installmentInterestPerTicket: isInstallment ? (isPeru ? PERU_INSTALLMENT_INTEREST : CHILE_INSTALLMENT_INTEREST) : 0,
                         isInstallment,
                         installmentMonths: isInstallment ? installmentMonths : undefined,
                     });
@@ -750,7 +761,7 @@ export default function CountryClient({ country }: Props) {
                                 <div className="bg-slate-50 p-6 rounded-2xl animate-fade-in-up">
                                     <p className="text-sm font-bold uppercase tracking-widest text-slate-400 mb-4">{t.chooseInstallments}</p>
                                     <div className="flex gap-4 mb-4">
-                                        {[2, 3, 4].map(m => (
+                                        {(isPeru ? [2, 3, 4] : (isChile ? [2, 3] : [2, 3, 4])).map(m => (
                                             <button
                                                 key={m}
                                                 onClick={() => setInstallmentMonths(m)}
@@ -763,7 +774,9 @@ export default function CountryClient({ country }: Props) {
                                     <p className="text-xs text-slate-500 font-medium">
                                         {isPeru
                                             ? `* En cuotas se suma ${country.currencySymbol}${PERU_INSTALLMENT_INTEREST.toLocaleString('es-PE')} por entrada y se divide en ${installmentMonths} pagos mensuales.`
-                                            : `* ${t.initialReservation} ${country.currencySymbol}${config.reservation.toLocaleString(lang === 'pt' ? 'pt-BR' : 'en-US')} ${t.perTicket}`}
+                                            : (isChile
+                                                ? `* En cuotas se suma ${country.currencySymbol}${CHILE_INSTALLMENT_INTEREST.toLocaleString('es-CL')} por entrada y se divide en ${installmentMonths} pagos mensuales.`
+                                                : `* ${t.initialReservation} ${country.currencySymbol}${config.reservation.toLocaleString(lang === 'pt' ? 'pt-BR' : 'en-US')} ${t.perTicket}`)}
                                     </p>
                                 </div>
                             )}
@@ -806,7 +819,7 @@ export default function CountryClient({ country }: Props) {
                                                 )}
                                                 <div className="flex flex-wrap justify-center md:justify-start gap-2 mt-3">
                                                     <span className={`px-2 py-1 rounded text-[10px] font-bold uppercase tracking-wider ${['mexico', 'madrid'].includes(country.id) ? 'bg-green-100 text-green-700' : 'bg-orange-50 text-orange-600'}`}>
-                                                        {isPeru || ['mexico', 'madrid'].includes(country.id) ? "Precio Oficial" : "Precio"}
+                                                        {isAndesFlow || ['mexico', 'madrid'].includes(country.id) ? "Precio Oficial" : "Precio"}
                                                     </span>
                                                     {i === 0 && <span className="bg-primary/10 text-primary px-2 py-1 rounded text-[10px] font-bold uppercase tracking-wider">{t.bestSeller}</span>}
                                                 </div>
@@ -855,7 +868,7 @@ export default function CountryClient({ country }: Props) {
                                                 <p className="text-3xl font-black text-slate-900 tracking-tight">{country.currencySymbol}{getPrice(zone.price).toLocaleString(lang === 'pt' ? 'pt-BR' : 'en-US')}</p>
                                                 {isInstallment && (
                                                     <p className="text-[10px] text-slate-400 font-bold uppercase">
-                                                        + {t.fee} {country.currencySymbol}{(isPeru ? PERU_INSTALLMENT_INTEREST : config.fee).toLocaleString(lang === 'pt' ? 'pt-BR' : 'en-US')}
+                                                        + {t.fee} {country.currencySymbol}{(isPeru ? PERU_INSTALLMENT_INTEREST : (isChile ? CHILE_INSTALLMENT_INTEREST : config.fee)).toLocaleString(lang === 'pt' ? 'pt-BR' : 'en-US')}
                                                     </p>
                                                 )}
                                             </div>
@@ -880,17 +893,29 @@ export default function CountryClient({ country }: Props) {
                     <div className="w-full md:w-[400px] space-y-8">
                         {/* MAPA CARD */}
                         <div className="bg-white p-2 rounded-3xl shadow-lg border border-slate-100 overflow-hidden transform hover:scale-[1.02] transition-transform duration-500">
-                            <div className="bg-slate-50 relative aspect-square rounded-2xl overflow-hidden">
-                                <Image
-                                    src={
-                                        country.id === 'mexico' ? "/images/mapa-mexico.png" :
-                                            country.id === 'madrid' ? "/images/bts-madrid-mapa.png" :
-                                                "/images/stadium-map.png"
-                                    }
-                                    alt={`Mapa de zonas y precios ${country.venue}`}
-                                    fill
-                                    className="object-contain p-4"
-                                />
+                            <div className={`bg-slate-50 relative rounded-2xl overflow-hidden ${['peru', 'chile'].includes(country.id) ? 'aspect-[16/10]' : 'aspect-square'}`}>
+                                {country.id === 'peru' || country.id === 'chile' ? (
+                                    <img
+                                        src={
+                                            country.id === 'peru'
+                                                ? 'https://cdn.getcrowder.com/images/deba044c-a036-4364-ae82-613f902a8665-tarifario-desk-22.png'
+                                                : 'https://cdn.getcrowder.com/images/2463900a-ed03-492d-a60b-d109be6703ad-mapawebelephant.png'
+                                        }
+                                        alt={`Mapa de zonas y precios ${country.venue}`}
+                                        className="w-full h-full object-cover"
+                                    />
+                                ) : (
+                                    <Image
+                                        src={
+                                            country.id === 'mexico' ? "/images/mapa-mexico.png" :
+                                                country.id === 'madrid' ? "/images/bts-madrid-mapa.png" :
+                                                    "/images/stadium-map.png"
+                                        }
+                                        alt={`Mapa de zonas y precios ${country.venue}`}
+                                        fill
+                                        className="object-contain p-4"
+                                    />
+                                )}
                                 <div className="absolute bottom-4 left-4 bg-white/90 backdrop-blur pl-2 pr-4 py-2 rounded-full flex items-center gap-2 shadow-sm">
                                     <div className="bg-primary p-1.5 rounded-full text-white">
                                         <MapPin className="w-3 h-3" />
@@ -1081,11 +1106,11 @@ export default function CountryClient({ country }: Props) {
                                     </div>
                                     <div>
                                         <p className="text-xs font-bold uppercase tracking-widest text-slate-400 mb-1">
-                                            {isInstallment && !isPeru ? t.toPayToday : t.totalToPay}
+                                            {isInstallment && !isAndesFlow ? t.toPayToday : t.totalToPay}
                                         </p>
                                         <div className="flex flex-col">
                                             <p className="text-3xl font-black font-sans tracking-tight text-slate-900 leading-none">
-                                                {country.currencySymbol}{(isInstallment && !isPeru ? reservationAmount : totalAmount).toLocaleString(lang === 'pt' ? 'pt-BR' : 'en-US')}
+                                                {country.currencySymbol}{(isInstallment && !isAndesFlow ? reservationAmount : totalAmount).toLocaleString(lang === 'pt' ? 'pt-BR' : 'en-US')}
                                             </p>
                                             {isInstallment && (
                                                 <span className="text-xs font-bold text-primary mt-1">
@@ -1100,7 +1125,7 @@ export default function CountryClient({ country }: Props) {
                                     onClick={handleCheckout}
                                     className="w-full md:w-auto bg-primary text-white hover:bg-red-600 px-10 py-4 text-lg font-black uppercase tracking-widest transition-all hover:-translate-y-1 shadow-xl shadow-primary/30 flex items-center justify-center gap-3 rounded-full"
                                 >
-                                    {isPeru ? 'Agregar al carrito' : t.checkout} <ArrowRight className="w-5 h-5" />
+                                    {isAndesFlow ? 'Agregar al carrito' : t.checkout} <ArrowRight className="w-5 h-5" />
                                 </button>
                             </div>
                         </motion.div>

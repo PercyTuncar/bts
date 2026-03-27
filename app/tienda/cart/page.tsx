@@ -9,6 +9,13 @@ import { Trash2, Plus, Minus, ArrowRight, Info } from "lucide-react";
 
 export default function CartPage() {
     const { items, addItem, removeItem, updateItemQuantity, total } = useCart();
+    const primaryTicket = items.find((item) => item.type === "ticket");
+
+    const getLocale = (item: (typeof items)[number]) => {
+        if (item.currency === "PEN") return "es-PE";
+        if (item.currency === "CLP") return "es-CL";
+        return "es-ES";
+    };
 
     const getUnitTotal = (item: (typeof items)[number]) => {
         const serviceFee = item.serviceFeePerTicket || 0;
@@ -22,7 +29,7 @@ export default function CartPage() {
         const phone = "51944784488";
         const detailLines = items.map((item) => {
             const symbol = item.currencySymbol || "$";
-            const locale = symbol === "S/" ? "es-PE" : "es-ES";
+            const locale = getLocale(item);
             const serviceFee = item.serviceFeePerTicket || 0;
             const installmentInterest = item.installmentInterestPerTicket || 0;
             const unitTotal = getUnitTotal(item);
@@ -40,16 +47,19 @@ export default function CartPage() {
             ].join("\n");
         }).join("\n\n");
 
-        const totalPeru = items
-            .filter((item) => item.currencySymbol === "S/")
-            .reduce((acc, item) => acc + (getUnitTotal(item) * item.quantity), 0);
+        const totalSelectedCountry = items.reduce((acc, item) => acc + (getUnitTotal(item) * item.quantity), 0);
+        const countryLabel = primaryTicket?.countryId === "chile"
+            ? "Chile"
+            : (primaryTicket?.countryId === "peru" ? "Perú" : "Latam");
+        const totalSymbol = primaryTicket?.currencySymbol || "$";
+        const totalLocale = primaryTicket ? getLocale(primaryTicket) : "es-ES";
 
         const message = [
-            "Hola, quiero realizar mi pedido de entradas BTS Perú:",
+            `Hola, quiero realizar mi pedido de entradas BTS ${countryLabel}:`,
             "",
             detailLines,
             "",
-            `TOTAL DEL PEDIDO: ${formatAmount(totalPeru || total, totalPeru ? "S/" : "$", totalPeru ? "es-PE" : "es-ES")}`,
+            `TOTAL DEL PEDIDO: ${formatAmount(totalSelectedCountry || total, totalSymbol, totalLocale)}`,
             "",
             "Confirmo que deseo continuar con el proceso de compra segura.",
         ].join("\n");
@@ -85,12 +95,12 @@ export default function CartPage() {
                             <div className="flex-1">
                                 <h3 className="font-bold uppercase text-lg leading-tight mb-1 text-slate-900">{item.name}</h3>
                                 <p className="text-primary font-mono">
-                                    {formatAmount(item.price, item.currencySymbol || "$", item.currencySymbol === "S/" ? "es-PE" : "es-ES")}
+                                    {formatAmount(item.price, item.currencySymbol || "$", getLocale(item))}
                                 </p>
                                 {(item.serviceFeePerTicket || item.installmentInterestPerTicket) && (
                                     <div className="text-xs text-slate-500 mt-1 space-y-1">
-                                        <p>Comisión: {formatAmount(item.serviceFeePerTicket || 0, item.currencySymbol || "$", item.currencySymbol === "S/" ? "es-PE" : "es-ES")}</p>
-                                        <p>Interés cuotas: {formatAmount(item.installmentInterestPerTicket || 0, item.currencySymbol || "$", item.currencySymbol === "S/" ? "es-PE" : "es-ES")}</p>
+                                        <p>Comisión: {formatAmount(item.serviceFeePerTicket || 0, item.currencySymbol || "$", getLocale(item))}</p>
+                                        <p>Interés cuotas: {formatAmount(item.installmentInterestPerTicket || 0, item.currencySymbol || "$", getLocale(item))}</p>
                                     </div>
                                 )}
                             </div>
@@ -129,7 +139,7 @@ export default function CartPage() {
                         <div className="space-y-2 text-slate-500 font-medium pb-6 border-b border-slate-200">
                             <div className="flex justify-between">
                                 <span>Subtotal</span>
-                                <span>{formatAmount(total, items.some((item) => item.currencySymbol === "S/") ? "S/" : "$", items.some((item) => item.currencySymbol === "S/") ? "es-PE" : "es-ES")}</span>
+                                <span>{formatAmount(total, primaryTicket?.currencySymbol || "$", primaryTicket ? getLocale(primaryTicket) : "es-ES")}</span>
                             </div>
                             <div className="flex justify-between text-sm items-center gap-2">
                                 <span className="inline-flex items-center gap-1">
@@ -144,8 +154,8 @@ export default function CartPage() {
                                 <span>
                                     {formatAmount(
                                         items.reduce((acc, item) => acc + ((item.serviceFeePerTicket || 0) * item.quantity), 0),
-                                        items.some((item) => item.currencySymbol === "S/") ? "S/" : "$",
-                                        items.some((item) => item.currencySymbol === "S/") ? "es-PE" : "es-ES"
+                                        primaryTicket?.currencySymbol || "$",
+                                        primaryTicket ? getLocale(primaryTicket) : "es-ES"
                                     )}
                                 </span>
                             </div>
@@ -157,7 +167,7 @@ export default function CartPage() {
 
                         <div className="flex justify-between text-2xl font-black text-slate-900">
                             <span>Total</span>
-                            <span>{formatAmount(total, items.some((item) => item.currencySymbol === "S/") ? "S/" : "$", items.some((item) => item.currencySymbol === "S/") ? "es-PE" : "es-ES")}</span>
+                            <span>{formatAmount(total, primaryTicket?.currencySymbol || "$", primaryTicket ? getLocale(primaryTicket) : "es-ES")}</span>
                         </div>
 
                         <Button
@@ -169,7 +179,7 @@ export default function CartPage() {
                         </Button>
 
                         <p className="text-xs text-center text-slate-400 mt-4">
-                            Serás redirigido a WhatsApp para coordinar el pago y envío con un asesor oficial.
+                            Serás redirigido a WhatsApp para coordinar el pago y envío con un asesor oficial de nosotros.
                         </p>
                     </GlassCard>
                 </div>

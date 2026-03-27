@@ -24,7 +24,7 @@ export interface CountryData {
     allowInstallments?: boolean; // Optional flag to disable installments
 }
 
-export const COLOMBIA_WHATSAPP_LINK = 'https://chat.whatsapp.com/DhgghKRDHYR1veTxb5EgO3';
+export const COLOMBIA_WHATSAPP_LINK = 'https://chat.whatsapp.com/JMBC23LBFJd30QDsAP3ZUV';
 
 export const WHATSAPP_COUNTRY_FALLBACK_ORDER = [
     'peru',
@@ -54,7 +54,7 @@ export const countries: CountryData[] = [
         ],
         description: 'Madrid, prepárate. BTS llega al Metropolitano para dos noches inolvidables en España.',
         openGraphImage: '/images/bts-madrid-mapa.png', // Using the map as OG image for now, or specific one
-        whatsappLink: 'https://chat.whatsapp.com/JxPJWsWylPmBbTIFjQgrtO',
+        whatsappLink: 'https://chat.whatsapp.com/KyQVvLwltJQCu3sId3ndJl',
         phoneCode: '+34',
         allowInstallments: false
     },
@@ -78,7 +78,7 @@ export const countries: CountryData[] = [
         ],
         description: 'Lima, prepárate para el océano púrpura. BTS regresa al Estadio Nacional para dos noches históricas.',
         openGraphImage: '/images/og-peru.jpg',
-        whatsappLink: 'https://chat.whatsapp.com/CcCFSAb9YfxCvScR810WbR',
+        whatsappLink: 'https://chat.whatsapp.com/JY5rMMGp2n3HEHqxJZTam9',
         phoneCode: '+51'
     },
     {
@@ -112,7 +112,7 @@ export const countries: CountryData[] = [
         ],
         description: 'Santiago, el momento ha llegado. Vive la magia de BTS en el Estadio Nacional.',
         openGraphImage: '/images/og-chile.jpg',
-        whatsappLink: 'https://chat.whatsapp.com/D1DNQrYsmRiIE1o19uLDsp',
+        whatsappLink: 'https://chat.whatsapp.com/BBfax0QM0fWKCX36u0Y1sw',
         phoneCode: '+56'
     },
     {
@@ -184,7 +184,7 @@ export const countries: CountryData[] = [
         ],
         description: '¡Hola México! BTS llega al coloso de Santa Úrsula para tres fechas inolvidables.',
         openGraphImage: '/images/og-mexico.jpg',
-        whatsappLink: 'https://chat.whatsapp.com/EIxSxGenCj54b9nOT9Jlfp',
+        whatsappLink: 'https://chat.whatsapp.com/H64CZMFTCVDLaFg3Wnvuvr',
         phoneCode: '+52'
     },
     {
@@ -229,7 +229,7 @@ export const countries: CountryData[] = [
         ],
         description: 'Argentina recibe a BTS en el Estadio Único de La Plata con preventa y zonas oficiales para el Army.',
         openGraphImage: '/images/og-argentina.jpg',
-        whatsappLink: 'https://chat.whatsapp.com/GIrRWJ1CGXp5m8TSRkKVNL',
+        whatsappLink: 'https://chat.whatsapp.com/LUtWQUnpj3t0hj7ZlGvQ5W',
         phoneCode: '+54'
     },
     {

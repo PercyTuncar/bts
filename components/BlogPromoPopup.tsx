@@ -31,13 +31,13 @@ const COUNTRY_NAMES: Record<string, string> = {
 };
 
 const PRICING: Record<string, { symbol: string, price: string }> = {
-    PE: { symbol: 'S/.', price: '99.95' },
-    MX: { symbol: 'MXN', price: '490.00' },
-    CO: { symbol: 'COP', price: '115,000' },
-    CL: { symbol: 'CLP', price: '26,000' },
-    BR: { symbol: 'R$', price: '180,00' },
-    AR: { symbol: 'ARS', price: '30,000' },
-    DEFAULT: { symbol: 'USD', price: '29.50' }
+    PE: { symbol: '$', price: '33.73 USD' },
+    MX: { symbol: '$', price: '33.73 USD' },
+    CO: { symbol: '$', price: '33.73 USD' },
+    CL: { symbol: '$', price: '33.73 USD' },
+    BR: { symbol: '$', price: '33.73 USD' },
+    AR: { symbol: '$', price: '33.73 USD' },
+    DEFAULT: { symbol: '$', price: '33.73 USD' }
 };
 
 export function BlogPromoPopup() {

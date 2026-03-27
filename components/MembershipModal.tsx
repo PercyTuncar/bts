@@ -85,7 +85,7 @@ export function MembershipModal({ isOpen, onClose }: Props) {
                                             </span>
                                         </Link>
                                         <p className="text-center text-gray-500 text-xs mt-3 uppercase tracking-widest font-bold">
-                                            S/. 99.95 • Pago Único / 1 Año
+                                            $ 33.73 USD • Pago Único / 1 Año
                                         </p>
                                     </div>
 

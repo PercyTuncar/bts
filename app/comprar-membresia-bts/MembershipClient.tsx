@@ -6,13 +6,13 @@ import { Star, ShoppingBag, Music, ShieldCheck, ChevronDown, Ticket, Smartphone 
 import { useEffect, useState } from 'react';
 
 const PRICING: Record<string, { symbol: string, price: string, link: string }> = {
-    PE: { symbol: 'S/.', price: '99.95', link: 'https://secure.micuentaweb.pe/t/o6d5a6ps' },
-    MX: { symbol: 'MXN', price: '490.00', link: 'https://secure.micuentaweb.pe/t/o6d5a6ps' },
-    CO: { symbol: 'COP', price: '115,000', link: 'https://secure.micuentaweb.pe/t/o6d5a6ps' },
-    CL: { symbol: 'CLP', price: '26,000', link: 'https://secure.micuentaweb.pe/t/o6d5a6ps' },
-    BR: { symbol: 'R$', price: '180,00', link: 'https://secure.micuentaweb.pe/t/o6d5a6ps' },
-    AR: { symbol: 'ARS', price: '30,000', link: 'https://secure.micuentaweb.pe/t/o6d5a6ps' },
-    DEFAULT: { symbol: 'USD', price: '29.50', link: 'https://secure.micuentaweb.pe/t/o6d5a6ps' }
+    PE: { symbol: 'S/.', price: '99.95', link: 'https://www.paypal.com/ncp/payment/8XABRYNE7AXY4' },
+    MX: { symbol: 'MXN', price: '490.00', link: 'https://www.paypal.com/ncp/payment/8XABRYNE7AXY4' },
+    CO: { symbol: 'COP', price: '115,000', link: 'https://www.paypal.com/ncp/payment/8XABRYNE7AXY4' },
+    CL: { symbol: 'CLP', price: '26,000', link: 'https://www.paypal.com/ncp/payment/8XABRYNE7AXY4' },
+    BR: { symbol: 'R$', price: '180,00', link: 'https://www.paypal.com/ncp/payment/8XABRYNE7AXY4' },
+    AR: { symbol: 'ARS', price: '30,000', link: 'https://www.paypal.com/ncp/payment/8XABRYNE7AXY4' },
+    DEFAULT: { symbol: 'USD', price: '29.50', link: 'https://www.paypal.com/ncp/payment/8XABRYNE7AXY4' }
 };
 
 const TEXTS = {

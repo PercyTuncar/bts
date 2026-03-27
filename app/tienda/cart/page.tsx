@@ -14,6 +14,7 @@ export default function CartPage() {
     const getLocale = (item: (typeof items)[number]) => {
         if (item.currency === "PEN") return "es-PE";
         if (item.currency === "CLP") return "es-CL";
+        if (item.currency === "ARS") return "es-AR";
         return "es-ES";
     };
 
@@ -50,7 +51,7 @@ export default function CartPage() {
         const totalSelectedCountry = items.reduce((acc, item) => acc + (getUnitTotal(item) * item.quantity), 0);
         const countryLabel = primaryTicket?.countryId === "chile"
             ? "Chile"
-            : (primaryTicket?.countryId === "peru" ? "Perú" : "Latam");
+            : (primaryTicket?.countryId === "peru" ? "Perú" : (primaryTicket?.countryId === "argentina" ? "Argentina" : "Latam"));
         const totalSymbol = primaryTicket?.currencySymbol || "$";
         const totalLocale = primaryTicket ? getLocale(primaryTicket) : "es-ES";
 

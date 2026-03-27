@@ -84,7 +84,7 @@ export function TermsModal({ isOpen, onClose, isPeruVisitor = false }: Props) {
                                                 <div className="hidden lg:block text-center bg-purple-50 p-4 rounded-xl border-2 border-purple-200 space-y-3">
                                                     <p className="font-bold text-purple-900 text-base">Paga con Yape o Plin</p>
                                                     <p className="text-sm font-bold text-slate-700">Monto a yapear/plinear</p>
-                                                    <p className="text-3xl font-black text-purple-800">$ 33.73 USD</p>
+                                                    <p className="text-3xl font-black text-purple-800">S/ 99.99</p>
                                                     <div className="flex justify-center items-center gap-4">
                                                         <Image src="https://startupeable.com/directorio/wp-content/uploads/2021/03/yape.png" alt="Yape" width={60} height={24} />
                                                         <Image src="/images/logo-plin.jpeg" alt="Plin" width={60} height={24} />
@@ -151,7 +151,7 @@ export function TermsModal({ isOpen, onClose, isPeruVisitor = false }: Props) {
                                                         <div className="px-4 pb-3">
                                                             <div className="rounded-lg border border-dashed border-purple-300 bg-white px-3 py-2 text-center">
                                                                 <p className="text-[11px] text-slate-600">Monto a pagar por Yape/Plin</p>
-                                                                <p className="text-lg font-black text-purple-800">$ 33.73 USD</p>
+                                                                <p className="text-lg font-black text-purple-800">S/ 99.99</p>
                                                             </div>
                                                         </div>
                                                     )}
@@ -166,7 +166,7 @@ export function TermsModal({ isOpen, onClose, isPeruVisitor = false }: Props) {
                                                             className="px-4 pb-4 space-y-3 border-t border-purple-200 overflow-hidden"
                                                         >
                                                             <p className="text-sm font-bold text-slate-700 mt-3">Monto a yapear/plinear</p>
-                                                            <p className="text-2xl font-black text-purple-800">$ 33.73 USD</p>
+                                                            <p className="text-2xl font-black text-purple-800">S/ 99.99</p>
                                                             <div className="flex justify-center items-center gap-4">
                                                                 <Image src="https://startupeable.com/directorio/wp-content/uploads/2021/03/yape.png" alt="Yape" width={56} height={22} />
                                                                 <Image src="/images/logo-plin.jpeg" alt="Plin" width={56} height={22} />
@@ -216,7 +216,7 @@ export function TermsModal({ isOpen, onClose, isPeruVisitor = false }: Props) {
                                         <div className="space-y-4 text-center bg-blue-50 p-6 rounded-xl border-2 border-blue-200 flex flex-col items-center justify-center">
                                             <Image src="https://w7.pngwing.com/pngs/32/363/png-transparent-visa-master-card-and-american-express-mastercard-payment-visa-credit-card-emv-credit-card-visa-and-master-card-background-text-display-advertising-logo.png" alt="Visa, Mastercard, American Express" width={120} height={40} className="object-contain"/>
                                             <p className="text-base text-blue-900 font-bold pt-2">
-                                                Paga con PayPal
+                                                Paga con Tarjeta
                                             </p>
                                             <div className="flex items-center w-full max-w-[200px]">
                                                 <hr className="flex-grow border-slate-300" />

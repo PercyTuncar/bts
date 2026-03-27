@@ -144,7 +144,7 @@ export default function JoinClient({ userCountryCode }: JoinClientProps) {
                                 Nota Importante
                             </p>
                             <p className="text-xs text-gray-600 leading-tight">
-                                Al unirte, serás notificado inmediatamente cuando se habiliten las entradas. Los precios y zonas mostrados anteriormente son referenciales para la preventa.
+                                Al unirte, serás notificado inmediatamente cuando se habiliten las entradas. Los precios por zona son oficiales e incluyen detalle de comisión de servicio.
                             </p>
                         </div>
                     </GlassCard>

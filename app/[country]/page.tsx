@@ -26,7 +26,13 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
     let ogUrl = `https://entradasbts.com/${country.id}`;
 
     // Localization overrides
-    if (country.id === 'brasil') {
+    if (country.id === 'peru') {
+        title = `Entradas BTS Perú 2026: Precios Reales en Estadio Nacional`;
+        description = `Compra tus entradas para BTS en Perú 2026 con precios reales desde ${formattedPrice} en el Estadio Nacional. Selecciona zonas oficiales y completa tu pedido seguro por WhatsApp.`;
+        ogTitle = `Entradas BTS Perú 2026 | Precios Reales`;
+        ogDescription = `El Army de Perú ya tiene precios reales por zona. Completa tu pedido de forma segura para BTS en Lima.`;
+        ogSiteName = `Entradas BTS Perú`;
+    } else if (country.id === 'brasil') {
         title = `Ingressos BTS Brasil 2026: Compre Agora no Allianz Parque`;
         description = `Compre seus ingressos para o show do BTS no Brasil em 2026! Preços a partir de ${formattedPrice} no Allianz Parque. Compra segura, zonas VIP e mapa de assentos aqui.`;
         ogTitle = `Ingressos BTS Brasil 2026 | Allianz Parque`;
@@ -124,7 +130,9 @@ export default async function CountryPage({ params }: Props) {
             : `Entradas BTS ${countryDisplayName} 2026 - Concierto en ${country.city}`,
         "description": isBrazil
             ? `Comprar ingressos BTS Brasil 2026. Informacoes oficiais sobre precos, preventa e setores para o show em ${country.venue}.`
-            : `Comprar entradas BTS ${countryDisplayName} 2026. Informacion oficial sobre precios, preventa y zonas para el concierto en ${country.venue}.`,
+            : country.id === 'peru'
+                ? `Comprar entradas BTS Perú 2026. Informacion oficial con precios reales por zona para el concierto en ${country.venue}.`
+                : `Comprar entradas BTS ${countryDisplayName} 2026. Informacion oficial sobre precios, preventa y zonas para el concierto en ${country.venue}.`,
         "image": [
             `https://entradasbts.com${country.openGraphImage}`,
             "https://entradasbts.com/images/concert-bg.png"

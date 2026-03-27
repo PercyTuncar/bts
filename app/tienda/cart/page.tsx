@@ -5,15 +5,54 @@ import { GlassCard } from "@/components/GlassCard";
 import { Button } from "@/components/Button";
 import Link from "next/link";
 import Image from "next/image";
-import { Trash2, Plus, Minus, ArrowRight } from "lucide-react";
+import { Trash2, Plus, Minus, ArrowRight, Info } from "lucide-react";
 
 export default function CartPage() {
-    const { items, addItem, removeItem, total, clearCart } = useCart();
+    const { items, addItem, removeItem, updateItemQuantity, total } = useCart();
+
+    const getUnitTotal = (item: (typeof items)[number]) => {
+        const serviceFee = item.serviceFeePerTicket || 0;
+        const installmentInterest = item.installmentInterestPerTicket || 0;
+        return item.price + serviceFee + installmentInterest;
+    };
+
+    const formatAmount = (amount: number, symbol = "$", locale = "es-PE") => `${symbol}${amount.toLocaleString(locale)}`;
 
     const handleCheckout = () => {
         const phone = "51944784488";
-        const itemsList = items.map(i => `• ${i.quantity}x ${i.name} ($${i.price})`).join("\n");
-        const message = `Hola, quiero realizar un pedido:\n\n${itemsList}\n\nTotal: $${total.toFixed(2)}\n\nPor favor indíquenme los pasos para el pago y envío.`;
+        const detailLines = items.map((item) => {
+            const symbol = item.currencySymbol || "$";
+            const locale = symbol === "S/" ? "es-PE" : "es-ES";
+            const serviceFee = item.serviceFeePerTicket || 0;
+            const installmentInterest = item.installmentInterestPerTicket || 0;
+            const unitTotal = getUnitTotal(item);
+            const lineTotal = unitTotal * item.quantity;
+            const installmentText = item.isInstallment && item.installmentMonths
+                ? ` | ${item.installmentMonths} cuotas de ${formatAmount(Math.ceil(lineTotal / item.installmentMonths), symbol, locale)}`
+                : "";
+
+            return [
+                `• ${item.quantity}x ${item.name}`,
+                `  - Base: ${formatAmount(item.price, symbol, locale)}`,
+                `  - Comisión servicio: ${formatAmount(serviceFee, symbol, locale)}`,
+                `  - Interés cuotas: ${formatAmount(installmentInterest, symbol, locale)}`,
+                `  - Subtotal línea: ${formatAmount(lineTotal, symbol, locale)}${installmentText}`,
+            ].join("\n");
+        }).join("\n\n");
+
+        const totalPeru = items
+            .filter((item) => item.currencySymbol === "S/")
+            .reduce((acc, item) => acc + (getUnitTotal(item) * item.quantity), 0);
+
+        const message = [
+            "Hola, quiero realizar mi pedido de entradas BTS Perú:",
+            "",
+            detailLines,
+            "",
+            `TOTAL DEL PEDIDO: ${formatAmount(totalPeru || total, totalPeru ? "S/" : "$", totalPeru ? "es-PE" : "es-ES")}`,
+            "",
+            "Confirmo que deseo continuar con el proceso de compra segura.",
+        ].join("\n");
 
         const url = `https://wa.me/${phone}?text=${encodeURIComponent(message)}`;
         window.open(url, '_blank');
@@ -45,14 +84,22 @@ export default function CartPage() {
 
                             <div className="flex-1">
                                 <h3 className="font-bold uppercase text-lg leading-tight mb-1 text-slate-900">{item.name}</h3>
-                                <p className="text-primary font-mono">${item.price}</p>
+                                <p className="text-primary font-mono">
+                                    {formatAmount(item.price, item.currencySymbol || "$", item.currencySymbol === "S/" ? "es-PE" : "es-ES")}
+                                </p>
+                                {(item.serviceFeePerTicket || item.installmentInterestPerTicket) && (
+                                    <div className="text-xs text-slate-500 mt-1 space-y-1">
+                                        <p>Comisión: {formatAmount(item.serviceFeePerTicket || 0, item.currencySymbol || "$", item.currencySymbol === "S/" ? "es-PE" : "es-ES")}</p>
+                                        <p>Interés cuotas: {formatAmount(item.installmentInterestPerTicket || 0, item.currencySymbol || "$", item.currencySymbol === "S/" ? "es-PE" : "es-ES")}</p>
+                                    </div>
+                                )}
                             </div>
 
                             <div className="flex items-center gap-4">
                                 <div className="flex items-center gap-3 bg-slate-100 rounded-full px-3 py-1 border border-slate-200">
                                     <button
                                         className="w-6 h-6 flex items-center justify-center hover:text-secondary text-slate-600"
-                                        onClick={() => removeItem(item.slug)} // Note: Simple remove for now, logical improvement could be decrement
+                                        onClick={() => updateItemQuantity(item.slug, item.quantity - 1)}
                                     >
                                         <Minus className="w-4 h-4" />
                                     </button>
@@ -82,7 +129,25 @@ export default function CartPage() {
                         <div className="space-y-2 text-slate-500 font-medium pb-6 border-b border-slate-200">
                             <div className="flex justify-between">
                                 <span>Subtotal</span>
-                                <span>${total.toFixed(2)}</span>
+                                <span>{formatAmount(total, items.some((item) => item.currencySymbol === "S/") ? "S/" : "$", items.some((item) => item.currencySymbol === "S/") ? "es-PE" : "es-ES")}</span>
+                            </div>
+                            <div className="flex justify-between text-sm items-center gap-2">
+                                <span className="inline-flex items-center gap-1">
+                                    Comisión de servicio
+                                    <span className="relative group inline-flex items-center">
+                                        <Info className="w-3.5 h-3.5 text-slate-400" />
+                                        <span className="pointer-events-none absolute left-1/2 top-5 z-20 hidden w-64 -translate-x-1/2 rounded-lg bg-slate-900 px-3 py-2 text-[11px] font-medium leading-snug text-white shadow-lg group-hover:block">
+                                            Este precio es por la comisión de servicio; te aseguramos que tendrás el acceso, de otro modo se te hará la devolución del total.
+                                        </span>
+                                    </span>
+                                </span>
+                                <span>
+                                    {formatAmount(
+                                        items.reduce((acc, item) => acc + ((item.serviceFeePerTicket || 0) * item.quantity), 0),
+                                        items.some((item) => item.currencySymbol === "S/") ? "S/" : "$",
+                                        items.some((item) => item.currencySymbol === "S/") ? "es-PE" : "es-ES"
+                                    )}
+                                </span>
                             </div>
                             <div className="flex justify-between text-sm">
                                 <span>Envío</span>
@@ -92,7 +157,7 @@ export default function CartPage() {
 
                         <div className="flex justify-between text-2xl font-black text-slate-900">
                             <span>Total</span>
-                            <span>${total.toFixed(2)}</span>
+                            <span>{formatAmount(total, items.some((item) => item.currencySymbol === "S/") ? "S/" : "$", items.some((item) => item.currencySymbol === "S/") ? "es-PE" : "es-ES")}</span>
                         </div>
 
                         <Button

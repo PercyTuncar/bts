@@ -8,12 +8,22 @@ export interface CartItem {
     price: number;
     image: string;
     quantity: number;
+    type?: "product" | "ticket";
+    zone?: string;
+    countryId?: string;
+    currency?: string;
+    currencySymbol?: string;
+    serviceFeePerTicket?: number;
+    installmentInterestPerTicket?: number;
+    isInstallment?: boolean;
+    installmentMonths?: number;
 }
 
 interface CartContextType {
     items: CartItem[];
     addItem: (item: Omit<CartItem, "quantity">) => void;
     removeItem: (slug: string) => void;
+    updateItemQuantity: (slug: string, quantity: number) => void;
     clearCart: () => void;
     total: number;
     count: number;
@@ -55,17 +65,32 @@ export function CartProvider({ children }: { children: React.ReactNode }) {
         });
     };
 
+    const updateItemQuantity = (slug: string, quantity: number) => {
+        setItems(current => {
+            if (quantity <= 0) {
+                return current.filter(i => i.slug !== slug);
+            }
+
+            return current.map(i => (i.slug === slug ? { ...i, quantity } : i));
+        });
+    };
+
     const removeItem = (slug: string) => {
         setItems(current => current.filter(i => i.slug !== slug));
     };
 
     const clearCart = () => setItems([]);
 
-    const total = items.reduce((acc, item) => acc + (item.price * item.quantity), 0);
+    const total = items.reduce((acc, item) => {
+        const serviceFee = item.serviceFeePerTicket || 0;
+        const installmentInterest = item.installmentInterestPerTicket || 0;
+        const unitTotal = item.price + serviceFee + installmentInterest;
+        return acc + (unitTotal * item.quantity);
+    }, 0);
     const count = items.reduce((acc, item) => acc + item.quantity, 0);
 
     return (
-        <CartContext.Provider value={{ items, addItem, removeItem, clearCart, total, count }}>
+        <CartContext.Provider value={{ items, addItem, removeItem, updateItemQuantity, clearCart, total, count }}>
             {children}
         </CartContext.Provider>
     );

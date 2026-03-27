@@ -108,7 +108,7 @@ export const OfficialStatementPopup = ({ userCountryCode }: OfficialStatementPop
                                             2. SOBRE PRECIOS Y ENTRADAS
                                         </h4>
                                         <p className="text-sm text-slate-700">
-                                            Como se aclara en la web de múltiples formas: <span className="font-bold">Los precios y zonas mostrados actualmente son REFERENCIALES, ya que la venta oficial de entradas aún no ha iniciado.</span> Nuestro trabajo actual se centra en la correcta gestión de las MEMBRESÍAS para que los fans estén listos cuando llegue el momento.
+                                            Como se aclara en la web de múltiples formas: <span className="font-bold">Los precios y zonas mostrados son oficiales y el total incluye la comisión de servicio detallada antes de confirmar el pedido.</span> Nuestro trabajo actual se centra en la correcta gestión de las MEMBRESÍAS para que los fans estén listos cuando llegue el momento.
                                         </p>
                                     </section>
 

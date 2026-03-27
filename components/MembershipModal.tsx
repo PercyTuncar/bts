@@ -69,7 +69,7 @@ export function MembershipModal({ isOpen, onClose }: Props) {
                                             <div>
                                                 <h4 className="text-slate-900 font-bold uppercase text-sm mb-1">Nota Importante</h4>
                                                 <p className="text-slate-500 text-sm leading-snug">
-                                                    Venta oficial aún no disponible. Precios y zonas son referenciales y sujetos a cambio por la productora.
+                                                    Precios oficiales por zona publicados. Al total se suma la comisión de servicio correspondiente por entrada.
                                                 </p>
                                             </div>
                                         </div>
@@ -92,7 +92,7 @@ export function MembershipModal({ isOpen, onClose }: Props) {
                                     {/* Disclaimer Note requested by user */}
                                     <div className="border-t border-dashed border-white/20 pt-4 mt-2">
                                         <p className="text-[10px] md:text-xs text-gray-500 text-center leading-relaxed">
-                                            <span className="font-bold text-acid-yellow">NOTA:</span> La compra de la membresía es obligatoria para acceder a la preventa. Los precios y zonas de las entradas solo son referenciales por el momento.
+                                            <span className="font-bold text-acid-yellow">NOTA:</span> La compra de la membresía es obligatoria para acceder a la preventa. Los precios por zona son oficiales y el servicio se detalla en el resumen final.
                                         </p>
                                     </div>
                                 </div>

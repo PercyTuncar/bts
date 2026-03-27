@@ -27,14 +27,14 @@ export function CommunityModal({ isOpen, onClose, userCountryCode }: CommunityMo
         description: "Entre no chat do seu país, coordene seus ingressos e prepare-se para o show.",
         group: "Grupo Oficial",
         members: "+50.000 Armys unidos",
-        note: "Nota: Venda oficial ainda não disponível. Preços e setores são referenciais."
+        note: "Nota: Preços oficiais por setor disponíveis. Comissão de serviço detalhada no pedido."
     } : {
         title: "Únete al",
         highlight: "Grupo",
         description: "Únete al chat de tu país, coordina tus entradas y prepárate para el show.",
         group: "Grupo Oficial",
         members: "+50,000 Armys unidos",
-        note: "Nota: Venta oficial aún no lo tenemos disponible. Precios y zonas son referenciales."
+        note: "Nota: Precios oficiales por zona disponibles. La comisión de servicio se detalla en el pedido."
     };
 
     return (

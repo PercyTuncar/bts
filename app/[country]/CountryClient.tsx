@@ -7,6 +7,8 @@ import Image from "next/image";
 import { motion, AnimatePresence } from "framer-motion";
 import { CommunityModal } from "@/components/CommunityModal";
 import { MembershipModal } from "@/components/MembershipModal";
+import { useCart } from "@/context/CartContext";
+import { useRouter } from "next/navigation";
 
 type Props = {
     country: CountryData;
@@ -47,13 +49,16 @@ const PHASES = [
 ];
 
 const INSTALLMENT_CONFIG: Record<string, { fee: number; reservation: number }> = {
-    'peru': { fee: 100, reservation: 100 }, // 100 PEN
+    'peru': { fee: 399, reservation: 0 },
     'chile': { fee: 31000, reservation: 31000 }, // ~110 PEN
     'mexico': { fee: 660, reservation: 660 }, // ~110 PEN
     'colombia': { fee: 121000, reservation: 121000 }, // ~110 PEN
     'argentina': { fee: 50000, reservation: 50000 }, // ~110 PEN
     'brasil': { fee: 200, reservation: 200 }, // ~110 PEN
 };
+
+const PERU_SERVICE_FEE = 299;
+const PERU_INSTALLMENT_INTEREST = 399;
 
 const translations = {
     es: {
@@ -70,7 +75,7 @@ const translations = {
         seg: "Seg",
         cash: "Contado",
         installments: "Cuotas",
-        ticketDisclaimer: "Nota: Los precios mostrados son referenciales de taquilla. El botón de selección iniciará la contratación de nuestro servicio de gestión de Membresía ARMY, requisito previo para la compra de tickets.",
+        ticketDisclaimer: "Nota: Estos precios ya son reales por zona y al total se añade la comisión de servicio por entrada.",
         selectDateStep: "1. Selecciona la Fecha",
         chooseInstallments: "2. Elige tus cuotas",
         initialReservation: "Reserva inicial de",
@@ -135,7 +140,7 @@ const translations = {
         seg: "Seg",
         cash: "À Vista",
         installments: "Parcelado",
-        ticketDisclaimer: "Nota: Os preços mostrados são referenciais de bilheteria. O botão de seleção iniciará a contratação de nosso serviço de gestão de Membresia ARMY, pré-requisito para a compra de ingressos.",
+        ticketDisclaimer: "Nota: Estes preços por setor são reais e a comissão de serviço por ingresso é adicionada no total.",
         selectDateStep: "1. Selecione a Data",
         chooseInstallments: "2. Escolha suas parcelas",
         initialReservation: "Reserva inicial de",
@@ -200,7 +205,7 @@ const translations = {
         seg: "Seg",
         cash: "Contado",
         installments: "Cuotas",
-        ticketDisclaimer: "Nota: Los precios mostrados son referenciales de taquilla. El botón de selección iniciará la contratación de nuestro servicio de gestión de Membresía ARMY, requisito previo para la compra de boletas.",
+        ticketDisclaimer: "Nota: Estos precios por zona son reales y se añade la comisión de servicio por boleta en el total.",
         selectDateStep: "1. Selecciona la Fecha",
         chooseInstallments: "2. Elige tus cuotas",
         initialReservation: "Reserva inicial de",
@@ -265,7 +270,7 @@ const translations = {
         seg: "Seg",
         cash: "Contado",
         installments: "Cuotas",
-        ticketDisclaimer: "Nota: Los precios mostrados son referenciales de taquilla. El botón de selección iniciará la contratación de nuestro servicio de gestión de Membresía ARMY, requisito previo para la compra de entradas.",
+        ticketDisclaimer: "Nota: Estos precios por zona son reales y se añade la comisión de servicio por entrada en el total.",
         selectDateStep: "1. Selecciona la Fecha",
         chooseInstallments: "2. Elige tus cuotas",
         initialReservation: "Reserva inicial de",
@@ -330,7 +335,7 @@ const translations = {
         seg: "Seg",
         cash: "Contado",
         installments: "Cuotas",
-        ticketDisclaimer: "Nota: Los precios mostrados son referenciales de taquilla. El botón de selección iniciará la contratación de nuestro servicio de gestión de Membresía ARMY, requisito previo para la compra de boletos.",
+        ticketDisclaimer: "Nota: Estos precios por zona son reales y se añade la comisión de servicio por boleto en el total.",
         selectDateStep: "1. Selecciona la Fecha",
         chooseInstallments: "2. Elige tus cuotas",
         initialReservation: "Reserva inicial de",
@@ -384,8 +389,11 @@ const translations = {
 };
 
 export default function CountryClient({ country }: Props) {
+    const router = useRouter();
+    const { addItem } = useCart();
     const lang = country.id === 'brasil' ? 'pt' : (country.id === 'mexico' ? 'mx' : (country.id === 'colombia' ? 'co' : (country.id === 'madrid' ? 'es_ES' : 'es')));
     const t = translations[lang] || translations.es;
+    const isPeru = country.id === 'peru';
 
     const formatDateRange = (dates: string[]) => {
         if (!dates.length) return '';
@@ -483,7 +491,12 @@ export default function CountryClient({ country }: Props) {
         });
     };
 
-    const getPrice = (basePrice: number) => isInstallment ? basePrice + config.fee : basePrice;
+    const getPrice = (basePrice: number) => {
+        if (isPeru) {
+            return isInstallment ? basePrice + PERU_INSTALLMENT_INTEREST : basePrice;
+        }
+        return isInstallment ? basePrice + config.fee : basePrice;
+    };
     const totalTickets = Object.values(quantities).reduce((a, b) => a + b, 0);
 
     const calculateTotal = () => {
@@ -495,10 +508,53 @@ export default function CountryClient({ country }: Props) {
         return total;
     };
 
-    const totalAmount = calculateTotal();
+    const baseAmount = country.prices.reduce((sum, zone) => sum + ((quantities[zone.zone] || 0) * zone.price), 0);
+    const serviceFeeAmount = isPeru ? totalTickets * PERU_SERVICE_FEE : 0;
+    const installmentInterestAmount = isPeru && isInstallment ? totalTickets * PERU_INSTALLMENT_INTEREST : 0;
+    const totalAmount = calculateTotal() + serviceFeeAmount;
     const reservationAmount = isInstallment ? totalTickets * config.reservation : 0;
     const remainingAmount = totalAmount - reservationAmount;
-    const monthlyPayment = isInstallment && installmentMonths > 0 ? remainingAmount / installmentMonths : 0;
+    const monthlyPayment = isInstallment && installmentMonths > 0
+        ? (isPeru ? totalAmount / installmentMonths : remainingAmount / installmentMonths)
+        : 0;
+
+    const handleCheckout = () => {
+        if (!selectedDate || totalTickets === 0) {
+            return;
+        }
+
+        if (isPeru) {
+            country.prices.forEach((zone) => {
+                const quantity = quantities[zone.zone] || 0;
+                if (quantity <= 0) {
+                    return;
+                }
+
+                for (let i = 0; i < quantity; i += 1) {
+                    addItem({
+                        slug: `ticket-${country.id}-${zone.zone}-${isInstallment ? `cuotas-${installmentMonths}` : 'contado'}`,
+                        name: `${zone.zone} • BTS ${country.name}`,
+                        price: zone.price,
+                        image: '/images/stadium-map.png',
+                        type: 'ticket',
+                        zone: zone.zone,
+                        countryId: country.id,
+                        currency: country.currency,
+                        currencySymbol: country.currencySymbol,
+                        serviceFeePerTicket: PERU_SERVICE_FEE,
+                        installmentInterestPerTicket: isInstallment ? PERU_INSTALLMENT_INTEREST : 0,
+                        isInstallment,
+                        installmentMonths: isInstallment ? installmentMonths : undefined,
+                    });
+                }
+            });
+
+            router.push('/tienda/cart');
+            return;
+        }
+
+        setIsMembershipModalOpen(true);
+    };
 
     return (
         <div className="min-h-screen bg-slate-50 text-slate-900 font-sans selection:bg-primary/20 selection:text-primary overflow-x-hidden">
@@ -649,15 +705,15 @@ export default function CountryClient({ country }: Props) {
                         >
                             {country.id === 'brasil' ? (
                                 <>
-                                    A espera acabou. <span className="text-white/60">BTS chega a {country.city}, {country.name}</span> neste 2026. Garanta seu lugar para a venda oficial de <strong className="text-white/70 font-semibold">ingressos para BTS no {country.name}</strong>. Prepare-se para sua chegada ao <span className="text-primary/70">{country.venue}</span>. Confira os preços referenciais a partir de {country.currencySymbol}{Math.min(...country.prices.map(p => p.price)).toLocaleString('pt-BR')} e contrate nosso serviço de Personal Shopper para gerenciar sua membresia e compra de forma antecipada.
+                                    A espera acabou. <span className="text-white/60">BTS chega a {country.city}, {country.name}</span> neste 2026. Garanta seu lugar para a venda oficial de <strong className="text-white/70 font-semibold">ingressos para BTS no {country.name}</strong>. Prepare-se para sua chegada ao <span className="text-primary/70">{country.venue}</span>. Confira os preços oficiais a partir de {country.currencySymbol}{Math.min(...country.prices.map(p => p.price)).toLocaleString('pt-BR')} e contrate nosso serviço de Personal Shopper para gerenciar sua membresia e compra de forma antecipada.
                                 </>
                             ) : country.id === 'mexico' ? (
                                 <>
-                                    La espera ha terminado. <span className="text-white/60">BTS llega a {country.city}, {country.name}</span> este 2026. Asegura tu lugar para la venta oficial de <strong className="text-white/70 font-semibold">boletos para BTS en {country.name}</strong>. Prepárate para su llegada al <span className="text-primary/70">{country.venue}</span>. Conoce los precios referenciales desde {country.currencySymbol}{Math.min(...country.prices.map(p => p.price)).toLocaleString('es-MX')} y contrata nuestro servicio de Personal Shopper para gestionar tu membresía y compra de forma anticipada.
+                                    La espera ha terminado. <span className="text-white/60">BTS llega a {country.city}, {country.name}</span> este 2026. Asegura tu lugar para la venta oficial de <strong className="text-white/70 font-semibold">boletos para BTS en {country.name}</strong>. Prepárate para su llegada al <span className="text-primary/70">{country.venue}</span>. Conoce los precios oficiales desde {country.currencySymbol}{Math.min(...country.prices.map(p => p.price)).toLocaleString('es-MX')} y contrata nuestro servicio de Personal Shopper para gestionar tu membresía y compra de forma anticipada.
                                 </>
                             ) : (
                                 <>
-                                    La espera ha terminado. <span className="text-white/60">BTS llega a {country.city}, {country.name}</span> este 2026. Asegura tu lugar para la venta oficial de <strong className="text-white/70 font-semibold">entradas para BTS en {country.name}</strong>. Prepárate para su llegada al <span className="text-primary/70">{country.venue}</span>. Conoce los precios referenciales desde {country.currencySymbol}{Math.min(...country.prices.map(p => p.price)).toLocaleString('es-ES')} y contrata nuestro servicio de Personal Shopper para gestionar tu membresía y compra de forma anticipada.
+                                    La espera ha terminado. <span className="text-white/60">BTS llega a {country.city}, {country.name}</span> este 2026. Asegura tu lugar para la venta oficial de <strong className="text-white/70 font-semibold">entradas para BTS en {country.name}</strong>. Prepárate para su llegada al <span className="text-primary/70">{country.venue}</span>. Conoce los precios oficiales desde {country.currencySymbol}{Math.min(...country.prices.map(p => p.price)).toLocaleString('es-ES')} y contrata nuestro servicio de Personal Shopper para gestionar tu membresía y compra de forma anticipada.
                                 </>
                             )}
                         </motion.p>
@@ -694,7 +750,7 @@ export default function CountryClient({ country }: Props) {
                                 <div className="bg-slate-50 p-6 rounded-2xl animate-fade-in-up">
                                     <p className="text-sm font-bold uppercase tracking-widest text-slate-400 mb-4">{t.chooseInstallments}</p>
                                     <div className="flex gap-4 mb-4">
-                                        {[2, 3].map(m => (
+                                        {[2, 3, 4].map(m => (
                                             <button
                                                 key={m}
                                                 onClick={() => setInstallmentMonths(m)}
@@ -705,7 +761,9 @@ export default function CountryClient({ country }: Props) {
                                         ))}
                                     </div>
                                     <p className="text-xs text-slate-500 font-medium">
-                                        * {t.initialReservation} {country.currencySymbol}{config.reservation.toLocaleString(lang === 'pt' ? 'pt-BR' : 'en-US')} {t.perTicket}
+                                        {isPeru
+                                            ? `* En cuotas se suma ${country.currencySymbol}${PERU_INSTALLMENT_INTEREST.toLocaleString('es-PE')} por entrada y se divide en ${installmentMonths} pagos mensuales.`
+                                            : `* ${t.initialReservation} ${country.currencySymbol}${config.reservation.toLocaleString(lang === 'pt' ? 'pt-BR' : 'en-US')} ${t.perTicket}`}
                                     </p>
                                 </div>
                             )}
@@ -748,7 +806,7 @@ export default function CountryClient({ country }: Props) {
                                                 )}
                                                 <div className="flex flex-wrap justify-center md:justify-start gap-2 mt-3">
                                                     <span className={`px-2 py-1 rounded text-[10px] font-bold uppercase tracking-wider ${['mexico', 'madrid'].includes(country.id) ? 'bg-green-100 text-green-700' : 'bg-orange-50 text-orange-600'}`}>
-                                                        {['mexico', 'madrid'].includes(country.id) ? "Precio Oficial" : "Precio Ref."}
+                                                        {isPeru || ['mexico', 'madrid'].includes(country.id) ? "Precio Oficial" : "Precio"}
                                                     </span>
                                                     {i === 0 && <span className="bg-primary/10 text-primary px-2 py-1 rounded text-[10px] font-bold uppercase tracking-wider">{t.bestSeller}</span>}
                                                 </div>
@@ -795,7 +853,11 @@ export default function CountryClient({ country }: Props) {
                                         <div className="flex items-center gap-8 w-full md:w-auto justify-between md:justify-end border-t md:border-t-0 border-slate-100 pt-4 md:pt-0">
                                             <div className="text-right md:text-right text-left">
                                                 <p className="text-3xl font-black text-slate-900 tracking-tight">{country.currencySymbol}{getPrice(zone.price).toLocaleString(lang === 'pt' ? 'pt-BR' : 'en-US')}</p>
-                                                {isInstallment && <p className="text-[10px] text-slate-400 font-bold uppercase">+ {t.fee} {country.currencySymbol}{config.fee}</p>}
+                                                {isInstallment && (
+                                                    <p className="text-[10px] text-slate-400 font-bold uppercase">
+                                                        + {t.fee} {country.currencySymbol}{(isPeru ? PERU_INSTALLMENT_INTEREST : config.fee).toLocaleString(lang === 'pt' ? 'pt-BR' : 'en-US')}
+                                                    </p>
+                                                )}
                                             </div>
 
                                             <div className={`flex items-center bg-slate-50 rounded-xl overflow-hidden ${!selectedDate ? 'opacity-50 cursor-not-allowed' : ''}`}>
@@ -861,7 +923,24 @@ export default function CountryClient({ country }: Props) {
                         <div className="bg-white border border-slate-100 p-8 rounded-3xl shadow-sm">
                             <h4 className="text-xs font-bold uppercase tracking-widest mb-6 border-b border-slate-100 pb-4 text-slate-400">{t.salesStatus}</h4>
                             <div className="space-y-4">
-                                {country.id === 'mexico' ? (
+                                {country.id === 'peru' ? (
+                                    <div className="space-y-6">
+                                        <div className="relative pl-4 border-l-2 border-primary">
+                                            <div className="flex flex-col gap-1">
+                                                <div className="flex justify-between items-center">
+                                                    <h5 className="font-bold text-sm uppercase text-primary">
+                                                        Preventa Army Membership
+                                                    </h5>
+                                                    <span className="text-[10px] bg-primary/10 text-primary px-2 py-1 rounded-full font-bold uppercase">
+                                                        Desde
+                                                    </span>
+                                                </div>
+                                                <p className="text-xs text-slate-500">07.04.2026</p>
+                                                <p className="text-xs text-slate-500">10:00 AM</p>
+                                            </div>
+                                        </div>
+                                    </div>
+                                ) : country.id === 'mexico' ? (
                                     <div className="space-y-6">
                                         {/* Mexico Status Logic (Kept same structure but updated styling) */}
                                         <div className={`relative pl-4 border-l-2 ${currentDate >= MEXICO_DATES.membership.start && currentDate <= MEXICO_DATES.membership.end ? 'border-primary' : 'border-slate-100'}`}>
@@ -1002,11 +1081,11 @@ export default function CountryClient({ country }: Props) {
                                     </div>
                                     <div>
                                         <p className="text-xs font-bold uppercase tracking-widest text-slate-400 mb-1">
-                                            {isInstallment ? t.toPayToday : t.totalToPay}
+                                            {isInstallment && !isPeru ? t.toPayToday : t.totalToPay}
                                         </p>
                                         <div className="flex flex-col">
                                             <p className="text-3xl font-black font-sans tracking-tight text-slate-900 leading-none">
-                                                {country.currencySymbol}{isInstallment ? reservationAmount.toLocaleString(lang === 'pt' ? 'pt-BR' : 'en-US') : totalAmount.toLocaleString(lang === 'pt' ? 'pt-BR' : 'en-US')}
+                                                {country.currencySymbol}{(isInstallment && !isPeru ? reservationAmount : totalAmount).toLocaleString(lang === 'pt' ? 'pt-BR' : 'en-US')}
                                             </p>
                                             {isInstallment && (
                                                 <span className="text-xs font-bold text-primary mt-1">
@@ -1018,10 +1097,10 @@ export default function CountryClient({ country }: Props) {
                                 </div>
 
                                 <button
-                                    onClick={() => setIsMembershipModalOpen(true)}
+                                    onClick={handleCheckout}
                                     className="w-full md:w-auto bg-primary text-white hover:bg-red-600 px-10 py-4 text-lg font-black uppercase tracking-widest transition-all hover:-translate-y-1 shadow-xl shadow-primary/30 flex items-center justify-center gap-3 rounded-full"
                                 >
-                                    {t.checkout} <ArrowRight className="w-5 h-5" />
+                                    {isPeru ? 'Agregar al carrito' : t.checkout} <ArrowRight className="w-5 h-5" />
                                 </button>
                             </div>
                         </motion.div>

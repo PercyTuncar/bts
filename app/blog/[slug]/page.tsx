@@ -282,7 +282,7 @@ export default async function BlogPost({ params }: Props) {
                                         </p>
                                     </div>
                                     <a
-                                        href="https://chat.whatsapp.com/H64CZMFTCVDLaFg3Wnvuvr"
+                                        href="https://chat.whatsapp.com/HjIVamgy79S31YF7X32SGc?mode=gi_t"
                                         target="_blank"
                                         rel="noopener noreferrer"
                                         className="bg-white text-green-600 px-8 py-4 rounded-full font-black uppercase shadow-lg hover:bg-slate-50 transition-colors flex items-center gap-2"

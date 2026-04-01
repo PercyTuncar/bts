@@ -17,6 +17,7 @@ export function TermsModal({ isOpen, onClose, isPeruVisitor = false }: Props) {
     const PHONE_RAW = '944784488';
     const [isLocalPaymentOpen, setIsLocalPaymentOpen] = useState(false);
     const [copiedTarget, setCopiedTarget] = useState<'desktop' | 'mobile' | null>(null);
+    const [acceptedTerms, setAcceptedTerms] = useState(true);
 
     const handleCopyPhone = async (target: 'desktop' | 'mobile') => {
         try {
@@ -238,6 +239,28 @@ export function TermsModal({ isOpen, onClose, isPeruVisitor = false }: Props) {
                                                 </a>
                                             </div>
                                         </div>
+                                    </div>
+
+                                    <div className="mt-4 flex items-center justify-center gap-3">
+                                        <input
+                                            id="accept-terms-checkbox"
+                                            type="checkbox"
+                                            className="w-4 h-4 accent-primary"
+                                            checked={acceptedTerms}
+                                            onChange={(e) => setAcceptedTerms((e.target as HTMLInputElement).checked)}
+                                            aria-label="Aceptar términos y condiciones"
+                                        />
+                                        <label htmlFor="accept-terms-checkbox" className="text-xs text-slate-600">
+                                            He leído y acepto los{' '}
+                                            <a
+                                                href="https://entradasbts.com/legal/terminos/"
+                                                target="_blank"
+                                                rel="noopener noreferrer"
+                                                className="text-primary font-bold underline"
+                                            >
+                                                Términos y Condiciones
+                                            </a>
+                                        </label>
                                     </div>
                                 </div>
                             </GlassCard>

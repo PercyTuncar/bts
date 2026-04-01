@@ -2,6 +2,7 @@
 
 import Image from 'next/image';
 import { TermsModal } from '@/components/TermsModal';
+import Countdown from '@/components/Countdown';
 import { Star, ShoppingBag, Music, ShieldCheck, ChevronDown, Ticket, Smartphone } from 'lucide-react';
 import { useEffect, useState } from 'react';
 
@@ -217,6 +218,9 @@ export default function MembershipClient({ country = 'PE' }: { country?: string 
                                 {content.hero_subtitle_pre} <span className="bg-[#fcd34d] px-2 py-0.5 font-bold text-slate-900 mx-1 box-decoration-clone">{content.hero_highlight}</span>
                                 {content.hero_subtitle_post}
                             </p>
+
+                            {/* Countdown: muestra tiempo restante y mensaje final al expirar */}
+                            <Countdown />
                         </div>
 
                         <div className="w-full flex flex-col sm:flex-row items-center gap-6">

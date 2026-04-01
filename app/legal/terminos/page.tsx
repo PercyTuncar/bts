@@ -12,8 +12,8 @@ export default function Terminos() {
                 Términos y <span className="text-acid-pink">Condiciones</span>
             </h1>
 
-            <GlassCard className="prose prose-slate max-w-none prose-headings:font-bold prose-headings:uppercase prose-p:text-slate-800 dark:prose-p:text-gray-100 prose-strong:text-slate-900 dark:prose-strong:text-white">
-                <p className="font-mono text-sm text-slate-700 dark:text-gray-200 mb-6">Vigencia: A partir de Enero de 2025 | Última actualización: Febrero de 2026</p>
+            <GlassCard className="prose prose-slate max-w-none prose-headings:font-bold prose-headings:uppercase prose-p:text-slate-900 prose-li:text-slate-900 prose-strong:text-slate-900 dark:prose-p:text-gray-100 dark:prose-li:text-gray-100 dark:prose-strong:text-white prose-a:text-primary text-slate-900 dark:text-gray-100 leading-relaxed">
+                <p className="font-mono text-sm text-slate-900 dark:text-gray-200 mb-6">Vigencia: A partir de Enero de 2025 | Última actualización: Febrero de 2026</p>
 
                 <div className="bg-red-50 dark:bg-red-900/80 border border-red-200 dark:border-red-500/80 p-4 rounded-lg mb-8">
                     <p className="text-red-800 dark:text-red-100 font-bold m-0">

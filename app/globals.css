@@ -79,3 +79,13 @@ body {
   white-space: nowrap;
   border-width: 0;
 }
+
+/* High-contrast overrides for the Terms page to ensure full legibility */
+.terms-content :where(p, li, span, a, strong, h1, h2, h3, h4, h5, blockquote) {
+  color: #0f172a !important;
+  opacity: 1 !important;
+}
+
+.terms-content {
+  line-height: 1.75;
+}

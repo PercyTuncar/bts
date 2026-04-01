@@ -43,7 +43,6 @@ export default function Countdown({ target }: CountdownProps) {
               <p className="text-sm md:text-base text-slate-600 mb-2">
                 <strong className="text-slate-800">Compra antes del <span className="whitespace-nowrap">2/04/2026 13:00</span> (hora local) para acceder a la preventa.</strong>
               </p>
-              <p className="text-xs text-slate-500">Sincronizado con tu hora local.</p>
             </div>
 
             <div className="flex items-center gap-3 md:gap-4">

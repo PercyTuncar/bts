@@ -41,9 +41,9 @@ export default function Countdown({ target }: CountdownProps) {
           <div className="flex flex-col md:flex-row md:items-center md:justify-between gap-4">
             <div className="flex-1">
               <p className="text-sm md:text-base text-slate-600 mb-2">
-                <strong className="text-slate-800">Es muy importante comprar tu membresía antes del <span className="whitespace-nowrap">2 de abril de 2026 a las 13:00</span> (hora local)</strong> para acceder a la reventa; de otro modo no podrás acceder bajo ninguna excepción.
+                <strong className="text-slate-800">Compra antes del <span className="whitespace-nowrap">2/04/2026 13:00</span> (hora local) para acceder a la preventa.</strong>
               </p>
-              <p className="text-xs text-slate-500">El reloj está sincronizado con la hora de tu dispositivo.</p>
+              <p className="text-xs text-slate-500">Sincronizado con tu hora local.</p>
             </div>
 
             <div className="flex items-center gap-3 md:gap-4">
@@ -70,12 +70,12 @@ export default function Countdown({ target }: CountdownProps) {
         </div>
       ) : (
         <div className="bg-red-50 border border-red-200 rounded-2xl p-4 md:p-6 shadow-sm">
-          <p className="text-sm md:text-base text-red-800 font-semibold">Si compras tu membresía ahora, ya no podrás acceder a la reventa — el plazo ha finalizado.</p>
+          <p className="text-sm md:text-base text-red-800 font-semibold">Plazo finalizado — ya no podrás acceder a la preventa si compras ahora.</p>
         </div>
       )}
 
       <div aria-live="polite" className="sr-only">
-        {expired ? 'El plazo ha finalizado.' : `Quedan ${days} días, ${pad(hours)} horas, ${pad(minutes)} minutos y ${pad(seconds)} segundos.`}
+        {expired ? 'Plazo finalizado — ya no podrás acceder a la preventa.' : `Quedan ${days} días, ${pad(hours)} horas, ${pad(minutes)} minutos y ${pad(seconds)} segundos.`}
       </div>
     </div>
   );

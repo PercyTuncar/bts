@@ -12,15 +12,15 @@ export default function Terminos() {
                 Términos y <span className="text-acid-pink">Condiciones</span>
             </h1>
 
-            <GlassCard className="prose dark:prose-invert max-w-none prose-headings:font-bold prose-headings:uppercase prose-p:text-slate-600 dark:prose-p:text-gray-300 prose-strong:text-slate-900 dark:prose-strong:text-white">
-                <p className="font-mono text-sm text-slate-500 dark:text-gray-400 mb-6">Vigencia: A partir de Enero de 2025 | Última actualización: Febrero de 2026</p>
+            <GlassCard className="prose prose-slate max-w-none prose-headings:font-bold prose-headings:uppercase prose-p:text-slate-800 dark:prose-p:text-gray-100 prose-strong:text-slate-900 dark:prose-strong:text-white">
+                <p className="font-mono text-sm text-slate-700 dark:text-gray-200 mb-6">Vigencia: A partir de Enero de 2025 | Última actualización: Febrero de 2026</p>
 
-                <div className="bg-red-50 dark:bg-red-900/20 border border-red-200 dark:border-red-500/50 p-4 rounded-lg mb-8">
-                    <p className="text-red-800 dark:text-red-200 font-bold m-0">
+                <div className="bg-red-50 dark:bg-red-900/80 border border-red-200 dark:border-red-500/80 p-4 rounded-lg mb-8">
+                    <p className="text-red-800 dark:text-red-100 font-bold m-0">
                         Aviso Importante y Declaración de Independencia:
                         Al hacer clic en "Aceptar" o al adquirir cualquier servicio en nuestras plataformas (Ravehub Latam, entradasbts.com / ARMY PERU), usted acepta vincularse jurídicamente por estas condiciones.
                     </p>
-                    <p className="text-red-800 dark:text-red-200 font-bold m-0 mt-4">
+                    <p className="text-red-800 dark:text-red-100 font-bold m-0 mt-4">
                         DECLARACIÓN DE INDEPENDENCIA: Percy Edgar Tuncar Patrocinio (DNI 73630895), en adelante "El Gestor", opera estas plataformas de manera exclusiva como un proveedor de servicios de intermediación independiente. Nuestra labor se ejerce de forma externa a las ticketeras oficiales y organizadores de eventos. Toda gestión se realiza con absoluta autonomía, operando al margen de vínculos comerciales, patrocinios o contratos de representación directos con productoras, artistas (incluyendo a BTS y talentos de la música electrónica) o administradores de los recintos.
                     </p>
                 </div>

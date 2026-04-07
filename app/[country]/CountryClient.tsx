@@ -395,7 +395,7 @@ const translations = {
 
 export default function CountryClient({ country }: Props) {
     const router = useRouter();
-    const { addItem, removeItem, items: cartItems } = useCart();
+    const { addItem, removeItem, updateItem, items: cartItems } = useCart();
     const lang = country.id === 'brasil' ? 'pt' : (country.id === 'mexico' ? 'mx' : (country.id === 'colombia' ? 'co' : (country.id === 'madrid' ? 'es_ES' : 'es')));
     const t = translations[lang] || translations.es;
     const isPeru = country.id === 'peru';
@@ -559,15 +559,20 @@ export default function CountryClient({ country }: Props) {
         }
 
         // Add all selected tickets to cart (same flow for all countries)
+        const addedSlugs: string[] = [];
         country.prices.forEach((zone) => {
             const quantity = quantities[zone.zone] || 0;
             if (quantity <= 0) {
                 return;
             }
 
+            const slug = `ticket-${country.id}-${zone.zone}-${isInstallment ? `cuotas-${installmentMonths}` : 'contado'}`;
+            // record slug once per zone
+            addedSlugs.push(slug);
+
             for (let i = 0; i < quantity; i += 1) {
                 addItem({
-                    slug: `ticket-${country.id}-${zone.zone}-${isInstallment ? `cuotas-${installmentMonths}` : 'contado'}`,
+                    slug,
                     name: `${zone.zone} • BTS ${country.name}`,
                     price: zone.price,
                     image: '/images/stadium-map.png',
@@ -584,7 +589,7 @@ export default function CountryClient({ country }: Props) {
             }
         });
 
-        if (isInstallment) {
+        if (isInstallment && addedSlugs.length > 0) {
             const createPaymentSchedule = (total: number, months: number) => {
                 const now = new Date();
                 const schedule: { date: string; amount: number }[] = [];
@@ -612,16 +617,12 @@ export default function CountryClient({ country }: Props) {
             // Remove any existing payment-plan for this country to avoid stale plans
             cartItems.filter(i => i.type === 'payment-plan' && i.countryId === country.id).forEach(i => removeItem(i.slug));
 
-            addItem({
-                slug: `payment-plan-${country.id}`,
-                name: `Plan de pagos • ${installmentMonths} cuotas`,
-                price: 0,
-                image: '/images/stadium-map.png',
-                type: 'payment-plan',
-                countryId: country.id,
-                currency: country.currency,
-                currencySymbol: country.currencySymbol,
+            // Attach schedule to the first added slug (primary ticket line)
+            const primarySlug = addedSlugs[0];
+            updateItem(primarySlug, {
                 paymentSchedule: schedule,
+                isInstallment: true,
+                installmentMonths: installmentMonths,
             });
         }
 

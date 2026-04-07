@@ -25,6 +25,7 @@ interface CartContextType {
     addItem: (item: Omit<CartItem, "quantity">) => void;
     removeItem: (slug: string) => void;
     updateItemQuantity: (slug: string, quantity: number) => void;
+    updateItem: (slug: string, props: Partial<CartItem>) => void;
     clearCart: () => void;
     total: number;
     count: number;
@@ -58,12 +59,23 @@ export function CartProvider({ children }: { children: React.ReactNode }) {
             if (existing) {
                 return current.map(i =>
                     i.slug === newItem.slug
-                        ? { ...i, quantity: i.quantity + 1 }
+                        ? (() => {
+                            const merged = { ...i, quantity: i.quantity + 1 } as any;
+                            Object.keys(newItem).forEach((k) => {
+                                const v = (newItem as any)[k];
+                                if (v !== undefined) merged[k] = v;
+                            });
+                            return merged as CartItem;
+                        })()
                         : i
                 );
             }
             return [...current, { ...newItem, quantity: 1 }];
         });
+    };
+
+    const updateItem = (slug: string, props: Partial<CartItem>) => {
+        setItems(current => current.map(i => i.slug === slug ? { ...i, ...props } : i));
     };
 
     const updateItemQuantity = (slug: string, quantity: number) => {
@@ -91,7 +103,7 @@ export function CartProvider({ children }: { children: React.ReactNode }) {
     const count = items.reduce((acc, item) => acc + item.quantity, 0);
 
     return (
-        <CartContext.Provider value={{ items, addItem, removeItem, updateItemQuantity, clearCart, total, count }}>
+        <CartContext.Provider value={{ items, addItem, removeItem, updateItemQuantity, updateItem, clearCart, total, count }}>
             {children}
         </CartContext.Provider>
     );

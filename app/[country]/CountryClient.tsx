@@ -502,16 +502,11 @@ export default function CountryClient({ country }: Props) {
     };
 
     const getPrice = (basePrice: number) => {
-        if (isPeru) {
-            return isInstallment ? basePrice + PERU_INSTALLMENT_INTEREST : basePrice;
-        }
-        if (isChile) {
-            return isInstallment ? basePrice + CHILE_INSTALLMENT_INTEREST : basePrice;
-        }
-        if (isArgentina) {
-            return isInstallment ? basePrice + ARGENTINA_INSTALLMENT_INTEREST : basePrice;
-        }
-        return isInstallment ? basePrice + config.fee : basePrice;
+        if (!isInstallment) return basePrice;
+        if (isPeru) return basePrice; // No se aplica fee adicional por cuotas en Perú
+        if (isChile) return basePrice + CHILE_INSTALLMENT_INTEREST;
+        if (isArgentina) return basePrice + ARGENTINA_INSTALLMENT_INTEREST;
+        return basePrice + config.fee;
     };
     const totalTickets = Object.values(quantities).reduce((a, b) => a + b, 0);
 
@@ -528,9 +523,12 @@ export default function CountryClient({ country }: Props) {
     const serviceFeeAmount = isPeru
         ? totalTickets * PERU_SERVICE_FEE
         : (isChile ? totalTickets * CHILE_SERVICE_FEE : (isArgentina ? totalTickets * ARGENTINA_SERVICE_FEE : 0));
-    const installmentInterestAmount = isInstallment
-        ? (isPeru ? totalTickets * PERU_INSTALLMENT_INTEREST : (isChile ? totalTickets * CHILE_INSTALLMENT_INTEREST : (isArgentina ? totalTickets * ARGENTINA_INSTALLMENT_INTEREST : 0)))
+
+    const perTicketInstallFee = isInstallment
+        ? (isPeru ? 0 : (isChile ? CHILE_INSTALLMENT_INTEREST : (isArgentina ? ARGENTINA_INSTALLMENT_INTEREST : config.fee)))
         : 0;
+
+    const installmentInterestAmount = totalTickets * perTicketInstallFee;
     const totalAmount = calculateTotal() + serviceFeeAmount;
     const reservationAmount = isInstallment ? totalTickets * config.reservation : 0;
     const remainingAmount = totalAmount - reservationAmount;
@@ -562,7 +560,7 @@ export default function CountryClient({ country }: Props) {
                         currency: country.currency,
                         currencySymbol: country.currencySymbol,
                         serviceFeePerTicket: isPeru ? PERU_SERVICE_FEE : (isChile ? CHILE_SERVICE_FEE : ARGENTINA_SERVICE_FEE),
-                        installmentInterestPerTicket: isInstallment ? (isPeru ? PERU_INSTALLMENT_INTEREST : (isChile ? CHILE_INSTALLMENT_INTEREST : ARGENTINA_INSTALLMENT_INTEREST)) : 0,
+                        installmentInterestPerTicket: perTicketInstallFee,
                         isInstallment,
                         installmentMonths: isInstallment ? installmentMonths : undefined,
                     });
@@ -800,7 +798,7 @@ export default function CountryClient({ country }: Props) {
                                 <div className="bg-slate-50 p-6 rounded-2xl animate-fade-in-up">
                                     <p className="text-sm font-bold uppercase tracking-widest text-slate-400 mb-4">{t.chooseInstallments}</p>
                                     <div className="flex gap-4 mb-4">
-                                        {[2, 3, 4].map(m => (
+                                        {[2, 3, 4, 5, 6].map(m => (
                                             <button
                                                 key={m}
                                                 onClick={() => setInstallmentMonths(m)}
@@ -812,7 +810,7 @@ export default function CountryClient({ country }: Props) {
                                     </div>
                                     <p className="text-xs text-slate-500 font-medium">
                                         {isPeru
-                                            ? `* En cuotas se suma ${country.currencySymbol}${PERU_INSTALLMENT_INTEREST.toLocaleString('es-PE')} por entrada y se divide en ${installmentMonths} pagos mensuales.`
+                                            ? `* En cuotas el precio se divide en ${installmentMonths} pagos mensuales. No hay fee adicional por cuotas.`
                                             : (isChile
                                                 ? `* En cuotas se suma ${country.currencySymbol}${CHILE_INSTALLMENT_INTEREST.toLocaleString('es-CL')} por entrada y se divide en ${installmentMonths} pagos mensuales.`
                                                 : (isArgentina
@@ -907,9 +905,9 @@ export default function CountryClient({ country }: Props) {
                                         <div className="flex items-center gap-8 w-full md:w-auto justify-between md:justify-end border-t md:border-t-0 border-slate-100 pt-4 md:pt-0">
                                             <div className="text-right md:text-right text-left">
                                                 <p className="text-3xl font-black text-slate-900 tracking-tight">{country.currencySymbol}{getPrice(zone.price).toLocaleString(lang === 'pt' ? 'pt-BR' : 'en-US')}</p>
-                                                {isInstallment && (
+                                                {isInstallment && perTicketInstallFee > 0 && (
                                                     <p className="text-[10px] text-slate-400 font-bold uppercase">
-                                                        + {t.fee} {country.currencySymbol}{(isPeru ? PERU_INSTALLMENT_INTEREST : (isChile ? CHILE_INSTALLMENT_INTEREST : (isArgentina ? ARGENTINA_INSTALLMENT_INTEREST : config.fee))).toLocaleString(lang === 'pt' ? 'pt-BR' : 'en-US')}
+                                                        + {t.fee} {country.currencySymbol}{perTicketInstallFee.toLocaleString(lang === 'pt' ? 'pt-BR' : 'en-US')}
                                                     </p>
                                                 )}
                                             </div>

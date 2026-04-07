@@ -65,7 +65,7 @@ export const countries: CountryData[] = [
         venue: 'Estadio San Marcos',
         city: 'Lima',
         isoCode: 'PE',
-        dates: ['2026-10-08', '2026-10-09'],
+        dates: ['2026-10-09', '2026-10-10'],
         ticketDate: '07 de Abril, 10:00 AM',
         currency: 'PEN',
         currencySymbol: 'S/',

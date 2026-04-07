@@ -2,7 +2,6 @@
 
 import { useState, useEffect } from "react";
 import { CountryData } from "@/lib/data/countries";
-import { convertUsdToLocal } from "@/lib/currency";
 import { Calendar, MapPin, Ticket, Minus, Plus, ArrowRight, ShieldCheck } from "lucide-react";
 import Image from "next/image";
 import { motion, AnimatePresence } from "framer-motion";
@@ -490,8 +489,8 @@ export default function CountryClient({ country }: Props) {
 
     const activePhaseIndex = PHASES.findIndex(p => currentDate >= p.start && currentDate <= p.end);
     const activePhase = activePhaseIndex !== -1 ? PHASES[activePhaseIndex] : (currentDate < PHASES[0].start ? null : PHASES[PHASES.length - 1]);
-    const rawConfig = INSTALLMENT_CONFIG[country.id] || { fee: 100, reservation: 100 };
-    const config = { ...rawConfig, reservation: convertUsdToLocal(100, country.currency) };
+    const rawConfig = INSTALLMENT_CONFIG[country.id] || { fee: 100, reservation: 0 };
+    const config = { ...rawConfig, reservation: 0 };
 
     const updateQuantity = (zone: string, delta: number) => {
         setQuantities(prev => {
@@ -530,10 +529,8 @@ export default function CountryClient({ country }: Props) {
 
     const installmentInterestAmount = totalTickets * perTicketInstallFee;
     const totalAmount = calculateTotal() + serviceFeeAmount;
-    const reservationAmount = isInstallment ? totalTickets * config.reservation : 0;
-    const remainingAmount = totalAmount - reservationAmount;
     const monthlyPayment = isInstallment && installmentMonths > 0
-        ? remainingAmount / installmentMonths
+        ? totalAmount / installmentMonths
         : 0;
 
     const handleCheckout = () => {
@@ -568,42 +565,29 @@ export default function CountryClient({ country }: Props) {
             });
 
             if (isInstallment) {
-                const createPaymentSchedule = (total: number, months: number, reservation: number) => {
+                const createPaymentSchedule = (total: number, months: number) => {
                     const now = new Date();
                     const schedule: { date: string; amount: number }[] = [];
                     const m = Math.max(0, months);
-                    const reservationAmt = Math.round(reservation || 0);
-
-                    let remaining = Math.round(total);
-
-                    // First payment = reservation (today)
-                    if (reservationAmt > 0) {
-                        schedule.push({ date: now.toISOString(), amount: reservationAmt });
-                        remaining = remaining - reservationAmt;
-                    }
 
                     if (m > 0) {
-                        const base = Math.floor(remaining / m);
-                        const remainder = remaining - base * m;
+                        const base = Math.floor(total / m);
+                        const remainder = total - base * m;
 
                         for (let i = 0; i < m; i += 1) {
                             const amount = base + (i === 0 ? remainder : 0);
                             const d = new Date(now);
-                            // if reservation exists, installments start next month
-                            const monthOffset = reservationAmt > 0 ? i + 1 : i;
-                            d.setMonth(now.getMonth() + monthOffset);
+                            d.setMonth(now.getMonth() + i);
                             schedule.push({ date: d.toISOString(), amount: Math.round(amount) });
                         }
-                    } else if (remaining > 0) {
-                        const d = new Date(now);
-                        d.setMonth(now.getMonth() + (reservationAmt > 0 ? 1 : 0));
-                        schedule.push({ date: d.toISOString(), amount: Math.round(remaining) });
+                    } else if (total > 0) {
+                        schedule.push({ date: now.toISOString(), amount: Math.round(total) });
                     }
 
                     return schedule;
                 };
 
-                const schedule = createPaymentSchedule(Math.round(totalAmount), installmentMonths || 0, reservationAmount || 0);
+                const schedule = createPaymentSchedule(Math.round(totalAmount), installmentMonths || 0);
 
                 addItem({
                     slug: `payment-plan-${country.id}-${Date.now()}`,

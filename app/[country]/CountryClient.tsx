@@ -815,12 +815,12 @@ export default function CountryClient({ country }: Props) {
                                     </div>
                                     <p className="text-xs text-slate-500 font-medium">
                                         {isPeru
-                                            ? `* En cuotas el precio se divide en ${installmentMonths} pagos mensuales. No hay fee adicional por cuotas.`
+                                            ? `* En cuotas el precio se divide en ${installmentMonths} pagos mensuales. La primera cuota se paga hoy.`
                                             : (isChile
-                                                ? `* En cuotas se suma ${country.currencySymbol}${CHILE_INSTALLMENT_INTEREST.toLocaleString('es-CL')} por entrada y se divide en ${installmentMonths} pagos mensuales.`
+                                                ? `* En cuotas se suma ${country.currencySymbol}${CHILE_INSTALLMENT_INTEREST.toLocaleString('es-CL')} por entrada y se divide en ${installmentMonths} pagos mensuales. La primera cuota se paga hoy.`
                                                 : (isArgentina
-                                                    ? `* En cuotas se suma ${country.currencySymbol}${ARGENTINA_INSTALLMENT_INTEREST.toLocaleString('es-AR')} por entrada y se divide en ${installmentMonths} pagos mensuales.`
-                                                    : `* ${t.initialReservation} ${country.currencySymbol}${config.reservation.toLocaleString(lang === 'pt' ? 'pt-BR' : 'en-US')} ${t.perTicket}`))}
+                                                    ? `* En cuotas se suma ${country.currencySymbol}${ARGENTINA_INSTALLMENT_INTEREST.toLocaleString('es-AR')} por entrada y se divide en ${installmentMonths} pagos mensuales. La primera cuota se paga hoy.`
+                                                    : `* En cuotas el precio se divide en ${installmentMonths} pagos mensuales. La primera cuota se paga hoy.`))}
                                     </p>
                                 </div>
                             )}

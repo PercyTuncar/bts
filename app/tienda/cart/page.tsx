@@ -5,7 +5,7 @@ import { GlassCard } from "@/components/GlassCard";
 import { Button } from "@/components/Button";
 import Link from "next/link";
 import Image from "next/image";
-import { Trash2, Plus, Minus, ArrowRight, Info } from "lucide-react";
+import { Trash2, Plus, Minus, ArrowRight, Info, User, Smartphone, Bank } from "lucide-react";
 
 export default function CartPage() {
     const { items, addItem, removeItem, updateItemQuantity, total } = useCart();
@@ -79,6 +79,24 @@ export default function CartPage() {
         ].join("\n");
 
         const url = `https://wa.me/${phone}?text=${encodeURIComponent(message)}`;
+        window.open(url, '_blank');
+    };
+
+    const handleSendProof = () => {
+        if (!primaryTicket) return;
+        const phone = "51944784488";
+        const totalStr = formatAmount(total, primaryTicket?.currencySymbol || "$", primaryTicket ? getLocale(primaryTicket) : "es-ES");
+        const messageLines = [
+            `Hola, envío comprobante de pago para mi pedido BTS (Perú).`,
+            `Titular: PERCY TUNCAR`,
+            `Pago vía PLIN / YAPE → Número: 944 784 488`,
+            `Pago vía INTERBANK → N° de Cuenta: 076 3129312815`,
+            `CCI: 00307601312931281576`,
+            `Total pagado: ${totalStr}`,
+            "Adjunto comprobante y solicito confirmación de la reserva."
+        ];
+
+        const url = `https://wa.me/${phone}?text=${encodeURIComponent(messageLines.join('\n'))}`;
         window.open(url, '_blank');
     };
 
@@ -214,9 +232,40 @@ export default function CartPage() {
                             <span>{formatAmount(total, primaryTicket?.currencySymbol || "$", primaryTicket ? getLocale(primaryTicket) : "es-ES")}</span>
                         </div>
 
+                        {/* Payment instructions for Peru orders */}
+                        {primaryTicket?.countryId === 'peru' && (
+                            <div className="bg-white p-5 rounded-2xl border border-slate-100 mt-4 shadow-sm">
+                                <div className="flex items-start gap-4">
+                                    <div className="flex-shrink-0 bg-primary/10 text-primary p-3 rounded-xl">
+                                        <User className="w-5 h-5" />
+                                    </div>
+
+                                    <div className="flex-1">
+                                        <h4 className="text-sm font-bold uppercase mb-2">Instrucciones de pago (Perú)</h4>
+                                        <div className="text-sm text-slate-700 space-y-2">
+                                            <div><span className="font-bold">👤 Titular:</span> PERCY TUNCAR</div>
+                                            <div><span className="font-bold">📱 Pago vía PLIN / YAPE:</span> Número: 944 784 488</div>
+                                            <div>
+                                                <span className="font-bold">🏦 Pago vía INTERBANK:</span>
+                                                <div className="ml-2">N° de Cuenta: 076 3129312815</div>
+                                                <div className="ml-2">CCI: 00307601312931281576</div>
+                                            </div>
+                                        </div>
+                                        <p className="text-xs text-slate-400 mt-3">Después de realizar el pago, envía tu comprobante para agilizar la gestión.</p>
+
+                                        <div className="mt-4 flex gap-2">
+                                            <button onClick={handleSendProof} className="inline-flex items-center gap-2 bg-[#25D366] hover:bg-[#128C7E] text-white font-bold px-4 py-2 rounded-xl shadow-sm">
+                                                Enviar comprobante de pago <ArrowRight className="w-4 h-4" />
+                                            </button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        )}
+
                         <Button
                             size="lg"
-                            className="w-full shadow-lg hover:shadow-xl bg-[#25D366] text-white border-transparent hover:bg-[#128C7E]"
+                            className="w-full shadow-lg hover:shadow-xl bg-[#25D366] text-white border-transparent hover:bg-[#128C7E] mt-4"
                             onClick={handleCheckout}
                         >
                             Completar en WhatsApp <ArrowRight className="w-5 h-5 ml-2" />

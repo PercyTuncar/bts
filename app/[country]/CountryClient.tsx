@@ -617,13 +617,12 @@ export default function CountryClient({ country }: Props) {
             // Remove any existing payment-plan for this country to avoid stale plans
             cartItems.filter(i => i.type === 'payment-plan' && i.countryId === country.id).forEach(i => removeItem(i.slug));
 
-            // Attach schedule to the first added slug (primary ticket line)
-            const primarySlug = addedSlugs[0];
-            updateItem(primarySlug, {
+            // Attach schedule to each added slug (one payment schedule per ticket line)
+            addedSlugs.forEach(s => updateItem(s, {
                 paymentSchedule: schedule,
                 isInstallment: true,
                 installmentMonths: installmentMonths,
-            });
+            }));
         }
 
         router.push('/tienda/cart');

@@ -521,7 +521,7 @@ export default function CountryClient({ country }: Props) {
 
     const baseAmount = country.prices.reduce((sum, zone) => sum + ((quantities[zone.zone] || 0) * zone.price), 0);
     const serviceFeeAmount = isPeru
-        ? totalTickets * PERU_SERVICE_FEE
+        ? 0
         : (isChile ? totalTickets * CHILE_SERVICE_FEE : (isArgentina ? totalTickets * ARGENTINA_SERVICE_FEE : 0));
 
     const perTicketInstallFee = isInstallment
@@ -533,7 +533,7 @@ export default function CountryClient({ country }: Props) {
     const reservationAmount = isInstallment ? totalTickets * config.reservation : 0;
     const remainingAmount = totalAmount - reservationAmount;
     const monthlyPayment = isInstallment && installmentMonths > 0
-        ? (isAndesFlow ? totalAmount / installmentMonths : remainingAmount / installmentMonths)
+        ? remainingAmount / installmentMonths
         : 0;
 
     const handleCheckout = () => {
@@ -559,7 +559,7 @@ export default function CountryClient({ country }: Props) {
                         countryId: country.id,
                         currency: country.currency,
                         currencySymbol: country.currencySymbol,
-                        serviceFeePerTicket: isPeru ? PERU_SERVICE_FEE : (isChile ? CHILE_SERVICE_FEE : ARGENTINA_SERVICE_FEE),
+                        serviceFeePerTicket: isPeru ? 0 : (isChile ? CHILE_SERVICE_FEE : ARGENTINA_SERVICE_FEE),
                         installmentInterestPerTicket: perTicketInstallFee,
                         isInstallment,
                         installmentMonths: isInstallment ? installmentMonths : undefined,
@@ -568,21 +568,42 @@ export default function CountryClient({ country }: Props) {
             });
 
             if (isInstallment) {
-                const createPaymentSchedule = (total: number, months: number) => {
+                const createPaymentSchedule = (total: number, months: number, reservation: number) => {
                     const now = new Date();
-                    const m = Math.max(1, months);
-                    const base = Math.floor(total / m);
-                    const remainder = total - base * m;
-                    const payments = Array.from({ length: m }, (_, i) => base + (i === 0 ? remainder : 0));
+                    const schedule: { date: string; amount: number }[] = [];
+                    const m = Math.max(0, months);
+                    const reservationAmt = Math.round(reservation || 0);
 
-                    return payments.map((amount, idx) => {
+                    let remaining = Math.round(total);
+
+                    // First payment = reservation (today)
+                    if (reservationAmt > 0) {
+                        schedule.push({ date: now.toISOString(), amount: reservationAmt });
+                        remaining = remaining - reservationAmt;
+                    }
+
+                    if (m > 0) {
+                        const base = Math.floor(remaining / m);
+                        const remainder = remaining - base * m;
+
+                        for (let i = 0; i < m; i += 1) {
+                            const amount = base + (i === 0 ? remainder : 0);
+                            const d = new Date(now);
+                            // if reservation exists, installments start next month
+                            const monthOffset = reservationAmt > 0 ? i + 1 : i;
+                            d.setMonth(now.getMonth() + monthOffset);
+                            schedule.push({ date: d.toISOString(), amount: Math.round(amount) });
+                        }
+                    } else if (remaining > 0) {
                         const d = new Date(now);
-                        d.setMonth(now.getMonth() + idx);
-                        return { date: d.toISOString(), amount: Math.round(amount) };
-                    });
+                        d.setMonth(now.getMonth() + (reservationAmt > 0 ? 1 : 0));
+                        schedule.push({ date: d.toISOString(), amount: Math.round(remaining) });
+                    }
+
+                    return schedule;
                 };
 
-                const schedule = createPaymentSchedule(Math.round(totalAmount), installmentMonths || 1);
+                const schedule = createPaymentSchedule(Math.round(totalAmount), installmentMonths || 0, reservationAmount || 0);
 
                 addItem({
                     slug: `payment-plan-${country.id}-${Date.now()}`,
@@ -1149,7 +1170,7 @@ export default function CountryClient({ country }: Props) {
                                         </p>
                                         <div className="flex flex-col">
                                             <p className="text-3xl font-black font-sans tracking-tight text-slate-900 leading-none">
-                                                {country.currencySymbol}{(isInstallment && !isAndesFlow ? reservationAmount : totalAmount).toLocaleString(lang === 'pt' ? 'pt-BR' : 'en-US')}
+                                                {country.currencySymbol}{(isInstallment ? reservationAmount : totalAmount).toLocaleString(lang === 'pt' ? 'pt-BR' : 'en-US')}
                                             </p>
                                             {isInstallment && (
                                                 <span className="text-xs font-bold text-primary mt-1">

@@ -31,6 +31,20 @@ export default function CartPage() {
         const detailLines = items.map((item) => {
             const symbol = item.currencySymbol || "$";
             const locale = getLocale(item);
+
+            if (item.type === 'payment-plan') {
+                const schedule = item.paymentSchedule || [];
+                const lines: string[] = [`• ${item.name}`];
+                schedule.forEach((p: any, idx: number) => {
+                    const date = new Date(p.date);
+                    const dateStr = date.toLocaleDateString(locale, { day: 'numeric', month: 'short', year: 'numeric' });
+                    const timeStr = date.toLocaleTimeString(locale, { hour: '2-digit', minute: '2-digit' });
+                    const prefix = idx === 0 ? 'HOY' : `Pago ${idx}`;
+                    lines.push(`  - ${prefix}: ${dateStr} ${timeStr} • ${formatAmount(p.amount, symbol, locale)}`);
+                });
+                return lines.join("\n");
+            }
+
             const serviceFee = item.serviceFeePerTicket || 0;
             const installmentInterest = item.installmentInterestPerTicket || 0;
             const unitTotal = getUnitTotal(item);
@@ -93,41 +107,77 @@ export default function CartPage() {
                                 <Image src={item.image} alt={item.name} fill className="object-cover" />
                             </div>
 
-                            <div className="flex-1">
-                                <h3 className="font-bold uppercase text-lg leading-tight mb-1 text-slate-900">{item.name}</h3>
-                                <p className="text-primary font-mono">
-                                    {formatAmount(item.price, item.currencySymbol || "$", getLocale(item))}
-                                </p>
-                                {(item.serviceFeePerTicket || item.installmentInterestPerTicket) && (
-                                    <div className="text-xs text-slate-500 mt-1 space-y-1">
-                                        <p>Comisión: {formatAmount(item.serviceFeePerTicket || 0, item.currencySymbol || "$", getLocale(item))}</p>
-                                        <p>Interés cuotas: {formatAmount(item.installmentInterestPerTicket || 0, item.currencySymbol || "$", getLocale(item))}</p>
-                                    </div>
-                                )}
-                            </div>
+                            {item.type === 'payment-plan' ? (
+                                <div className="flex-1">
+                                    <h3 className="font-bold uppercase text-lg leading-tight mb-1 text-slate-900">{item.name}</h3>
+                                    {item.paymentSchedule && item.paymentSchedule.length > 0 ? (
+                                        <div className="text-sm text-slate-600 mt-2 space-y-2">
+                                            <div className="text-xs font-medium text-slate-500">Cronograma de pagos</div>
+                                            {item.paymentSchedule.map((p: any, idx: number) => {
+                                                const date = new Date(p.date);
+                                                const locale = getLocale(item);
+                                                const dateStr = date.toLocaleDateString(locale, { day: 'numeric', month: 'short', year: 'numeric' });
+                                                const timeStr = date.toLocaleTimeString(locale, { hour: '2-digit', minute: '2-digit' });
+                                                return (
+                                                    <div key={idx} className="flex justify-between items-center">
+                                                        <div className="text-xs text-slate-500">{idx === 0 ? 'HOY' : `Pago ${idx}`} • {dateStr} {timeStr}</div>
+                                                        <div className="text-sm font-mono text-slate-900">{formatAmount(p.amount, item.currencySymbol || '$', locale)}</div>
+                                                    </div>
+                                                );
+                                            })}
+                                        </div>
+                                    ) : (
+                                        <p className="text-xs text-slate-500">Plan sin cronograma</p>
+                                    )}
+                                </div>
+                            ) : (
+                                <div className="flex-1">
+                                    <h3 className="font-bold uppercase text-lg leading-tight mb-1 text-slate-900">{item.name}</h3>
+                                    <p className="text-primary font-mono">
+                                        {formatAmount(item.price, item.currencySymbol || "$", getLocale(item))}
+                                    </p>
+                                    {(item.serviceFeePerTicket || item.installmentInterestPerTicket) && (
+                                        <div className="text-xs text-slate-500 mt-1 space-y-1">
+                                            <p>Comisión: {formatAmount(item.serviceFeePerTicket || 0, item.currencySymbol || "$", getLocale(item))}</p>
+                                            <p>Interés cuotas: {formatAmount(item.installmentInterestPerTicket || 0, item.currencySymbol || "$", getLocale(item))}</p>
+                                        </div>
+                                    )}
+                                </div>
+                            )}
 
                             <div className="flex items-center gap-4">
-                                <div className="flex items-center gap-3 bg-slate-100 rounded-full px-3 py-1 border border-slate-200">
+                                {item.type === 'payment-plan' ? (
                                     <button
-                                        className="w-6 h-6 flex items-center justify-center hover:text-secondary text-slate-600"
-                                        onClick={() => updateItemQuantity(item.slug, item.quantity - 1)}
+                                        onClick={() => removeItem(item.slug)}
+                                        className="text-slate-400 hover:text-red-500 transition-colors"
                                     >
-                                        <Minus className="w-4 h-4" />
+                                        <Trash2 className="w-5 h-5" />
                                     </button>
-                                    <span className="font-mono font-bold w-4 text-center text-slate-900">{item.quantity}</span>
-                                    <button
-                                        className="w-6 h-6 flex items-center justify-center hover:text-secondary text-slate-600"
-                                        onClick={() => addItem(item)}
-                                    >
-                                        <Plus className="w-4 h-4" />
-                                    </button>
-                                </div>
-                                <button
-                                    onClick={() => removeItem(item.slug)}
-                                    className="text-slate-400 hover:text-red-500 transition-colors"
-                                >
-                                    <Trash2 className="w-5 h-5" />
-                                </button>
+                                ) : (
+                                    <>
+                                        <div className="flex items-center gap-3 bg-slate-100 rounded-full px-3 py-1 border border-slate-200">
+                                            <button
+                                                className="w-6 h-6 flex items-center justify-center hover:text-secondary text-slate-600"
+                                                onClick={() => updateItemQuantity(item.slug, item.quantity - 1)}
+                                            >
+                                                <Minus className="w-4 h-4" />
+                                            </button>
+                                            <span className="font-mono font-bold w-4 text-center text-slate-900">{item.quantity}</span>
+                                            <button
+                                                className="w-6 h-6 flex items-center justify-center hover:text-secondary text-slate-600"
+                                                onClick={() => addItem(item)}
+                                            >
+                                                <Plus className="w-4 h-4" />
+                                            </button>
+                                        </div>
+                                        <button
+                                            onClick={() => removeItem(item.slug)}
+                                            className="text-slate-400 hover:text-red-500 transition-colors"
+                                        >
+                                            <Trash2 className="w-5 h-5" />
+                                        </button>
+                                    </>
+                                )}
                             </div>
                         </GlassCard>
                     ))}

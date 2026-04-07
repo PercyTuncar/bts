@@ -395,7 +395,7 @@ const translations = {
 
 export default function CountryClient({ country }: Props) {
     const router = useRouter();
-    const { addItem } = useCart();
+    const { addItem, removeItem, items: cartItems } = useCart();
     const lang = country.id === 'brasil' ? 'pt' : (country.id === 'mexico' ? 'mx' : (country.id === 'colombia' ? 'co' : (country.id === 'madrid' ? 'es_ES' : 'es')));
     const t = translations[lang] || translations.es;
     const isPeru = country.id === 'peru';
@@ -589,8 +589,11 @@ export default function CountryClient({ country }: Props) {
 
                 const schedule = createPaymentSchedule(Math.round(totalAmount), installmentMonths || 0);
 
+                // Remove any existing payment-plan for this country to avoid stale reservation plans
+                cartItems.filter(i => i.type === 'payment-plan' && i.countryId === country.id).forEach(i => removeItem(i.slug));
+
                 addItem({
-                    slug: `payment-plan-${country.id}-${Date.now()}`,
+                    slug: `payment-plan-${country.id}`,
                     name: `Plan de pagos • ${installmentMonths} cuotas`,
                     price: 0,
                     image: '/images/stadium-map.png',

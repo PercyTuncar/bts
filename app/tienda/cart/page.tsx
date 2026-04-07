@@ -5,7 +5,7 @@ import { GlassCard } from "@/components/GlassCard";
 import { Button } from "@/components/Button";
 import Link from "next/link";
 import Image from "next/image";
-import { Trash2, Plus, Minus, ArrowRight, Info, User, Smartphone, Bank } from "lucide-react";
+import { Trash2, Plus, Minus, ArrowRight, Info, User } from "lucide-react";
 
 export default function CartPage() {
     const { items, addItem, removeItem, updateItemQuantity, total } = useCart();

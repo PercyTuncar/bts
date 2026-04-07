@@ -569,16 +569,33 @@ export default function CountryClient({ country }: Props) {
                 }
             });
 
-            if (isInstallment && reservationAmount > 0) {
+            if (isInstallment) {
+                const createPaymentSchedule = (total: number, months: number) => {
+                    const now = new Date();
+                    const m = Math.max(1, months);
+                    const base = Math.floor(total / m);
+                    const remainder = total - base * m;
+                    const payments = Array.from({ length: m }, (_, i) => base + (i === 0 ? remainder : 0));
+
+                    return payments.map((amount, idx) => {
+                        const d = new Date(now);
+                        d.setMonth(now.getMonth() + idx);
+                        return { date: d.toISOString(), amount: Math.round(amount) };
+                    });
+                };
+
+                const schedule = createPaymentSchedule(Math.round(totalAmount), installmentMonths || 1);
+
                 addItem({
-                    slug: `reservation-${country.id}`,
-                    name: `Reserva • BTS ${country.name}`,
-                    price: reservationAmount,
+                    slug: `payment-plan-${country.id}-${Date.now()}`,
+                    name: `Plan de pagos • ${installmentMonths} cuotas`,
+                    price: 0,
                     image: '/images/stadium-map.png',
-                    type: 'ticket',
+                    type: 'payment-plan',
                     countryId: country.id,
                     currency: country.currency,
                     currencySymbol: country.currencySymbol,
+                    paymentSchedule: schedule,
                 });
             }
 

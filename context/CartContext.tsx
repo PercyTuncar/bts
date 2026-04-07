@@ -8,7 +8,7 @@ export interface CartItem {
     price: number;
     image: string;
     quantity: number;
-    type?: "product" | "ticket";
+    type?: "product" | "ticket" | "payment-plan";
     zone?: string;
     countryId?: string;
     currency?: string;
@@ -17,6 +17,7 @@ export interface CartItem {
     installmentInterestPerTicket?: number;
     isInstallment?: boolean;
     installmentMonths?: number;
+    paymentSchedule?: { date: string; amount: number }[];
 }
 
 interface CartContextType {

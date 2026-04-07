@@ -2,6 +2,7 @@
 
 import { useState, useEffect } from "react";
 import { CountryData } from "@/lib/data/countries";
+import { convertUsdToLocal } from "@/lib/currency";
 import { Calendar, MapPin, Ticket, Minus, Plus, ArrowRight, ShieldCheck } from "lucide-react";
 import Image from "next/image";
 import { motion, AnimatePresence } from "framer-motion";
@@ -489,7 +490,8 @@ export default function CountryClient({ country }: Props) {
 
     const activePhaseIndex = PHASES.findIndex(p => currentDate >= p.start && currentDate <= p.end);
     const activePhase = activePhaseIndex !== -1 ? PHASES[activePhaseIndex] : (currentDate < PHASES[0].start ? null : PHASES[PHASES.length - 1]);
-    const config = INSTALLMENT_CONFIG[country.id] || { fee: 100, reservation: 100 };
+    const rawConfig = INSTALLMENT_CONFIG[country.id] || { fee: 100, reservation: 100 };
+    const config = { ...rawConfig, reservation: convertUsdToLocal(100, country.currency) };
 
     const updateQuantity = (zone: string, delta: number) => {
         setQuantities(prev => {
@@ -566,6 +568,19 @@ export default function CountryClient({ country }: Props) {
                     });
                 }
             });
+
+            if (isInstallment && reservationAmount > 0) {
+                addItem({
+                    slug: `reservation-${country.id}`,
+                    name: `Reserva • BTS ${country.name}`,
+                    price: reservationAmount,
+                    image: '/images/stadium-map.png',
+                    type: 'ticket',
+                    countryId: country.id,
+                    currency: country.currency,
+                    currencySymbol: country.currencySymbol,
+                });
+            }
 
             router.push('/tienda/cart');
             return;
@@ -768,7 +783,7 @@ export default function CountryClient({ country }: Props) {
                                 <div className="bg-slate-50 p-6 rounded-2xl animate-fade-in-up">
                                     <p className="text-sm font-bold uppercase tracking-widest text-slate-400 mb-4">{t.chooseInstallments}</p>
                                     <div className="flex gap-4 mb-4">
-                                        {(isPeru ? [2, 3, 4] : (isChile || isArgentina ? [2, 3] : [2, 3, 4])).map(m => (
+                                        {[2, 3, 4].map(m => (
                                             <button
                                                 key={m}
                                                 onClick={() => setInstallmentMonths(m)}

@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
 import { CountryData } from "@/lib/data/countries";
 import { Calendar, MapPin, Ticket, Minus, Plus, ArrowRight, ShieldCheck } from "lucide-react";
 import Image from "next/image";
@@ -490,7 +490,7 @@ export default function CountryClient({ country }: Props) {
     const activePhaseIndex = PHASES.findIndex(p => currentDate >= p.start && currentDate <= p.end);
     const activePhase = activePhaseIndex !== -1 ? PHASES[activePhaseIndex] : (currentDate < PHASES[0].start ? null : PHASES[PHASES.length - 1]);
     const rawConfig = INSTALLMENT_CONFIG[country.id] || { fee: 100, reservation: 0 };
-    const config = { ...rawConfig, reservation: 0 };
+    const config = { ...rawConfig };
 
     const updateQuantity = (zone: string, delta: number) => {
         setQuantities(prev => {
@@ -533,8 +533,28 @@ export default function CountryClient({ country }: Props) {
         ? totalAmount / installmentMonths
         : 0;
 
+    // Reserva (1ª cuota) — la primera cuota absorbe el resto si hay redondeos
+    const reservationAmount = isInstallment && installmentMonths > 0
+        ? (() => {
+            const m = Math.max(1, installmentMonths);
+            const base = Math.floor(totalAmount / m);
+            const remainder = totalAmount - base * m;
+            return Math.round(base + remainder);
+        })()
+        : totalAmount;
+
+    // Previene doble envío por doble clic
+    const [isAddingToCart, setIsAddingToCart] = useState(false);
+    const addingRef = useRef(false);
+
     const handleCheckout = () => {
+        if (addingRef.current) return;
+        addingRef.current = true;
+        setIsAddingToCart(true);
+
         if (!selectedDate || totalTickets === 0) {
+            addingRef.current = false;
+            setIsAddingToCart(false);
             return;
         }
 
@@ -1149,7 +1169,7 @@ export default function CountryClient({ country }: Props) {
                                     </div>
                                     <div>
                                         <p className="text-xs font-bold uppercase tracking-widest text-slate-400 mb-1">
-                                            {isInstallment && !isAndesFlow ? t.toPayToday : t.totalToPay}
+                                            {isInstallment ? t.toPayToday : t.totalToPay}
                                         </p>
                                         <div className="flex flex-col">
                                             <p className="text-3xl font-black font-sans tracking-tight text-slate-900 leading-none">
@@ -1166,7 +1186,8 @@ export default function CountryClient({ country }: Props) {
 
                                 <button
                                     onClick={handleCheckout}
-                                    className="w-full md:w-auto bg-primary text-white hover:bg-red-600 px-10 py-4 text-lg font-black uppercase tracking-widest transition-all hover:-translate-y-1 shadow-xl shadow-primary/30 flex items-center justify-center gap-3 rounded-full"
+                                    disabled={isAddingToCart}
+                                    className="w-full md:w-auto bg-primary text-white hover:bg-red-600 px-10 py-4 text-lg font-black uppercase tracking-widest transition-all hover:-translate-y-1 shadow-xl shadow-primary/30 flex items-center justify-center gap-3 rounded-full disabled:opacity-50 disabled:cursor-not-allowed"
                                 >
                                     {isAndesFlow ? 'Agregar al carrito' : t.checkout} <ArrowRight className="w-5 h-5" />
                                 </button>

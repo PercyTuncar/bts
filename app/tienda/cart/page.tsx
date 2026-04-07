@@ -122,7 +122,7 @@ export default function CartPage() {
                                                     <div key={idx} className="flex justify-between items-center">
                                                         <div className="text-xs text-slate-500">{idx === 0 ? 'HOY' : `Pago ${idx}`} • {dateStr} {timeStr}</div>
                                                         <div className="text-sm font-mono text-slate-900">{formatAmount(p.amount, item.currencySymbol || '$', locale)}</div>
-                                                        const prefix = idx === 0 ? 'HOY (1ª cuota)' : `Pago ${idx}`;
+                                                    </div>
                                                 );
                                             })}
                                         </div>
@@ -202,13 +202,7 @@ export default function CartPage() {
                                         </span>
                                     </span>
                                 </span>
-                                <span>
-                                                                                            <div className="text-xs text-slate-500">{idx === 0 ? 'HOY (1ª cuota)' : `Pago ${idx}`} • {dateStr} {timeStr}</div>
-                                        items.reduce((acc, item) => acc + ((item.serviceFeePerTicket || 0) * item.quantity), 0),
-                                        primaryTicket?.currencySymbol || "$",
-                                        primaryTicket ? getLocale(primaryTicket) : "es-ES"
-                                    )}
-                                </span>
+                                <span>{formatAmount(items.reduce((acc, item) => acc + ((item.serviceFeePerTicket || 0) * item.quantity), 0), primaryTicket?.currencySymbol || "$", primaryTicket ? getLocale(primaryTicket) : "es-ES")}</span>
                             </div>
                             <div className="flex justify-between text-sm">
                                 <span>Envío</span>

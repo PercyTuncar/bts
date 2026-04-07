@@ -27,16 +27,16 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
 
     // Localization overrides
     if (country.id === 'peru') {
-        title = `Entradas BTS Perú 2026: Precios Reales en Estadio Nacional`;
-        description = `Compra tus entradas para BTS en Perú 2026 con precios reales desde ${formattedPrice} en el Estadio Nacional. Selecciona zonas oficiales y completa tu pedido seguro por WhatsApp.`;
+        title = `Entradas BTS Perú 2026: Precios Reales en Estadio San Marcos`;
+        description = `Compra tus entradas para BTS en Perú 2026 con precios reales desde ${formattedPrice} en el Estadio San Marcos. Selecciona zonas oficiales y completa tu pedido seguro por WhatsApp.`;
         ogTitle = `Entradas BTS Perú 2026 | Precios Reales`;
         ogDescription = `El Army de Perú ya tiene precios reales por zona. Completa tu pedido de forma segura para BTS en Lima.`;
         ogSiteName = `Entradas BTS Perú`;
     } else if (country.id === 'brasil') {
-        title = `Ingressos BTS Brasil 2026: Compre Agora no Allianz Parque`;
-        description = `Compre seus ingressos para o show do BTS no Brasil em 2026! Preços a partir de ${formattedPrice} no Allianz Parque. Compra segura, zonas VIP e mapa de assentos aqui.`;
-        ogTitle = `Ingressos BTS Brasil 2026 | Allianz Parque`;
-        ogDescription = `O Army chega ao Brasil! Garanta seus ingressos para o show do BTS no Allianz Parque. Compra segura e verificada.`;
+        title = `Ingressos BTS Brasil 2026: Compre Agora no Estádio do MorumBIS`;
+        description = `Compre seus ingressos para o show do BTS no Brasil em 2026! Preços a partir de ${formattedPrice} no Estádio do MorumBIS. Compra segura, zonas VIP e mapa de assentos aqui.`;
+        ogTitle = `Ingressos BTS Brasil 2026 | Estádio do MorumBIS`;
+        ogDescription = `O Army chega ao Brasil! Garanta seus ingressos para o show do BTS no Estádio do MorumBIS. Compra segura e verificada.`;
         ogSiteName = `Ingressos BTS Brasil`;
         ogLocale = 'pt_BR';
     } else if (country.id === 'mexico') {

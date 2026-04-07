@@ -180,7 +180,7 @@ Debe soportar variantes: `default`, `interactive` (hover glow), `feature` (icon 
       id: 'peru',
       name: 'Perú',
       flag: '🇵🇪',
-      venue: 'Estadio Nacional',
+      venue: 'Estadio San Marcos',
       city: 'Lima',
       dates: ['2026-10-09', '2026-10-10'],
       ticketDate: '24 de Enero',
@@ -192,7 +192,7 @@ Debe soportar variantes: `default`, `interactive` (hover glow), `feature` (icon 
         { zone: 'Campo B', price: 450 },
         // ...
       ],
-      description: 'El regreso más esperado al Estadio Nacional...'
+      description: 'El regreso más esperado al Estadio San Marcos...'
     },
     // Agrega Chile, México, Colombia aquí...
   ]
@@ -236,7 +236,7 @@ Debe soportar variantes: `default`, `interactive` (hover glow), `feature` (icon 
 
 **Contenido HTML (Estructura Semántica):**
 
-1. `<h1>`: Entradas BTS Perú 2026 - Estadio Nacional
+1. `<h1>`: Entradas BTS Perú 2026 - Estadio San Marcos
 2. `<GlassCard>` (Zona de Compra): Botones grandes "Comprar en Preventa" (CTA Principal).
 3. `<h2>`: Precios y Zonas (Tabla responsiva dentro de GlassCard).
 4. `<h2>`: Fecha y Hora del Concierto.

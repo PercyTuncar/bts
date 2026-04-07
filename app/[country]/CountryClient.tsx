@@ -7,6 +7,7 @@ import Image from "next/image";
 import { motion, AnimatePresence } from "framer-motion";
 import { CommunityModal } from "@/components/CommunityModal";
 import { MembershipModal } from "@/components/MembershipModal";
+import PhaseProgress from "@/components/PhaseProgress";
 import { useCart } from "@/context/CartContext";
 import { useRouter } from "next/navigation";
 
@@ -887,42 +888,8 @@ export default function CountryClient({ country }: Props) {
                                                     {i === 0 && <span className="bg-primary/10 text-primary px-2 py-1 rounded text-[10px] font-bold uppercase tracking-wider">{t.bestSeller}</span>}
                                                 </div>
 
-                                                {/* MADRID PROGRESS BAR */}
-                                                {country.id === 'madrid' && (
-                                                    <div className="mt-4 w-full max-w-xs">
-                                                        <div className="flex justify-between items-end mb-1">
-                                                            <span className="text-[10px] font-bold uppercase text-slate-400">Disponibilidad</span>
-                                                            <span className="text-[10px] font-black text-rose-500 animate-pulse">
-                                                                {(() => {
-                                                                    const remainingDays = timeLeft.days;
-                                                                    let p = 100 - (remainingDays / 10);
-                                                                    if (p < 90) p = 90;
-                                                                    if (p > 100) p = 100;
-                                                                    // Show inverse? "Agotado"? Usually high % means sold out or high capacity?
-                                                                    // User said "Starts at 90% (which is 0%)... gives sensation of running out".
-                                                                    // So 90% = "Low urgency"? No, usually 90% means "90% sold".
-                                                                    // If 100 days left, p=90. If 50 days left, p=95.
-                                                                    // This implies "Sold Percentage" increases as date approaches.
-                                                                    return `${p.toFixed(0)}% Agotado`;
-                                                                })()}
-                                                            </span>
-                                                        </div>
-                                                        <div className="h-2 w-full bg-slate-100 rounded-full overflow-hidden">
-                                                            <div
-                                                                className="h-full bg-gradient-to-r from-rose-500 to-primary transition-all duration-1000 ease-out"
-                                                                style={{
-                                                                    width: `${(() => {
-                                                                        const remainingDays = timeLeft.days;
-                                                                        let p = 100 - (remainingDays / 10);
-                                                                        if (p < 90) p = 90;
-                                                                        if (p > 100) p = 100;
-                                                                        return p;
-                                                                    })()}%`
-                                                                }}
-                                                            ></div>
-                                                        </div>
-                                                    </div>
-                                                )}
+                                                {/* Phase progress (staggered per country) */}
+                                                <PhaseProgress offsetHours={country.progressOffsetHours ?? 0} />
                                             </div>
                                         </div>
 

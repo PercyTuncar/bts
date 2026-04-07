@@ -21,6 +21,7 @@ export interface CountryData {
     openGraphImage: string;
     whatsappLink: string;
     phoneCode: string;
+    progressOffsetHours?: number; // offset to stagger progress end time (hours)
     allowInstallments?: boolean; // Optional flag to disable installments
 }
 
@@ -56,6 +57,7 @@ export const countries: CountryData[] = [
         openGraphImage: '/images/bts-madrid-mapa.png', // Using the map as OG image for now, or specific one
         whatsappLink: 'https://chat.whatsapp.com/KNrgh0kSWnVDTXdB5p62MA?mode=gi_t',
         phoneCode: '+34',
+        progressOffsetHours: 0,
         allowInstallments: false
     },
     {
@@ -76,10 +78,11 @@ export const countries: CountryData[] = [
             { zone: 'TRIBUNA NORTE', price: 1449, description: 'Numerado' },
             { zone: 'TRIBUNA SUR', price: 1449, description: 'Numerado' },
         ],
-        description: 'Lima, prepárate para el océano púrpura. BTS regresa al Estadio Nacional para dos noches históricas.',
+        description: 'Lima, prepárate para el océano púrpura. BTS regresa al Estadio San Marcos para dos noches históricas.',
         openGraphImage: '/images/og-peru.jpg',
         whatsappLink: 'https://chat.whatsapp.com/B5ddTQKVTACAUu4WuIr2Jo?mode=gi_t',
         phoneCode: '+51'
+        ,progressOffsetHours: -1
     },
     {
         id: 'chile',
@@ -88,7 +91,7 @@ export const countries: CountryData[] = [
         venue: 'Estadio Nacional',
         city: 'Santiago',
         isoCode: 'CL',
-        dates: ['2026-10-15', '2026-10-16'],
+        dates: ['2026-10-16', '2026-10-17'],
         ticketDate: '24 de Enero',
         currency: 'CLP',
         currencySymbol: '$',
@@ -114,6 +117,7 @@ export const countries: CountryData[] = [
         openGraphImage: '/images/og-chile.jpg',
         whatsappLink: 'https://chat.whatsapp.com/InhwK0frGNJAKEeotmR90n?mode=gi_t',
         phoneCode: '+56'
+        ,progressOffsetHours: 1
     },
     {
         id: 'mexico',
@@ -186,6 +190,7 @@ export const countries: CountryData[] = [
         openGraphImage: '/images/og-mexico.jpg',
         whatsappLink: 'https://chat.whatsapp.com/HjIVamgy79S31YF7X32SGc?mode=gi_t',
         phoneCode: '+52'
+        ,progressOffsetHours: 0
     },
     {
         id: 'colombia',
@@ -194,7 +199,7 @@ export const countries: CountryData[] = [
         venue: 'Estadio El Campín',
         city: 'Bogotá',
         isoCode: 'CO',
-        dates: ['2026-10-01', '2026-10-02'],
+        dates: ['2026-10-02', '2026-10-03'],
         ticketDate: '28 de Enero',
         currency: 'COP',
         currencySymbol: '$',
@@ -209,6 +214,7 @@ export const countries: CountryData[] = [
         openGraphImage: '/images/og-colombia.jpg',
         whatsappLink: COLOMBIA_WHATSAPP_LINK,
         phoneCode: '+57'
+        ,progressOffsetHours: -2
     },
     {
         id: 'argentina',
@@ -231,12 +237,13 @@ export const countries: CountryData[] = [
         openGraphImage: '/images/og-argentina.jpg',
         whatsappLink: 'https://chat.whatsapp.com/IjzV0YrnVsT2npZNy6ZAZF?mode=gi_t',
         phoneCode: '+54'
+        ,progressOffsetHours: 2
     },
     {
         id: 'brasil',
         name: 'Brasil',
         flag: '🇧🇷',
-        venue: 'Allianz Parque',
+        venue: 'Estádio do MorumBIS',
         city: 'São Paulo',
         isoCode: 'BR',
         dates: ['2026-10-28', '2026-10-30', '2026-10-31'],
@@ -250,10 +257,11 @@ export const countries: CountryData[] = [
             { zone: 'Cadeira Inferior', price: 3600 },
             { zone: 'Cadeira Superior', price: 1950 },
         ],
-        description: 'A Live Nation é a produtora oficial. Rumores fortes apontam para o Allianz Parque ou Estádio MorumBIS. BTS WORLD TOUR "ARIRANG".',
+        description: 'A Live Nation é a produtora oficial. O show será no Estádio do MorumBIS. BTS WORLD TOUR "ARIRANG".',
         openGraphImage: '/images/og-brasil.jpg',
         whatsappLink: 'https://chat.whatsapp.com/JCxdITUSCea4lrRVAlUy9m?mode=gi_t',
         phoneCode: '+55'
+        ,progressOffsetHours: 3
     }
 ];
 

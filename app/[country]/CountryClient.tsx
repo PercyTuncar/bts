@@ -538,78 +538,74 @@ export default function CountryClient({ country }: Props) {
             return;
         }
 
-        if (isAndesFlow) {
-            country.prices.forEach((zone) => {
-                const quantity = quantities[zone.zone] || 0;
-                if (quantity <= 0) {
-                    return;
-                }
+        // Add all selected tickets to cart (same flow for all countries)
+        country.prices.forEach((zone) => {
+            const quantity = quantities[zone.zone] || 0;
+            if (quantity <= 0) {
+                return;
+            }
 
-                for (let i = 0; i < quantity; i += 1) {
-                    addItem({
-                        slug: `ticket-${country.id}-${zone.zone}-${isInstallment ? `cuotas-${installmentMonths}` : 'contado'}`,
-                        name: `${zone.zone} • BTS ${country.name}`,
-                        price: zone.price,
-                        image: '/images/stadium-map.png',
-                        type: 'ticket',
-                        zone: zone.zone,
-                        countryId: country.id,
-                        currency: country.currency,
-                        currencySymbol: country.currencySymbol,
-                        serviceFeePerTicket: isPeru ? 0 : (isChile ? CHILE_SERVICE_FEE : ARGENTINA_SERVICE_FEE),
-                        installmentInterestPerTicket: perTicketInstallFee,
-                        isInstallment,
-                        installmentMonths: isInstallment ? installmentMonths : undefined,
-                    });
-                }
-            });
-
-            if (isInstallment) {
-                const createPaymentSchedule = (total: number, months: number) => {
-                    const now = new Date();
-                    const schedule: { date: string; amount: number }[] = [];
-                    const m = Math.max(0, months);
-
-                    if (m > 0) {
-                        const base = Math.floor(total / m);
-                        const remainder = total - base * m;
-
-                        for (let i = 0; i < m; i += 1) {
-                            const amount = base + (i === 0 ? remainder : 0);
-                            const d = new Date(now);
-                            d.setMonth(now.getMonth() + i);
-                            schedule.push({ date: d.toISOString(), amount: Math.round(amount) });
-                        }
-                    } else if (total > 0) {
-                        schedule.push({ date: now.toISOString(), amount: Math.round(total) });
-                    }
-
-                    return schedule;
-                };
-
-                const schedule = createPaymentSchedule(Math.round(totalAmount), installmentMonths || 0);
-
-                // Remove any existing payment-plan for this country to avoid stale reservation plans
-                cartItems.filter(i => i.type === 'payment-plan' && i.countryId === country.id).forEach(i => removeItem(i.slug));
-
+            for (let i = 0; i < quantity; i += 1) {
                 addItem({
-                    slug: `payment-plan-${country.id}`,
-                    name: `Plan de pagos • ${installmentMonths} cuotas`,
-                    price: 0,
+                    slug: `ticket-${country.id}-${zone.zone}-${isInstallment ? `cuotas-${installmentMonths}` : 'contado'}`,
+                    name: `${zone.zone} • BTS ${country.name}`,
+                    price: zone.price,
                     image: '/images/stadium-map.png',
-                    type: 'payment-plan',
+                    type: 'ticket',
+                    zone: zone.zone,
                     countryId: country.id,
                     currency: country.currency,
                     currencySymbol: country.currencySymbol,
-                    paymentSchedule: schedule,
+                    serviceFeePerTicket: isPeru ? 0 : (isChile ? CHILE_SERVICE_FEE : ARGENTINA_SERVICE_FEE),
+                    installmentInterestPerTicket: perTicketInstallFee,
+                    isInstallment,
+                    installmentMonths: isInstallment ? installmentMonths : undefined,
                 });
             }
+        });
 
-            router.push('/tienda/cart');
-            return;
+        if (isInstallment) {
+            const createPaymentSchedule = (total: number, months: number) => {
+                const now = new Date();
+                const schedule: { date: string; amount: number }[] = [];
+                const m = Math.max(0, months);
+
+                if (m > 0) {
+                    const base = Math.floor(total / m);
+                    const remainder = total - base * m;
+
+                    for (let i = 0; i < m; i += 1) {
+                        const amount = base + (i === 0 ? remainder : 0);
+                        const d = new Date(now);
+                        d.setMonth(now.getMonth() + i);
+                        schedule.push({ date: d.toISOString(), amount: Math.round(amount) });
+                    }
+                } else if (total > 0) {
+                    schedule.push({ date: now.toISOString(), amount: Math.round(total) });
+                }
+
+                return schedule;
+            };
+
+            const schedule = createPaymentSchedule(Math.round(totalAmount), installmentMonths || 0);
+
+            // Remove any existing payment-plan for this country to avoid stale plans
+            cartItems.filter(i => i.type === 'payment-plan' && i.countryId === country.id).forEach(i => removeItem(i.slug));
+
+            addItem({
+                slug: `payment-plan-${country.id}`,
+                name: `Plan de pagos • ${installmentMonths} cuotas`,
+                price: 0,
+                image: '/images/stadium-map.png',
+                type: 'payment-plan',
+                countryId: country.id,
+                currency: country.currency,
+                currencySymbol: country.currencySymbol,
+                paymentSchedule: schedule,
+            });
         }
 
-        setIsMembershipModalOpen(true);
+        router.push('/tienda/cart');
     };
 
     return (

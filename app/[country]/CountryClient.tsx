@@ -942,15 +942,17 @@ export default function CountryClient({ country }: Props) {
                     <div className="w-full md:w-[400px] space-y-8">
                         {/* MAPA CARD */}
                         <div className="bg-white p-2 rounded-3xl shadow-lg border border-slate-100 overflow-hidden transform hover:scale-[1.02] transition-transform duration-500">
-                            <div className={`bg-slate-50 relative rounded-2xl overflow-hidden ${['peru', 'chile', 'argentina'].includes(country.id) ? 'aspect-[16/10]' : 'aspect-square'}`}>
-                                {['peru', 'chile', 'argentina'].includes(country.id) ? (
+                            <div className={`bg-slate-50 relative rounded-2xl overflow-hidden ${['peru', 'chile', 'argentina', 'colombia'].includes(country.id) ? 'aspect-[16/10]' : 'aspect-square'}`}>
+                                {['peru', 'chile', 'argentina', 'colombia'].includes(country.id) ? (
                                     <img
                                         src={
                                             country.id === 'peru'
                                                 ? 'https://firebasestorage.googleapis.com/v0/b/event-ticket-website-6b541.firebasestorage.app/o/events%2Fstage-maps%2F1775537017513_wawzy.jpg?alt=media&token=09428b15-4857-4b81-b46e-f5f658ac9ecf'
                                                 : country.id === 'chile'
                                                 ? 'https://res.cloudinary.com/dz1qivt7m/image/upload/v1775645342/mapa_chile_taxr0b.jpg'
-                                                : 'https://res.cloudinary.com/dz1qivt7m/image/upload/v1775645587/mapa_argentina_a7ogen.jpg'
+                                                : country.id === 'argentina'
+                                                ? 'https://res.cloudinary.com/dz1qivt7m/image/upload/v1775645587/mapa_argentina_a7ogen.jpg'
+                                                : 'https://res.cloudinary.com/dz1qivt7m/image/upload/v1775645807/mapa_colombia_qtwzow.jpg'
                                         }
                                         alt={`Mapa de zonas y precios ${country.venue}`}
                                         className="w-full h-full object-cover"

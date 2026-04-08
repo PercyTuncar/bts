@@ -872,12 +872,12 @@ export default function CountryClient({ country }: Props) {
 
                         <div className="space-y-4">
                             {country.prices.map((zone, i) => (
-                                <div key={zone.zone} className="group relative">
-                                    <div className="relative bg-white border border-slate-100 rounded-3xl p-6 md:p-8 flex flex-col md:flex-row items-center justify-between gap-6 transition-all duration-300 hover:shadow-xl hover:border-primary/20 hover:-translate-y-1">
+                                <div key={zone.zone} className={`group relative ${zone.soldOut ? 'opacity-60' : ''}`}>
+                                    <div className={`relative bg-white border border-slate-100 rounded-3xl p-6 md:p-8 flex flex-col md:flex-row items-center justify-between gap-6 transition-all duration-300 ${zone.soldOut ? 'border-slate-200 bg-slate-50' : 'hover:shadow-xl hover:border-primary/20 hover:-translate-y-1'}`}>
                                         <div className="flex items-center gap-6 flex-1 text-center md:text-left">
-                                            <span className="text-5xl font-black italic text-slate-100 group-hover:text-primary/10 transition-colors hidden md:block">0{i + 1}</span>
+                                            <span className={`text-5xl font-black italic transition-colors hidden md:block ${zone.soldOut ? 'text-slate-200' : 'text-slate-100 group-hover:text-primary/10'}`}>0{i + 1}</span>
                                             <div>
-                                                <h4 className="text-xl md:text-2xl font-black uppercase leading-none mb-2 text-slate-900">{zone.zone}</h4>
+                                                <h4 className={`text-xl md:text-2xl font-black uppercase leading-none mb-2 ${zone.soldOut ? 'text-slate-400 line-through' : 'text-slate-900'}`}>{zone.zone}</h4>
                                                 {zone.description && (
                                                     <p className="text-sm text-slate-500 mt-2 font-medium leading-tight max-w-md mx-auto md:mx-0">{zone.description}</p>
                                                 )}
@@ -899,11 +899,11 @@ export default function CountryClient({ country }: Props) {
                                                 {zone.soldOut ? (
                                                     <div className="mt-4 w-full max-w-xs">
                                                         <div className="flex justify-between items-end mb-1">
-                                                            <span className="text-[10px] font-bold uppercase text-slate-400">Avance</span>
-                                                            <span className="text-[12px] font-black text-slate-400">100%</span>
+                                                            <span className="text-[10px] font-bold uppercase text-red-400">Avance</span>
+                                                            <span className="text-[12px] font-black text-red-600">100%</span>
                                                         </div>
-                                                        <div className="h-2 w-full bg-slate-100 rounded-full overflow-hidden">
-                                                            <div className="h-full bg-slate-300" style={{ width: '100%' }} />
+                                                        <div className="h-2 w-full bg-red-100 rounded-full overflow-hidden">
+                                                            <div className="h-full bg-red-500" style={{ width: '100%' }} />
                                                         </div>
                                                     </div>
                                                 ) : (

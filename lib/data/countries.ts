@@ -3,6 +3,7 @@ export interface Pricing {
     price: number;
     color?: string;
     description?: string;
+    soldOut?: boolean;
 }
 
 export interface CountryData {
@@ -72,17 +73,17 @@ export const countries: CountryData[] = [
         currency: 'PEN',
         currencySymbol: 'S/',
         prices: [
-            { zone: 'CAMPO', price: 2553 },
-            { zone: 'TRIBUNA OCCIDENTE', price: 2001, description: 'Numerado' },
-            { zone: 'TRIBUNA ORIENTE', price: 2001, description: 'Numerado' },
+            { zone: 'CAMPO', price: 2299 },
+            { zone: 'TRIBUNA OCCIDENTE', price: 1999, description: 'Numerado' },
+            { zone: 'TRIBUNA ORIENTE', price: 1999, description: 'Numerado' },
             { zone: 'TRIBUNA NORTE', price: 1449, description: 'Numerado' },
-            { zone: 'TRIBUNA SUR', price: 1449, description: 'Numerado' },
+            { zone: 'TRIBUNA SUR', price: 1999, description: 'Numerado', soldOut: true },
         ],
         description: 'Lima, prepárate para el océano púrpura. BTS regresa al Estadio San Marcos para dos noches históricas.',
         openGraphImage: '/images/og-peru.jpg',
         whatsappLink: 'https://chat.whatsapp.com/B5ddTQKVTACAUu4WuIr2Jo?mode=gi_t',
         phoneCode: '+51'
-        ,progressOffsetHours: -1
+        ,progressOffsetHours: 72
     },
     {
         id: 'chile',

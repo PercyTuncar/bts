@@ -882,14 +882,33 @@ export default function CountryClient({ country }: Props) {
                                                     <p className="text-sm text-slate-500 mt-2 font-medium leading-tight max-w-md mx-auto md:mx-0">{zone.description}</p>
                                                 )}
                                                 <div className="flex flex-wrap justify-center md:justify-start gap-2 mt-3">
-                                                    <span className={`px-2 py-1 rounded text-[10px] font-bold uppercase tracking-wider ${['mexico', 'madrid'].includes(country.id) ? 'bg-green-100 text-green-700' : 'bg-orange-50 text-orange-600'}`}>
-                                                        {isAndesFlow || ['mexico', 'madrid'].includes(country.id) ? "Precio Oficial" : "Precio"}
-                                                    </span>
-                                                    {i === 0 && <span className="bg-primary/10 text-primary px-2 py-1 rounded text-[10px] font-bold uppercase tracking-wider">{t.bestSeller}</span>}
+                                                    {zone.soldOut && (
+                                                        <span className="bg-red-100 text-red-600 px-2 py-1 rounded text-[10px] font-bold uppercase tracking-wider">Agotado</span>
+                                                    )}
+                                                    {!zone.soldOut && (
+                                                        <>
+                                                            <span className={`px-2 py-1 rounded text-[10px] font-bold uppercase tracking-wider ${['mexico', 'madrid'].includes(country.id) ? 'bg-green-100 text-green-700' : 'bg-orange-50 text-orange-600'}`}>
+                                                                {isAndesFlow || ['mexico', 'madrid'].includes(country.id) ? "Precio Oficial" : "Precio"}
+                                                            </span>
+                                                            {i === 0 && <span className="bg-primary/10 text-primary px-2 py-1 rounded text-[10px] font-bold uppercase tracking-wider">{t.bestSeller}</span>}
+                                                        </>
+                                                    )}
                                                 </div>
 
                                                 {/* Phase progress (staggered per country) */}
-                                                <PhaseProgress offsetHours={country.progressOffsetHours ?? 0} />
+                                                {zone.soldOut ? (
+                                                    <div className="mt-4 w-full max-w-xs">
+                                                        <div className="flex justify-between items-end mb-1">
+                                                            <span className="text-[10px] font-bold uppercase text-slate-400">Avance</span>
+                                                            <span className="text-[12px] font-black text-slate-400">100%</span>
+                                                        </div>
+                                                        <div className="h-2 w-full bg-slate-100 rounded-full overflow-hidden">
+                                                            <div className="h-full bg-slate-300" style={{ width: '100%' }} />
+                                                        </div>
+                                                    </div>
+                                                ) : (
+                                                    <PhaseProgress offsetHours={country.progressOffsetHours ?? 0} />
+                                                )}
                                             </div>
                                         </div>
 
@@ -903,12 +922,12 @@ export default function CountryClient({ country }: Props) {
                                                 )}
                                             </div>
 
-                                            <div className={`flex items-center bg-slate-50 rounded-xl overflow-hidden ${!selectedDate ? 'opacity-50 cursor-not-allowed' : ''}`}>
-                                                <button onClick={() => updateQuantity(zone.zone, -1)} disabled={!activePhase || !selectedDate} className="w-12 h-12 flex items-center justify-center hover:bg-white text-slate-500 transition-colors disabled:opacity-50">
+                                            <div className={`flex items-center bg-slate-50 rounded-xl overflow-hidden ${zone.soldOut || !selectedDate ? 'opacity-50 cursor-not-allowed' : ''}`}>
+                                                <button onClick={() => updateQuantity(zone.zone, -1)} disabled={zone.soldOut || !activePhase || !selectedDate} className="w-12 h-12 flex items-center justify-center hover:bg-white text-slate-500 transition-colors disabled:opacity-50">
                                                     <Minus className="w-4 h-4" />
                                                 </button>
                                                 <span className="w-8 text-center font-bold text-lg text-slate-900">{quantities[zone.zone] || 0}</span>
-                                                <button onClick={() => updateQuantity(zone.zone, 1)} disabled={!activePhase || !selectedDate} className="w-12 h-12 flex items-center justify-center hover:bg-white text-slate-500 transition-colors disabled:opacity-50">
+                                                <button onClick={() => updateQuantity(zone.zone, 1)} disabled={zone.soldOut || !activePhase || !selectedDate} className="w-12 h-12 flex items-center justify-center hover:bg-white text-slate-500 transition-colors disabled:opacity-50">
                                                     <Plus className="w-4 h-4" />
                                                 </button>
                                             </div>

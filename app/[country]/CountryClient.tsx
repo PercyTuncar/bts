@@ -436,7 +436,7 @@ export default function CountryClient({ country }: Props) {
 
     // Initial tick to avoid hydration mismatch
     const [timeLeft, setTimeLeft] = useState({ days: 0, hours: 0, minutes: 0, seconds: 0 });
-    const [selectedDate, setSelectedDate] = useState<string | null>(null);
+    const [selectedDate, setSelectedDate] = useState<string | null>(country.dates[0] || null);
 
     // MEXICO SPECIFIC DATES
     const MEXICO_DATES = {

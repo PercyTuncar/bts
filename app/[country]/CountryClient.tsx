@@ -89,7 +89,7 @@ const translations = {
         verified: "Verificado",
         bestSeller: "Best Seller",
         fee: "Fee",
-        mapStage: "Mapa del Escenario",
+        mapStage: "",
         whatsappGroups: "Grupos de WhatsApp",
         joinCommunity: "Únete a la comunidad oficial y organiza tu viaje al concierto.",
         joinNow: "Unirme Ahora",
@@ -219,7 +219,7 @@ const translations = {
         verified: "Verificado",
         bestSeller: "Best Seller",
         fee: "Fee",
-        mapStage: "Mapa del Escenario",
+        mapStage: "",
         whatsappGroups: "Grupos de WhatsApp",
         joinCommunity: "Únete a la comunidad oficial y organiza tu viaje al concierto.",
         joinNow: "Unirme Ahora",
@@ -284,7 +284,7 @@ const translations = {
         verified: "Verificado",
         bestSeller: "Best Seller",
         fee: "Fee",
-        mapStage: "Mapa del Escenario",
+        mapStage: "",
         whatsappGroups: "Grupos de WhatsApp",
         joinCommunity: "Únete a la comunidad oficial y organiza tu viaje al concierto.",
         joinNow: "Unirme Ahora",
@@ -349,7 +349,7 @@ const translations = {
         verified: "Verificado",
         bestSeller: "Best Seller",
         fee: "Fee",
-        mapStage: "Mapa del Escenario",
+        mapStage: "",
         whatsappGroups: "Grupos de WhatsApp",
         joinCommunity: "Únete a la comunidad oficial y organiza tu viaje al concierto.",
         joinNow: "Unirme Ahora",
@@ -907,7 +907,7 @@ export default function CountryClient({ country }: Props) {
                                                         </div>
                                                     </div>
                                                 ) : (
-                                                    <PhaseProgress offsetHours={country.progressOffsetHours ?? 0} />
+                                                    <PhaseProgress offsetHours={country.progressOffsetHours ?? 0} maxPercent={100} />
                                                 )}
                                             </div>
                                         </div>

@@ -914,7 +914,7 @@ export default function CountryClient({ country }: Props) {
 
                                         <div className="flex items-center gap-8 w-full md:w-auto justify-between md:justify-end border-t md:border-t-0 border-slate-100 pt-4 md:pt-0">
                                             <div className="text-right md:text-right text-left">
-                                                <p className="text-3xl font-black text-slate-900 tracking-tight">{country.currencySymbol}{getPrice(zone.price).toLocaleString(lang === 'pt' ? 'pt-BR' : 'en-US')}</p>
+                                                <p className={`text-3xl font-black tracking-tight ${zone.soldOut ? 'text-slate-400' : 'text-slate-900'}`}>{country.currencySymbol}{getPrice(zone.price).toLocaleString(lang === 'pt' ? 'pt-BR' : 'en-US')}</p>
                                                 {isInstallment && perTicketInstallFee > 0 && (
                                                     <p className="text-[10px] text-slate-400 font-bold uppercase">
                                                         + {t.fee} {country.currencySymbol}{perTicketInstallFee.toLocaleString(lang === 'pt' ? 'pt-BR' : 'en-US')}

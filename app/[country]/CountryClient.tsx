@@ -823,7 +823,7 @@ export default function CountryClient({ country }: Props) {
                                 <div className="bg-slate-50 p-6 rounded-2xl animate-fade-in-up">
                                     <p className="text-sm font-bold uppercase tracking-widest text-slate-400 mb-4">{t.chooseInstallments}</p>
                                     <div className="flex gap-4 mb-4">
-                                        {[2, 3, 4, 5, 6].map(m => (
+                                        {[2, 3].map(m => (
                                             <button
                                                 key={m}
                                                 onClick={() => setInstallmentMonths(m)}

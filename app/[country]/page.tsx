@@ -301,7 +301,16 @@ export default async function CountryPage({ params }: Props) {
         { "@type": "Question", "name": "Qual é a classificação etária?", "acceptedAnswer": { "@type": "Answer", "text": "Menores de 15/16 anos só podem entrar acompanhados por responsável legal." } }
     ];
 
-    let countryFAQs = faqLd.mainEntity;
+    let countryFAQs = [{
+        "@type": "Question",
+        "name": isBrazil ? "Como funciona o processo de compra segura com a RaveHub?" : "¿Cómo es el proceso de compra segura con RaveHub?",
+        "acceptedAnswer": {
+            "@type": "Answer",
+            "text": isBrazil
+                ? "Nosso processo de Compra Segura utiliza tecnologia antifraude e verificação de três etapas para garantir que cada fã tenha acesso legítimo aos seus ingressos, eliminando a incerteza do mercado secundário."
+                : "Nuestro proceso de Compra Segura utiliza tecnología anti-fraude y verificación de tres pasos para asegurar que cada fan tenga acceso legítimo a sus entradas, eliminando la incertidumbre del mercado secundario."
+        }
+    }];
     if (country.id === 'peru') countryFAQs = peruFAQs;
     else if (country.id === 'chile') countryFAQs = chileFAQs;
     else if (country.id === 'colombia') countryFAQs = colombiaFAQs;

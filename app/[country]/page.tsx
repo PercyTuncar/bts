@@ -27,10 +27,10 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
 
     // Localization overrides
     if (country.id === 'peru') {
-        title = `Entradas BTS Perú 2026: Precios Reales en Estadio San Marcos`;
-        description = `Compra tus entradas para BTS en Perú 2026 con precios reales desde ${formattedPrice} en el Estadio San Marcos. Selecciona zonas oficiales y completa tu pedido seguro por WhatsApp.`;
-        ogTitle = `Entradas BTS Perú 2026 | Precios Reales`;
-        ogDescription = `El Army de Perú ya tiene precios reales por zona. Completa tu pedido de forma segura para BTS en Lima.`;
+        title = `Entradas BTS Perú 2026: en Estadio San Marcos`;
+        description = `Compra tus entradas para BTS en Perú 2026 con precios desde ${formattedPrice} en el Estadio San Marcos. Selecciona zonas oficiales y completa tu pedido seguro por WhatsApp.`;
+        ogTitle = `Entradas BTS Perú 2026 |`;
+        ogDescription = `El Army de Perú ya tiene precios por zona. Completa tu pedido de forma segura para BTS en Lima.`;
         ogSiteName = `Entradas BTS Perú`;
     } else if (country.id === 'brasil') {
         title = `Ingressos BTS Brasil 2026: Compre Agora no Estádio do MorumBIS`;
@@ -131,7 +131,7 @@ export default async function CountryPage({ params }: Props) {
         "description": isBrazil
             ? `Comprar ingressos BTS Brasil 2026. Informacoes oficiais sobre precos, preventa e setores para o show em ${country.venue}.`
             : country.id === 'peru'
-                ? `Comprar entradas BTS Perú 2026. Informacion oficial con precios reales por zona para el concierto en ${country.venue}.`
+                ? `Comprar entradas BTS Perú 2026. Informacion oficial con precios por zona para el concierto en ${country.venue}.`
                 : `Comprar entradas BTS ${countryDisplayName} 2026. Informacion oficial sobre precios, preventa y zonas para el concierto en ${country.venue}.`,
         "image": [
             `https://entradasbts.com${country.openGraphImage}`,
@@ -183,7 +183,7 @@ export default async function CountryPage({ params }: Props) {
             "url": "https://ibighit.com"
         },
         "performer": {
-            "@type": "PerformingGroup",
+            "@type": "MusicGroup",
             "name": "BTS",
             "sameAs": [
                 "https://ibighit.com/bts",
@@ -222,29 +222,96 @@ export default async function CountryPage({ params }: Props) {
         }
     };
 
+    const orgLd = {
+        "@context": "https://schema.org",
+        "@type": "Organization",
+        "name": "RaveHub Latam",
+        "url": "https://www.ravehublatam.com",
+        "logo": "https://www.ravehublatam.com/logo.png",
+        "description": "Servicio de Personal Shopper especializado en entradas para conciertos internacionales en Latinoamérica.",
+        "contactPoint": {
+            "@type": "ContactPoint",
+            "contactType": "customer service",
+            "availableLanguage": ["Spanish", "Portuguese", "English"]
+        }
+    };
 
-    const faqLd = {
+    const peruFAQs = [
+        { "@type": "Question", "name": "¿Cuáles son las fechas exactas del concierto en Lima?", "acceptedAnswer": { "@type": "Answer", "text": "Las fechas oficiales son el 9 y 10 de octubre de 2026. Due to high demand, se añadió una nueva fecha para el 7 de octubre." } },
+        { "@type": "Question", "name": "¿Cuándo inicia la venta de entradas general?", "acceptedAnswer": { "@type": "Answer", "text": "La venta general inicia el viernes 10 de abril a las 10:00 a.m. (hora de Perú)." } },
+        { "@type": "Question", "name": "¿Cuándo es la preventa para la nueva fecha del 7 de octubre?", "acceptedAnswer": { "@type": "Answer", "text": "La preventa ARMY para el stock de boletos de esta nueva fecha inicia hoy, 8 de abril, a las 10:00 a.m." } },
+        { "@type": "Question", "name": "¿Qué requisitos necesito para entrar a la preventa?", "acceptedAnswer": { "@type": "Answer", "text": "Es indispensable contar con la ARMY Membership activa en Weverse Shop y haber realizado el pre-registro obligatorio entre el 27 de marzo y el 2 de abril." } },
+        { "@type": "Question", "name": "¿Cuáles son los precios reales?", "acceptedAnswer": { "@type": "Answer", "text": "Los rangos varían por zona. Por ejemplo: Campo VIP S/2,299, Tribunas Occidente/Oriente S/1,999, y Tribunas Norte/Sur S/1,449." } },
+        { "@type": "Question", "name": "¿Cuáles son las zonas numeradas?", "acceptedAnswer": { "@type": "Answer", "text": "Las tribunas Occidente, Oriente y Sur son sectores numerados. Campo y Tribuna Norte son por orden de llegada." } },
+        { "@type": "Question", "name": "¿Cuántas entradas puedo comprar por persona?", "acceptedAnswer": { "@type": "Answer", "text": "El límite establecido es de un máximo de 4 entradas por usuario registrado y tarjeta." } },
+        { "@type": "Question", "name": "¿Las entradas son nominativas?", "acceptedAnswer": { "@type": "Answer", "text": "Sí, para evitar la reventa, las entradas deben estar a nombre del asistente y se verificará el DNI al ingresar." } },
+        { "@type": "Question", "name": "¿Desde qué edad se puede ingresar?", "acceptedAnswer": { "@type": "Answer", "text": "Se permite el ingreso a partir de los 7 años. Los menores de 14 años deben asistir acompañados de un adulto responsable." } },
+        { "@type": "Question", "name": "¿Qué incluye el acceso VIP?", "acceptedAnswer": { "@type": "Answer", "text": "Los boletos de categoría VIP incluyen acceso anticipado al recinto y, en paquetes premium, acceso al Soundcheck." } }
+    ];
+
+    const chileFAQs = [
+        { "@type": "Question", "name": "¿En qué fechas se presenta BTS en Santiago?", "acceptedAnswer": { "@type": "Answer", "text": "Los conciertos están programados para el 16 y 17 de octubre de 2026. Se añadió una fecha extra para el 14 de octubre." } },
+        { "@type": "Question", "name": "¿A qué hora exacta comienza la venta general?", "acceptedAnswer": { "@type": "Answer", "text": "En Chile la venta general comenzará el 10 de abril a la 1:00 p.m. (hora de Chile)." } },
+        { "@type": "Question", "name": "¿Cuándo se pueden comprar entradas para la nueva fecha (14 de octubre)?", "acceptedAnswer": { "@type": "Answer", "text": "La preventa Weverse para la fecha adicional empieza hoy, 8 de abril a la 1:00 p.m." } },
+        { "@type": "Question", "name": "¿Cómo funcionará la fila virtual?", "acceptedAnswer": { "@type": "Answer", "text": "Se abrirá una sala de espera minutos antes. A la hora exacta, el sistema asignará un número aleatorio a cada usuario." } },
+        { "@type": "Question", "name": "¿Cuáles son las localidades disponibles en el Nacional?", "acceptedAnswer": { "@type": "Answer", "text": "Se dividen principalmente en Cancha VIP, Pacífico (numerado), Andes (numerado), Cancha General y Galería." } },
+        { "@type": "Question", "name": "¿Pueden ingresar menores de edad a Cancha VIP?", "acceptedAnswer": { "@type": "Answer", "text": "Por seguridad normativa, suele haber restricción de edad (+12 o +14 años) para zonas de cancha." } },
+        { "@type": "Question", "name": "¿Se puede pagar con CuentaRUT o tarjetas de débito?", "acceptedAnswer": { "@type": "Answer", "text": "Sí, las plataformas oficiales permiten el pago con tarjetas de crédito y débito habilitadas para Webpay." } },
+        { "@type": "Question", "name": "¿El estadio cuenta con accesibilidad para sillas de ruedas?", "acceptedAnswer": { "@type": "Answer", "text": "Sí, el Estadio Nacional cuenta con zonas designadas para sillas de ruedas." } },
+        { "@type": "Question", "name": "¿Se puede transferir una entrada si no puedo asistir?", "acceptedAnswer": { "@type": "Answer", "text": "Las políticas permiten renombrar la entrada hasta semanas antes del evento." } },
+        { "@type": "Question", "name": "¿Habrá descuentos con tarjetas bancarias chilenas?", "acceptedAnswer": { "@type": "Answer", "text": "Hasta el momento no se han anunciado alianzas para descuentos bancarios." } }
+    ];
+
+    const colombiaFAQs = [
+        { "@type": "Question", "name": "¿Qué días estará BTS en Bogotá?", "acceptedAnswer": { "@type": "Answer", "text": "El inicio de la gira latinoamericana será en Colombia los días 2 y 3 de octubre de 2026." } },
+        { "@type": "Question", "name": "¿Por qué no agregaron una tercera fecha en Bogotá?", "acceptedAnswer": { "@type": "Answer", "text": "La organización basó la apertura de nuevas fechas en el volumen de demanda. Colombia mantiene dos fechas confirmadas." } },
+        { "@type": "Question", "name": "¿Cuál es la plataforma oficial de venta?", "acceptedAnswer": { "@type": "Answer", "text": "En Colombia, la boletería oficial está a cargo de Ticketmaster." } },
+        { "@type": "Question", "name": "¿Cuándo comienza la venta al público general?", "acceptedAnswer": { "@type": "Answer", "text": "El 10 de abril a las 10:00 a.m. (hora de Colombia) hasta agotar existencias." } },
+        { "@type": "Question", "name": "¿Cuántas boletas quedaron para la venta general?", "acceptedAnswer": { "@type": "Answer", "text": "Ticketmaster dispose del 90% del aforo en preventa. La venta general cuenta con el 10% restante." } },
+        { "@type": "Question", "name": "¿Se puede pagar en cuotas?", "acceptedAnswer": { "@type": "Answer", "text": "Dependerá de las políticas de tu banco emisor en la pasarela de Ticketmaster." } },
+        { "@type": "Question", "name": "¿Cuál es la edad mínima de ingreso permitida?", "acceptedAnswer": { "@type": "Answer", "text": "En El Campín, las localidades de Cancha/Pista exigen ser mayor de 14 años." } },
+        { "@type": "Question", "name": "¿Las boletas son físicas o digitales?", "acceptedAnswer": { "@type": "Answer", "text": "Ticketmaster Colombia emite boletos digitales (Safetix) en la app móvil." } },
+        { "@type": "Question", "name": "¿Hay localidades libres de alcohol?", "acceptedAnswer": { "@type": "Answer", "text": "Por normativa, ciertas tribunas familiares son zonas libres de alcohol." } },
+        { "@type": "Question", "name": "¿Es válido comprar a revendedores fuera del estadio?", "acceptedAnswer": { "@type": "Answer", "text": "No. La tecnología de boletos digitales hace que los pantallazos no sirvan para ingresar." } }
+    ];
+
+    const argentinaFAQs = [
+        { "@type": "Question", "name": "¿Cuándo tocará BTS en Buenos Aires?", "acceptedAnswer": { "@type": "Answer", "text": "Las fechas oficiales son el 23 y 24 de octubre de 2026. Se añadió el 21 de octubre." } },
+        { "@type": "Question", "name": "¿A qué hora abre la preventa para la tercera fecha?", "acceptedAnswer": { "@type": "Answer", "text": "Empieza hoy, 8 de abril a las 10:00 a.m. (hora de Argentina) exclusivamente para miembros con registro previo." } },
+        { "@type": "Question", "name": "¿Cuándo abre la venta general en Argentina?", "acceptedAnswer": { "@type": "Answer", "text": "El viernes 10 de abril a las 10:00 a.m. (hora de Argentina)." } },
+        { "@type": "Question", "name": "¿El precio de la entrada se ajusta por inflación?", "acceptedAnswer": { "@type": "Answer", "text": "Los precios se fijan en pesos argentinos. Una vez efectuada la compra, el precio se congela." } },
+        { "@type": "Question", "name": "¿Existen opciones de compra en cuotas sin interés?", "acceptedAnswer": { "@type": "Answer", "text": "Frecuentemente hay convenios con bancos para ofrecer 3 o 6 cuotas sin interés." } },
+        { "@type": "Question", "name": "¿Debo retirar las entradas físicamente?", "acceptedAnswer": { "@type": "Answer", "text": "Se usan Smart Tickets digitales a través de apps como Quentro." } },
+        { "@type": "Question", "name": "¿Cómo conviene llegar al Estadio Único?", " "acceptedAnswer": { "@type": "Answer", "text": "Located in La Plata (60km from CABA), se recomienda traslados especiales o Tren Roca." } },
+        { "@type": "Question", "name": "¿Las entradas de Campo son numeradas?", "acceptedAnswer": { "@type": "Answer", "text": "El Campo es de pie y por orden de llegada. Solo las plateas laterales son numeradas." } },
+        { "@type": "Question", "name": "¿Cuál es la restricción de compra por persona?", "acceptedAnswer": { "@type": "Answer", "text": "El límite es de 4 tickets por DNI/usuario." } },
+        { "@type": "Question", "name": "¿Desde qué edad pagan entrada los niños?", "acceptedAnswer": { "@type": "Answer", "text": "Todo niño a partir de los 3 años abona entrada completa y debe ir con un mayor." } }
+    ];
+
+    const brasilFAQs = [
+        { "@type": "Question", "name": "Quais são as datas de encerramento da turnê em São Paulo?", "acceptedAnswer": { "@type": "Answer", "text": "Os shows nos dias 28 e 30 de outubro. O dia 31 foi adicionado como data final." } },
+        { "@type": "Question", "name": "Quando começam as vendas para a última data (31 de out)?", "acceptedAnswer": { "@type": "Answer", "text": "A pré-venda ARMY começa hoje, 8 de abril, às 10h00 (horário de Brasília)." } },
+        { "@type": "Question", "name": "A que horas é a venda geral no Brasil?", "acceptedAnswer": { "@type": "Answer", "text": "No dia 10 de abril às 10h00 através da plataforma oficial." } },
+        { "@type": "Question", "name": "O que é o benefício da 'Meia-entrada'?", "acceptedAnswer": { "@type": "Answer", "text": "Lei federal que garante 50% de desconto para estudantes, idosos e jovens de baixa renda." } },
+        { "@type": "Question", "name": "Quantos ingressos de 'Meia-entrada' posso comprar?", "acceptedAnswer": { "@type": "Answer", "text": "Apenas 1 por CPF, pois o benefício é pessoal e intransferível." } },
+        { "@type": "Question", "name": "Existe limite de capacidade para as meias-entradas?", "acceptedAnswer": { "@type": "Answer", "text": "Sim, 40% da capacidade de cada setor é destinada aos beneficiários." } },
+        { "@type": "Question", "name": "É possível pagar com PIX?", "acceptedAnswer": { "@type": "Answer", "text": "Sim, além de cartões de crédito." } },
+        { "@type": "Question", "name": "Como estão divididos os setores no MorumBIS?", "acceptedAnswer": { "@type": "Answer", "text": "Pista Premium, Pista Comum, Cadeira Inferior, Cadeira Superior e Arquibancada." } },
+        { "@type": "Question", "name": "Estrangeiros podem comprar ingressos no Brasil?", "acceptedAnswer": { "@type": "Answer", "text": "Sim, usando número do Passaporte em vez do CPF." } },
+        { "@type": "Question", "name": "Qual é a classificação etária?", "acceptedAnswer": { "@type": "Answer", "text": "Menores de 15/16 anos só podem entrar acompanhados por responsável legal." } }
+    ];
+
+    let countryFAQs = faqLd.mainEntity;
+    if (country.id === 'peru') countryFAQs = peruFAQs;
+    else if (country.id === 'chile') countryFAQs = chileFAQs;
+    else if (country.id === 'colombia') countryFAQs = colombiaFAQs;
+    else if (country.id === 'argentina') countryFAQs = argentinaFAQs;
+    else if (country.id === 'brasil') countryFAQs = brasilFAQs;
+
+    const faqLdFinal = {
         "@context": "https://schema.org",
         "@type": "FAQPage",
-        "mainEntity": [{
-            "@type": "Question",
-            "name": isBrazil ? "Como funciona o processo de compra segura com a RaveHub?" : "¿Cómo es el proceso de compra segura con RaveHub?",
-            "acceptedAnswer": {
-                "@type": "Answer",
-                "text": isBrazil
-                    ? "Nosso processo de Compra Segura utiliza tecnologia antifraude e verificação de três etapas para garantir que cada fã tenha acesso legítimo aos seus ingressos, eliminando a incerteza do mercado secundário."
-                    : "Nuestro proceso de Compra Segura utiliza tecnología anti-fraude y verificación de tres pasos para asegurar que cada fan tenga acceso legítimo a sus entradas, eliminando la incertidumbre del mercado secundario."
-            }
-        }, {
-            "@type": "Question",
-            "name": isBrazil ? "É seguro comprar ingressos de revenda para o BTS?" : "¿Es seguro comprar entradas de reventa para BTS?",
-            "acceptedAnswer": {
-                "@type": "Answer",
-                "text": isBrazil
-                    ? "Sim, com a Garantia RaveHub. Eliminamos os riscos porque verificamos os vendedores e protegemos seu dinheiro até que você entre no evento."
-                    : "Sí, con la Garantía RaveHub. Eliminamos los riesgos porque verificamos a los vendedores y protegemos tu dinero hasta que ingresas al evento."
-            }
-        }]
+        "mainEntity": countryFAQs
     };
 
     return (
@@ -255,7 +322,11 @@ export default async function CountryPage({ params }: Props) {
             />
             <script
                 type="application/ld+json"
-                dangerouslySetInnerHTML={{ __html: JSON.stringify(faqLd) }}
+                dangerouslySetInnerHTML={{ __html: JSON.stringify(orgLd) }}
+            />
+            <script
+                type="application/ld+json"
+                dangerouslySetInnerHTML={{ __html: JSON.stringify(faqLdFinal) }}
             />
             <CountryClient country={country} />
         </>

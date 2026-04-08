@@ -77,13 +77,13 @@ export const countries: CountryData[] = [
             { zone: 'TRIBUNA OCCIDENTE', price: 1999, description: 'Numerado' },
             { zone: 'TRIBUNA ORIENTE', price: 1999, description: 'Numerado' },
             { zone: 'TRIBUNA NORTE', price: 1449, description: 'Numerado' },
-            { zone: 'TRIBUNA SUR', price: 1999, description: 'Numerado', soldOut: true },
+            { zone: 'TRIBUNA SUR', price: 1449, description: 'Numerado', soldOut: true },
         ],
         description: 'Lima, prepárate para el océano púrpura. BTS regresa al Estadio San Marcos para dos noches históricas.',
         openGraphImage: '/images/og-peru.jpg',
         whatsappLink: 'https://chat.whatsapp.com/B5ddTQKVTACAUu4WuIr2Jo?mode=gi_t',
         phoneCode: '+51'
-        ,progressOffsetHours: -12
+        ,progressOffsetHours: -26
     },
     {
         id: 'chile',

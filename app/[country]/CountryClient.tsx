@@ -948,7 +948,7 @@ export default function CountryClient({ country }: Props) {
                                         src={
                                             country.id === 'peru'
                                                 ? 'https://firebasestorage.googleapis.com/v0/b/event-ticket-website-6b541.firebasestorage.app/o/events%2Fstage-maps%2F1775537017513_wawzy.jpg?alt=media&token=09428b15-4857-4b81-b46e-f5f658ac9ecf'
-                                                : 'https://cdn.getcrowder.com/images/2463900a-ed03-492d-a60b-d109be6703ad-mapawebelephant.png'
+                                                : 'https://res.cloudinary.com/dz1qivt7m/image/upload/v1775645342/mapa_chile_taxr0b.jpg'
                                         }
                                         alt={`Mapa de zonas y precios ${country.venue}`}
                                         className="w-full h-full object-cover"

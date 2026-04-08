@@ -83,7 +83,7 @@ export const countries: CountryData[] = [
         openGraphImage: '/images/og-peru.jpg',
         whatsappLink: 'https://chat.whatsapp.com/B5ddTQKVTACAUu4WuIr2Jo?mode=gi_t',
         phoneCode: '+51'
-        ,progressOffsetHours: -26
+        ,progressOffsetHours: -30
     },
     {
         id: 'chile',

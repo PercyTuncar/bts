@@ -785,11 +785,11 @@ export default function CountryClient({ country }: Props) {
                                 </>
                             ) : country.id === 'mexico' ? (
                                 <>
-                                    La espera ha terminado. <span className="text-white/60">BTS llega a {country.city}, {country.name}</span> este 2026. Asegura tu lugar para la venta oficial de <strong className="text-white/70 font-semibold">boletos para BTS en {country.name}</strong>. Prepárate para su llegada al <span className="text-primary/70">{country.venue}</span>. Conoce los precios oficiales desde {country.currencySymbol}{Math.min(...country.prices.map(p => p.price)).toLocaleString('es-MX')} y contrata nuestro servicio de Personal Shopper para gestionar tu membresía y compra de forma anticipada.
+                                    La espera ha terminado. <span className="text-white/60">BTS llega a {country.city}, {country.name}</span> este 2026. Asegura tu lugar para la venta oficial de <strong className="text-white/70 font-semibold">boletos para BTS en {country.name}</strong>. Prepárate para su llegada al <span className="text-primary/70">{country.venue}</span>. Conoce los precios oficiales desde {country.currency === 'USD' && <span className="text-white/70">USD </span>}{country.currencySymbol}{Math.min(...country.prices.map(p => p.price)).toLocaleString('es-MX')} y contrata nuestro servicio de Personal Shopper para gestionar tu membresía y compra de forma anticipada.
                                 </>
                             ) : (
                                 <>
-                                    La espera ha terminado. <span className="text-white/60">BTS llega a {country.city}, {country.name}</span> este 2026. Asegura tu lugar para la venta oficial de <strong className="text-white/70 font-semibold">entradas para BTS en {country.name}</strong>. Prepárate para su llegada al <span className="text-primary/70">{country.venue}</span>. Conoce los precios oficiales desde {country.currencySymbol}{Math.min(...country.prices.map(p => p.price)).toLocaleString('es-ES')} y contrata nuestro servicio de Personal Shopper para gestionar tu membresía y compra de forma anticipada.
+                                    La espera ha terminado. <span className="text-white/60">BTS llega a {country.city}, {country.name}</span> este 2026. Asegura tu lugar para la venta oficial de <strong className="text-white/70 font-semibold">entradas para BTS en {country.name}</strong>. Prepárate para su llegada al <span className="text-primary/70">{country.venue}</span>. Conoce los precios oficiales desde {country.currency === 'USD' && <span className="text-white/70">USD </span>}{country.currencySymbol}{Math.min(...country.prices.map(p => p.price)).toLocaleString('es-ES')} y contrata nuestro servicio de Personal Shopper para gestionar tu membresía y compra de forma anticipada.
                                 </>
                             )}
                         </motion.p>
@@ -909,7 +909,10 @@ export default function CountryClient({ country }: Props) {
 
                                         <div className="flex items-center gap-8 w-full md:w-auto justify-between md:justify-end border-t md:border-t-0 border-slate-100 pt-4 md:pt-0">
                                             <div className="text-right md:text-right text-left">
-                                                <p className={`text-3xl font-black tracking-tight ${zone.soldOut ? 'text-slate-400' : 'text-slate-900'}`}>{country.currencySymbol}{getPrice(zone.price).toLocaleString(lang === 'pt' ? 'pt-BR' : 'en-US')}</p>
+                                                <p className={`text-3xl font-black tracking-tight ${zone.soldOut ? 'text-slate-400' : 'text-slate-900'}`}>
+                                                    {country.currency === 'USD' && <span className="text-sm font-bold text-slate-400 align-top mr-0.5">USD</span>}
+                                                    {country.currencySymbol}{getPrice(zone.price).toLocaleString(lang === 'pt' ? 'pt-BR' : 'en-US')}
+                                                </p>
                                                 {isInstallment && perTicketInstallFee > 0 && (
                                                     <p className="text-[10px] text-slate-400 font-bold uppercase">
                                                         + {t.fee} {country.currencySymbol}{perTicketInstallFee.toLocaleString(lang === 'pt' ? 'pt-BR' : 'en-US')}
@@ -1170,6 +1173,7 @@ export default function CountryClient({ country }: Props) {
                                         </p>
                                         <div className="flex flex-col">
                                             <p className="text-3xl font-black font-sans tracking-tight text-slate-900 leading-none">
+                                                {country.currency === 'USD' && <span className="text-sm font-bold text-slate-400 align-top mr-0.5">USD</span>}
                                                 {country.currencySymbol}{(isInstallment ? reservationAmount : totalAmount).toLocaleString(lang === 'pt' ? 'pt-BR' : 'en-US')}
                                             </p>
                                             {isInstallment && (

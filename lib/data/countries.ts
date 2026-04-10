@@ -96,7 +96,7 @@ export const countries: CountryData[] = [
         dates: ['2026-10-16', '2026-10-17'],
         ticketDate: '24 de Enero',
         currency: 'USD',
-        currencySymbol: 'USD $',
+        currencySymbol: '$',
         prices: [
             { zone: 'Pacífico Medio', price: 1784 },
             { zone: 'Cancha Pacífico', price: 991 },
@@ -228,7 +228,7 @@ export const countries: CountryData[] = [
         dates: ['2026-10-23', '2026-10-24'],
         ticketDate: 'Próximamente',
         currency: 'USD',
-        currencySymbol: 'USD $',
+        currencySymbol: '$',
         prices: [
             { zone: 'CABECERA NORTE y SUR', price: 488 },
             { zone: 'CAMPO', price: 760 },

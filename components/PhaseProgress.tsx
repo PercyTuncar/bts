@@ -3,21 +3,26 @@
 import React, { useEffect, useState } from "react";
 
 type Props = {
-  startPercent?: number; // starting percent (default 50)
+  startPercent?: number; // starting percent (default based on dateIndex)
   targetDate?: string; // ISO date when it reaches 100%
   offsetHours?: number; // additional offset from target date
   soldOut?: boolean; // if true, show 100% with sold out styling
+  dateIndex?: number; // index of selected date (0=Oct7, 1=Oct9, 2=Oct10)
   className?: string;
 };
 
+// Start percentages per date: Oct 7 (80%), Oct 9 (80%), Oct 10 (70%)
+const DATE_START_PERCENTS = [80, 80, 70];
+
 export default function PhaseProgress({
-  startPercent = 50,
+  startPercent,
   targetDate = "2026-04-12T23:59:59Z",
   offsetHours = 0,
   soldOut = false,
+  dateIndex = 0,
   className = "",
 }: Props) {
-  const [percent, setPercent] = useState<number>(startPercent);
+  const [percent, setPercent] = useState<number>(startPercent ?? DATE_START_PERCENTS[dateIndex] ?? 80);
 
   useEffect(() => {
     let mounted = true;
@@ -38,9 +43,10 @@ export default function PhaseProgress({
       const baseTarget = new Date(targetDate);
       const endDate = new Date(baseTarget.getTime() + (offsetHours || 0) * 60 * 60 * 1000);
 
-      // Before start date - show start percent
+      // Before start date - show start percent based on date index
       if (now <= startDate) {
-        if (mounted) setPercent(startPercent);
+        const initialPercent = startPercent ?? DATE_START_PERCENTS[dateIndex] ?? 80;
+        if (mounted) setPercent(initialPercent);
         return;
       }
 
@@ -51,11 +57,12 @@ export default function PhaseProgress({
       }
 
       // Between start and end - calculate progress
-      const totalRange = 100 - startPercent;
+      const initialPercent = startPercent ?? DATE_START_PERCENTS[dateIndex] ?? 80;
+      const totalRange = 100 - initialPercent;
       const elapsed = now.getTime() - startDate.getTime();
       const totalDuration = endDate.getTime() - startDate.getTime();
       const ratio = Math.min(elapsed / totalDuration, 1);
-      const value = startPercent + (ratio * totalRange);
+      const value = initialPercent + (ratio * totalRange);
       
       if (mounted) setPercent(value);
     };
@@ -66,7 +73,7 @@ export default function PhaseProgress({
       mounted = false;
       clearInterval(id);
     };
-  }, [startPercent, targetDate, offsetHours, soldOut]);
+  }, [startPercent, targetDate, offsetHours, soldOut, dateIndex]);
 
   const display = percent.toFixed(1);
   const isComplete = percent >= 100 || soldOut;

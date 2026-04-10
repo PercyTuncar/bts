@@ -902,6 +902,7 @@ export default function CountryClient({ country }: Props) {
                                                 <PhaseProgress 
                                                     offsetHours={(zone.progressOffsetHours ?? country.progressOffsetHours ?? 0)} 
                                                     soldOut={zone.soldOut ?? false}
+                                                    dateIndex={selectedDate ? country.dates.indexOf(selectedDate) : 0}
                                                 />
                                             </div>
                                         </div>

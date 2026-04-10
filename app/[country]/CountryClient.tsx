@@ -7,6 +7,7 @@ import Image from "next/image";
 import { motion, AnimatePresence } from "framer-motion";
 import { CommunityModal } from "@/components/CommunityModal";
 import { MembershipModal } from "@/components/MembershipModal";
+import { SoldOutModal } from "@/components/SoldOutModal";
 import PhaseProgress from "@/components/PhaseProgress";
 import { useCart } from "@/context/CartContext";
 import { useRouter } from "next/navigation";
@@ -430,6 +431,7 @@ export default function CountryClient({ country }: Props) {
     const [isInstallment, setIsInstallment] = useState(false);
     const [isCommunityOpen, setIsCommunityOpen] = useState(false);
     const [isMembershipModalOpen, setIsMembershipModalOpen] = useState(false);
+    const [isSoldOutModalOpen, setIsSoldOutModalOpen] = useState(false);
     const [installmentMonths, setInstallmentMonths] = useState(3);
     const [mounted, setMounted] = useState(false);
     const [videoLoaded, setVideoLoaded] = useState(false);
@@ -896,20 +898,11 @@ export default function CountryClient({ country }: Props) {
                                                     )}
                                                 </div>
 
-                                                {/* Phase progress (staggered per country) */}
-                                                {zone.soldOut ? (
-                                                    <div className="mt-4 w-full max-w-xs">
-                                                        <div className="flex justify-between items-end mb-1">
-                                                            <span className="text-[10px] font-bold uppercase text-red-400">Avance</span>
-                                                            <span className="text-[12px] font-black text-red-600">100%</span>
-                                                        </div>
-                                                        <div className="h-2 w-full bg-red-100 rounded-full overflow-hidden">
-                                                            <div className="h-full bg-red-500" style={{ width: '100%' }} />
-                                                        </div>
-                                                    </div>
-                                                ) : (
-                                                    <PhaseProgress offsetHours={country.progressOffsetHours ?? 0} maxPercent={100} />
-                                                )}
+                                                {/* Phase progress (staggered per zone) */}
+                                                <PhaseProgress 
+                                                    offsetHours={(zone.progressOffsetHours ?? country.progressOffsetHours ?? 0)} 
+                                                    soldOut={zone.soldOut ?? false}
+                                                />
                                             </div>
                                         </div>
 
@@ -924,11 +917,23 @@ export default function CountryClient({ country }: Props) {
                                             </div>
 
                                             <div className={`flex items-center bg-slate-50 rounded-xl overflow-hidden ${zone.soldOut || !selectedDate ? 'opacity-50 cursor-not-allowed' : ''}`}>
-                                                <button onClick={() => updateQuantity(zone.zone, -1)} disabled={zone.soldOut || !activePhase || !selectedDate} className="w-12 h-12 flex items-center justify-center hover:bg-white text-slate-500 transition-colors disabled:opacity-50">
+                                                <button onClick={() => {
+                                                    if (zone.soldOut) {
+                                                        setIsSoldOutModalOpen(true);
+                                                    } else {
+                                                        updateQuantity(zone.zone, -1);
+                                                    }
+                                                }} disabled={zone.soldOut || !activePhase || !selectedDate} className="w-12 h-12 flex items-center justify-center hover:bg-white text-slate-500 transition-colors disabled:opacity-50">
                                                     <Minus className="w-4 h-4" />
                                                 </button>
                                                 <span className="w-8 text-center font-bold text-lg text-slate-900">{quantities[zone.zone] || 0}</span>
-                                                <button onClick={() => updateQuantity(zone.zone, 1)} disabled={zone.soldOut || !activePhase || !selectedDate} className="w-12 h-12 flex items-center justify-center hover:bg-white text-slate-500 transition-colors disabled:opacity-50">
+                                                <button onClick={() => {
+                                                    if (zone.soldOut) {
+                                                        setIsSoldOutModalOpen(true);
+                                                    } else {
+                                                        updateQuantity(zone.zone, 1);
+                                                    }
+                                                }} disabled={zone.soldOut || !activePhase || !selectedDate} className="w-12 h-12 flex items-center justify-center hover:bg-white text-slate-500 transition-colors disabled:opacity-50">
                                                     <Plus className="w-4 h-4" />
                                                 </button>
                                             </div>
@@ -1191,6 +1196,7 @@ export default function CountryClient({ country }: Props) {
 
             <CommunityModal isOpen={isCommunityOpen} onClose={() => setIsCommunityOpen(false)} />
             <MembershipModal isOpen={isMembershipModalOpen} onClose={() => setIsMembershipModalOpen(false)} />
+            <SoldOutModal isOpen={isSoldOutModalOpen} onClose={() => setIsSoldOutModalOpen(false)} />
 
             {/* MAP EXPANDED MODAL */}
             <AnimatePresence>

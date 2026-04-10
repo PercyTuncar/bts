@@ -3,43 +3,60 @@
 import React, { useEffect, useState } from "react";
 
 type Props = {
-  start?: string; // ISO string
-  end?: string; // ISO string
-  offsetHours?: number; // hours to add to end date (can be negative)
-  maxPercent?: number; // final percent value (default 10)
+  startPercent?: number; // starting percent (default 50)
+  targetDate?: string; // ISO date when it reaches 100%
+  offsetHours?: number; // additional offset from target date
+  soldOut?: boolean; // if true, show 100% with sold out styling
   className?: string;
 };
 
 export default function PhaseProgress({
-  start = "2026-04-07T00:00:00Z",
-  end = "2026-04-09T23:59:59Z",
+  startPercent = 50,
+  targetDate = "2026-04-12T23:59:59Z",
   offsetHours = 0,
-  maxPercent = 10,
+  soldOut = false,
   className = "",
 }: Props) {
-  const [percent, setPercent] = useState<number>(0);
+  const [percent, setPercent] = useState<number>(startPercent);
 
   useEffect(() => {
     let mounted = true;
 
     const update = () => {
       const now = new Date();
-      const s = new Date(start);
-      const baseEnd = new Date(end);
-      const endDate = new Date(baseEnd.getTime() + (offsetHours || 0) * 60 * 60 * 1000);
-
-      if (now <= s) {
-        if (mounted) setPercent(0);
+      
+      // If sold out, always show 100%
+      if (soldOut) {
+        if (mounted) setPercent(100);
         return;
       }
 
+      // Start date - April 10, 2026 at 00:00
+      const startDate = new Date("2026-04-10T00:00:00-05:00");
+      
+      // Target date - April 12, 2026 (adjusted by offsetHours)
+      const baseTarget = new Date(targetDate);
+      const endDate = new Date(baseTarget.getTime() + (offsetHours || 0) * 60 * 60 * 1000);
+
+      // Before start date - show start percent
+      if (now <= startDate) {
+        if (mounted) setPercent(startPercent);
+        return;
+      }
+
+      // After end date - show 100%
       if (now >= endDate) {
-        if (mounted) setPercent(maxPercent);
+        if (mounted) setPercent(100);
         return;
       }
 
-      const ratio = (now.getTime() - s.getTime()) / (endDate.getTime() - s.getTime());
-      const value = Math.min(Math.max(0, ratio * maxPercent), maxPercent);
+      // Between start and end - calculate progress
+      const totalRange = 100 - startPercent;
+      const elapsed = now.getTime() - startDate.getTime();
+      const totalDuration = endDate.getTime() - startDate.getTime();
+      const ratio = Math.min(elapsed / totalDuration, 1);
+      const value = startPercent + (ratio * totalRange);
+      
       if (mounted) setPercent(value);
     };
 
@@ -49,20 +66,25 @@ export default function PhaseProgress({
       mounted = false;
       clearInterval(id);
     };
-  }, [start, end, offsetHours, maxPercent]);
+  }, [startPercent, targetDate, offsetHours, soldOut]);
 
   const display = percent.toFixed(1);
+  const isComplete = percent >= 100 || soldOut;
 
   return (
     <div className={`mt-4 w-full max-w-xs ${className}`} aria-hidden={false}>
       <div className="flex justify-between items-end mb-1">
-        <span className="text-[10px] font-bold uppercase text-slate-400">Avance</span>
-        <span className="text-[12px] font-black text-rose-500">{display}%</span>
+        <span className={`text-[10px] font-bold uppercase ${isComplete ? 'text-red-500' : 'text-slate-400'}`}>
+          {isComplete ? 'Completado' : 'Avance'}
+        </span>
+        <span className={`text-[12px] font-black ${isComplete ? 'text-red-600' : 'text-rose-500'}`}>
+          {display}%
+        </span>
       </div>
 
-      <div className="h-2 w-full bg-slate-100 rounded-full overflow-hidden">
+      <div className={`h-2 w-full rounded-full overflow-hidden ${isComplete ? 'bg-red-100' : 'bg-slate-100'}`}>
         <div
-          className="h-full bg-gradient-to-r from-rose-500 to-primary transition-all duration-1000 ease-out"
+          className={`h-full transition-all duration-1000 ease-out ${isComplete ? 'bg-red-500' : 'bg-gradient-to-r from-rose-500 to-primary'}`}
           style={{ width: `${percent}%` }}
         />
       </div>

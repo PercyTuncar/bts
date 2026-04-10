@@ -4,6 +4,7 @@ export interface Pricing {
     color?: string;
     description?: string;
     soldOut?: boolean;
+    progressOffsetHours?: number; // offset en horas para llegar al 100%
 }
 
 export interface CountryData {
@@ -51,8 +52,8 @@ export const countries: CountryData[] = [
         currency: 'EUR',
         currencySymbol: '€',
         prices: [
-            { zone: 'Sección 225 - Nivel 200', price: 1125, description: 'Vista privilegiada del escenario principal' },
-            { zone: 'Sección 226 - Nivel 200', price: 1125, description: 'Vista privilegiada del escenario principal' },
+            { zone: 'Sección 225 - Nivel 200', price: 499, description: 'Vista privilegiada del escenario principal' },
+            { zone: 'Sección 226 - Nivel 200', price: 499, description: 'Vista privilegiada del escenario principal' },
         ],
         description: 'Madrid, prepárate. BTS llega al Metropolitano para dos noches inolvidables en España.',
         openGraphImage: '/images/bts-madrid-mapa.png', // Using the map as OG image for now, or specific one
@@ -73,11 +74,11 @@ export const countries: CountryData[] = [
         currency: 'PEN',
         currencySymbol: 'S/',
         prices: [
-            { zone: 'CAMPO', price: 2299 },
-            { zone: 'TRIBUNA OCCIDENTE', price: 1999, description: 'Numerado' },
-            { zone: 'TRIBUNA ORIENTE', price: 1999, description: 'Numerado' },
-            { zone: 'TRIBUNA NORTE', price: 1449, description: 'Numerado' },
-            { zone: 'TRIBUNA SUR', price: 1449, description: 'Numerado', soldOut: true },
+            { zone: 'CAMPO', price: 2299, progressOffsetHours: 0 },
+            { zone: 'TRIBUNA OCCIDENTE', price: 1999, description: '', progressOffsetHours: 4 },
+            { zone: 'TRIBUNA ORIENTE', price: 1999, description: '', progressOffsetHours: 8 },
+            { zone: 'TRIBUNA NORTE', price: 1449, description: '', progressOffsetHours: 12 },
+            { zone: 'TRIBUNA SUR', price: 1449, description: '', soldOut: true, progressOffsetHours: 16 },
         ],
         description: 'Lima, prepárate para el océano púrpura. BTS regresa al Estadio San Marcos para dos noches históricas.',
         openGraphImage: '/images/og-peru.jpg',

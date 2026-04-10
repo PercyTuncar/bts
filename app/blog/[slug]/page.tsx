@@ -125,7 +125,7 @@ export default async function BlogPost({ params }: Props) {
                             "name": "¿Cuánto cuestan los boletos para BTS en México 2026?",
                             "acceptedAnswer": {
                                 "@type": "Answer",
-                                "text": "Los precios van desde los $1,767 MXN en Naranja C hasta los $17,782 MXN para el Paquete VIP Soundcheck. La zona General no existe, todos los asientos son numerados."
+                                "text": "Los precios van desde los $1,767 MXN en Naranja C hasta los $17,782 MXN para el Paquete VIP Soundcheck. La zona General no existe, todos los asientos son s."
                             }
                         },
                         {

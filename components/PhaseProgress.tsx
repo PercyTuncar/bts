@@ -11,8 +11,8 @@ type Props = {
   className?: string;
 };
 
-// Start percentages per date: Oct 7 (80%), Oct 9 (80%), Oct 10 (70%)
-const DATE_START_PERCENTS = [80, 80, 70];
+// Start percentages per date: Oct 7 (50%), Oct 9 (70%), Oct 10 (80%)
+const DATE_START_PERCENTS = [50, 70, 80];
 
 export default function PhaseProgress({
   startPercent,

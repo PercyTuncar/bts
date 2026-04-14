@@ -3,6 +3,17 @@ import { Button } from "@/components/Button";
 import Link from "next/link";
 import { countries } from "@/lib/data/countries";
 import { ArrowRight, MapPin, Calendar } from "lucide-react";
+import Image from "next/image";
+
+const countryImages: Record<string, string> = {
+    peru: "https://cuscoperu.b-cdn.net/wp-content/uploads/2024/02/Atardece-Costa-verde-Lima.webp",
+    chile: "https://images.adsttc.com/media/images/6375/4384/bd52/ae22/4b92/1646/large_jpg/guia-de-arquitectura-en-santiago-de-chile-41-edificios-complejos-y-parques-de-la-capital-chilena_43.jpg?1668629390",
+    colombia: "https://cloudfront-us-east-1.images.arcpublishing.com/infobae/JAAYCWLOQRHOTKSLAZAH37REYM.jpeg",
+    madrid: "https://spanish100.com/wp-content/uploads/2013/04/Madrid-820x410.png",
+    mexico: "https://media.vogue.mx/photos/5f95dc072b8eeeefbed2b680/master/w_1600%2Cc_limit/Ciudad-de-Me%25CC%2581xico-Zo%25CC%2581calo.jpg",
+    argentina: "https://media.admagazine.com/photos/618a6a585e45a526c6be8f63/master/w_1600,c_limit/61333.jpg",
+    brasil: "https://humanidades.com/wp-content/uploads/2018/08/brasil-2-e1574647461361-800x415.jpg",
+};
 
 export default function EventsPage() {
     return (
@@ -26,10 +37,16 @@ export default function EventsPage() {
                     <Link key={country.id} href={`/${country.id}`} className="group block h-full">
                         <GlassCard variant="interactive" className="h-full flex flex-col p-0 overflow-hidden min-h-[400px] border border-slate-200">
 
-                            {/* Map/Flag Section */}
-                            <div className="bg-slate-50 h-1/2 relative p-8 flex items-center justify-center group-hover:bg-slate-100 transition-colors border-b border-slate-200">
-                                <span className="text-9xl opacity-20 grayscale filter group-hover:grayscale-0 group-hover:opacity-40 transition-all duration-500">{country.flag}</span>
-                                <div className="absolute top-4 left-4 bg-slate-900 text-white px-2 py-1 text-xs font-black uppercase">
+                            {/* Image Section */}
+                            <div className="h-1/2 relative overflow-hidden">
+                                <Image
+                                    src={countryImages[country.id] || "/images/stadium-map.png"}
+                                    alt={`${country.name} - ${country.city}`}
+                                    fill
+                                    className="object-cover group-hover:scale-105 transition-transform duration-500"
+                                />
+                                <div className="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent"></div>
+                                <div className="absolute top-4 left-4 bg-white/90 text-slate-900 px-2 py-1 text-xs font-black uppercase">
                                     0{i + 1}
                                 </div>
                                 <div className="absolute bottom-4 right-4 bg-white border border-slate-200 px-3 py-1 text-xs font-bold uppercase tracking-widest text-slate-900">

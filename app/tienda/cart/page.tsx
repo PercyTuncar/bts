@@ -15,6 +15,9 @@ export default function CartPage() {
         if (item.currency === "PEN") return "es-PE";
         if (item.currency === "CLP") return "es-CL";
         if (item.currency === "ARS") return "es-AR";
+        if (item.currency === "COP") return "es-CO";
+        if (item.currency === "MXN") return "es-MX";
+        if (item.currency === "BRL") return "pt-BR";
         return "es-ES";
     };
 

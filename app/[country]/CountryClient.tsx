@@ -61,11 +61,22 @@ const INSTALLMENT_CONFIG: Record<string, { fee: number; reservation: number }> =
 
 const PERU_SERVICE_FEE = 299;
 const PERU_INSTALLMENT_INTEREST = 399;
-const CHILE_SERVICE_FEE = 49000;
-const CHILE_INSTALLMENT_INTEREST = 79000;
-const USD_TO_ARS_RATE = 1000;
-const ARGENTINA_SERVICE_FEE = 100 * USD_TO_ARS_RATE;
-const ARGENTINA_INSTALLMENT_INTEREST = 150 * USD_TO_ARS_RATE;
+const CHILE_SERVICE_FEE = 50;
+const CHILE_INSTALLMENT_INTEREST = 50;
+const ARGENTINA_SERVICE_FEE = 50;
+const ARGENTINA_INSTALLMENT_INTEREST = 50;
+const COLOMBIA_SERVICE_FEE = 50;
+const COLOMBIA_INSTALLMENT_INTEREST = 50;
+
+const getLocale = (countryId: string) => {
+    if (countryId === 'brasil') return 'pt-BR';
+    if (countryId === 'mexico') return 'es-MX';
+    if (countryId === 'colombia') return 'es-CO';
+    if (countryId === 'madrid') return 'es-ES';
+    if (countryId === 'chile') return 'es-CL';
+    if (countryId === 'argentina') return 'es-AR';
+    return 'es-ES';
+};
 
 const translations = {
     es: {
@@ -80,8 +91,8 @@ const translations = {
         hrs: "Hrs",
         min: "Min",
         seg: "Seg",
-        cash: "Contado",
-        installments: "Cuotas",
+        cash: "Al contado",
+        installments: "En cuotas",
         ticketDisclaimer: "Nota: Estos precios ya son reales por zona y al total se añade la comisión de servicio por entrada.",
         selectDateStep: "1. Selecciona la Fecha",
         chooseInstallments: "2. Elige tus cuotas",
@@ -509,6 +520,7 @@ export default function CountryClient({ country }: Props) {
         if (isPeru) return basePrice; // No se aplica fee adicional por cuotas en Perú
         if (isChile) return basePrice + CHILE_INSTALLMENT_INTEREST;
         if (isArgentina) return basePrice + ARGENTINA_INSTALLMENT_INTEREST;
+        if (isColombia) return basePrice + COLOMBIA_INSTALLMENT_INTEREST;
         return basePrice + config.fee;
     };
     const totalTickets = Object.values(quantities).reduce((a, b) => a + b, 0);
@@ -523,12 +535,13 @@ export default function CountryClient({ country }: Props) {
     };
 
     const baseAmount = country.prices.reduce((sum, zone) => sum + ((quantities[zone.zone] || 0) * zone.price), 0);
+    const isColombia = country.id === 'colombia';
     const serviceFeeAmount = isPeru
         ? 0
-        : (isChile ? totalTickets * CHILE_SERVICE_FEE : (isArgentina ? totalTickets * ARGENTINA_SERVICE_FEE : 0));
+        : (isChile ? totalTickets * CHILE_SERVICE_FEE : (isArgentina ? totalTickets * ARGENTINA_SERVICE_FEE : (isColombia ? totalTickets * COLOMBIA_SERVICE_FEE : 0)));
 
     const perTicketInstallFee = isInstallment
-        ? (isPeru ? 0 : (isChile ? CHILE_INSTALLMENT_INTEREST : (isArgentina ? ARGENTINA_INSTALLMENT_INTEREST : config.fee)))
+        ? (isPeru ? 0 : (isChile ? CHILE_INSTALLMENT_INTEREST : (isArgentina ? ARGENTINA_INSTALLMENT_INTEREST : (isColombia ? COLOMBIA_INSTALLMENT_INTEREST : config.fee))))
         : 0;
 
     const installmentInterestAmount = totalTickets * perTicketInstallFee;
@@ -585,7 +598,7 @@ export default function CountryClient({ country }: Props) {
                     countryId: country.id,
                     currency: country.currency,
                     currencySymbol: country.currencySymbol,
-                    serviceFeePerTicket: isPeru ? 0 : (isChile ? CHILE_SERVICE_FEE : ARGENTINA_SERVICE_FEE),
+                    serviceFeePerTicket: isPeru ? 0 : (isChile ? CHILE_SERVICE_FEE : (isArgentina ? ARGENTINA_SERVICE_FEE : (isColombia ? COLOMBIA_SERVICE_FEE : 0))),
                     installmentInterestPerTicket: perTicketInstallFee,
                     isInstallment,
                     installmentMonths: isInstallment ? installmentMonths : undefined,
@@ -635,21 +648,24 @@ export default function CountryClient({ country }: Props) {
     return (
         <div className="min-h-screen bg-slate-50 text-slate-900 font-sans selection:bg-primary/20 selection:text-primary overflow-x-hidden">
 
-            {/* MARQUEE HEADER (Clean Red) */}
+            {/* MARQUEE HEADER - Country Specific */}
             <div className="fixed top-20 left-0 w-full bg-slate-900 text-white z-40 border-b border-primary/20 overflow-hidden py-3 shadow-md">
                 <div className="flex whitespace-nowrap animate-marquee">
-                    {[...Array(10)].map((_, i) => (
-                        <span key={i} className="text-sm font-bold uppercase tracking-[0.2em] mx-8 flex items-center gap-4">
-                            <span className="w-1.5 h-1.5 rounded-full bg-primary"></span>
-                            {t.worldTour} 2026
-                            <span className="text-slate-500">|</span>
-                            {t.liveFrom} {country.city}
-                            <span className="text-slate-500">|</span>
-                            {t.buyTickets}
-                            <span className="text-slate-500">|</span>
-                            {selectedDate ? new Date(selectedDate).toLocaleDateString(lang === 'pt' ? 'pt-BR' : 'es-ES', { weekday: 'long', day: 'numeric', month: 'long' }) : t.selectDate}
-                        </span>
-                    ))}
+                    {country.dates.map((date, idx) => {
+                        const dateStr = mounted ? new Date(date + "T12:00:00").toLocaleDateString(lang === 'pt' ? 'pt-BR' : 'es-ES', { weekday: 'short', day: 'numeric', month: 'short' }) : '';
+                        return (
+                            <span key={date} className="text-sm font-bold uppercase tracking-[0.2em] mx-8 flex items-center gap-4">
+                                <span className="w-1.5 h-1.5 rounded-full bg-primary"></span>
+                                {t.worldTour} 2026
+                                <span className="text-slate-500">|</span>
+                                {country.city}, {country.venue}
+                                <span className="text-slate-500">|</span>
+                                {dateStr}
+                                <span className="text-slate-500">|</span>
+                                {t.buyTickets}
+                            </span>
+                        );
+                    })}
                 </div>
             </div>
 
@@ -690,24 +706,10 @@ export default function CountryClient({ country }: Props) {
                     {/* Main Content */}
                     <div className="max-w-2xl">
 
-                        {/* Title Block - SEO Optimized: Single H1 with complete keyword */}
-                        <motion.div
-                            initial={{ opacity: 0, x: -20 }}
-                            animate={{ opacity: 1, x: 0 }}
-                            transition={{ delay: 0.2, duration: 0.5 }}
-                        >
-                            <h1 className="flex flex-col">
-                                <span className="text-white/50 text-xs md:text-sm font-medium uppercase tracking-[0.3em] mb-2">
-                                    {country.id === 'brasil' ? 'Ingressos para' : (country.id === 'mexico' ? 'Boletos para' : (country.id === 'colombia' ? 'Boletas para' : 'Entradas para'))}
-                                </span>
-                                <span className="text-6xl sm:text-7xl md:text-8xl lg:text-9xl font-black text-white uppercase tracking-tight leading-[0.85]">
-                                    BTS
-                                </span>
-                                <span className="text-5xl sm:text-6xl md:text-7xl lg:text-8xl font-black uppercase tracking-tight leading-[0.85] bg-gradient-to-r from-primary to-rose-400 bg-clip-text text-transparent">
-                                    {country.id === 'madrid' ? 'Madrid' : country.name}
-                                </span>
-                            </h1>
-                        </motion.div>
+                        {/* Title */}
+                        <h1 className="text-5xl sm:text-6xl md:text-7xl lg:text-8xl font-black text-white uppercase tracking-tight leading-[0.9]">
+                            BTS <span className="bg-gradient-to-r from-primary to-rose-400 bg-clip-text text-transparent">{country.id === 'madrid' ? 'Madrid' : country.name}</span>
+                        </h1>
 
                         {/* Info Row */}
                         <motion.div
@@ -781,15 +783,11 @@ export default function CountryClient({ country }: Props) {
                         >
                             {country.id === 'brasil' ? (
                                 <>
-                                    A espera acabou. <span className="text-white/60">BTS chega a {country.city}, {country.name}</span> neste 2026. Garanta seu lugar para a venda oficial de <strong className="text-white/70 font-semibold">ingressos para BTS no {country.name}</strong>. Prepare-se para sua chegada ao <span className="text-primary/70">{country.venue}</span>. Confira os preços oficiais a partir de {country.currencySymbol}{Math.min(...country.prices.map(p => p.price)).toLocaleString('pt-BR')} e contrate nosso serviço de Personal Shopper para gerenciar sua membresia e compra de forma antecipada.
-                                </>
-                            ) : country.id === 'mexico' ? (
-                                <>
-                                    La espera ha terminado. <span className="text-white/60">BTS llega a {country.city}, {country.name}</span> este 2026. Asegura tu lugar para la venta oficial de <strong className="text-white/70 font-semibold">boletos para BTS en {country.name}</strong>. Prepárate para su llegada al <span className="text-primary/70">{country.venue}</span>. Conoce los precios oficiales desde {country.currency === 'USD' && <span className="text-white/70">USD </span>}{country.currencySymbol}{Math.min(...country.prices.map(p => p.price)).toLocaleString('es-MX')} y contrata nuestro servicio de Personal Shopper para gestionar tu membresía y compra de forma anticipada.
+                                    BTS chega a {country.city} neste 2026. Prepare-se para fazer história no {country.venue} e garanta seus ingressos para o show mais esperado do {country.name}. Veja o mapa de setores e os preços oficiais a partir de {country.currencySymbol}{Math.min(...country.prices.map(p => p.price)).toLocaleString('pt-BR')}.
                                 </>
                             ) : (
                                 <>
-                                    La espera ha terminado. <span className="text-white/60">BTS llega a {country.city}, {country.name}</span> este 2026. Asegura tu lugar para la venta oficial de <strong className="text-white/70 font-semibold">entradas para BTS en {country.name}</strong>. Prepárate para su llegada al <span className="text-primary/70">{country.venue}</span>. Conoce los precios oficiales desde {country.currency === 'USD' && <span className="text-white/70">USD </span>}{country.currencySymbol}{Math.min(...country.prices.map(p => p.price)).toLocaleString('es-ES')} y contrata nuestro servicio de Personal Shopper para gestionar tu membresía y compra de forma anticipada.
+                                    BTS llega a {country.city} este 2026. Prepárate para hacer historia en el {country.venue} y asegura tus entradas para el concierto más esperado de {country.name}. Conoce el mapa de zonas y los precios oficiales a partir de {country.currency === 'USD' && <span className="text-white/50">USD </span>}{country.currencySymbol}{Math.min(...country.prices.map(p => p.price)).toLocaleString("es-ES")}.
                                 </>
                             )}
                         </motion.p>
@@ -797,148 +795,126 @@ export default function CountryClient({ country }: Props) {
                 </div>
             </section>
 
-            {/* TICKETS & STAGES */}
-            <section id="tickets" className="py-20 container mx-auto px-4 md:px-8">
-                <div className="flex flex-col md:flex-row gap-12">
+            {/* TICKETS SECTION - Redesigned */}
+            <section id="tickets" className="py-16 container mx-auto px-4 md:px-8">
+                
+                {/* Section Header */}
+                <div className="text-center mb-10">
+                    <h2 className="text-3xl md:text-4xl font-black uppercase text-slate-900 tracking-tight mb-2">{t.tickets}</h2>
+                    <p className="text-slate-500 text-sm">{t.ticketDisclaimer}</p>
+                </div>
 
-                    {/* LEFT COL: TICKETS */}
-                    <div className="flex-1">
-                        <div className="mb-12 flex flex-col gap-8 border-b border-slate-200 pb-8">
-                            <div className="flex flex-col md:flex-row md:items-end justify-between gap-6 mb-8">
-                                <h2 className="text-4xl font-black uppercase italic text-slate-900 tracking-tighter">{t.tickets}</h2>
+                {/* Main Grid */}
+                <div className="grid lg:grid-cols-3 gap-8">
+                    
+                    {/* LEFT: Dates & Payment */}
+                    <div className="lg:col-span-2 space-y-5">
+                        
+                        {/* Payment Method Toggle */}
+                        {(country.allowInstallments !== false) && (
+                            <div className="bg-white rounded-xl p-1 flex border border-slate-200 shadow-sm max-w-md mx-auto lg:mx-0">
+                                <button 
+                                    onClick={() => setIsInstallment(false)} 
+                                    className={`flex-1 py-2.5 px-5 text-sm font-bold uppercase rounded-lg transition-all ${!isInstallment ? 'bg-slate-900 text-white' : 'text-slate-500 hover:text-slate-900'}`}
+                                >
+                                    {t.cash}
+                                </button>
+                                <button 
+                                    onClick={() => setIsInstallment(true)} 
+                                    className={`flex-1 py-2.5 px-5 text-sm font-bold uppercase rounded-lg transition-all ${isInstallment ? 'bg-slate-900 text-white' : 'text-slate-500 hover:text-slate-900'}`}
+                                >
+                                    {t.installments}
+                                </button>
+                            </div>
+                        )}
 
-                                <div className="flex gap-2 w-full md:w-auto p-1 bg-slate-100 rounded-xl">
-                                    {(country.allowInstallments !== false) && (
-                                        <>
-                                            <button onClick={() => setIsInstallment(false)} className={`flex-1 md:flex-none px-6 py-3 text-xs md:text-sm font-bold uppercase rounded-lg transition-all ${!isInstallment ? 'bg-white text-slate-900 shadow-sm' : 'bg-transparent text-slate-400 hover:text-slate-600'}`}>
-                                                {t.cash}
-                                            </button>
-                                            <button onClick={() => setIsInstallment(true)} className={`flex-1 md:flex-none px-6 py-3 text-xs md:text-sm font-bold uppercase rounded-lg transition-all ${isInstallment ? 'bg-slate-900 text-white shadow-sm' : 'bg-transparent text-slate-400 hover:text-slate-600'}`}>
-                                                {t.installments}
-                                            </button>
-                                        </>
-                                    )}
+                        {/* Installment Months */}
+                        {isInstallment && (
+                            <div className="bg-slate-50 p-4 rounded-xl max-w-md mx-auto lg:mx-0">
+                                <p className="text-sm font-semibold text-slate-600 mb-3">Número de cuotas:</p>
+                                <div className="flex gap-2">
+                                    {[2, 3, 4].map(m => (
+                                        <button
+                                            key={m}
+                                            onClick={() => setInstallmentMonths(m)}
+                                            className={`flex-1 py-2 text-lg font-bold border-2 rounded-lg transition-all ${installmentMonths === m ? 'border-slate-900 bg-slate-900 text-white' : 'border-slate-200 bg-white text-slate-600'}`}
+                                        >
+                                            {m}
+                                        </button>
+                                    ))}
                                 </div>
                             </div>
+                        )}
 
-                            {/* INSTALLMENT SELECTOR */}
-                            {isInstallment && (
-                                <div className="bg-slate-50 p-6 rounded-2xl animate-fade-in-up">
-                                    <p className="text-sm font-bold uppercase tracking-widest text-slate-400 mb-4">{t.chooseInstallments}</p>
-                                    <div className="flex gap-4 mb-4">
-                                        {[2, 3].map(m => (
-                                            <button
-                                                key={m}
-                                                onClick={() => setInstallmentMonths(m)}
-                                                className={`flex-1 py-4 text-lg font-black uppercase border-2 rounded-xl transition-all ${installmentMonths === m ? 'border-slate-900 bg-slate-900 text-white' : 'border-slate-200 bg-white text-slate-400 hover:border-slate-300'}`}
-                                            >
-                                                {m} {t.installments}
-                                            </button>
-                                        ))}
-                                    </div>
-                                    <p className="text-xs text-slate-500 font-medium">
-                                        {isPeru
-                                            ? `* En cuotas el precio se divide en ${installmentMonths} pagos mensuales. La primera cuota se paga hoy.`
-                                            : (isChile
-                                                ? `* En cuotas se suma ${country.currencySymbol}${CHILE_INSTALLMENT_INTEREST.toLocaleString('es-CL')} por entrada y se divide en ${installmentMonths} pagos mensuales. La primera cuota se paga hoy.`
-                                                : (isArgentina
-                                                    ? `* En cuotas se suma ${country.currencySymbol}${ARGENTINA_INSTALLMENT_INTEREST.toLocaleString('es-AR')} por entrada y se divide en ${installmentMonths} pagos mensuales. La primera cuota se paga hoy.`
-                                                    : `* En cuotas el precio se divide en ${installmentMonths} pagos mensuales. La primera cuota se paga hoy.`))}
-                                    </p>
-                                </div>
-                            )}
-
-                            {/* DATE SELECTOR */}
-                            <div className="space-y-4">
-                                <p className="text-[10px] text-slate-500 font-medium mb-3 border-l-2 border-slate-300 pl-3 bg-slate-50 py-2 rounded-r-lg">
-                                    {t.ticketDisclaimer}
-                                </p>
-                                <p className="text-sm font-bold uppercase tracking-widest text-slate-400 pl-1">{t.selectDateStep}</p>
-                                <div className="grid grid-cols-2 md:grid-cols-3 gap-4">
-                                    {country.dates.map((date) => {
-                                        const d = new Date(date + "T12:00:00");
-                                        const isSelected = selectedDate === date;
-                                        return (
-                                            <button
-                                                key={date}
-                                                onClick={() => setSelectedDate(date)}
-                                                className={`p-6 border-2 rounded-2xl flex flex-col items-center justify-center transition-all duration-300 group ${isSelected ? 'border-primary bg-primary/5 text-primary' : 'border-slate-100 text-slate-400 hover:border-primary/50 hover:bg-white bg-white hover:text-slate-900'}`}
-                                            >
-                                                <span className={`text-4xl font-black uppercase leading-none ${isSelected ? 'text-primary' : 'text-slate-300 group-hover:text-slate-900'}`}>{d.getDate()}</span>
-                                                <span className="text-xs font-bold uppercase tracking-widest mt-2">{d.toLocaleDateString(lang === 'pt' ? 'pt-BR' : 'es-ES', { month: 'short' })}</span>
-                                            </button>
-                                        )
-                                    })}
-                                </div>
+                        {/* Date Selection */}
+                        <div className="bg-white rounded-xl p-5 border border-slate-200 shadow-sm">
+                            <div className="flex items-center gap-2 mb-4">
+                                <Calendar className="w-5 h-5 text-primary" />
+                                <span className="font-bold text-slate-900">{t.selectDateStep}</span>
+                            </div>
+                            <div className="grid grid-cols-3 gap-3">
+                                {country.dates.map((date) => {
+                                    const d = new Date(date + "T12:00:00");
+                                    const isSelected = selectedDate === date;
+                                    return (
+                                        <button
+                                            key={date}
+                                            onClick={() => setSelectedDate(date)}
+                                            className={`py-3 px-2 border-2 rounded-lg flex flex-col items-center transition-all ${isSelected ? 'border-primary bg-primary text-white' : 'border-slate-100 text-slate-400 hover:border-primary/50'}`}
+                                        >
+                                            <span className="text-xl font-black">{d.getDate()}</span>
+                                            <span className="text-xs font-semibold uppercase mt-0.5">{d.toLocaleDateString(lang === 'pt' ? 'pt-BR' : 'es-ES', { month: 'short' })}</span>
+                                        </button>
+                                    )
+                                })}
                             </div>
                         </div>
 
-                        <div className="space-y-4">
+                        {/* Price Zones */}
+                        <div className="space-y-3">
                             {country.prices.map((zone, i) => (
-                                <div key={zone.zone} className={`group relative ${zone.soldOut ? 'opacity-60' : ''}`}>
-                                    <div className={`relative bg-white border border-slate-100 rounded-3xl p-6 md:p-8 flex flex-col md:flex-row items-center justify-between gap-6 transition-all duration-300 ${zone.soldOut ? 'border-slate-200 bg-slate-50' : 'hover:shadow-xl hover:border-primary/20 hover:-translate-y-1'}`}>
-                                        <div className="flex items-center gap-6 flex-1 text-center md:text-left">
-                                            <span className={`text-5xl font-black italic transition-colors hidden md:block ${zone.soldOut ? 'text-slate-200' : 'text-slate-100 group-hover:text-primary/10'}`}>0{i + 1}</span>
+                                <div key={zone.zone} className={`group ${zone.soldOut ? 'opacity-60' : ''}`}>
+                                    <div className={`bg-white border-2 rounded-xl p-4 flex items-center justify-between gap-4 transition-all ${zone.soldOut ? 'border-slate-200' : 'border-slate-100 hover:border-primary/30 hover:shadow-md'}`}>
+                                        
+                                        {/* Zone Info */}
+                                        <div className="flex items-center gap-3">
+                                            <div className={`w-10 h-10 rounded-lg flex items-center justify-center text-lg font-black ${zone.soldOut ? 'bg-slate-100 text-slate-300' : 'bg-slate-100 text-slate-400 group-hover:bg-primary group-hover:text-white'}`}>
+                                                {i + 1}
+                                            </div>
                                             <div>
-                                                <h4 className={`text-xl md:text-2xl font-black uppercase leading-none mb-2 ${zone.soldOut ? 'text-slate-400 line-through' : 'text-slate-900'}`}>{zone.zone}</h4>
-                                                {zone.description && (
-                                                    <p className="text-sm text-slate-500 mt-2 font-medium leading-tight max-w-md mx-auto md:mx-0">{zone.description}</p>
+                                                <h4 className={`text-base font-bold uppercase ${zone.soldOut ? 'text-slate-400 line-through' : 'text-slate-900'}`}>{zone.zone}</h4>
+                                                {i === 0 && !zone.soldOut && (
+                                                    <span className="text-[10px] font-bold uppercase bg-primary/10 text-primary px-1.5 py-0.5 rounded">{t.bestSeller}</span>
                                                 )}
-                                                <div className="flex flex-wrap justify-center md:justify-start gap-2 mt-3">
-                                                    {zone.soldOut && (
-                                                        <span className="bg-red-100 text-red-600 px-2 py-1 rounded text-[10px] font-bold uppercase tracking-wider">Agotado</span>
-                                                    )}
-                                                    {!zone.soldOut && (
-                                                        <>
-                                                            <span className={`px-2 py-1 rounded text-[10px] font-bold uppercase tracking-wider ${['mexico', 'madrid'].includes(country.id) ? 'bg-green-100 text-green-700' : 'bg-orange-50 text-orange-600'}`}>
-                                                                {isAndesFlow || ['mexico', 'madrid'].includes(country.id) ? "Precio" : "Precio"}
-                                                            </span>
-                                                            {i === 0 && <span className="bg-primary/10 text-primary px-2 py-1 rounded text-[10px] font-bold uppercase tracking-wider">{t.bestSeller}</span>}
-                                                        </>
-                                                    )}
-                                                </div>
-
-                                                {/* Phase progress (staggered per zone) */}
-                                                <PhaseProgress 
-                                                    offsetHours={(zone.progressOffsetHours ?? country.progressOffsetHours ?? 0)} 
-                                                    soldOut={zone.soldOut ?? false}
-                                                    dateIndex={selectedDate ? country.dates.indexOf(selectedDate) : 0}
-                                                />
+                                                {zone.soldOut && (
+                                                    <span className="text-[10px] font-bold uppercase bg-red-100 text-red-600 px-1.5 py-0.5 rounded">Agotado</span>
+                                                )}
                                             </div>
                                         </div>
 
-                                        <div className="flex items-center gap-8 w-full md:w-auto justify-between md:justify-end border-t md:border-t-0 border-slate-100 pt-4 md:pt-0">
-                                            <div className="text-right md:text-right text-left">
-                                                <p className={`text-3xl font-black tracking-tight ${zone.soldOut ? 'text-slate-400' : 'text-slate-900'}`}>
-                                                    {country.currency === 'USD' && <span className="text-sm font-bold text-slate-400 align-top mr-0.5">USD</span>}
-                                                    {country.currencySymbol}{getPrice(zone.price).toLocaleString(lang === 'pt' ? 'pt-BR' : 'en-US')}
+                                        {/* Price & Quantity */}
+                                        <div className="flex items-center gap-3">
+                                            <div className="text-right">
+                                                <p className={`text-xl font-black ${zone.soldOut ? 'text-slate-400' : 'text-slate-900'}`}>
+                                                    {country.currency === 'USD' && <span className="text-xs font-bold text-slate-500 mr-0.5">USD</span>}
+                                                    {country.currencySymbol}{getPrice(zone.price).toLocaleString(lang === 'pt' ? 'pt-BR' : 'es-ES')}
                                                 </p>
-                                                {isInstallment && perTicketInstallFee > 0 && (
-                                                    <p className="text-[10px] text-slate-400 font-bold uppercase">
-                                                        + {t.fee} {country.currencySymbol}{perTicketInstallFee.toLocaleString(lang === 'pt' ? 'pt-BR' : 'en-US')}
-                                                    </p>
-                                                )}
                                             </div>
-
-                                            <div className={`flex items-center bg-slate-50 rounded-xl overflow-hidden ${zone.soldOut || !selectedDate ? 'opacity-50 cursor-not-allowed' : ''}`}>
-                                                <button onClick={() => {
-                                                    if (zone.soldOut) {
-                                                        setIsSoldOutModalOpen(true);
-                                                    } else {
-                                                        updateQuantity(zone.zone, -1);
-                                                    }
-                                                }} disabled={zone.soldOut || !activePhase || !selectedDate} className="w-12 h-12 flex items-center justify-center hover:bg-white text-slate-500 transition-colors disabled:opacity-50">
-                                                    <Minus className="w-4 h-4" />
+                                            <div className={`flex items-center bg-slate-50 rounded-lg ${zone.soldOut ? 'opacity-50' : ''}`}>
+                                                <button 
+                                                    onClick={() => !zone.soldOut && selectedDate && updateQuantity(zone.zone, -1)}
+                                                    disabled={zone.soldOut || !selectedDate}
+                                                    className="w-8 h-8 flex items-center justify-center hover:bg-slate-100 text-slate-500"
+                                                >
+                                                    <Minus className="w-3 h-3" />
                                                 </button>
-                                                <span className="w-8 text-center font-bold text-lg text-slate-900">{quantities[zone.zone] || 0}</span>
-                                                <button onClick={() => {
-                                                    if (zone.soldOut) {
-                                                        setIsSoldOutModalOpen(true);
-                                                    } else {
-                                                        updateQuantity(zone.zone, 1);
-                                                    }
-                                                }} disabled={zone.soldOut || !activePhase || !selectedDate} className="w-12 h-12 flex items-center justify-center hover:bg-white text-slate-500 transition-colors disabled:opacity-50">
-                                                    <Plus className="w-4 h-4" />
+                                                <span className="w-6 text-center font-bold text-sm">{quantities[zone.zone] || 0}</span>
+                                                <button 
+                                                    onClick={() => !zone.soldOut && selectedDate && updateQuantity(zone.zone, 1)}
+                                                    disabled={zone.soldOut || !selectedDate}
+                                                    className="w-8 h-8 flex items-center justify-center hover:bg-slate-100 text-slate-500"
+                                                >
+                                                    <Plus className="w-3 h-3" />
                                                 </button>
                                             </div>
                                         </div>
@@ -948,182 +924,71 @@ export default function CountryClient({ country }: Props) {
                         </div>
                     </div>
 
-                    {/* RIGHT COL: MAP & SUMMARY */}
-                    <div className="w-full md:w-[400px] space-y-8">
-                        {/* MAPA CARD */}
-                        <div className="bg-white p-2 rounded-3xl shadow-lg border border-slate-100 overflow-hidden transform hover:scale-[1.02] transition-transform duration-500" onClick={() => setIsMapExpanded(true)}>
-                            <div className={`bg-slate-50 relative rounded-2xl overflow-hidden cursor-zoom-in ${['peru', 'chile', 'argentina', 'colombia'].includes(country.id) ? 'aspect-[16/10]' : 'aspect-square'}`}>
+                    {/* RIGHT: Map & Summary */}
+                    <div className="space-y-5">
+                        {/* Stadium Map */}
+                        <div className="bg-white rounded-xl shadow-lg border border-slate-100 overflow-hidden">
+                            <div className={`relative ${['peru', 'chile', 'argentina', 'colombia'].includes(country.id) ? 'aspect-[16/10]' : 'aspect-square'}`} onClick={() => setIsMapExpanded(true)}>
                                 {['peru', 'chile', 'argentina', 'colombia'].includes(country.id) ? (
                                     <img
-                                        src={
-                                            country.id === 'peru'
-                                                ? 'https://firebasestorage.googleapis.com/v0/b/event-ticket-website-6b541.firebasestorage.app/o/events%2Fstage-maps%2F1775537017513_wawzy.jpg?alt=media&token=09428b15-4857-4b81-b46e-f5f658ac9ecf'
-                                                : country.id === 'chile'
-                                                ? 'https://res.cloudinary.com/dz1qivt7m/image/upload/v1775645342/mapa_chile_taxr0b.jpg'
-                                                : country.id === 'argentina'
-                                                ? 'https://res.cloudinary.com/dz1qivt7m/image/upload/v1775645587/mapa_argentina_a7ogen.jpg'
-                                                : 'https://res.cloudinary.com/dz1qivt7m/image/upload/v1775645807/mapa_colombia_qtwzow.jpg'
-                                        }
-                                        alt={`Mapa de zonas y precios ${country.venue}`}
-                                        className="w-full h-full object-cover"
+                                        src={country.id === 'peru' ? 'https://firebasestorage.googleapis.com/v0/b/event-ticket-website-6b541.firebasestorage.app/o/events%2Fstage-maps%2F1775537017513_wawzy.jpg?alt=media&token=09428b15-4857-4b81-b46e-f5f658ac9ecf' : country.id === 'chile' ? 'https://res.cloudinary.com/dz1qivt7m/image/upload/v1775645342/mapa_chile_taxr0b.jpg' : country.id === 'argentina' ? 'https://res.cloudinary.com/dz1qivt7m/image/upload/v1775645587/mapa_argentina_a7ogen.jpg' : 'https://res.cloudinary.com/dz1qivt7m/image/upload/v1775645807/mapa_colombia_qtwzow.jpg'}
+                                        alt={`Mapa de zonas ${country.venue}`}
+                                        className="w-full h-full object-cover cursor-pointer"
                                     />
                                 ) : (
                                     <Image
-                                        src={
-                                            country.id === 'mexico' ? "/images/mapa-mexico.png" :
-                                                country.id === 'madrid' ? "/images/bts-madrid-mapa.png" :
-                                                    "/images/stadium-map.png"
-                                        }
-                                        alt={`Mapa de zonas y precios ${country.venue}`}
+                                        src={country.id === 'mexico' ? "/images/mapa-mexico.png" : country.id === 'madrid' ? "/images/bts-madrid-mapa.png" : "/images/stadium-map.png"}
+                                        alt={`Mapa de zonas ${country.venue}`}
                                         fill
-                                        className="object-contain p-4"
+                                        className="object-contain p-4 cursor-pointer"
                                     />
                                 )}
-                                <div className="absolute bottom-4 left-4 bg-white/90 backdrop-blur pl-2 pr-4 py-2 rounded-full flex items-center gap-2 shadow-sm">
-                                    <div className="bg-primary p-1.5 rounded-full text-white">
-                                        <MapPin className="w-3 h-3" />
-                                    </div>
-                                    <span className="text-xs font-bold uppercase text-slate-900">{t.mapStage}</span>
-                                </div>
+                            </div>
+                            <div className="p-3 border-t border-slate-100 flex justify-between items-center">
+                                <span className="font-bold text-slate-900 text-sm">Mapa de Zonas</span>
+                                <span className="text-primary text-sm font-semibold">Ver →</span>
                             </div>
                         </div>
 
-                        {/* COMMUNITY CARD */}
-                        <div
-                            onClick={() => setIsCommunityOpen(true)}
-                            className="bg-slate-900 text-white p-8 rounded-3xl cursor-pointer shadow-xl hover:-translate-y-2 transition-all duration-300 group relative overflow-hidden"
-                        >
-                            <div className="absolute top-0 right-0 p-6 opacity-10 group-hover:scale-125 transition-transform duration-500">
-                                <Image src="/images/whatsapp.svg" alt="WhatsApp" width={80} height={80} className="invert" />
+                        {/* WhatsApp */}
+                        <div onClick={() => setIsCommunityOpen(true)} className="bg-slate-900 text-white p-5 rounded-xl cursor-pointer hover:-translate-y-1 transition-all">
+                            <div className="flex items-center gap-2 mb-2">
+                                <Image src="/images/whatsapp.svg" alt="WhatsApp" width={20} height={20} className="invert" />
+                                <h4 className="text-base font-black uppercase">{t.whatsappGroups}</h4>
                             </div>
-                            <h4 className="text-2xl font-black uppercase mb-3 relative z-10 group-hover:text-primary transition-colors">
-                                {t.whatsappGroups}
-                            </h4>
-                            <p className="font-medium text-slate-400 text-sm leading-relaxed relative z-10 max-w-[90%] mb-6">
-                                {t.joinCommunity}
-                            </p>
-                            <div className="inline-flex items-center gap-2 font-bold uppercase text-xs tracking-widest bg-white/10 hover:bg-white hover:text-slate-900 px-6 py-3 rounded-full transition-all">
-                                {t.joinNow} <ArrowRight className="w-4 h-4" />
-                            </div>
+                            <p className="text-slate-400 text-sm mb-3">{t.joinCommunity}</p>
+                            <span className="inline-flex items-center gap-1 text-xs font-bold uppercase bg-white/10 px-3 py-1.5 rounded-lg">
+                                {t.joinNow} <ArrowRight className="w-3 h-3" />
+                            </span>
                         </div>
 
-                        {/* PHASE STATUS */}
-                        <div className="bg-white border border-slate-100 p-8 rounded-3xl shadow-sm">
-                            <h4 className="text-xs font-bold uppercase tracking-widest mb-6 border-b border-slate-100 pb-4 text-slate-400">{t.salesStatus}</h4>
-                            <div className="space-y-4">
-                                {country.id === 'peru' ? (
-                                    <div className="space-y-6">
-                                        <div className="relative pl-4 border-l-2 border-primary">
-                                            <div className="flex flex-col gap-1">
-                                                <div className="flex justify-between items-center">
-                                                    <h5 className="font-bold text-sm uppercase text-primary">
-                                                        Preventa Army Membership
-                                                    </h5>
-                                                    <span className="text-[10px] bg-primary/10 text-primary px-2 py-1 rounded-full font-bold uppercase">
-                                                        Desde
-                                                    </span>
-                                                </div>
-                                                <p className="text-xs text-slate-500">07.04.2026</p>
-                                                <p className="text-xs text-slate-500">10:00 AM</p>
-                                            </div>
+                        {/* Sales Status */}
+                        <div className="bg-white border border-slate-200 p-4 rounded-xl">
+                            <h4 className="text-xs font-bold uppercase text-slate-500 mb-3">{t.salesStatus}</h4>
+                            <div className="space-y-2">
+                                {country.id === 'madrid' ? (
+                                    <>
+                                        <div className="flex items-center justify-between opacity-50">
+                                            <span className="text-sm text-slate-400 line-through">Preventa Army</span>
+                                            <span className="text-[10px] bg-slate-100 text-slate-500 px-2 py-0.5 rounded">Agotado</span>
                                         </div>
-                                    </div>
-                                ) : country.id === 'mexico' ? (
-                                    <div className="space-y-6">
-                                        {/* Mexico Status Logic (Kept same structure but updated styling) */}
-                                        <div className={`relative pl-4 border-l-2 ${currentDate >= MEXICO_DATES.membership.start && currentDate <= MEXICO_DATES.membership.end ? 'border-primary' : 'border-slate-100'}`}>
-                                            <div className="flex flex-col gap-1">
-                                                <div className="flex justify-between items-center">
-                                                    <h5 className={`font-bold text-sm uppercase ${currentDate >= MEXICO_DATES.membership.start && currentDate <= MEXICO_DATES.membership.end ? 'text-primary' : 'text-slate-500'}`}>
-                                                        Venta Army Membership
-                                                    </h5>
-                                                    {currentDate >= MEXICO_DATES.membership.start && currentDate <= MEXICO_DATES.membership.end && (
-                                                        <span className="flex items-center gap-1.5 bg-red-100 text-red-600 text-[10px] uppercase font-bold px-2 py-0.5 rounded-full animate-pulse">
-                                                            Live
-                                                        </span>
-                                                    )}
-                                                </div>
-                                                <p className="text-xs text-slate-400">Vie, 23 ene 2026</p>
+                                        <div className="flex items-center justify-between">
+                                            <div className="flex items-center gap-2">
+                                                <div className="w-2 h-2 rounded-full bg-green-500"></div>
+                                                <span className="text-sm font-bold">Venta General</span>
                                             </div>
+                                            <span className="text-[10px] bg-green-100 text-green-700 px-2 py-0.5 rounded font-bold">Activo</span>
                                         </div>
-                                    </div>
-                                ) : country.id === 'madrid' ? (
-                                    <div className="space-y-5">
-                                        {/* MADRID CUSTOM PHASES */}
-                                        <div className="flex items-center justify-between opacity-60 grayscale">
-                                            <div className="flex items-center gap-4">
-                                                <div className="w-3 h-3 rounded-full bg-slate-300"></div>
-                                                <span className="text-sm font-bold uppercase text-slate-500 line-through decoration-slate-400">Preventa Army</span>
-                                            </div>
-                                            <span className="text-[10px] bg-slate-100 text-slate-500 px-2 py-1 rounded-full font-bold uppercase">Agotado</span>
-                                        </div>
-
-                                        <div className="flex items-center justify-between opacity-100">
-                                            <div className="flex items-center gap-4">
-                                                <div className="relative">
-                                                    <div className="w-3 h-3 rounded-full bg-green-500 shadow-[0_0_10px_rgba(34,197,94,0.5)]"></div>
-                                                    <div className="absolute inset-0 rounded-full bg-green-500 animate-ping opacity-75"></div>
-                                                </div>
-                                                <span className="text-sm font-black uppercase text-slate-900">Venta General</span>
-                                            </div>
-                                            <span className="text-[10px] bg-green-100 text-green-700 px-2.5 py-1 rounded-full font-extrabold uppercase animate-pulse shadow-sm border border-green-200">
-                                                Disponible
-                                            </span>
-                                        </div>
-                                    </div>
+                                    </>
                                 ) : (
-                                    PHASES.map((p) => {
-                                        const active = currentDate >= p.start && currentDate <= p.end;
-                                        return (
-                                            <div key={p.id} className={`flex items-center justify-between ${active ? 'opacity-100' : 'opacity-40 grayscale'}`}>
-                                                <div className="flex items-center gap-4">
-                                                    <div className={`w-3 h-3 rounded-full shadow-sm ring-2 ring-offset-2 ring-transparent ${active ? 'bg-primary ring-primary/20' : 'bg-slate-200'}`}></div>
-                                                    <span className={`text-sm font-bold uppercase ${active ? 'text-slate-900' : 'text-slate-400'}`}>{p.name}</span>
-                                                </div>
-                                                {active && <span className="text-[10px] bg-red-100 text-red-600 px-2 py-1 rounded-full font-bold">{t.live}</span>}
-                                            </div>
-                                        )
-                                    })
+                                    <div className="flex items-center justify-between">
+                                        <div className="flex items-center gap-2">
+                                            <div className="w-2 h-2 rounded-full bg-green-500 animate-pulse"></div>
+                                            <span className="text-sm font-bold">Venta General</span>
+                                        </div>
+                                        <span className="text-[10px] bg-green-100 text-green-700 px-2 py-0.5 rounded font-bold">Activo</span>
+                                    </div>
                                 )}
-                            </div>
-                        </div>
-                    </div>
-                </div >
-            </section >
-
-            {/* INFO & SEO */}
-            <section className="container mx-auto px-4 md:px-8 pb-12 pt-12 border-t border-slate-200">
-                <div className="grid grid-cols-1 md:grid-cols-2 gap-16 max-w-5xl mx-auto text-slate-600">
-                    <div className="space-y-8">
-                        <div>
-                            <h2 className="text-2xl font-black text-slate-900 mb-4 uppercase">{t.secureProcessTitle}</h2>
-                            <p className="leading-relaxed text-lg">{t.secureProcessDesc}</p>
-                        </div>
-                        <div>
-                            <h2 className="text-xl font-bold text-slate-900 mb-4 uppercase">{t.whySecureTitle}</h2>
-                            <ul className="space-y-4">
-                                <li className="flex gap-3">
-                                    <ShieldCheck className="w-6 h-6 text-primary shrink-0" />
-                                    <span><strong>{t.verification}</strong> {t.verificationDesc}</span>
-                                </li>
-                                <li className="flex gap-3">
-                                    <ShieldCheck className="w-6 h-6 text-primary shrink-0" />
-                                    <span><strong>{t.fraudProtection}</strong> {t.fraudProtectionDesc}</span>
-                                </li>
-                            </ul>
-                        </div>
-                    </div>
-                    <div className="space-y-8">
-                        <div>
-                            <h2 className="text-2xl font-black text-slate-900 mb-4 uppercase">
-                                {t.historyTitle.replace('{country}', country.name)}
-                            </h2>
-                            <div className="space-y-4 text-lg leading-relaxed">
-                                <p>{t.historyDesc1.replace('{country}', country.name).replace('{venue}', country.venue)}</p>
-                                <div className="bg-slate-100 p-6 rounded-2xl border-l-4 border-primary italic text-slate-700">
-                                    &ldquo;{t.historyDesc3.replace('{city}', country.city)} {t.historyDesc4}&rdquo;
-                                </div>
-                                <p>{t.historyDesc5}</p>
                             </div>
                         </div>
                     </div>
@@ -1174,11 +1039,11 @@ export default function CountryClient({ country }: Props) {
                                         <div className="flex flex-col">
                                             <p className="text-3xl font-black font-sans tracking-tight text-slate-900 leading-none">
                                                 {country.currency === 'USD' && <span className="text-sm font-bold text-slate-400 align-top mr-0.5">USD</span>}
-                                                {country.currencySymbol}{(isInstallment ? reservationAmount : totalAmount).toLocaleString(lang === 'pt' ? 'pt-BR' : 'en-US')}
+                                                {country.currencySymbol}{(isInstallment ? reservationAmount : totalAmount).toLocaleString(getLocale(country.id))}
                                             </p>
                                             {isInstallment && (
                                                 <span className="text-xs font-bold text-primary mt-1">
-                                                    + {installmentMonths} {t.installmentsOf} {country.currencySymbol}{Math.ceil(monthlyPayment).toLocaleString(lang === 'pt' ? 'pt-BR' : 'en-US')}
+                                                    + {installmentMonths} {t.installmentsOf} {country.currencySymbol}{Math.ceil(monthlyPayment).toLocaleString(getLocale(country.id))}
                                                 </span>
                                             )}
                                         </div>

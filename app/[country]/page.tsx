@@ -27,33 +27,33 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
 
     // Localization overrides
     if (country.id === 'peru') {
-        title = `Entradas BTS Perú 2026: en Estadio San Marcos`;
+        title = `Entradas BTS Perú 2026`;
         description = `Compra tus entradas para BTS en Perú 2026 con precios desde ${formattedPrice} en el Estadio San Marcos. Selecciona zonas oficiales y completa tu pedido seguro por WhatsApp.`;
         ogTitle = `Entradas BTS Perú 2026 |`;
         ogDescription = `El Army de Perú ya tiene precios por zona. Completa tu pedido de forma segura para BTS en Lima.`;
         ogSiteName = `Entradas BTS Perú`;
     } else if (country.id === 'brasil') {
-        title = `Ingressos BTS Brasil 2026: Compre Agora no Estádio do MorumBIS`;
+        title = `Ingressos BTS Brasil 2026`;
         description = `Compre seus ingressos para o show do BTS no Brasil em 2026! Preços a partir de ${formattedPrice} no Estádio do MorumBIS. Compra segura, zonas VIP e mapa de assentos aqui.`;
         ogTitle = `Ingressos BTS Brasil 2026 | Estádio do MorumBIS`;
         ogDescription = `O Army chega ao Brasil! Garanta seus ingressos para o show do BTS no Estádio do MorumBIS. Compra segura e verificada.`;
         ogSiteName = `Ingressos BTS Brasil`;
         ogLocale = 'pt_BR';
     } else if (country.id === 'mexico') {
-        title = `Boletos BTS México 2026: Precios y Fechas | Estadio GNP`;
+        title = `Boletos BTS México 2026`;
         description = `¡Compra tus boletos para BTS en México 2026! Precios desde ${formattedPrice} en el Estadio GNP Seguros. Compra segura, zonas VIP y mapa del escenario aquí.`;
         ogTitle = `Boletos BTS México 2026 | Estadio GNP Seguros`;
         ogDescription = `¡BTS en CDMX! No te quedes fuera. Compra segura y verificada para el concierto en el Estadio GNP Seguros.`;
         ogSiteName = `Boletos BTS México`;
     } else if (country.id === 'madrid') {
-        title = `Entradas BTS Madrid 2026: Estadio Metropolitano | Compra Oficial`;
+        title = `Entradas BTS Madrid 2026`;
         description = `¡Consigue tus ENTRADAS para BTS en MADRID 2026! Concierto oficial en el ${country.venue}. Precios desde ${formattedPrice}. Compra segura y verificada.`;
         ogTitle = `ENTRADAS BTS MADRID 2026 | Estadio Metropolitano`;
         ogDescription = `BTS llega a España. Compra tus ENTRADAS para BTS en MADRID 2026 de forma segura para el Metropolitano.`;
         ogSiteName = `Entradas BTS Madrid`;
         ogLocale = 'es_ES';
     } else if (country.id === 'colombia') {
-        title = `Boletas BTS Colombia 2026: Precios en El Campín`;
+        title = `Boletas BTS Colombia 2026`;
         description = `¡Asegura tus boletas para BTS en Colombia 2026! Precios desde ${formattedPrice} en el Estadio El Campín. Compra segura, zonas VIP y mapa del escenario.`;
         ogTitle = `Boletas BTS Colombia 2026 | Estadio El Campín`;
         ogDescription = `¡El Army de Colombia se reporta! Compra segura y verificada para el concierto de BTS en Bogotá.`;

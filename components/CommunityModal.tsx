@@ -25,7 +25,7 @@ export function CommunityModal({ isOpen, onClose, userCountryCode }: CommunityMo
         subtitle: "Chatea con otros Armys",
         description: "Coordina entradas y prepárate para el show.",
         cta: "Unirse al grupo",
-        members: "+50,000 Armys",
+        members: "+5000 Armys",
         note: "Precios oficiales en cada zona.",
         close: "Cerrar",
         otherGroups: "Otros grupos"

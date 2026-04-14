@@ -82,7 +82,7 @@ const translations = {
     es: {
         worldTour: "Gira Mundial",
         liveFrom: "En Vivo desde",
-        buyTickets: "Comprar entradas ahora",
+        buyTickets: "Comprar entradas",
         selectDate: "Selecciona una Fecha",
         tickets: "Entradas",
         nextEvent: "Próximo Evento",
@@ -212,7 +212,7 @@ const translations = {
     co: {
         worldTour: "Gira Mundial",
         liveFrom: "En Vivo desde",
-        buyTickets: "Comprar entradas ahora",
+        buyTickets: "Comprar entradas",
         selectDate: "Selecciona una Fecha",
         tickets: "Boletas",
         nextEvent: "Próximo Evento",
@@ -277,7 +277,7 @@ const translations = {
     es_ES: {
         worldTour: "Gira Mundial",
         liveFrom: "En Vivo desde",
-        buyTickets: "Comprar entradas ahora",
+        buyTickets: "Comprar entradas",
         selectDate: "Selecciona una Fecha",
         tickets: "Entradas",
         nextEvent: "Próximo Evento",
@@ -342,7 +342,7 @@ const translations = {
     mx: {
         worldTour: "Gira Mundial",
         liveFrom: "En Vivo desde",
-        buyTickets: "Comprar entradas ahora",
+        buyTickets: "Comprar entradas",
         selectDate: "Selecciona una Fecha",
         tickets: "Boletos",
         nextEvent: "Próximo Evento",

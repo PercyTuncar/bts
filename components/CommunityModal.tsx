@@ -1,11 +1,9 @@
 "use client";
 
 import { motion, AnimatePresence } from "framer-motion";
-import { getCountryIdFromPathname, getOrderedWhatsappCountries } from "@/lib/data/countries";
-import { X, ExternalLink, MessageCircle, Heart } from "lucide-react";
-import { GlassCard } from "./GlassCard";
+import { getCountryIdFromPathname, countries } from "@/lib/data/countries";
+import { X, ExternalLink, MessageCircle, ArrowRight, Check } from "lucide-react";
 import Image from "next/image";
-
 import { usePathname } from "next/navigation";
 
 interface CommunityModalProps {
@@ -16,151 +14,126 @@ interface CommunityModalProps {
 
 export function CommunityModal({ isOpen, onClose, userCountryCode }: CommunityModalProps) {
     const pathname = usePathname();
-    const isBrazil = pathname?.startsWith('/brasil');
-    const orderedCountries = getOrderedWhatsappCountries({ pathname, userCountryCode });
     const currentCountryId = getCountryIdFromPathname(pathname);
+    
+    const allCountries = countries.filter(c => c.whatsappLink);
+    const currentCountry = allCountries.find(c => c.id === currentCountryId);
+    const otherCountries = allCountries.filter(c => c.id !== currentCountryId);
 
-    // Translations
-    const t = isBrazil ? {
-        title: "Junte-se ao",
-        highlight: "Grupo",
-        description: "Entre no chat do seu país, coordene seus ingressos e prepare-se para o show.",
-        group: "Grupo Oficial",
-        members: "+50.000 Armys unidos",
-        note: "Nota: Preços oficiais por setor disponíveis. Comissão de serviço detalhada no pedido."
-    } : {
-        title: "Únete al",
-        highlight: "Grupo",
-        description: "Únete al chat de tu país, coordina tus entradas y prepárate para el show.",
-        group: "Grupo Oficial",
-        members: "+50,000 Armys unidos",
-        note: "Nota: Precios oficiales por zona disponibles. La comisión de servicio se detalla en el pedido."
+    const t = {
+        title: "Grupo de WhatsApp",
+        subtitle: "Chatea con otros Armys",
+        description: "Coordina entradas y prepárate para el show.",
+        cta: "Unirse al grupo",
+        members: "+50,000 Armys",
+        note: "Precios oficiales en cada zona.",
+        close: "Cerrar",
+        otherGroups: "Otros grupos"
     };
 
     return (
         <AnimatePresence>
             {isOpen && (
-                <div className="fixed inset-0 z-[100] flex items-center justify-center p-4 md:p-8 overflow-y-auto">
-                    {/* Backdrop */}
+                <div className="fixed inset-0 z-[100] flex items-center justify-center p-4">
                     <motion.div
                         initial={{ opacity: 0 }}
                         animate={{ opacity: 1 }}
                         exit={{ opacity: 0 }}
                         onClick={onClose}
-                        className="fixed inset-0 bg-black/90 backdrop-blur-md"
+                        className="absolute inset-0 bg-black/70 backdrop-blur-sm"
                     />
 
-                    {/* Modal Content */}
                     <motion.div
-                        initial={{ scale: 0.9, opacity: 0, y: 50 }}
+                        initial={{ scale: 0.9, opacity: 0, y: 20 }}
                         animate={{ scale: 1, opacity: 1, y: 0 }}
-                        exit={{ scale: 0.9, opacity: 0, y: 50 }}
-                        className="relative w-full max-w-lg my-auto"
+                        exit={{ scale: 0.9, opacity: 0, y: 20 }}
+                        className="relative w-full max-w-sm"
                     >
-                        <div className="relative bg-white border border-slate-200 rounded-3xl overflow-hidden shadow-2xl">
-
-                            {/* Close Button */}
-                            <button
-                                onClick={onClose}
-                                className="absolute top-4 right-4 z-20 w-8 h-8 bg-white/50 hover:bg-white text-slate-900 shadow-sm rounded-full flex items-center justify-center transition-all backdrop-blur-sm"
-                            >
-                                <X className="w-4 h-4" />
-                            </button>
-
-                            {/* Cover Image */}
-                            <div className="relative h-52 w-full">
-                                <Image
-                                    src="/images/home-hero.jpg"
-                                    alt="BTS Army Purple Ocean"
-                                    fill
-                                    className="object-cover"
-                                />
-                                <div className="absolute inset-0 bg-gradient-to-t from-[#0a0a0a] via-[#0a0a0a]/40 to-transparent"></div>
-
-                                {/* Floating Badge */}
-                                <div className="absolute -bottom-10 left-1/2 -translate-x-1/2 z-10">
-                                    <div className="w-24 h-24 bg-[#25D366] rounded-full p-1 shadow-[0_0_40px_rgba(37,211,102,0.4)] flex items-center justify-center border-[6px] border-[#0a0a0a]">
-                                        <img src="/images/whatsapp.svg" alt="WhatsApp" className="w-12 h-12" />
-                                    </div>
-                                </div>
-                            </div>
-
-                            {/* Content */}
-                            <div className="pt-16 pb-12 px-8 md:px-12 text-center relative z-10">
-                                <motion.div
-                                    initial={{ y: 20, opacity: 0 }}
-                                    animate={{ y: 0, opacity: 1 }}
-                                    transition={{ delay: 0.1 }}
+                        <div className="bg-white rounded-2xl shadow-2xl overflow-hidden max-h-[90vh] flex flex-col">
+                            
+                            {/* Header - Compact */}
+                            <div className="relative h-24 bg-gradient-to-br from-[#25D366] to-[#128C7E] p-4 text-center flex-shrink-0">
+                                <button
+                                    onClick={onClose}
+                                    className="absolute top-2 right-2 w-7 h-7 bg-white/20 hover:bg-white/30 text-white rounded-full flex items-center justify-center"
+                                    aria-label="Cerrar"
                                 >
-                                    <div className="inline-block bg-primary text-white px-4 py-1 text-sm font-black uppercase -rotate-2 mb-4 shadow-sm">
-                                        World Tour 2026
-                                    </div>
-                                    <h2 className="text-4xl md:text-5xl font-black uppercase italic text-slate-900 mb-2 leading-[0.9]">
-                                        {t.title} <span className="text-primary">{t.highlight}</span>
-                                    </h2>
-                                    <p className="text-slate-500 font-medium text-sm md:text-base leading-relaxed mb-8 max-w-xs mx-auto mt-4">
-                                        <strong className="text-slate-900">{isBrazil ? "Entre no chat do seu país" : "Únete al chat de tu país"}</strong>, {isBrazil ? "coordene seus ingressos e prepare-se para o show." : "coordina tus entradas y prepárate para el show."}
-                                    </p>
-                                </motion.div>
+                                    <X className="w-4 h-4" />
+                                </button>
 
-                                <div className="space-y-3">
-                                    {orderedCountries.map((country, i) => (
-                                            <motion.a
-                                                key={country.id}
-                                                href={country.whatsappLink}
-                                                target="_blank"
-                                                rel="noopener noreferrer"
-                                                initial={{ x: -20, opacity: 0 }}
-                                                animate={{ x: 0, opacity: 1 }}
-                                                transition={{ delay: 0.2 + (i * 0.1) }}
-                                                className={`group flex items-center justify-between p-4 rounded-xl border transition-all duration-300 ${currentCountryId === country.id
-                                                    ? 'bg-[#25D366]/10 border-[#25D366] hover:bg-[#25D366]/20'
-                                                    : 'bg-slate-50 border-slate-200 hover:bg-[#25D366] hover:border-[#25D366]'
-                                                    }`}
-                                            >
-                                                <div className="flex items-center gap-4">
-                                                    <span className="text-2xl">{country.flag}</span>
-                                                    <div className="text-left">
-                                                        <span className={`block font-black uppercase text-sm tracking-widest transition-colors ${currentCountryId === country.id ? 'text-[#166534]' : 'text-slate-900 group-hover:text-white'
-                                                            }`}>
-                                                            Army {country.name}
-                                                        </span>
-                                                        {country.id === 'argentina' && (
-                                                            <span className="mt-1 inline-flex items-center rounded-full bg-gradient-to-r from-violet-500 via-fuchsia-500 to-purple-700 px-2 py-0.5 text-[9px] font-black uppercase tracking-wider text-white shadow-sm">
-                                                                Nuevo grupo 
-                                                            </span>
-                                                        )}
-                                                        <span className={`text-[10px] font-bold uppercase transition-colors flex items-center gap-1 ${currentCountryId === country.id ? 'text-[#166534]' : 'text-slate-500 group-hover:text-white/90'
-                                                            }`}>
-                                                            <MessageCircle className="w-3 h-3" /> {t.group}
-                                                        </span>
-                                                    </div>
-                                                </div>
-                                                <div className={`w-8 h-8 rounded-full flex items-center justify-center transition-colors ${currentCountryId === country.id
-                                                    ? 'bg-[#25D366] text-white'
-                                                    : 'bg-white border border-slate-200 text-slate-400 group-hover:bg-white/20 group-hover:text-black group-hover:border-transparent'
-                                                    }`}>
-                                                    <ExternalLink className="w-4 h-4" />
-                                                </div>
-                                            </motion.a>
-                                        ))}
+                                <div className="w-10 h-10 bg-white rounded-xl flex items-center justify-center mx-auto mb-2">
+                                    <Image src="/images/whatsapp.svg" alt="WhatsApp" width={20} height={20} className="text-[#25D366]" />
                                 </div>
+                                
+                                <h2 className="text-lg font-black text-white uppercase">{t.title}</h2>
+                            </div>
 
-                                <div className="mt-8 pt-6 border-t border-slate-100 flex flex-col items-center justify-center gap-2">
-                                    <div className="flex -space-x-2 overflow-hidden">
-                                        {[1, 2, 3, 4].map(i => (
-                                            <div key={i} className="inline-block h-6 w-6 rounded-full ring-2 ring-white bg-slate-200"></div>
-                                        ))}
+                            {/* Content - Scrollable */}
+                            <div className="p-4 overflow-y-auto flex-1">
+                                {/* Current Country - Compact */}
+                                {currentCountry && (
+                                    <div className="bg-[#25D366]/10 border border-[#25D366] rounded-lg p-3 mb-3">
+                                        <div className="flex items-center gap-2 mb-2">
+                                            <span className="text-xl">{currentCountry.flag}</span>
+                                            <div className="flex-1">
+                                                <p className="text-sm font-black text-slate-900">{currentCountry.name}</p>
+                                            </div>
+                                            <div className="w-7 h-7 bg-[#25D366] rounded-full flex items-center justify-center">
+                                                <Check className="w-4 h-4 text-white" />
+                                            </div>
+                                        </div>
+                                        <a
+                                            href={currentCountry.whatsappLink}
+                                            target="_blank"
+                                            rel="noopener noreferrer"
+                                            className="flex items-center justify-center gap-1 w-full bg-[#25D366] hover:bg-[#128C7E] text-white font-bold text-sm py-2 rounded-lg transition-colors"
+                                        >
+                                            {t.cta} <ArrowRight className="w-4 h-4" />
+                                        </a>
                                     </div>
-                                    <p className="text-[10px] text-slate-500 uppercase tracking-widest font-bold">
-                                        {t.members}
-                                    </p>
-                                    <p className="text-[10px] text-slate-400 mt-2 max-w-[200px] mx-auto leading-tight">
-                                        {t.note}
+                                )}
+
+                                <p className="text-slate-500 text-xs text-center mb-3">{t.description}</p>
+
+                                {/* Other Countries - Compact Grid */}
+                                {otherCountries.length > 0 && (
+                                    <>
+                                        <p className="text-[10px] font-bold text-slate-400 uppercase mb-2">{t.otherGroups}</p>
+                                        <div className="grid grid-cols-2 gap-1.5">
+                                            {otherCountries.map((country) => (
+                                                <a
+                                                    key={country.id}
+                                                    href={country.whatsappLink}
+                                                    target="_blank"
+                                                    rel="noopener noreferrer"
+                                                    className="flex items-center gap-1.5 bg-slate-100 hover:bg-slate-200 px-2 py-1.5 rounded-lg transition-colors"
+                                                >
+                                                    <span className="text-base">{country.flag}</span>
+                                                    <span className="text-xs font-medium text-slate-700 flex-1 truncate">{country.name}</span>
+                                                    <ExternalLink className="w-3 h-3 text-slate-400 flex-shrink-0" />
+                                                </a>
+                                            ))}
+                                        </div>
+                                    </>
+                                )}
+
+                                {/* Footer */}
+                                <div className="mt-4 pt-3 border-t border-slate-100 text-center">
+                                    <p className="text-[10px] text-slate-400 flex items-center justify-center gap-1">
+                                        <MessageCircle className="w-3 h-3" /> {t.members}
                                     </p>
                                 </div>
                             </div>
 
+                            {/* Bottom close button */}
+                            <div className="px-4 pb-3 flex-shrink-0">
+                                <button
+                                    onClick={onClose}
+                                    className="w-full py-1.5 text-slate-400 hover:text-slate-600 text-xs font-medium transition-colors"
+                                >
+                                    {t.close}
+                                </button>
+                            </div>
                         </div>
                     </motion.div>
                 </div>
@@ -168,4 +141,3 @@ export function CommunityModal({ isOpen, onClose, userCountryCode }: CommunityMo
         </AnimatePresence>
     );
 }
-

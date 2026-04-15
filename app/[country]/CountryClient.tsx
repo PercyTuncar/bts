@@ -839,9 +839,9 @@ export default function CountryClient({ country }: Props) {
                             <div className="flex items-center justify-between bg-slate-50 rounded-lg px-4 py-3 border border-slate-200">
                                 <div className="flex items-center gap-2">
                                     <span className="text-sm font-bold text-slate-700">
-                                        {isChile ? '🇨🇱' : isColombia ? '🇨🇴' : '🇦🇷'} Precios en {isChile ? 'Pesos' : isColombia ? 'Pesos' : 'Pesos'}
+                                        {!showLocalCurrency ? '🇺🇸' : isChile ? '🇨🇱' : isColombia ? '🇨🇴' : '🇦🇷'} Precios {!showLocalCurrency ? 'Dólares' : 'Pesos'}
                                     </span>
-                                    <span className="text-xs text-slate-500">(参考)</span>
+                                    <span className="text-xs text-slate-500" title="Precio referencial">(Ref)</span>
                                 </div>
                                 <div className="bg-white p-1 rounded-lg flex shadow-sm">
                                     <button 

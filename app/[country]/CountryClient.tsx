@@ -689,6 +689,7 @@ export default function CountryClient({ country }: Props) {
                         muted
                         loop
                         playsInline
+                        poster="https://images.prestigeonline.com/wp-content/uploads/sites/6/2022/08/09215459/BTS-members-1600x900.jpg"
                         onCanPlayThrough={() => setVideoLoaded(true)}
                         className={`absolute inset-0 w-full h-full object-cover object-[center_20%] transition-opacity duration-1000 ${videoLoaded ? 'opacity-100' : 'opacity-0'}`}
                     >
@@ -708,6 +709,7 @@ export default function CountryClient({ country }: Props) {
 
                         {/* Title */}
                         <h1 className="text-5xl sm:text-6xl md:text-7xl lg:text-8xl font-black text-white uppercase tracking-tight leading-[0.9]">
+                            <span className="sr-only">Entradas Concierto BTS </span>
                             BTS <span className="bg-gradient-to-r from-primary to-rose-400 bg-clip-text text-transparent">{country.id === 'madrid' ? 'Madrid' : country.name}</span>
                         </h1>
 

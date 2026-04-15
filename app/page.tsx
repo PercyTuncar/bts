@@ -214,13 +214,13 @@ export default function Home() {
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
           {countries.map((country, i) => (
             <Link key={country.id} href={`/${country.id}`} className="group block h-full">
-              <GlassCard variant="interactive" className="h-full flex flex-col p-0 overflow-hidden min-h-[320px] border border-slate-200 shadow-sm hover:shadow-md">
-                <div className="h-1/2 relative overflow-hidden">
+              <GlassCard variant="interactive" className="h-full flex flex-col p-0 overflow-hidden border border-slate-200 shadow-sm hover:shadow-md">
+                <div className="relative h-40 overflow-hidden">
                   <Image
                     src={countryImages[country.id] || "/images/stadium-map.png"}
                     alt={`${country.name} - ${country.city}`}
                     fill
-                    className="object-cover group-hover:scale-105 transition-transform duration-500"
+                    className="object-cover group-hover:scale-110 transition-transform duration-500"
                   />
                 </div>
 

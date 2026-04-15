@@ -447,6 +447,29 @@ export default function CountryClient({ country }: Props) {
     const [mounted, setMounted] = useState(false);
     const [videoLoaded, setVideoLoaded] = useState(false);
 
+    // Currency conversion for Chile, Colombia, Argentina
+    const EXCHANGE_RATES: Record<string, number> = {
+        chile: 886.36,
+        colombia: 3619.91,
+        argentina: 1367.51,
+    };
+    const [showLocalCurrency, setShowLocalCurrency] = useState(false);
+    const isColombia = country.id === 'colombia';
+    const showCurrencyToggle = isChile || isColombia || isArgentina;
+
+    const formatPrice = (price: number, showLocal: boolean) => {
+        if (!showLocal || !EXCHANGE_RATES[country.id]) {
+            return { main: `${country.currency === 'USD' ? '$' : ''}${price.toLocaleString('es-ES')}`, sub: null };
+        }
+        const localPrice = Math.round(price * EXCHANGE_RATES[country.id]);
+        const locale = country.id === 'chile' ? 'es-CL' : country.id === 'colombia' ? 'es-CO' : 'es-AR';
+        const currency = country.id === 'chile' ? 'CLP' : country.id === 'colombia' ? 'COP' : 'ARS';
+        return {
+            main: new Intl.NumberFormat(locale, { style: 'currency', currency, maximumFractionDigits: 0 }).format(localPrice),
+            sub: `Ref: USD $${price.toLocaleString('es-ES')}`
+        };
+    };
+
     // Initial tick to avoid hydration mismatch
     const [timeLeft, setTimeLeft] = useState({ days: 0, hours: 0, minutes: 0, seconds: 0 });
     const [selectedDate, setSelectedDate] = useState<string | null>(country.dates[0] || null);
@@ -709,7 +732,7 @@ export default function CountryClient({ country }: Props) {
 
                         {/* Title */}
                         <h1 className="text-5xl sm:text-6xl md:text-7xl lg:text-8xl font-black text-white uppercase tracking-tight leading-[0.9]">
-                            <span className="sr-only">Entradas Concierto BTS </span>
+                            <span className="sr-only">Entradas Concierto </span>
                             BTS <span className="bg-gradient-to-r from-primary to-rose-400 bg-clip-text text-transparent">{country.id === 'madrid' ? 'Madrid' : country.name}</span>
                         </h1>
 
@@ -812,6 +835,27 @@ export default function CountryClient({ country }: Props) {
                     {/* LEFT: Dates & Payment */}
                     <div className="lg:col-span-2 space-y-5">
                         
+                        {/* Currency Toggle (for Chile, Colombia, Argentina) */}
+                        {showCurrencyToggle && (
+                            <div className="flex items-center justify-end gap-2 mb-2">
+                                <span className="text-xs font-bold text-slate-500 uppercase">Moneda:</span>
+                                <div className="bg-slate-100 p-1 rounded-lg flex">
+                                    <button 
+                                        onClick={() => setShowLocalCurrency(false)}
+                                        className={`px-3 py-1 text-xs font-bold uppercase rounded-md transition-all ${!showLocalCurrency ? 'bg-white text-slate-900 shadow-sm' : 'text-slate-400 hover:text-slate-600'}`}
+                                    >
+                                        USD
+                                    </button>
+                                    <button 
+                                        onClick={() => setShowLocalCurrency(true)}
+                                        className={`px-3 py-1 text-xs font-bold uppercase rounded-md transition-all ${showLocalCurrency ? 'bg-white text-slate-900 shadow-sm' : 'text-slate-400 hover:text-slate-600'}`}
+                                    >
+                                        {isChile ? 'CLP' : isColombia ? 'COP' : 'ARS'}
+                                    </button>
+                                </div>
+                            </div>
+                        )}
+
                         {/* Payment Method Toggle */}
                         {(country.allowInstallments !== false) && (
                             <div className="bg-white rounded-xl p-1 flex border border-slate-200 shadow-sm max-w-md mx-auto lg:mx-0">
@@ -897,10 +941,19 @@ export default function CountryClient({ country }: Props) {
                                         {/* Price & Quantity */}
                                         <div className="flex items-center gap-3">
                                             <div className="text-right">
-                                                <p className={`text-xl font-black ${zone.soldOut ? 'text-slate-400' : 'text-slate-900'}`}>
-                                                    {country.currency === 'USD' && <span className="text-xs font-bold text-slate-500 mr-0.5">USD</span>}
-                                                    {country.currencySymbol}{getPrice(zone.price).toLocaleString(lang === 'pt' ? 'pt-BR' : 'es-ES')}
-                                                </p>
+                                                {(() => {
+                                                    const formatted = formatPrice(getPrice(zone.price), showLocalCurrency);
+                                                    return (
+                                                        <>
+                                                            <p className={`text-xl font-black ${zone.soldOut ? 'text-slate-400' : 'text-slate-900'}`}>
+                                                                {formatted.main}
+                                                            </p>
+                                                            {formatted.sub && (
+                                                                <span className="text-[10px] font-medium text-slate-400">{formatted.sub}</span>
+                                                            )}
+                                                        </>
+                                                    );
+                                                })()}
                                             </div>
                                             <div className={`flex items-center bg-slate-50 rounded-lg ${zone.soldOut ? 'opacity-50' : ''}`}>
                                                 <button 

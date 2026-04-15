@@ -19,8 +19,8 @@ const countryImages: Record<string, string> = {
 };
 
 export const metadata = {
-  title: 'Entradas BTS 2026',
-  description: 'Venta segura de entradas para la gira de BTS por Latinoamérica. Fechas confirmadas en Perú, Chile, México y Colombia. Compra segura en entradasbts.com.',
+  title: 'Comprar Entradas BTS 2026 | Tour Latinoamérica (Perú, Chile, MX)',
+  description: 'Garantiza tu lugar en el BTS World Tour 2026. Compra entradas para Perú, Chile, México, Colombia, Argentina y Brasil. Servicio de Personal Shopper exclusivo para el Army.',
   openGraph: {
     title: 'BTS 2026 - Latinoamérica',
     description: 'Fechas confirmadas en Perú, Chile, México y Colombia. ¡El Army se une!',
@@ -52,8 +52,8 @@ export const metadata = {
   },
   twitter: {
     card: 'summary_large_image',
-    title: 'BTS World Tour 2026 | Venta Segura Latam',
-    description: 'Fechas confirmadas en Perú, Chile, México y Colombia. ¡El Army se une!',
+    title: 'Comprar Entradas BTS 2026 | Tour Latinoamérica',
+    description: 'Garantiza tu lugar en el BTS World Tour 2026. Servicio de Personal Shopper exclusivo para el Army.',
     images: ['/images/home-hero.jpg'],
   },
 };
@@ -80,11 +80,13 @@ export default function Home() {
       "eventAttendanceMode": "https://schema.org/OfflineEventAttendanceMode",
       "location": {
         "@type": "Place",
-        "name": c.venue,
+        "name": c.id === 'mexico' ? "Estadio Azteca" : c.venue,
         "sameAs": c.id === 'peru' ? "https://es.wikipedia.org/wiki/Estadio_Nacional_del_Per%C3%BA" :
           c.id === 'chile' ? "https://es.wikipedia.org/wiki/Estadio_Monumental_(Chile)" :
             c.id === 'mexico' ? "https://es.wikipedia.org/wiki/Estadio_Azteca" :
-              "https://es.wikipedia.org/wiki/Estadio_Nemesio_Camacho_El_Camp%C3%ADn",
+              c.id === 'argentina' ? "https://es.wikipedia.org/wiki/Estadio_%C3%9Anico_de_La_Plata" :
+                c.id === 'brasil' ? "https://es.wikipedia.org/wiki/Allianz_Parque" :
+                  "https://es.wikipedia.org/wiki/Estadio_Nemesio_Camacho_El_Camp%C3%ADn",
         "address": {
           "@type": "PostalAddress",
           "addressLocality": c.city,
@@ -173,10 +175,10 @@ export default function Home() {
           {/* Visual Title - Semantically H2 */}
           <h2 className="flex flex-col items-center justify-center text-5xl md:text-8xl font-black tracking-tighter uppercase leading-[0.85] drop-shadow-sm">
             <span className="block text-slate-900 relative">
-              La Espera
+              Comprar Entradas
             </span>
             <span className="block text-transparent bg-clip-text bg-gradient-to-r from-primary to-rose-600 italic font-serif pb-4 relative">
-              Terminó
+              BTS Latinoamérica
               <span className="absolute -bottom-1 left-0 right-0 h-2 bg-primary/20 -z-10 -rotate-1 rounded-full"></span>
             </span>
           </h2>
@@ -207,7 +209,7 @@ export default function Home() {
       {/* QUICK SELECT GRID */}
       <section id="tour-dates" className="container mx-auto px-4 py-24">
         <div className="flex items-end justify-between mb-12 border-b-4 border-slate-200 pb-4">
-          <h2 className="text-5xl font-black uppercase italic">Fechas del Tour</h2>
+          <h2 className="text-5xl font-black uppercase italic">Fechas y Países del Tour de BTS 2026</h2>
           <div className="text-sm font-bold uppercase tracking-widest text-gray-500">Selecciona tu ciudad</div>
         </div>
 

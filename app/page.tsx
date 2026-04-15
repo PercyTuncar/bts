@@ -8,6 +8,16 @@ import { ArrowRight, Ticket, Music, ShoppingBag } from "lucide-react";
 import Image from "next/image";
 import { HomeCommunityBanner } from "@/components/HomeCommunityBanner";
 
+const countryImages: Record<string, string> = {
+    peru: "https://cuscoperu.b-cdn.net/wp-content/uploads/2024/02/Atardece-Costa-verde-Lima.webp",
+    chile: "https://images.adsttc.com/media/images/6375/4384/bd52/ae22/4b92/1646/large_jpg/guia-de-arquitectura-en-santiago-de-chile-41-edificios-complejos-y-parques-de-la-capital-chilena_43.jpg?1668629390",
+    colombia: "https://cloudfront-us-east-1.images.arcpublishing.com/infobae/JAAYCWLOQRHOTKSLAZAH37REYM.jpeg",
+    madrid: "https://spanish100.com/wp-content/uploads/2013/04/Madrid-820x410.png",
+    mexico: "https://media.vogue.mx/photos/5f95dc072b8eeeefbed2b680/master/w_1600%2Cc_limit/Ciudad-de-Me%25CC%2581xico-Zo%25CC%2581calo.jpg",
+    argentina: "https://media.admagazine.com/photos/618a6a585e45a526c6be8f63/master/w_1600,c_limit/61333.jpg",
+    brasil: "https://humanidades.com/wp-content/uploads/2018/08/brasil-2-e1574647461361-800x415.jpg",
+};
+
 export const metadata = {
   title: 'Entradas BTS 2026',
   description: 'Venta segura de entradas para la gira de BTS por Latinoamérica. Fechas confirmadas en Perú, Chile, México y Colombia. Compra segura en entradasbts.com.',
@@ -203,22 +213,26 @@ export default function Home() {
 
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
           {countries.map((country, i) => (
-            <Link key={country.id} href={`/${country.id}`} className="group block">
-              <GlassCard variant="interactive" className="h-full flex flex-col justify-between min-h-[300px] hover:bg-white/80 transition-colors border border-slate-200 shadow-sm hover:shadow-md">
-                <div className="flex justify-between items-start">
-                  <span className="text-6xl font-black text-slate-100 group-hover:text-primary/20 transition-colors">0{i + 1}</span>
-                  <div className="bg-slate-900 text-white text-xs font-bold px-2 py-1 uppercase">Disponible</div>
+            <Link key={country.id} href={`/${country.id}`} className="group block h-full">
+              <GlassCard variant="interactive" className="h-full flex flex-col p-0 overflow-hidden min-h-[320px] border border-slate-200 shadow-sm hover:shadow-md">
+                <div className="h-1/2 relative overflow-hidden">
+                  <Image
+                    src={countryImages[country.id] || "/images/stadium-map.png"}
+                    alt={`${country.name} - ${country.city}`}
+                    fill
+                    className="object-cover group-hover:scale-105 transition-transform duration-500"
+                  />
                 </div>
 
-                <div className="space-y-4">
+                <div className="p-5 flex-1 flex flex-col justify-between bg-white">
                   <div>
-                    <h3 className="text-4xl font-black uppercase leading-none mb-1 text-slate-900 group-hover:text-primary transition-colors">{country.city}</h3>
-                    <p className="text-slate-500 font-serif italic text-lg">{country.name}</p>
+                    <h3 className="text-2xl font-black uppercase leading-none mb-1 text-slate-900 group-hover:text-primary transition-colors">{country.city}</h3>
+                    <p className="text-slate-500 font-serif italic text-sm">{country.venue}</p>
                   </div>
 
-                  <div className="border-t border-slate-200 pt-4 flex justify-between items-center">
-                    <span className="text-xs font-bold uppercase tracking-widest text-slate-400">{country.venue}</span>
-                    <ArrowRight className="w-5 h-5 -rotate-45 group-hover:rotate-0 transition-transform text-primary" />
+                  <div className="border-t border-slate-200 pt-3 mt-3 flex justify-between items-center">
+                    <span className="text-xs font-bold uppercase tracking-widest text-slate-400">{country.isoCode}</span>
+                    <ArrowRight className="w-4 h-4 -rotate-45 group-hover:rotate-0 transition-transform text-primary" />
                   </div>
                 </div>
               </GlassCard>

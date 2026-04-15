@@ -415,6 +415,7 @@ export default function CountryClient({ country }: Props) {
     const isPeru = country.id === 'peru';
     const isChile = country.id === 'chile';
     const isArgentina = country.id === 'argentina';
+    const isColombia = country.id === 'colombia';
     const isAndesFlow = isPeru || isChile || isArgentina;
 
     const formatDateRange = (dates: string[]) => {
@@ -454,7 +455,6 @@ export default function CountryClient({ country }: Props) {
         argentina: 1367.51,
     };
     const [showLocalCurrency, setShowLocalCurrency] = useState(false);
-    const isColombia = country.id === 'colombia';
     const showCurrencyToggle = isChile || isColombia || isArgentina;
 
     const formatPrice = (price: number, showLocal: boolean) => {
@@ -558,7 +558,6 @@ export default function CountryClient({ country }: Props) {
     };
 
     const baseAmount = country.prices.reduce((sum, zone) => sum + ((quantities[zone.zone] || 0) * zone.price), 0);
-    const isColombia = country.id === 'colombia';
     const serviceFeeAmount = isPeru
         ? 0
         : (isChile ? totalTickets * CHILE_SERVICE_FEE : (isArgentina ? totalTickets * ARGENTINA_SERVICE_FEE : (isColombia ? totalTickets * COLOMBIA_SERVICE_FEE : 0)));

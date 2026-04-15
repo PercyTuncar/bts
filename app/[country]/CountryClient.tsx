@@ -454,7 +454,7 @@ export default function CountryClient({ country }: Props) {
         colombia: 3619.91,
         argentina: 1367.51,
     };
-    const [showLocalCurrency, setShowLocalCurrency] = useState(false);
+    const [showLocalCurrency, setShowLocalCurrency] = useState(true);
     const showCurrencyToggle = isChile || isColombia || isArgentina;
 
     const formatPrice = (price: number, showLocal: boolean) => {
@@ -834,22 +834,29 @@ export default function CountryClient({ country }: Props) {
                     {/* LEFT: Dates & Payment */}
                     <div className="lg:col-span-2 space-y-5">
                         
-                        {/* Currency Toggle (for Chile, Colombia, Argentina) */}
+                        {/* Currency Toggle - Mejorado (for Chile, Colombia, Argentina) */}
                         {showCurrencyToggle && (
-                            <div className="flex items-center justify-end gap-2 mb-2">
-                                <span className="text-xs font-bold text-slate-500 uppercase">Moneda:</span>
-                                <div className="bg-slate-100 p-1 rounded-lg flex">
+                            <div className="flex items-center justify-between bg-slate-50 rounded-lg px-4 py-3 border border-slate-200">
+                                <div className="flex items-center gap-2">
+                                    <span className="text-sm font-bold text-slate-700">
+                                        {isChile ? '🇨🇱' : isColombia ? '🇨🇴' : '🇦🇷'} Precios en {isChile ? 'Pesos' : isColombia ? 'Pesos' : 'Pesos'}
+                                    </span>
+                                    <span className="text-xs text-slate-500">(参考)</span>
+                                </div>
+                                <div className="bg-white p-1 rounded-lg flex shadow-sm">
                                     <button 
                                         onClick={() => setShowLocalCurrency(false)}
-                                        className={`px-3 py-1 text-xs font-bold uppercase rounded-md transition-all ${!showLocalCurrency ? 'bg-white text-slate-900 shadow-sm' : 'text-slate-400 hover:text-slate-600'}`}
+                                        className={`px-4 py-1.5 text-sm font-bold rounded-md transition-all flex items-center gap-1 ${!showLocalCurrency ? 'bg-slate-900 text-white' : 'text-slate-500 hover:text-slate-700'}`}
                                     >
-                                        USD
+                                        <span>USD</span>
+                                        <span className="text-xs opacity-60">$</span>
                                     </button>
                                     <button 
                                         onClick={() => setShowLocalCurrency(true)}
-                                        className={`px-3 py-1 text-xs font-bold uppercase rounded-md transition-all ${showLocalCurrency ? 'bg-white text-slate-900 shadow-sm' : 'text-slate-400 hover:text-slate-600'}`}
+                                        className={`px-4 py-1.5 text-sm font-bold rounded-md transition-all flex items-center gap-1 ${showLocalCurrency ? 'bg-primary text-white' : 'text-slate-500 hover:text-slate-700'}`}
                                     >
-                                        {isChile ? 'CLP' : isColombia ? 'COP' : 'ARS'}
+                                        <span>{isChile ? 'CLP' : isColombia ? 'COP' : 'ARS'}</span>
+                                        <span className="text-xs opacity-60">{isChile ? '$' : isColombia ? '$' : '$'}</span>
                                     </button>
                                 </div>
                             </div>
@@ -919,10 +926,10 @@ export default function CountryClient({ country }: Props) {
                         <div className="space-y-3">
                             {country.prices.map((zone, i) => (
                                 <div key={zone.zone} className={`group ${zone.soldOut ? 'opacity-60' : ''}`}>
-                                    <div className={`bg-white border-2 rounded-xl p-4 flex items-center justify-between gap-4 transition-all ${zone.soldOut ? 'border-slate-200' : 'border-slate-100 hover:border-primary/30 hover:shadow-md'}`}>
+                                    <div className={`bg-white border-2 rounded-xl p-3 md:p-4 flex items-center justify-between gap-2 md:gap-4 transition-all overflow-hidden ${zone.soldOut ? 'border-slate-200' : 'border-slate-100 hover:border-primary/30 hover:shadow-md'}`}>
                                         
                                         {/* Zone Info */}
-                                        <div className="flex items-center gap-3">
+                                        <div className="flex items-center gap-2 md:gap-3 min-w-0 flex-1">
                                             <div className={`w-10 h-10 rounded-lg flex items-center justify-center text-lg font-black ${zone.soldOut ? 'bg-slate-100 text-slate-300' : 'bg-slate-100 text-slate-400 group-hover:bg-primary group-hover:text-white'}`}>
                                                 {i + 1}
                                             </div>
@@ -938,17 +945,17 @@ export default function CountryClient({ country }: Props) {
                                         </div>
 
                                         {/* Price & Quantity */}
-                                        <div className="flex items-center gap-3">
-                                            <div className="text-right">
+                                        <div className="flex items-center gap-2">
+                                            <div className="text-right min-w-0">
                                                 {(() => {
                                                     const formatted = formatPrice(getPrice(zone.price), showLocalCurrency);
                                                     return (
                                                         <>
-                                                            <p className={`text-xl font-black ${zone.soldOut ? 'text-slate-400' : 'text-slate-900'}`}>
+                                                            <p className={`text-base md:text-lg font-black whitespace-nowrap ${zone.soldOut ? 'text-slate-400' : 'text-slate-900'}`}>
                                                                 {formatted.main}
                                                             </p>
                                                             {formatted.sub && (
-                                                                <span className="text-[10px] font-medium text-slate-400">{formatted.sub}</span>
+                                                                <span className="text-[9px] font-medium text-slate-400 block whitespace-nowrap">{formatted.sub}</span>
                                                             )}
                                                         </>
                                                     );

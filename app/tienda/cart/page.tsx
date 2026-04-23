@@ -1,5 +1,6 @@
 "use client";
 
+import { useState } from "react";
 import { useCart } from "@/context/CartContext";
 import { GlassCard } from "@/components/GlassCard";
 import { Button } from "@/components/Button";
@@ -10,6 +11,7 @@ import { Trash2, Plus, Minus, ArrowRight, Info, User } from "lucide-react";
 export default function CartPage() {
     const { items, addItem, removeItem, updateItemQuantity, total } = useCart();
     const primaryTicket = items.find((item) => item.type === "ticket");
+    const [stockMessage, setStockMessage] = useState('');
 
     const getLocale = (item: (typeof items)[number]) => {
         if (item.currency === "PEN") return "es-PE";
@@ -119,6 +121,13 @@ export default function CartPage() {
         <div className="min-h-screen pt-24 pb-20 container mx-auto px-4 text-slate-900">
             <h1 className="text-4xl md:text-6xl font-black uppercase mb-12 text-slate-900">Carrito de Compras</h1>
 
+            {/* Stock limit message */}
+            {stockMessage && (
+                <div className="bg-red-50 border-2 border-red-200 text-red-700 font-bold text-sm px-4 py-3 rounded-xl text-center animate-pulse mb-6">
+                    {stockMessage}
+                </div>
+            )}
+
             <div className="grid lg:grid-cols-3 gap-12">
                 <div className="lg:col-span-2 space-y-6">
                     {items.map(item => (
@@ -165,7 +174,7 @@ export default function CartPage() {
                                 )}
                             </div>
 
-                            <div className="flex items-center gap-4">
+                             <div className="flex items-center gap-4">
                                 {item.type === 'payment-plan' ? (
                                     <button
                                         onClick={() => removeItem(item.slug)}
@@ -185,7 +194,17 @@ export default function CartPage() {
                                             <span className="font-mono font-bold w-4 text-center text-slate-900">{item.quantity}</span>
                                             <button
                                                 className="w-6 h-6 flex items-center justify-center hover:text-secondary text-slate-600"
-                                                onClick={() => addItem(item)}
+                                                onClick={() => {
+                                                    // Limit Cancha Andes to max 1
+                                                    if (item.zone === 'Cancha Andes' && item.quantity >= 1) {
+                                                        setStockMessage('Solo hay 1 ticket disponible para Cancha Andes');
+                                                        setTimeout(() => setStockMessage(''), 3000);
+                                                        return;
+                                                    }
+                                                    addItem(item);
+                                                }}
+                                                disabled={item.zone === 'Cancha Andes' && item.quantity >= 1}
+                                                title={item.zone === 'Cancha Andes' && item.quantity >= 1 ? 'Stock limitado: máximo 1 ticket' : ''}
                                             >
                                                 <Plus className="w-4 h-4" />
                                             </button>

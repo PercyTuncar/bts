@@ -4,6 +4,7 @@ export interface Pricing {
     color?: string;
     description?: string;
     soldOut?: boolean;
+    stock?: number; // max available quantity (undefined = unlimited)
     progressOffsetHours?: number; // offset en horas para llegar al 100%
 }
 
@@ -98,22 +99,22 @@ export const countries: CountryData[] = [
         currency: 'USD',
         currencySymbol: '$',
         prices: [
-            { zone: 'Pacífico Medio', price: 1784 },
-            { zone: 'Cancha Pacífico', price: 991 },
-            { zone: 'Cancha Andes', price: 991 },
-            { zone: 'Pacífico Alto', price: 892 },
-            { zone: 'Pacífico Bajo', price: 734 },
-            { zone: 'Movilidad Reducida', price: 734 },
-            { zone: 'Andes Bajo Centro', price: 615 },
-            { zone: 'Andes Bajo Norte', price: 555 },
-            { zone: 'Andes Bajo Sur', price: 555 },
-            { zone: 'Andes Alto Centro', price: 535 },
-            { zone: 'Andes Alto Norte', price: 496 },
-            { zone: 'Andes Alto Sur', price: 496 },
-            { zone: 'Galería Norte', price: 377 },
-            { zone: 'Galería Sur', price: 377 },
-            { zone: 'Pacífico Lateral Norte', price: 299 },
-            { zone: 'Pacífico Lateral Sur', price: 299 },
+            { zone: 'Pacífico Medio', price: 1784, soldOut: true },
+            { zone: 'Cancha Pacífico', price: 991, soldOut: true },
+            { zone: 'Cancha Andes', price: 991, stock: 1 },
+            { zone: 'Pacífico Alto', price: 892, soldOut: true },
+            { zone: 'Pacífico Bajo', price: 734, soldOut: true },
+            { zone: 'Movilidad Reducida', price: 734, soldOut: true },
+            { zone: 'Andes Bajo Centro', price: 615, soldOut: true },
+            { zone: 'Andes Bajo Norte', price: 555, soldOut: true },
+            { zone: 'Andes Bajo Sur', price: 555, soldOut: true },
+            { zone: 'Andes Alto Centro', price: 535, soldOut: true },
+            { zone: 'Andes Alto Norte', price: 496, soldOut: true },
+            { zone: 'Andes Alto Sur', price: 496, soldOut: true },
+            { zone: 'Galería Norte', price: 377, soldOut: true },
+            { zone: 'Galería Sur', price: 377, soldOut: true },
+            { zone: 'Pacífico Lateral Norte', price: 299, soldOut: true },
+            { zone: 'Pacífico Lateral Sur', price: 299, soldOut: true },
         ],
         description: 'Santiago, el momento ha llegado. Vive la magia de BTS en el Estadio Nacional.',
         openGraphImage: '/images/og-chile.jpg',

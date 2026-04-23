@@ -472,7 +472,19 @@ export default function CountryClient({ country }: Props) {
 
     // Initial tick to avoid hydration mismatch
     const [timeLeft, setTimeLeft] = useState({ days: 0, hours: 0, minutes: 0, seconds: 0 });
-    const [selectedDate, setSelectedDate] = useState<string | null>(country.dates[0] || null);
+    // Chile date availability: only Oct 17 is available, 14 and 16 are sold out
+    const CHILE_DATE_AVAILABILITY: Record<string, boolean> = {
+        '2026-10-14': false,
+        '2026-10-16': false,
+        '2026-10-17': true,
+    };
+    const isDateAvailable = (date: string) => {
+        if (country.id === 'chile') return CHILE_DATE_AVAILABILITY[date] ?? true;
+        return true;
+    };
+    const firstAvailableDate = country.dates.find(d => isDateAvailable(d)) || country.dates[0];
+    const [selectedDate, setSelectedDate] = useState<string | null>(firstAvailableDate || null);
+    const [stockMessage, setStockMessage] = useState('');
 
     // MEXICO SPECIFIC DATES
     const MEXICO_DATES = {
@@ -530,11 +542,17 @@ export default function CountryClient({ country }: Props) {
     const rawConfig = INSTALLMENT_CONFIG[country.id] || { fee: 100, reservation: 0 };
     const config = { ...rawConfig };
 
-    const updateQuantity = (zone: string, delta: number) => {
+    const updateQuantity = (zone: string, delta: number, maxStock?: number) => {
         setQuantities(prev => {
             const current = prev[zone] || 0;
             const next = Math.max(0, current + delta);
-            return { ...prev, [zone]: next };
+            const cap = maxStock ?? Infinity;
+            if (delta > 0 && next > cap) {
+                setStockMessage('Solo hay 1 ticket disponible para Cancha Andes');
+                setTimeout(() => setStockMessage(''), 3000);
+                return prev;
+            }
+            return { ...prev, [zone]: Math.min(next, cap) };
         });
     };
 
@@ -922,14 +940,25 @@ export default function CountryClient({ country }: Props) {
                                 {country.dates.map((date) => {
                                     const d = new Date(date + "T12:00:00");
                                     const isSelected = selectedDate === date;
+                                    const available = isDateAvailable(date);
                                     return (
                                         <button
                                             key={date}
-                                            onClick={() => setSelectedDate(date)}
-                                            className={`py-3 px-2 border-2 rounded-lg flex flex-col items-center transition-all ${isSelected ? 'border-primary bg-primary text-white' : 'border-slate-100 text-slate-400 hover:border-primary/50'}`}
+                                            onClick={() => available && setSelectedDate(date)}
+                                            disabled={!available}
+                                            className={`py-3 px-2 border-2 rounded-lg flex flex-col items-center transition-all relative ${
+                                                !available
+                                                    ? 'border-slate-200 bg-slate-50 text-slate-400 cursor-not-allowed opacity-60'
+                                                    : isSelected
+                                                        ? 'border-primary bg-primary text-white'
+                                                        : 'border-slate-100 text-slate-900 hover:border-primary/50'
+                                            }`}
                                         >
                                             <span className="text-xl font-black">{d.getDate()}</span>
                                             <span className="text-xs font-semibold uppercase mt-0.5">{d.toLocaleDateString(lang === 'pt' ? 'pt-BR' : 'es-ES', { month: 'short' })}</span>
+                                            {!available && (
+                                                <span className="text-[9px] font-bold uppercase bg-red-100 text-red-600 px-1 py-0.5 rounded mt-1">Agotado</span>
+                                            )}
                                         </button>
                                     )
                                 })}
@@ -938,18 +967,27 @@ export default function CountryClient({ country }: Props) {
 
                         {/* Price Zones */}
                         <div className="space-y-3">
-                            {country.prices.map((zone, i) => (
-                                <div key={zone.zone} className={`group ${zone.soldOut ? 'opacity-60' : ''}`}>
-                                    <div className={`bg-white border-2 rounded-xl p-3 md:p-4 flex items-center justify-between gap-2 md:gap-4 transition-all overflow-hidden ${zone.soldOut ? 'border-slate-200' : 'border-slate-100 hover:border-primary/30 hover:shadow-md'}`}>
+                            {country.prices.map((zone, i) => {
+                                const isCanchaAndes = zone.zone === 'Cancha Andes';
+                                const isDisabled = zone.soldOut;
+                                return (
+                                <div key={zone.zone} className={`group relative ${isDisabled ? 'opacity-60' : ''}`} aria-disabled={isDisabled}>
+                                    {/* Stock limit message for Cancha Andes */}
+                                    {isCanchaAndes && stockMessage && (
+                                        <div className="absolute -bottom-3 left-1/2 -translate-x-1/2 z-20 bg-red-600 text-white font-bold text-xs px-4 py-2 rounded-lg shadow-lg whitespace-nowrap animate-pulse">
+                                            {stockMessage}
+                                        </div>
+                                    )}
+                                    <div className={`bg-white border-2 rounded-xl p-3 md:p-4 flex items-center justify-between gap-2 md:gap-4 transition-all overflow-hidden relative ${isDisabled ? 'border-slate-200' : 'border-slate-100 hover:border-primary/30 hover:shadow-md'}`}>
                                         
                                         {/* Zone Info */}
                                         <div className="flex items-center gap-2 md:gap-3 min-w-0 flex-1">
-                                            <div className={`w-10 h-10 rounded-lg flex items-center justify-center text-lg font-black ${zone.soldOut ? 'bg-slate-100 text-slate-300' : 'bg-slate-100 text-slate-400 group-hover:bg-primary group-hover:text-white'}`}>
+                                            <div className={`w-10 h-10 rounded-lg flex items-center justify-center text-lg font-black ${isDisabled ? 'bg-slate-100 text-slate-300' : 'bg-slate-100 text-slate-400 group-hover:bg-primary group-hover:text-white'}`}>
                                                 {i + 1}
                                             </div>
                                             <div>
-                                                <h4 className={`text-base font-bold uppercase ${zone.soldOut ? 'text-slate-400 line-through' : 'text-slate-900'}`}>{zone.zone}</h4>
-                                                {i === 0 && !zone.soldOut && (
+                                                <h4 className={`text-base font-bold uppercase ${isDisabled ? 'text-slate-400 line-through' : 'text-slate-900'}`}>{zone.zone}</h4>
+                                                {i === 0 && !isDisabled && (
                                                     <span className="text-[10px] font-bold uppercase bg-primary/10 text-primary px-1.5 py-0.5 rounded">{t.bestSeller}</span>
                                                 )}
                                                 {zone.soldOut && (
@@ -965,7 +1003,7 @@ export default function CountryClient({ country }: Props) {
                                                     const formatted = formatPrice(getPrice(zone.price), showLocalCurrency);
                                                     return (
                                                         <>
-                                                            <p className={`text-base md:text-lg font-black whitespace-nowrap ${zone.soldOut ? 'text-slate-400' : 'text-slate-900'}`}>
+                                                            <p className={`text-base md:text-lg font-black whitespace-nowrap ${isDisabled ? 'text-slate-400' : 'text-slate-900'}`}>
                                                                 {formatted.main}
                                                             </p>
                                                             {formatted.sub && (
@@ -975,18 +1013,18 @@ export default function CountryClient({ country }: Props) {
                                                     );
                                                 })()}
                                             </div>
-                                            <div className={`flex items-center bg-slate-50 rounded-lg ${zone.soldOut ? 'opacity-50' : ''}`}>
-                                                <button 
-                                                    onClick={() => !zone.soldOut && selectedDate && updateQuantity(zone.zone, -1)}
-                                                    disabled={zone.soldOut || !selectedDate}
+                                            <div className={`flex items-center bg-slate-50 rounded-lg ${isDisabled ? 'opacity-50' : ''}`}>
+                                                <button
+                                                    onClick={() => !isDisabled && selectedDate && updateQuantity(zone.zone, -1, zone.stock)}
+                                                    disabled={isDisabled || !selectedDate}
                                                     className="w-8 h-8 flex items-center justify-center hover:bg-slate-100 text-slate-500"
                                                 >
                                                     <Minus className="w-3 h-3" />
                                                 </button>
                                                 <span className="w-6 text-center font-bold text-sm">{quantities[zone.zone] || 0}</span>
-                                                <button 
-                                                    onClick={() => !zone.soldOut && selectedDate && updateQuantity(zone.zone, 1)}
-                                                    disabled={zone.soldOut || !selectedDate}
+                                                <button
+                                                    onClick={() => !isDisabled && selectedDate && updateQuantity(zone.zone, 1, zone.stock)}
+                                                    disabled={isDisabled || !selectedDate}
                                                     className="w-8 h-8 flex items-center justify-center hover:bg-slate-100 text-slate-500"
                                                 >
                                                     <Plus className="w-3 h-3" />
@@ -995,7 +1033,7 @@ export default function CountryClient({ country }: Props) {
                                         </div>
                                     </div>
                                 </div>
-                            ))}
+                            )})}
                         </div>
                     </div>
 

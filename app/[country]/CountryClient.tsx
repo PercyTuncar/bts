@@ -893,6 +893,20 @@ export default function CountryClient({ country }: Props) {
                                 </div>
                             </div>
                         )}
+                        {/* PayPal Notification for Chile Cash Payment */}
+                        {isChile && !isInstallment && (
+                            <div className="bg-blue-50 border border-blue-200 rounded-xl p-4 flex items-start gap-3">
+                                <div className="flex-shrink-0 w-8 h-8 bg-blue-500 rounded-full flex items-center justify-center">
+                                    <svg className="w-5 h-5 text-white" fill="currentColor" viewBox="0 0 24 24">
+                                        <path d="M7.163 21.073H0V7.529h7.163v13.544zm1.758-15.062c-.555-.596-1.365-.93-2.261-.93H2.505c-.896 0-1.706.334-2.261.93-.555.596-.863 1.42-.863 2.418v9.23c0 .999.308 1.822.863 2.418.555.596 1.365.93 2.261.93h6.409c.896 0 1.706-.334 2.261-.93.555-.596.863-1.42.863-2.418V9.33c0-.998-.308-1.821-.863-2.418zm9.035 5.26c-.457-.63-1.123-.98-2.058-.98-1.025 0-1.856.43-2.492 1.29V7.529h-2.442v13.544h2.442V14.035c0-.471.088-.836.263-1.094.175-.258.414-.387.716-.387.298 0 .53.122.693.364.164.243.245.605.245 1.085v6.726h2.442v-7.238c0-.934-.232-1.65-.694-2.148z"/>
+                                    </svg>
+                                </div>
+                                <div>
+                                    <p className="text-sm font-bold text-blue-900">Pago Seguro con PayPal</p>
+                                    <p className="text-xs text-blue-700">Al seleccionar pago al contado serás redirigido a PayPal para un pago más seguro.</p>
+                                </div>
+                            </div>
+                        )}
 
                         {/* Payment Method Toggle */}
                         {(country.allowInstallments !== false) && (
@@ -944,7 +958,12 @@ export default function CountryClient({ country }: Props) {
                                     return (
                                         <button
                                             key={date}
-                                            onClick={() => available && setSelectedDate(date)}
+                                            onClick={() => { 
+  if (available) {
+    setSelectedDate(date);
+    localStorage.setItem("bts-fecha-seleccionada", date);
+  }
+}}
                                             disabled={!available}
                                             className={`py-3 px-2 border-2 rounded-lg flex flex-col items-center transition-all relative ${
                                                 !available

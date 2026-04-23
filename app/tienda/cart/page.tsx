@@ -1,6 +1,7 @@
 "use client";
 
 import { useState } from "react";
+import { useRouter } from "next/navigation";
 import { useCart } from "@/context/CartContext";
 import { GlassCard } from "@/components/GlassCard";
 import { Button } from "@/components/Button";
@@ -9,7 +10,8 @@ import Image from "next/image";
 import { Trash2, Plus, Minus, ArrowRight, Info, User } from "lucide-react";
 
 export default function CartPage() {
-    const { items, addItem, removeItem, updateItemQuantity, total } = useCart();
+    const router = useRouter();
+    const { items, addItem, removeItem, updateItemQuantity, total, clearCart } = useCart();
     const primaryTicket = items.find((item) => item.type === "ticket");
     const [stockMessage, setStockMessage] = useState('');
 
@@ -44,7 +46,19 @@ export default function CartPage() {
 
     const formatAmount = (amount: number, symbol = "$", locale = "es-PE") => `${symbol}${amount.toLocaleString(locale)}`;
 
-    const handleCheckout = () => {
+const handleCheckout = () => {
+        // Verificar si es Chile con pago al contado
+        const isChileOrder = primaryTicket?.countryId === "chile";
+        const hasInstallment = items.some(item => item.isInstallment);
+        
+        // Si es Chile, pago al contado (no cuotas), y no es plan de pago
+        if (isChileOrder && !hasInstallment && !items.some(item => item.type === 'payment-plan')) {
+            // Redirigir a PayPal para pago seguro
+            router.push('/pago-paypal');
+            return;
+        }
+
+        // Para otros casos, continuar con WhatsApp
         const phone = "51944784488";
             const detailLines = items.map((item) => {
             const symbol = item.currencySymbol || "$";
@@ -64,7 +78,7 @@ export default function CartPage() {
 
             const serviceFee = item.serviceFeePerTicket || 0;
             const installmentInterest = item.installmentInterestPerTicket || 0;
-            const unitTotal = getUnitTotal(item);
+            const unitTotal = item.price + serviceFee + installmentInterest;
             const lineTotal = unitTotal * item.quantity;
             const installmentText = item.isInstallment && item.installmentMonths
                 ? ` | ${item.installmentMonths} cuotas de ${formatAmount(Math.ceil(lineTotal / item.installmentMonths), symbol, locale)}`
@@ -274,47 +288,89 @@ export default function CartPage() {
                         </div>
 
                         {/* Payment instructions for Peru orders */}
-                        {primaryTicket?.countryId === 'peru' && (
-                            <div className="bg-white p-5 rounded-2xl border border-slate-100 mt-4 shadow-sm">
-                                <div className="flex items-start gap-4">
-                                    <div className="flex-shrink-0 bg-primary/10 text-primary p-3 rounded-xl">
-                                        <User className="w-5 h-5" />
-                                    </div>
+{primaryTicket?.countryId === 'peru' && (
+                  <div className="bg-white p-5 rounded-2xl border border-slate-100 mt-4 shadow-sm">
+                    <div className="flex items-start gap-4">
+                      <div className="flex-shrink-0 bg-primary/10 text-primary p-3 rounded-xl">
+                        <User className="w-5 h-5" />
+                      </div>
 
-                                    <div className="flex-1">
-                                        <h4 className="text-sm font-bold uppercase mb-2">Instrucciones de pago (Perú)</h4>
-                                        <div className="text-sm text-slate-700 space-y-2">
-                                            <div><span className="font-bold">👤 Titular:</span> PERCY TUNCAR</div>
-                                            <div><span className="font-bold">📱 Pago vía PLIN / YAPE:</span> Número: 944 784 488</div>
-                                            <div>
-                                                <span className="font-bold">🏦 Pago vía INTERBANK:</span>
-                                                <div className="ml-2">N° de Cuenta: 076 3129312815</div>
-                                                <div className="ml-2">CCI: 00307601312931281576</div>
-                                            </div>
-                                        </div>
-                                        <p className="text-xs text-slate-400 mt-3">Después de realizar el pago, envía tu comprobante para agilizar la gestión.</p>
+                      <div className="flex-1">
+                        <h4 className="text-sm font-bold uppercase mb-2">Instrucciones de pago (Perú)</h4>
+                        <div className="text-sm text-slate-700 space-y-2">
+                          <div><span className="font-bold">👤 Titular:</span> PERCY TUNCAR</div>
+                          <div><span className="font-bold">📱 Pago vía PLIN / YAPE:</span> Número: 944 784 488</div>
+                          <div>
+                            <span className="font-bold">🏦 Pago vía INTERBANK:</span>
+                            <div className="ml-2">N° de Cuenta: 076 3129312815</div>
+                            <div className="ml-2">CCI: 00307601312931281576</div>
+                          </div>
+                        </div>
+                        <p className="text-xs text-slate-400 mt-3">Después de realizar el pago, envía tu comprobante para agilizar la gestión.</p>
 
-                                        <div className="mt-4 flex gap-2">
-                                            <button onClick={handleSendProof} className="inline-flex items-center gap-2 bg-[#25D366] hover:bg-[#128C7E] text-white font-bold px-4 py-2 rounded-xl shadow-sm">
-                                                Enviar comprobante de pago <ArrowRight className="w-4 h-4" />
-                                            </button>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        )}
+                        <div className="mt-4 flex gap-2">
+                          <button onClick={handleSendProof} className="inline-flex items-center gap-2 bg-[#25D366] hover:bg-[#128C7E] text-white font-bold px-4 py-2 rounded-xl shadow-sm">
+                            Enviar comprobante de pago <ArrowRight className="w-4 h-4" />
+                          </button>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                )}
 
-                        <Button
-                            size="lg"
-                            className="w-full shadow-lg hover:shadow-xl bg-[#25D366] text-white border-transparent hover:bg-[#128C7E] mt-4"
-                            onClick={handleCheckout}
-                        >
-                            Completar en WhatsApp <ArrowRight className="w-5 h-5 ml-2" />
-                        </Button>
-
-                        <p className="text-xs text-center text-slate-400 mt-4">
-                            Serás redirigido a WhatsApp para coordinar el pago y envío con un asesor oficial de nosotros.
+                {/* Chile Cash Payment - Redirect to PayPal */}
+                {primaryTicket?.countryId === 'chile' && !items.some(item => item.isInstallment) && (
+                  <div className="bg-blue-50 p-5 rounded-2xl border border-blue-200 mt-4 shadow-sm">
+                    <div className="flex items-start gap-4">
+                      <div className="flex-shrink-0 bg-blue-100 text-blue-600 p-3 rounded-xl">
+                        <svg className="w-5 h-5" fill="currentColor" viewBox="0 0 24 24">
+                          <path d="M7.163 21.073H0V7.529h7.163v13.544zm1.758-15.062c-.555-.596-1.365-.93-2.261-.93H2.505c-.896 0-1.706.334-2.261.93-.555.596-.863 1.42-.863 2.418v9.23c0 .999.308 1.822.863 2.418.555.596 1.365.93 2.261.93h6.409c.896 0 1.706-.334 2.261-.93.555-.596.863-1.42.863-2.418V9.33c0-.998-.308-1.821-.863-2.418zm9.035 5.26c-.457-.63-1.123-.98-2.058-.98-1.025 0-1.856.43-2.492 1.29V7.529h-2.442v13.544h2.442V14.035c0-.471.088-.836.263-1.094.175-.258.414-.387.716-.387.298 0 .53.122.693.364.164.243.245.605.245 1.085v6.726h2.442v-7.238c0-.934-.232-1.65-.694-2.148z"/>
+                        </svg>
+                      </div>
+                      <div className="flex-1">
+                        <h4 className="text-sm font-bold uppercase mb-2 text-blue-900">Pago Seguro con PayPal</h4>
+                        <p className="text-sm text-blue-800 mb-3">
+                          Serás redirigido a PayPal para completar el pago de forma segura.
                         </p>
+                        <p className="text-xs text-blue-700">
+                          Total con comisión PayPal (3.5%):{' '}
+                          <span className="font-bold">
+                            ${formatAmount(total * 1.035, primaryTicket.currencySymbol, primaryTicket ? getLocale(primaryTicket) : 'es-ES')}
+                          </span>
+                        </p>
+                      </div>
+                    </div>
+                  </div>
+                )}
+
+{primaryTicket?.countryId === 'chile' && !items.some(item => item.isInstallment) ? (
+                          <>
+                            <Button
+                              size="lg"
+                              className="w-full shadow-lg hover:shadow-xl bg-gradient-to-r from-blue-600 to-blue-700 text-white border-transparent hover:from-blue-700 hover:to-blue-800 mt-4"
+                              onClick={() => {
+                                clearCart();
+                                window.location.href = 'https://www.paypal.com/ncp/payment/NNBWSP6KD3TJN';
+                              }}
+                            >
+                              PAGAR
+                            </Button>
+                          </>
+                        ) : (
+                          <>
+                            <Button
+                              size="lg"
+                              className="w-full shadow-lg hover:shadow-xl bg-[#25D366] text-white border-transparent hover:bg-[#128C7E] mt-4"
+                              onClick={handleCheckout}
+                            >
+                              Completar en WhatsApp <ArrowRight className="w-5 h-5 ml-2" />
+                            </Button>
+
+                            <p className="text-xs text-center text-slate-400 mt-4">
+                              Serás redirigido a WhatsApp para coordinar el pago y envío con un asesor oficial de nosotros.
+                            </p>
+                          </>
+                        )}
                     </GlassCard>
                 </div>
             </div>

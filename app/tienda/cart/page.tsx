@@ -13,6 +13,12 @@ export default function CartPage() {
     const primaryTicket = items.find((item) => item.type === "ticket");
     const [stockMessage, setStockMessage] = useState('');
 
+    const EXCHANGE_RATES: Record<string, number> = {
+        chile: 886.36,
+        colombia: 3619.91,
+        argentina: 1367.51,
+    };
+
     const getLocale = (item: (typeof items)[number]) => {
         if (item.currency === "PEN") return "es-PE";
         if (item.currency === "CLP") return "es-CL";
@@ -21,6 +27,13 @@ export default function CartPage() {
         if (item.currency === "MXN") return "es-MX";
         if (item.currency === "BRL") return "pt-BR";
         return "es-ES";
+    };
+
+    const getCLPPrice = (item: (typeof items)[number]) => {
+        if (item.countryId === 'chile' && EXCHANGE_RATES['chile']) {
+            return Math.round(item.price * EXCHANGE_RATES['chile']);
+        }
+        return null;
     };
 
     const getUnitTotal = (item: (typeof items)[number]) => {
@@ -57,9 +70,10 @@ export default function CartPage() {
                 ? ` | ${item.installmentMonths} cuotas de ${formatAmount(Math.ceil(lineTotal / item.installmentMonths), symbol, locale)}`
                 : "";
 
+            const clpPrice = item.countryId === 'chile' && getCLPPrice(item) ? ` (Ref: CLP ${getCLPPrice(item)?.toLocaleString('es-CL')})` : '';
             return [
                 `• ${item.quantity}x ${item.name}`,
-                `  - Base: ${formatAmount(item.price, symbol, locale)}`,
+                `  - Base: ${formatAmount(item.price, symbol, locale)}${clpPrice}`,
                 `  - Comisión servicio: ${formatAmount(serviceFee, symbol, locale)}`,
                 `  - Interés cuotas: ${formatAmount(installmentInterest, symbol, locale)}`,
                 `  - Subtotal línea: ${formatAmount(lineTotal, symbol, locale)}${installmentText}`,
@@ -144,6 +158,11 @@ export default function CartPage() {
                                     <>
                                         <p className="text-primary font-mono">
                                             {formatAmount(item.price, item.currencySymbol || "$", getLocale(item))}
+                                            {item.countryId === 'chile' && getCLPPrice(item) && (
+                                                <span className="text-xs text-slate-500 ml-2">
+                                                    (Ref: CLP {getCLPPrice(item)?.toLocaleString('es-CL')})
+                                                </span>
+                                            )}
                                         </p>
                                         {(item.serviceFeePerTicket || item.installmentInterestPerTicket) && (
                                             <div className="text-xs text-slate-500 mt-1 space-y-1">

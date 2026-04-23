@@ -101,7 +101,7 @@ export const countries: CountryData[] = [
         prices: [
             { zone: 'Pacífico Medio', price: 1784, soldOut: true },
             { zone: 'Cancha Pacífico', price: 991, soldOut: true },
-            { zone: 'Cancha Andes', price: 991, stock: 1 },
+            { zone: 'Cancha Andes', price: 949, stock: 1 },
             { zone: 'Pacífico Alto', price: 892, soldOut: true },
             { zone: 'Pacífico Bajo', price: 734, soldOut: true },
             { zone: 'Movilidad Reducida', price: 734, soldOut: true },

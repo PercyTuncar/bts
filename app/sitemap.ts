@@ -8,17 +8,17 @@ export default function sitemap(): MetadataRoute.Sitemap {
     // Static Routes
     const staticRoutes = [
         '',
-        '/tienda',
-        '/blog',
-        '/eventos',
-        '/legal/contacto',
-        '/legal/privacidad',
-        '/tienda/cart',
-        '/comprar-membresia-bts',
-        '/unirse',
-        '/legal/terminos',
+        'tienda',
+        'blog',
+        'eventos',
+        'legal/contacto',
+        'legal/privacidad',
+        'tienda/cart',
+        'comprar-membresia-bts',
+        'unirse',
+        'legal/terminos',
     ].map((route) => ({
-        url: `${baseUrl}${route}`,
+        url: route ? `${baseUrl}/${route}/` : `${baseUrl}/`,
         lastModified: new Date(),
         changeFrequency: 'daily' as const,
         priority: route === '' ? 1 : 0.8,
@@ -26,7 +26,7 @@ export default function sitemap(): MetadataRoute.Sitemap {
 
     // Dynamic Country Routes
     const countryRoutes = countries.map((country) => ({
-        url: `${baseUrl}/${country.id}`,
+        url: `${baseUrl}/${country.id}/`,
         lastModified: new Date(),
         changeFrequency: 'daily' as const,
         priority: 0.9,
@@ -34,7 +34,7 @@ export default function sitemap(): MetadataRoute.Sitemap {
 
     // Dynamic Product Routes
     const productRoutes = products.map((product) => ({
-        url: `${baseUrl}/tienda/${product.slug}`,
+        url: `${baseUrl}/tienda/${product.slug}/`,
         lastModified: new Date(),
         changeFrequency: 'weekly' as const,
         priority: 0.7,
@@ -43,25 +43,25 @@ export default function sitemap(): MetadataRoute.Sitemap {
     // Add explicit blog posts here if/when you have a data source for them
     const blogRoutes = [
         {
-            url: `${baseUrl}/blog/bts-en-netflix`,
+            url: `${baseUrl}/blog/bts-en-netflix/`,
             lastModified: new Date('2026-02-02'),
             changeFrequency: 'weekly' as const,
             priority: 0.9,
         },
         {
-            url: `${baseUrl}/blog/bts-en-dubai-2026-confirmado-viaje`,
+            url: `${baseUrl}/blog/bts-en-dubai-2026-confirmado-viaje/`,
             lastModified: new Date('2026-02-02'),
             changeFrequency: 'weekly' as const,
             priority: 0.9,
         },
         {
-            url: `${baseUrl}/blog/guide`,
+            url: `${baseUrl}/blog/guide/`,
             lastModified: new Date(),
             changeFrequency: 'monthly' as const,
             priority: 0.6,
         },
         {
-            url: `${baseUrl}/blog/setlist`,
+            url: `${baseUrl}/blog/setlist-predictions/`,
             lastModified: new Date(),
             changeFrequency: 'monthly' as const,
             priority: 0.6,

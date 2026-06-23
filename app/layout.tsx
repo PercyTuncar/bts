@@ -60,7 +60,7 @@ export const metadata: Metadata = {
     images: ['/images/bts-hero-bg.png'],
   },
   alternates: {
-    canonical: 'https://entradasbts.com',
+    canonical: 'https://entradasbts.com/',
   },
 };
 

@@ -9,7 +9,7 @@ export const metadata: Metadata = {
   description: '¡ÚLTIMA HORA! Confirmado: Jin, RM, J-Hope, Suga, Jimin, V y Jungkook viajan juntos a Dubai. Todo sobre su agenda en Emiratos Árabes y posible venta de entradas.',
   keywords: ['BTS Dubai', 'BTS 2026', 'BTS Aeropuerto', 'Kpop Conciertos 2026', 'Entradas BTS'],
   alternates: {
-    canonical: '/blog/bts-en-dubai-2026-confirmado-viaje',
+    canonical: 'https://entradasbts.com/blog/bts-en-dubai-2026-confirmado-viaje/',
   },
   openGraph: {
     title: '¡BTS RUMBO A DUBAI! 🇦🇪 Los 7 miembros confirman viaje juntos',

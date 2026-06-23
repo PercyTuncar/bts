@@ -3,6 +3,7 @@ import { Button } from "@/components/Button";
 import Link from "next/link";
 import Image from "next/image";
 import { Metadata } from "next";
+import { notFound } from "next/navigation";
 import { LightBoxImage } from "@/components/LightBoxImage";
 
 type Props = {
@@ -20,17 +21,30 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
             title: "Boletos BTS México 2026: Precios Oficiales, Mapa y Preventa Estadio GNP",
             description: "¡Precios confirmados! Conoce cuánto cuestan los boletos para BTS en México 2026 (Estadio GNP). Mapa de asientos, paquetes VIP y guía de preventa Weverse aquí.",
             alternates: {
-                canonical: "/blog/boletos-bts-mexico"
+                canonical: "https://entradasbts.com/blog/boletos-bts-mexico/"
             }
         };
     }
 
     const title = normalized === 'guide'
         ? "Guía Definitiva: Cómo Sobrevivir a la Fila Virtual de BTS"
-        : "Noticia BTS";
+        : normalized === 'setlist' || normalized === 'setlist-rumors' || normalized === 'setlist-predictions'
+            ? "Predicciones del Setlist: ¿Qué canciones volverán?"
+            : "Noticia BTS";
+
+    const canonicalSlug = normalized === 'setlist' || normalized === 'setlist-rumors' || normalized === 'setlist-predictions'
+        ? 'setlist-predictions'
+        : normalized === 'boletos-bts-mexico'
+            ? 'boletos-bts-mexico'
+            : normalized;
 
     return {
         title: `${title} | Blog BTS 2026`,
+        ...(normalized === 'boletos-bts-mexico' || normalized === 'setlist' || normalized === 'setlist-rumors' || normalized === 'setlist-predictions' ? {
+            alternates: {
+                canonical: `https://entradasbts.com/blog/${canonicalSlug}/`
+            }
+        } : {})
     };
 }
 
@@ -47,7 +61,11 @@ export default async function BlogPost({ params }: Props) {
     // Debug log to server terminal
     console.log(`[BlogPost] Rendering. Raw: '${slug}', Normalized: '${normalizedSlug}'`);
 
-    if (normalizedSlug === 'boletos-bts-mexico') {
+    const renderSlug = normalizedSlug === 'setlist' || normalizedSlug === 'setlist-rumors'
+        ? 'setlist-predictions'
+        : normalizedSlug;
+
+    if (renderSlug === 'boletos-bts-mexico') {
         const jsonLd = {
             "@context": "https://schema.org",
             "@graph": [
@@ -368,7 +386,7 @@ export default async function BlogPost({ params }: Props) {
         );
     }
 
-    if (normalizedSlug === 'guide') {
+    if (renderSlug === 'guide') {
         const jsonLd = {
             "@context": "https://schema.org",
             "@type": "BlogPosting",
@@ -442,27 +460,82 @@ export default async function BlogPost({ params }: Props) {
         );
     }
 
-    // Default Fallback - Debug Friendly
-    return (
-        <div className="pt-32 pb-20 min-h-screen ambient-gradient">
-            <GlassCard className="text-center py-20 max-w-2xl mx-auto">
-                <h1 className="text-3xl font-bold text-slate-900">Artículo no encontrado: {slug}</h1>
-                <p className="mt-4 text-slate-500">
-                    URL Normalizado: <code>{normalizedSlug}</code> <br />
-                    URL Original: <code>{slug}</code>
-                </p>
-                <div className="mt-8 flex justify-center flex-col gap-2">
-                    <p>Intenta con:</p>
-                    <Link href="/blog/boletos-bts-mexico" className="text-secondary underline font-bold">/blog/boletos-bts-mexico</Link>
+    if (renderSlug === 'setlist-predictions') {
+        const jsonLd = {
+            "@context": "https://schema.org",
+            "@type": "BlogPosting",
+            "headline": "Predicciones del Setlist: ¿Qué canciones volverán?",
+            "image": ["https://entradasbts.com/images/blog-2.jpg"],
+            "datePublished": "2026-02-05T08:00:00-06:00",
+            "dateModified": "2026-02-05T09:00:00-06:00",
+            "author": [{
+                "@type": "Person",
+                "name": "Admin Purple",
+                "url": "https://entradasbts.com/team"
+            }]
+        };
+
+        return (
+            <article className="max-w-4xl mx-auto px-4 sm:px-6 py-10 pt-32">
+                <script
+                    type="application/ld+json"
+                    dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
+                />
+
+                <div className="mb-10 text-center max-w-3xl mx-auto">
+                    <Link href="/blog" className="inline-flex items-center text-primary font-bold tracking-wide text-sm hover:underline mb-6">
+                        &larr; VOLVER AL BLOG
+                    </Link>
+                    <h1 className="text-4xl md:text-5xl lg:text-6xl font-black text-slate-900 uppercase leading-tight mb-4">
+                        Predicciones del Setlist: ¿Qué canciones volverán?
+                    </h1>
+                    <p className="text-xl text-slate-600 font-serif italic">
+                        Analizamos las pistas de BTS para anticipar el repertorio más probable de la gira 2026.
+                    </p>
                 </div>
-            </GlassCard>
-        </div>
-    );
+
+                <GlassCard className="p-8 md:p-12 bg-white shadow-2xl border border-slate-200">
+                    <div className="prose prose-lg prose-slate max-w-none">
+                        <p className="lead text-xl text-slate-700">
+                            Las últimas apariciones y mensajes de BTS nos dejan varias señales claras: canciones clásicas, temas recientes y algunos regresos sorpresa.
+                        </p>
+
+                        <h2>Temas casi seguros</h2>
+                        <ul>
+                            <li><strong>Butter</strong> y <strong>Dynamite</strong>: éxitos globales que siguen siendo indispensables en cualquier show.</li>
+                            <li><strong>Life Goes On</strong>: una canción emblemática de la era de la gira y el mensaje del grupo.</li>
+                            <li><strong>Yet to Come</strong>: la balada que refuerza el nuevo rumbo de BTS tras su descanso.</li>
+                        </ul>
+
+                        <h2>Pistas recientes que apuntan al setlist</h2>
+                        <p>
+                            Las publicaciones del grupo insinúan un enfoque mixto entre nostalgia y modernidad. Los fans esperan ver temas de <strong>Map of the Soul</strong>, <strong>BE</strong> y el single más reciente.</p>
+
+                        <h2>Posibles sorpresas</h2>
+                        <p>
+                            Un par de sub-unidades o colaboraciones podrían aparecer como momentos especiales. Los rumores hablan de un regreso de <strong>Spring Day</strong> y una sección acústica con <strong>Epiphany</strong>.</p>
+
+                        <div className="rounded-3xl border border-slate-200 bg-slate-50 p-6">
+                            <h3 className="text-xl font-black">Nuestra predicción principal</h3>
+                            <p>
+                                Un setlist que combine <strong>Hits</strong>, <strong>Baladas</strong> y un final energético. La gira debería incluir al menos 18 canciones en los actos principales, con un encore de grandes éxitos.
+                            </p>
+                        </div>
+                    </div>
+                </GlassCard>
+            </article>
+        );
+    }
+
+    // Default Fallback - return proper 404 so soft 404 issues are avoided.
+    notFound();
 }
 
 export async function generateStaticParams() {
     return [
         { slug: 'guide' },
+        { slug: 'setlist-predictions' },
+        { slug: 'setlist' },
         { slug: 'setlist-rumors' },
         { slug: 'boletos-bts-mexico' },
     ];

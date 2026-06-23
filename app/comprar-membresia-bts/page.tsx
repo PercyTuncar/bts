@@ -93,7 +93,7 @@ export const metadata: Metadata = {
     description: 'Únete al ARMY oficial y asegura tu preventa para el Tour 2026. Compra tu Membresía BTS Global hoy. Precios en tu moneda local. Acceso inmediato a Weverse.',
     keywords: ['comprar membresía bts', 'army membership precio', 'bts fanclub oficial latinoamerica', 'cuanto cuesta la membresia de bts', 'weverse shop bts español'],
     alternates: {
-        canonical: 'https://entradasbts.com/comprar-membresia-bts',
+        canonical: 'https://entradasbts.com/comprar-membresia-bts/',
     },
     openGraph: {
         title: 'Membresía BTS Oficial 2026',

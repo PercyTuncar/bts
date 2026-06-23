@@ -287,7 +287,7 @@ export default function Home() {
                     </div>
                   </div>
                 </Link>
-                <Link href="/blog/setlist" className="block group">
+                <Link href="/blog/setlist-predictions" className="block group">
                   <div className="flex items-start gap-4">
                     <span className="text-secondary font-mono font-bold">02</span>
                     <div>

@@ -37,7 +37,7 @@ export const metadata: Metadata = {
     },
   },
   alternates: {
-    canonical: `${BASE_URL}/blog/bts-en-netflix`,
+    canonical: `${BASE_URL}/blog/bts-en-netflix/`,
   },
   openGraph: {
     type: 'article',

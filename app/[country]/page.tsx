@@ -120,25 +120,68 @@ export default async function CountryPage({ params }: Props) {
     const maxPrice = Math.max(...country.prices.map(p => p.price));
     const isBrazil = country.id === 'brasil';
     const isMadrid = country.id === 'madrid';
+    const isPeru = country.id === 'peru';
 
     const countryDisplayName = country.id === 'madrid' ? 'Madrid' : country.name;
-    const jsonLd = {
+
+    // Generate offers template
+    const generateOffers = () => {
+        return {
+            "@type": "AggregateOffer",
+            "url": `https://entradasbts.com/${country.id}/`,
+            "priceCurrency": country.currency,
+            "lowPrice": minPrice.toString(),
+            "highPrice": maxPrice.toString(),
+            "offerCount": country.prices.length.toString(),
+            "availability": "https://schema.org/InStock",
+            "priceValidUntil": isPeru ? country.dates[0] : country.dates[0],
+            "validFrom": "2025-01-01",
+            "seller": {
+                "@type": "Organization",
+                "name": "RaveHub Latam",
+                "url": "https://www.ravehublatam.com",
+                "image": "https://www.ravehublatam.com/logo.png"
+            },
+            "offers": country.prices.map(p => {
+                let category = p.price >= 1000 ? "VIP" : "Seating";
+                if (isPeru) {
+                    if (p.zone === 'CAMPO') category = 'General';
+                    else if (p.zone.includes('TRIBUNA')) category = 'Tribuna';
+                }
+                return {
+                    "@type": "Offer",
+                    "name": p.zone,
+                    "category": category,
+                    "price": p.price.toString(),
+                    "priceCurrency": country.currency,
+                    "availability": "https://schema.org/InStock",
+                    "priceValidUntil": country.dates[0],
+                    "url": `https://entradasbts.com/${country.id}/`
+                }
+            })
+        };
+    };
+
+    // Generate base event structure
+    const generateEventBase = (dateStr?: string, dateIndex?: number) => ({
         "@context": "https://schema.org",
         "@type": "Event",
         "name": isBrazil
             ? `Ingressos BTS Brasil 2026 - Show em ${country.city}`
-            : `Entradas BTS ${countryDisplayName} 2026 - Concierto en ${country.city}`,
+            : isPeru
+                ? `BTS WORLD TOUR 'ARIRANG' - Lima, Perú ${dateStr ? dateStr.split('-')[0] + ' de octubre' : '2026'}`
+                : `Entradas BTS ${countryDisplayName} 2026 - Concierto en ${country.city}`,
         "description": isBrazil
             ? `Comprar ingressos BTS Brasil 2026. Informacoes oficiais sobre precos, preventa e setores para o show em ${country.venue}.`
-            : country.id === 'peru'
+            : isPeru
                 ? `Comprar entradas BTS Perú 2026. Informacion oficial con precios por zona para el concierto en ${country.venue}.`
                 : `Comprar entradas BTS ${countryDisplayName} 2026. Informacion oficial sobre precios, preventa y zonas para el concierto en ${country.venue}.`,
         "image": [
             `https://entradasbts.com${country.openGraphImage}`,
             "https://entradasbts.com/images/concert-bg.png"
         ],
-        "startDate": `${country.dates[0]}T20:00:00-05:00`,
-        "endDate": `${country.dates[country.dates.length - 1]}T23:00:00-05:00`,
+        "startDate": `${dateStr || country.dates[0]}T20:00:00-05:00`,
+        "endDate": `${dateStr || country.dates[country.dates.length - 1]}T23:00:00-05:00`,
         "eventStatus": "https://schema.org/EventScheduled",
         "eventAttendanceMode": "https://schema.org/OfflineEventAttendanceMode",
         "location": {
@@ -146,7 +189,7 @@ export default async function CountryPage({ params }: Props) {
             "name": country.venue,
             "address": {
                 "@type": "PostalAddress",
-                "streetAddress": country.id === 'peru' ? 'C. José Díaz s/n' :
+                "streetAddress": country.id === 'peru' ? 'Av. German Amezaga s/n' :
                     country.id === 'chile' ? 'Av. Marathon 5300' :
                         country.id === 'mexico' ? 'Viad. Río de la Piedad S/N, Granjas México, Iztacalco' : 
                             (isMadrid ? 'Av. de Luis Aragonés, 4' : 
@@ -179,8 +222,8 @@ export default async function CountryPage({ params }: Props) {
         },
         "organizer": {
             "@type": "Organization",
-            "name": "Hybe Corporation",
-            "url": "https://ibighit.com"
+            "name": isPeru ? "Live Nation Latin America" : "Hybe Corporation",
+            "url": isPeru ? "https://livenation.com" : "https://ibighit.com"
         },
         "performer": {
             "@type": "MusicGroup",
@@ -193,34 +236,19 @@ export default async function CountryPage({ params }: Props) {
                 "https://twitter.com/bts_bighit"
             ]
         },
-        "offers": {
-            "@type": "AggregateOffer",
-            "url": `https://entradasbts.com/${country.id}/`,
-            "priceCurrency": country.currency,
-            "lowPrice": minPrice.toString(),
-            "highPrice": maxPrice.toString(),
-            "offerCount": country.prices.length.toString(),
-            "availability": "https://schema.org/InStock",
-            "priceValidUntil": country.dates[0],
-            "validFrom": "2025-01-01",
-            "seller": {
-                "@type": "Organization",
-                "name": "RaveHub Latam",
-                "url": "https://www.ravehublatam.com",
-                "image": "https://www.ravehublatam.com/logo.png"
-            },
-            "offers": country.prices.map(p => ({
-                "@type": "Offer",
-                "name": p.zone,
-                "category": p.price >= 1000 ? "VIP" : "Seating",
-                "price": p.price.toString(),
-                "priceCurrency": country.currency,
-                "availability": "https://schema.org/InStock",
-                "priceValidUntil": country.dates[0],
-                "url": `https://entradasbts.com/${country.id}/`
-            }))
-        }
-    };
+        "offers": generateOffers()
+    });
+
+    // Create multiple events for Peru (one per date), single event for others
+    let jsonLd: any;
+    if (isPeru) {
+        // Para Perú: crear 3 eventos separados
+        const peruEvents = country.dates.map((date, idx) => generateEventBase(date, idx));
+        jsonLd = peruEvents; // Array de eventos
+    } else {
+        // Para otros países: mantener estructura actual
+        jsonLd = generateEventBase();
+    }
 
     const orgLd = {
         "@context": "https://schema.org",
@@ -239,13 +267,13 @@ export default async function CountryPage({ params }: Props) {
     const peruFAQs = [
         { "@type": "Question", "name": "¿Cuál es el nombre oficial de la gira de BTS en 2026 y dónde se presentarán en Lima?", "acceptedAnswer": { "@type": "Answer", "text": "El evento es parte del ARIRANG World Tour y los conciertos en Perú se llevarán a cabo en el Estadio San Marcos (Av. German Amezaga)." } },
         { "@type": "Question", "name": "¿Cuál es la plataforma oficial autorizada para la venta en Perú?", "acceptedAnswer": { "@type": "Answer", "text": "La única ticketera oficial y autorizada es Ticketmaster Perú." } },
-        { "@type": "Question", "name": "¿Cuáles son los precios reales de los boletos generales?", "acceptedAnswer": { "@type": "Answer", "text": "Los precios de las entradas generales varían entre S/ 483 y S/ 851, dependiendo de la zona elegida." } },
-        { "@type": "Question", "name": "¿Cuánto cuesta y qué beneficios incluye el paquete VIP?", "acceptedAnswer": { "@type": "Answer", "text": "El paquete VIP Soundcheck cuesta S/ 2591 e incluye acceso a la prueba de sonido, beneficios exclusivos y ubicación preferencial en Campo A." } },
+        { "@type": "Question", "name": "¿Cuáles son los precios reales de los boletos generales?", "acceptedAnswer": { "@type": "Answer", "text": "Los precios en nuestro servicio de acceso garantizado varían desde S/ 590 hasta S/ 2,399 dependiendo de la zona elegida (Tribuna Sur, Tribuna Norte, Tribunas Occidente/Oriente y Campo)." } },
+        { "@type": "Question", "name": "¿Cuánto cuesta y qué beneficios incluye el paquete VIP?", "acceptedAnswer": { "@type": "Answer", "text": "El paquete VIP Soundcheck en nuestro servicio cuesta S/ 2,399 e incluye acceso a la prueba de sonido, beneficios exclusivos y ubicación preferencial en la zona Campo." } },
         { "@type": "Question", "name": "¿Qué días tocará BTS en Lima?", "acceptedAnswer": { "@type": "Answer", "text": "Las fechas oficiales son el 9 y 10 de octubre, además de la nueva fecha del 7 de octubre de 2026 que se sumaron por alta demanda." } },
         { "@type": "Question", "name": "¿Cómo pueden adquirir entradas las personas con discapacidad (CONADIS)?", "acceptedAnswer": { "@type": "Answer", "text": "Deben enviar una solicitud acreditada al Centro de Soporte al Fan de Ticketmaster a partir de las 3:00 p.m. en las fechas estipuladas según el día del concerto." } },
         { "@type": "Question", "name": "¿El acompañante de una persona con discapacidad tiene algún descuento?", "acceptedAnswer": { "@type": "Answer", "text": "No, la persona acreditada puede adquirir solo una (1) entrada adicional para su acompañante, pero esta debe pagarse a precio regular." } },
         { "@type": "Question", "name": "¿BTS tendrá artistas invitados o teloneros en Lima?", "acceptedAnswer": { "@type": "Answer", "text": "No, BIGHIT MUSIC confirmó que la gira no cuenta con teloneros; los 7 miembros se presentarán en solitario." } },
-        { "@type": "Question", "name": "¿A partir de qué fecha estuvo habilitado el pre-registro para la preventa en Perú?", "acceptedAnswer": { "@type": "Answer", "text": "El pre-registro obligatorio en Weverse se llevó a cabo del 27 de marzo al 2 de abril de 2026." } },
+        { "@type": "Question", "name": "¿Cómo puedo asegurar mis entradas para BTS si ya se agotó la venta general en Ticketmaster?", "acceptedAnswer": { "@type": "Answer", "text": "RaveHub Latam ofrece acceso garantizado a través de nuestro servicio de personal shopper especializado. Contáctanos por WhatsApp para consultar disponibilidad en las diferentes zonas del Estadio San Marcos. Nuestro equipo gestiona la compra segura y entrega verificada de tus entradas." } },
         { "@type": "Question", "name": "¿Quién organiza el evento a nivel regional?", "acceptedAnswer": { "@type": "Answer", "text": "La producción de la etapa sudamericana está a cargo de Live Nation Latin America." } }
     ];
 
@@ -325,10 +353,22 @@ export default async function CountryPage({ params }: Props) {
 
     return (
         <>
-            <script
-                type="application/ld+json"
-                dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
-            />
+            {isPeru && Array.isArray(jsonLd) ? (
+                // Inyectar cada evento de Perú por separado
+                jsonLd.map((event, idx) => (
+                    <script
+                        key={`event-${idx}`}
+                        type="application/ld+json"
+                        dangerouslySetInnerHTML={{ __html: JSON.stringify(event) }}
+                    />
+                ))
+            ) : (
+                // Para otros países: inyectar el evento único
+                <script
+                    type="application/ld+json"
+                    dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
+                />
+            )}
             <script
                 type="application/ld+json"
                 dangerouslySetInnerHTML={{ __html: JSON.stringify(orgLd) }}

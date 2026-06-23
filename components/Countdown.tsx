@@ -36,7 +36,7 @@ export default function Countdown({ target }: CountdownProps) {
 
   return (
     <div className="w-full max-w-3xl mx-auto mt-6">
-      {!expired ? (
+      {!expired && (
         <div className="bg-gradient-to-r from-primary/10 to-white border border-slate-100 rounded-2xl p-4 md:p-6 shadow-lg">
           <div className="flex flex-col md:flex-row md:items-center md:justify-between gap-4">
             <div className="flex-1">
@@ -67,15 +67,7 @@ export default function Countdown({ target }: CountdownProps) {
             </div>
           </div>
         </div>
-      ) : (
-        <div className="bg-red-50 border border-red-200 rounded-2xl p-4 md:p-6 shadow-sm">
-          <p className="text-sm md:text-base text-red-800 font-semibold">Plazo finalizado — ya no podrás acceder a la preventa si compras ahora.</p>
-        </div>
       )}
-
-      <div aria-live="polite" className="sr-only">
-        {expired ? 'Plazo finalizado — ya no podrás acceder a la preventa.' : `Quedan ${days} días, ${pad(hours)} horas, ${pad(minutes)} minutos y ${pad(seconds)} segundos.`}
-      </div>
     </div>
   );
 }

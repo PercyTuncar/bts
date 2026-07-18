@@ -13,10 +13,10 @@ const inter = Inter({ subsets: ["latin"] });
 
 export const metadata: Metadata = {
   title: {
-    default: "BTS 2026 | Entradas Latinoamérica",
+    default: "Entradas BTS ARIRANG Tour 2026 | Latinoamérica y España",
     template: "%s",
   },
-  description: "Compra tus entradas para el BTS 2026 en Perú, Chile y Latinoamérica. Fechas confirmadas, precios y preventa ARMY. Distribuidor Autorizado.",
+  description: "Compra tus entradas para el BTS World Tour ARIRANG 2026 en Latinoamérica y España. Fechas confirmadas, precios y servicio de compra garantizada para el ARMY.",
   metadataBase: new URL('https://entradasbts.com'),
   manifest: '/manifest.json',
   icons: {
@@ -39,10 +39,10 @@ export const metadata: Metadata = {
   },
 
   openGraph: {
-    title: 'Entradas BTS 2026 | Latinoamérica y España',
-    description: 'Compra tus entradas para el BTS World Tour 2026. Fechas confirmadas en Latinoamérica y Europa. Preventa ARMY, precios y mapas aquí.',
-    url: 'https://entradasbts.com',
-    siteName: 'BTS Tickets 2026',
+    title: 'Entradas BTS ARIRANG Tour 2026 | Latinoamérica y España',
+    description: 'Compra tus entradas para el BTS World Tour ARIRANG 2026. Fechas confirmadas en Latinoamérica y España para el ARMY.',
+    url: 'https://entradasbts.com/',
+    siteName: 'EntradasBTS – RaveHub Latam',
     images: [
       {
         url: '/images/bts-hero-bg.png', // Generic image
@@ -55,8 +55,10 @@ export const metadata: Metadata = {
   },
   twitter: {
     card: 'summary_large_image',
-    title: 'Entradas BTS 2026 | World Tour',
-    description: 'Venta verificada y segura de entradas con Garantía RaveHub.',
+    title: 'Entradas BTS ARIRANG Tour 2026 | Latinoamérica y España',
+    description: 'Todas las fechas del BTS World Tour ARIRANG 2026 en Lima, CDMX, Bogotá, Santiago, La Plata, São Paulo y Madrid. Compra garantizada para el ARMY.',
+    site: '@ravehublatam',
+    creator: '@ravehublatam',
     images: ['/images/bts-hero-bg.png'],
   },
   alternates: {
@@ -82,6 +84,11 @@ export default async function RootLayout({
   return (
     <html lang={lang}>
       <head>
+        <link rel="preconnect" href="https://cuscoperu.b-cdn.net" />
+        <link rel="preconnect" href="https://images.adsttc.com" />
+        <link rel="preconnect" href="https://media.admagazine.com" />
+        <link rel="dns-prefetch" href="https://cloudfront-us-east-1.images.arcpublishing.com" />
+        <link rel="preconnect" href="https://www.googletagmanager.com" />
         <Script
           src="https://www.paypal.com/sdk/js?client-id=BAAa3-7GvLFL-Yj8lVIRkzve8wz_NyvMLwwiP0luzM_GUrmZujpbK2ikByE62VasK54tguRkwDOKZdTTfg&components=hosted-buttons&disable-funding=venmo&currency=USD"
           crossOrigin="anonymous"

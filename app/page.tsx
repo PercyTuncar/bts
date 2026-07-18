@@ -19,13 +19,13 @@ const countryImages: Record<string, string> = {
 };
 
 export const metadata = {
-  title: 'Entradas BTS ARIRANG Tour 2026 – Lima, Santiago, CDMX, Bogotá',
-  description: 'BTS World Tour ARIRANG 2026 en Latinoamérica y España. Entradas para Lima, Santiago, CDMX, Bogotá, Buenos Aires, São Paulo y Madrid. Fechas, zonas y compra segura para el ARMY.',
+  title: 'Entradas BTS ARIRANG Tour 2026 | Latinoamérica y España',
+  description: 'Entradas para el BTS World Tour ARIRANG 2026. Fechas en Lima, CDMX, Bogotá, Santiago, La Plata, São Paulo y Madrid. Servicio de compra garantizada para el ARMY.',
   openGraph: {
-    title: 'Entradas BTS ARIRANG Tour 2026 - Latinoamérica y España',
-    description: 'Fechas confirmadas en Perú, Chile, México, Colombia, Argentina, Brasil y Madrid. ¡El ARMY se une!',
-    url: 'https://entradasbts.com',
-    siteName: 'BTS 2026 Latam',
+    title: 'Entradas BTS ARIRANG Tour 2026 | Latinoamérica y España',
+    description: 'Todas las fechas del BTS World Tour ARIRANG 2026 en Lima, CDMX, Bogotá, Santiago, La Plata, São Paulo y Madrid. Compra garantizada para el ARMY.',
+    url: 'https://entradasbts.com/',
+    siteName: 'EntradasBTS – RaveHub Latam',
     images: [
       {
         url: '/images/home-hero.jpg',
@@ -38,7 +38,7 @@ export const metadata = {
     type: 'website',
   },
   alternates: {
-    canonical: 'https://entradasbts.com',
+    canonical: 'https://entradasbts.com/',
     languages: {
       'es': 'https://entradasbts.com/',
       'es-PE': 'https://entradasbts.com/peru',
@@ -53,8 +53,10 @@ export const metadata = {
   },
   twitter: {
     card: 'summary_large_image',
-    title: 'Comprar Entradas BTS 2026 | Tour Latinoamérica',
-    description: 'Garantiza tu lugar en el BTS World Tour 2026. Servicio de Personal Shopper exclusivo para el Army.',
+    title: 'Entradas BTS ARIRANG Tour 2026 | Latinoamérica y España',
+    description: 'Todas las fechas del BTS World Tour ARIRANG 2026 en Lima, CDMX, Bogotá, Santiago, La Plata, São Paulo y Madrid. Compra garantizada para el ARMY.',
+    site: '@ravehublatam',
+    creator: '@ravehublatam',
     images: ['/images/home-hero.jpg'],
   },
 };
@@ -63,6 +65,29 @@ export const metadata = {
 const HOME_LIST_ORDER = ['mexico', 'colombia', 'peru', 'chile', 'argentina', 'brasil', 'madrid'];
 
 export default function Home() {
+  const organizationLd = {
+    "@context": "https://schema.org",
+    "@type": "Organization",
+    "@id": "https://entradasbts.com/#organization",
+    "name": "RaveHub Latam",
+    "alternateName": "EntradasBTS",
+    "url": "https://entradasbts.com/",
+    "logo": {
+      "@type": "ImageObject",
+      "@id": "https://entradasbts.com/#logo",
+      "url": "https://entradasbts.com/favicon-32x32.png",
+      "width": 32,
+      "height": 32,
+      "caption": "EntradasBTS / RaveHub Latam"
+    },
+    "description": "Servicio independiente de Personal Shopper especializado en la adquisición de entradas para conciertos internacionales en Latinoamérica y España.",
+    "areaServed": ["PE", "AR", "CL", "MX", "CO", "BR", "ES"],
+    "knowsLanguage": ["es", "pt"],
+    "sameAs": [
+      "https://www.ravehublatam.com"
+    ]
+  };
+
   const musicGroupLd = {
     "@context": "https://schema.org",
     "@type": "MusicGroup",
@@ -71,25 +96,40 @@ export default function Home() {
     "url": "https://ibighit.com/bts",
     "sameAs": [
       "https://en.wikipedia.org/wiki/BTS_(band)",
+      "https://www.wikidata.org/wiki/Q494703",
       "https://open.spotify.com/artist/3Nrfpe0tUJi4K4DXYWgMUX",
       "https://www.instagram.com/bts.bighitofficial/",
       "https://twitter.com/bts_bighit",
-      "https://www.youtube.com/@BTS"
+      "https://www.youtube.com/@bts_bighit",
+      "https://www.tiktok.com/@bts_official_bighit"
     ]
   };
 
   const itemListLd = {
     "@context": "https://schema.org",
     "@type": "ItemList",
-    "name": "BTS World Tour ARIRANG 2026 - Latinoamérica y España",
-    "description": "Fechas del BTS WORLD TOUR ARIRANG 2026: CDMX, Bogotá, Lima, Santiago, La Plata, São Paulo y Madrid.",
+    "name": "BTS WORLD TOUR ARIRANG 2026 – Fechas en Latinoamérica y España",
+    "description": "Todas las fechas confirmadas del BTS World Tour ARIRANG 2026 en América Latina y España.",
     "url": "https://entradasbts.com/",
     "numberOfItems": HOME_LIST_ORDER.length,
-    "itemListElement": HOME_LIST_ORDER.map((id, i) => ({
-      "@type": "ListItem",
-      "position": i + 1,
-      "url": `https://entradasbts.com/${id}/`
-    }))
+    "itemListElement": HOME_LIST_ORDER.map((id, i) => {
+      const labels: Record<string, string> = {
+        mexico: "Entradas BTS México 2026 – Estadio GNP Seguros (7, 9 y 10 mayo)",
+        colombia: "Entradas BTS Colombia 2026 – Estadio El Campín, Bogotá (2-3 oct)",
+        peru: "Entradas BTS Perú 2026 – Estadio San Marcos, Lima (7, 9, 10 oct)",
+        chile: "Entradas BTS Chile 2026 – Estadio Nacional, Santiago (14-17 oct)",
+        argentina: "Entradas BTS Argentina 2026 – Estadio Único La Plata (21, 23, 24 oct)",
+        brasil: "Entradas BTS Brasil 2026 – Estádio MorumBIS, São Paulo (28-31 oct)",
+        madrid: "Entradas BTS España 2026 – Riyadh Air Metropolitano, Madrid (26-27 jun)"
+      };
+
+      return {
+        "@type": "ListItem",
+        "position": i + 1,
+        "name": labels[id],
+        "url": `https://entradasbts.com/${id}/`
+      };
+    })
   };
 
   const websiteLd = {
@@ -97,19 +137,19 @@ export default function Home() {
     "@type": "WebSite",
     "@id": "https://entradasbts.com/#website",
     "url": "https://entradasbts.com/",
-    "name": "EntradasBTS - BTS World Tour ARIRANG 2026",
+    "name": "EntradasBTS – BTS World Tour ARIRANG 2026",
     "description": "Entradas para el BTS World Tour ARIRANG 2026 en Latinoamérica y España.",
+    "inLanguage": "es",
     "publisher": {
-      "@type": "Organization",
-      "@id": "https://entradasbts.com/#organization",
-      "name": "RaveHub Latam",
-      "url": "https://www.ravehublatam.com",
-      "logo": {
-        "@type": "ImageObject",
-        "url": "https://entradasbts.com/favicon-32x32.png",
-        "width": 32,
-        "height": 32
-      }
+      "@id": "https://entradasbts.com/#organization"
+    },
+    "potentialAction": {
+      "@type": "SearchAction",
+      "target": {
+        "@type": "EntryPoint",
+        "urlTemplate": "https://entradasbts.com/eventos/?q={search_term_string}"
+      },
+      "query-input": "required name=search_term_string"
     }
   };
 
@@ -120,13 +160,19 @@ export default function Home() {
       {
         "@type": "ListItem",
         "position": 1,
-        "name": "Inicio",
+        "name": "Inicio – BTS ARIRANG Tour 2026",
         "item": "https://entradasbts.com/"
+      },
+      {
+        "@type": "ListItem",
+        "position": 2,
+        "name": "Ver todos los eventos",
+        "item": "https://entradasbts.com/eventos/"
       }
     ]
   };
 
-  const structuredData = [musicGroupLd, itemListLd, websiteLd, breadcrumbLd];
+  const structuredData = [organizationLd, websiteLd, musicGroupLd, itemListLd, breadcrumbLd];
 
   return (
     <div className="min-h-screen text-slate-900 selection:bg-secondary selection:text-white pb-20">
@@ -246,6 +292,40 @@ export default function Home() {
       </section>
 
 
+
+      <section className="container mx-auto px-4 pb-16">
+        <div className="rounded-[2rem] border border-slate-200 bg-white p-8 shadow-sm md:p-12">
+          <h2 className="text-3xl md:text-4xl font-black uppercase tracking-tight text-slate-900">
+            BTS WORLD TOUR ARIRANG 2026 en Latinoamérica y España
+          </h2>
+          <p className="mt-6 max-w-4xl text-lg leading-8 text-slate-700">
+            El BTS WORLD TOUR &apos;ARIRANG&apos; marca el regreso más esperado del k-pop a los escenarios de Latinoamérica y España. Los siete miembros — RM, Jin, SUGA, j-hope, Jimin, V y Jung Kook — presentan su tour internacional con fechas en México, Colombia, Perú, Chile, Argentina, Brasil y Madrid entre mayo y octubre de 2026.
+          </p>
+          <p className="mt-4 max-w-4xl text-lg leading-8 text-slate-700">
+            Nuestra plataforma reúne las fechas confirmadas por país, las ubicaciones de los estadios y la información necesaria para comprar entradas con respaldo y seguimiento especializado para el ARMY.
+          </p>
+
+          <h3 className="mt-8 text-2xl font-black uppercase text-slate-900">
+            ¿Cómo funciona nuestro servicio?
+          </h3>
+          <p className="mt-4 max-w-4xl text-lg leading-8 text-slate-700">
+            EntradasBTS opera como un servicio independiente de Personal Shopper para la adquisición de entradas a través de plataformas oficiales y canales verificados. Gestionamos la compra, la validación y la orientación para que cada usuario pueda reservar su lugar con mayor seguridad.
+          </p>
+
+          <h3 className="mt-8 text-2xl font-black uppercase text-slate-900">
+            Fechas confirmadas por país
+          </h3>
+          <ul className="mt-4 grid gap-3 md:grid-cols-2 text-lg leading-8 text-slate-700">
+            <li><strong>México:</strong> Estadio GNP Seguros, CDMX — 7, 9 y 10 de mayo de 2026</li>
+            <li><strong>Colombia:</strong> Estadio El Campín, Bogotá — 2 y 3 de octubre de 2026</li>
+            <li><strong>Perú:</strong> Estadio San Marcos, Lima — 7, 9 y 10 de octubre de 2026</li>
+            <li><strong>Chile:</strong> Estadio Nacional, Santiago — 14, 16 y 17 de octubre de 2026</li>
+            <li><strong>Argentina:</strong> Estadio Único de La Plata — 21, 23 y 24 de octubre de 2026</li>
+            <li><strong>Brasil:</strong> Estádio do MorumBIS, São Paulo — 28, 29 y 31 de octubre de 2026</li>
+            <li><strong>España:</strong> Riyadh Air Metropolitano, Madrid — 26 y 27 de junio de 2026</li>
+          </ul>
+        </div>
+      </section>
 
       {/* COMMUNITY BANNER */}
       <HomeCommunityBanner />

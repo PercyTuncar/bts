@@ -126,7 +126,7 @@ export const countries: CountryData[] = [
         id: 'mexico',
         name: 'México',
         flag: '🇲🇽',
-        venue: '',
+        venue: 'Estadio GNP Seguros',
         city: 'Ciudad de México',
         isoCode: 'MX',
         dates: ['2026-05-07', '2026-05-09', '2026-05-10'],

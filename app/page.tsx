@@ -19,11 +19,11 @@ const countryImages: Record<string, string> = {
 };
 
 export const metadata = {
-  title: 'Comprar Entradas BTS 2026 | Tour Latinoamérica (Perú, Chile, MX)',
-  description: 'Garantiza tu lugar en el BTS World Tour 2026. Compra entradas para Perú, Chile, México, Colombia, Argentina y Brasil. Servicio de Personal Shopper exclusivo para el Army.',
+  title: 'Entradas BTS ARIRANG Tour 2026 – Lima, Santiago, CDMX, Bogotá',
+  description: 'BTS World Tour ARIRANG 2026 en Latinoamérica y España. Entradas para Lima, Santiago, CDMX, Bogotá, Buenos Aires, São Paulo y Madrid. Fechas, zonas y compra segura para el ARMY.',
   openGraph: {
-    title: 'BTS 2026 - Latinoamérica',
-    description: 'Fechas confirmadas en Perú, Chile, México y Colombia. ¡El Army se une!',
+    title: 'Entradas BTS ARIRANG Tour 2026 - Latinoamérica y España',
+    description: 'Fechas confirmadas en Perú, Chile, México, Colombia, Argentina, Brasil y Madrid. ¡El ARMY se une!',
     url: 'https://entradasbts.com',
     siteName: 'BTS 2026 Latam',
     images: [
@@ -40,6 +40,7 @@ export const metadata = {
   alternates: {
     canonical: 'https://entradasbts.com',
     languages: {
+      'es': 'https://entradasbts.com/',
       'es-PE': 'https://entradasbts.com/peru',
       'es-CL': 'https://entradasbts.com/chile',
       'es-MX': 'https://entradasbts.com/mexico',
@@ -58,83 +59,84 @@ export const metadata = {
   },
 };
 
+// Order for the home ItemList (most-searched markets first).
+const HOME_LIST_ORDER = ['mexico', 'colombia', 'peru', 'chile', 'argentina', 'brasil', 'madrid'];
+
 export default function Home() {
-  const jsonLd = {
+  const musicGroupLd = {
     "@context": "https://schema.org",
-    "@type": "EventSeries",
-    "name": "BTS World Tour 2026 - Latin America",
-    "startDate": "2026-05-07", // First date of the tour (Mexico)
-    "endDate": "2026-10-16", // Last date of the tour (Chile)
-    "description": "Venta autorizada de entradas para la gira de BTS en Latinoamérica incluyendo Lima, Santiago, CDMX y Bogotá.",
-    "organizer": {
-      "@type": "Organization",
-      "name": "Hybe Corporation",
-      "url": "https://ibighit.com"
-    },
-    "subEvent": countries.map(c => ({
-      "@type": "Event",
-      "name": `Concierto BTS ${c.name}`,
-      "startDate": c.dates[0],
-      "endDate": c.dates.length > 1 ? c.dates[c.dates.length - 1] : c.dates[0],
-      "eventStatus": "https://schema.org/EventScheduled",
-      "eventAttendanceMode": "https://schema.org/OfflineEventAttendanceMode",
-      "location": {
-        "@type": "Place",
-        "name": c.id === 'mexico' ? "Estadio Azteca" : c.venue,
-        "sameAs": c.id === 'peru' ? "https://es.wikipedia.org/wiki/Estadio_Nacional_del_Per%C3%BA" :
-          c.id === 'chile' ? "https://es.wikipedia.org/wiki/Estadio_Monumental_(Chile)" :
-            c.id === 'mexico' ? "https://es.wikipedia.org/wiki/Estadio_Azteca" :
-              c.id === 'argentina' ? "https://es.wikipedia.org/wiki/Estadio_%C3%9Anico_de_La_Plata" :
-                c.id === 'brasil' ? "https://es.wikipedia.org/wiki/Allianz_Parque" :
-                  "https://es.wikipedia.org/wiki/Estadio_Nemesio_Camacho_El_Camp%C3%ADn",
-        "address": {
-          "@type": "PostalAddress",
-          "addressLocality": c.city,
-          "addressCountry": c.isoCode
-        }
-      },
-      "image": [
-        `https://entradasbts.com${c.openGraphImage}`,
-        "https://entradasbts.com/images/home-hero.jpg"
-      ],
-      "description": c.description,
-      "performer": {
-        "@type": "MusicGroup",
-        "name": "BTS",
-        "url": "https://ibighit.com/bts"
-      },
-      "organizer": {
-        "@type": "Organization",
-        "name": "Hybe Corporation",
-        "url": "https://ibighit.com"
-      },
-      "offers": {
-        "@type": "AggregateOffer",
-        "url": `https://entradasbts.com/${c.id}/`,
-        "priceCurrency": c.currency,
-        "lowPrice": Math.min(...c.prices.map(p => p.price)),
-        "highPrice": Math.max(...c.prices.map(p => p.price)),
-        "offerCount": c.prices.length,
-        "availability": "https://schema.org/InStock",
-        "validFrom": c.ticketDate.includes('24') ? "2026-01-24" :
-          c.ticketDate.includes('26') ? "2026-01-26" :
-            c.ticketDate.includes('28') ? "2026-01-28" : "2026-01-20",
-        "seller": {
-          "@type": "Organization",
-          "name": "EntradasBTS (Ravehub)",
-          "url": "https://entradasbts.com"
-        }
-      },
-      "url": `https://entradasbts.com/${c.id}/`
+    "@type": "MusicGroup",
+    "@id": "https://entradasbts.com/#bts-musicgroup",
+    "name": "BTS",
+    "url": "https://ibighit.com/bts",
+    "sameAs": [
+      "https://en.wikipedia.org/wiki/BTS_(band)",
+      "https://open.spotify.com/artist/3Nrfpe0tUJi4K4DXYWgMUX",
+      "https://www.instagram.com/bts.bighitofficial/",
+      "https://twitter.com/bts_bighit",
+      "https://www.youtube.com/@BTS"
+    ]
+  };
+
+  const itemListLd = {
+    "@context": "https://schema.org",
+    "@type": "ItemList",
+    "name": "BTS World Tour ARIRANG 2026 - Latinoamérica y España",
+    "description": "Fechas del BTS WORLD TOUR ARIRANG 2026: CDMX, Bogotá, Lima, Santiago, La Plata, São Paulo y Madrid.",
+    "url": "https://entradasbts.com/",
+    "numberOfItems": HOME_LIST_ORDER.length,
+    "itemListElement": HOME_LIST_ORDER.map((id, i) => ({
+      "@type": "ListItem",
+      "position": i + 1,
+      "url": `https://entradasbts.com/${id}/`
     }))
   };
 
+  const websiteLd = {
+    "@context": "https://schema.org",
+    "@type": "WebSite",
+    "@id": "https://entradasbts.com/#website",
+    "url": "https://entradasbts.com/",
+    "name": "EntradasBTS - BTS World Tour ARIRANG 2026",
+    "description": "Entradas para el BTS World Tour ARIRANG 2026 en Latinoamérica y España.",
+    "publisher": {
+      "@type": "Organization",
+      "@id": "https://entradasbts.com/#organization",
+      "name": "RaveHub Latam",
+      "url": "https://www.ravehublatam.com",
+      "logo": {
+        "@type": "ImageObject",
+        "url": "https://entradasbts.com/favicon-32x32.png",
+        "width": 32,
+        "height": 32
+      }
+    }
+  };
+
+  const breadcrumbLd = {
+    "@context": "https://schema.org",
+    "@type": "BreadcrumbList",
+    "itemListElement": [
+      {
+        "@type": "ListItem",
+        "position": 1,
+        "name": "Inicio",
+        "item": "https://entradasbts.com/"
+      }
+    ]
+  };
+
+  const structuredData = [musicGroupLd, itemListLd, websiteLd, breadcrumbLd];
+
   return (
     <div className="min-h-screen text-slate-900 selection:bg-secondary selection:text-white pb-20">
-      <script
-        type="application/ld+json"
-        dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
-      />
+      {structuredData.map((node, idx) => (
+        <script
+          key={`ld-${idx}`}
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{ __html: JSON.stringify(node) }}
+        />
+      ))}
 
       {/* BACKGROUND NOISE */}
       {/* BACKGROUND NOISE - REMOVED FOR CLEAN LIGHT MODE */}
@@ -167,21 +169,21 @@ export default function Home() {
         <div className="relative z-10 container mx-auto px-4 flex flex-col items-center text-center gap-6">
 
           <div className="inline-block animate-fade-in-up">
-            <h1 className="inline-block bg-slate-900 text-white px-6 py-2 text-sm md:text-base font-black uppercase tracking-widest -rotate-2 shadow-[4px_4px_0_#F01942] mb-6 transform hover:rotate-0 transition-transform duration-300">
-              Entradas BTS World Tour 2026
-            </h1>
+            <div className="inline-block bg-slate-900 text-white px-6 py-2 text-sm md:text-base font-black uppercase tracking-widest -rotate-2 shadow-[4px_4px_0_#F01942] mb-6 transform hover:rotate-0 transition-transform duration-300">
+              BTS World Tour ARIRANG 2026
+            </div>
           </div>
 
-          {/* Visual Title - Semantically H2 */}
-          <h2 className="flex flex-col items-center justify-center text-5xl md:text-8xl font-black tracking-tighter uppercase leading-[0.85] drop-shadow-sm">
+          {/* Primary page heading (H1) */}
+          <h1 className="flex flex-col items-center justify-center text-5xl md:text-8xl font-black tracking-tighter uppercase leading-[0.85] drop-shadow-sm">
             <span className="block text-slate-900 relative">
-              Comprar Entradas
+              Entradas BTS 2026
             </span>
             <span className="block text-transparent bg-clip-text bg-gradient-to-r from-primary to-rose-600 italic font-serif pb-4 relative">
-              BTS Latinoamérica
+              ARIRANG Tour Latinoamérica
               <span className="absolute -bottom-1 left-0 right-0 h-2 bg-primary/20 -z-10 -rotate-1 rounded-full"></span>
             </span>
-          </h2>
+          </h1>
 
           <p className="max-w-xl text-slate-600 text-lg md:text-2xl font-medium leading-relaxed animate-fade-in-up delay-100">
             El evento más grande de la historia. <br className="hidden md:block" />

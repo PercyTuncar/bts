@@ -763,8 +763,9 @@ export default function CountryClient({ country }: Props) {
 
                         {/* Title */}
                         <h1 className="text-5xl sm:text-6xl md:text-7xl lg:text-8xl font-black text-white uppercase tracking-tight leading-[0.9]">
-                            <span className="sr-only">Entradas Concierto </span>
+                            <span className="sr-only">{country.id === 'brasil' ? 'Ingressos' : 'Entradas'} BTS {country.id === 'madrid' ? 'Madrid' : country.name} 2026 - ARIRANG World Tour en {country.venue} </span>
                             BTS <span className="bg-gradient-to-r from-primary to-rose-400 bg-clip-text text-transparent">{country.id === 'madrid' ? 'Madrid' : country.name}</span>
+                            <span className="block text-lg sm:text-xl md:text-2xl font-bold text-white/80 mt-2 tracking-normal normal-case">ARIRANG World Tour 2026 · {country.venue}</span>
                         </h1>
 
                         {/* Info Row */}

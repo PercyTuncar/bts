@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { CommunityModal } from "./CommunityModal";
 
 type AutoPopupProps = {
@@ -10,27 +10,33 @@ type AutoPopupProps = {
 export function AutoPopup({ userCountryCode }: AutoPopupProps) {
     const [isOpen, setIsOpen] = useState(false);
     const [openCount, setOpenCount] = useState(0);
+    const wasOpenRef = useRef(false);
 
     useEffect(() => {
+        if (isOpen || openCount >= 1) {
+            return;
+        }
+
         const initialTimer = setTimeout(() => {
-            if (openCount < 2) {
-                setIsOpen(true);
-                setOpenCount((count) => count + 1);
-            }
+            setIsOpen(true);
+            setOpenCount(1);
         }, 2000);
 
-        const reOpenTimer = setTimeout(() => {
-            if (openCount < 2) {
-                setIsOpen(true);
-                setOpenCount((count) => count + 1);
-            }
-        }, 15000);
+        return () => clearTimeout(initialTimer);
+    }, [isOpen, openCount]);
 
-        return () => {
-            clearTimeout(initialTimer);
-            clearTimeout(reOpenTimer);
-        };
-    }, [openCount]);
+    useEffect(() => {
+        if (wasOpenRef.current && !isOpen && openCount === 1) {
+            const reOpenTimer = setTimeout(() => {
+                setIsOpen(true);
+                setOpenCount(2);
+            }, 15000);
+
+            return () => clearTimeout(reOpenTimer);
+        }
+
+        wasOpenRef.current = isOpen;
+    }, [isOpen, openCount]);
 
     return (
         <CommunityModal

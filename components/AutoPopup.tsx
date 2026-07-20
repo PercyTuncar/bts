@@ -9,18 +9,28 @@ type AutoPopupProps = {
 
 export function AutoPopup({ userCountryCode }: AutoPopupProps) {
     const [isOpen, setIsOpen] = useState(false);
-    const [hasOpened, setHasOpened] = useState(false);
+    const [openCount, setOpenCount] = useState(0);
 
     useEffect(() => {
-        const timer = setTimeout(() => {
-            if (!hasOpened) {
+        const initialTimer = setTimeout(() => {
+            if (openCount < 2) {
                 setIsOpen(true);
-                setHasOpened(true);
+                setOpenCount((count) => count + 1);
             }
         }, 2000);
 
-        return () => clearTimeout(timer);
-    }, [hasOpened]);
+        const reOpenTimer = setTimeout(() => {
+            if (openCount < 2) {
+                setIsOpen(true);
+                setOpenCount((count) => count + 1);
+            }
+        }, 15000);
+
+        return () => {
+            clearTimeout(initialTimer);
+            clearTimeout(reOpenTimer);
+        };
+    }, [openCount]);
 
     return (
         <CommunityModal

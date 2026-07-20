@@ -17,7 +17,7 @@ export function AutoPopup({ userCountryCode }: AutoPopupProps) {
                 setIsOpen(true);
                 setHasOpened(true);
             }
-        }, 5000);
+        }, 2000);
 
         return () => clearTimeout(timer);
     }, [hasOpened]);

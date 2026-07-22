@@ -53,8 +53,8 @@ export const countries: CountryData[] = [
         currency: 'EUR',
         currencySymbol: '€',
         prices: [
-            { zone: 'Sección 225 - Nivel 200', price: 499, description: 'Vista privilegiada del escenario principal' },
-            { zone: 'Sección 226 - Nivel 200', price: 499, description: 'Vista privilegiada del escenario principal' },
+            { zone: 'Sección 225 - Nivel 200', price: 499, description: 'Vista privilegiada del escenario principal', soldOut: true },
+            { zone: 'Sección 226 - Nivel 200', price: 499, description: 'Vista privilegiada del escenario principal', soldOut: true },
         ],
         description: 'Madrid, prepárate. BTS llega al Metropolitano para dos noches inolvidables en España.',
         openGraphImage: '/images/bts-madrid-mapa.png', // Using the map as OG image for now, or specific one
@@ -138,55 +138,64 @@ export const countries: CountryData[] = [
                 zone: 'VIP',
                 price: 53346,
                 color: 'N/A',
-                description: 'Paquete más exclusivo (detalles por confirmar).'
+                description: 'Paquete más exclusivo (detalles por confirmar).',
+                soldOut: true
             },
             {
                 zone: 'Platino',
                 price: 39990,
                 color: '🟦 Azul / ⬜ Gris',
-                description: 'Asientos a nivel de cancha, lo más cerca al escenario (Secciones A y B).'
+                description: 'Asientos a nivel de cancha, lo más cerca al escenario (Secciones A y B).',
+                soldOut: true
             },
             {
                 zone: 'Verde A',
                 price: 26859,
                 color: '🟩 Verde',
-                description: 'Grada baja, mejor vista frontal/lateral.'
+                description: 'Grada baja, mejor vista frontal/lateral.',
+                soldOut: true
             },
             {
                 zone: 'Naranja A',
                 price: 25446,
                 color: '🟧 Naranja Oscuro',
-                description: 'Grada baja, vista lateral.'
+                description: 'Grada baja, vista lateral.',
+                soldOut: true
             },
             {
                 zone: 'Verde B',
                 price: 24030,
                 color: '🟩 Verde',
-                description: 'Grada nivel medio (arriba de Verde A).'
+                description: 'Grada nivel medio (arriba de Verde A).',
+                soldOut: true
             },
             {
                 zone: 'Naranja B',
                 price: 14844,
                 color: '🔸 Naranja Claro',
-                description: 'Grada nivel medio, vista lateral.'
+                description: 'Grada nivel medio, vista lateral.',
+                soldOut: true
             },
             {
                 zone: 'Verde C',
                 price: 13428,
                 color: '🟩 Verde',
-                description: 'Grada nivel alto (arriba de Verde B).'
+                description: 'Grada nivel alto (arriba de Verde B).',
+                soldOut: true
             },
             {
                 zone: 'Naranja C',
                 price: 8520,
                 color: '🍑 Salmón / Naranja',
-                description: 'Grada nivel alto, vista lateral (parte superior del mapa).'
+                description: 'Grada nivel alto, vista lateral (parte superior del mapa).',
+                soldOut: true
             },
             {
                 zone: 'Morado / General',
                 price: 5301,
                 color: '🟪 Morado',
-                description: 'Grada de fondo o entrada general (sección 100s frente al escenario).'
+                description: 'Grada de fondo o entrada general (sección 100s frente al escenario).',
+                soldOut: true
             },
         ],
         description: '¡Hola México! BTS llega al coloso de Santa Úrsula para tres fechas inolvidables.',

@@ -67,6 +67,28 @@ body {
   box-shadow: 0 4px 20px rgba(0, 0, 0, 0.03);
 }
 
+/* N1: Internal sitelink card — above-the-fold country navigation */
+.internal-sitelink-card {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.75rem 1rem;
+  background: #ffffff;
+  border: 2px solid #e2e8f0;
+  border-radius: 0.75rem;
+  color: #0f172a;
+  font-size: 0.875rem;
+  font-weight: 700;
+  text-decoration: none;
+  transition: border-color 0.2s, color 0.2s, box-shadow 0.2s;
+}
+
+.internal-sitelink-card:hover {
+  border-color: #F01942;
+  color: #F01942;
+  box-shadow: 0 2px 8px rgba(240, 25, 66, 0.15);
+}
+
 /* Screen Reader Only */
 .sr-only {
   position: absolute;

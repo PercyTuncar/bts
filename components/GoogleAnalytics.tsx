@@ -19,6 +19,7 @@ export const GoogleAnalytics = () => {
             gtag('js', new Date());
             gtag('config', 'G-KGVBY5BCVR', {
               page_path: window.location.pathname,
+              transport_type: 'beacon',
             });
           `,
                 }}

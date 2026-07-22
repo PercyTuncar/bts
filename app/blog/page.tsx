@@ -1,7 +1,22 @@
+import { Metadata } from 'next';
 import Link from "next/link";
 import { GlassCard } from "@/components/GlassCard";
 import { Button } from "@/components/Button";
 import { Search } from "lucide-react";
+
+export const metadata: Metadata = {
+    title: 'Blog BTS 2026 – Noticias, Setlist y Guías | RaveHub',
+    description: 'Últimas noticias de BTS, predicciones de setlist, guías de supervivencia y looks para el ARIRANG World Tour 2026. Todo en un solo lugar para el ARMY.',
+    alternates: {
+        canonical: 'https://entradasbts.com/blog/',
+    },
+    openGraph: {
+        title: 'Blog BTS 2026 – RaveHub Insight',
+        description: 'Noticias, guías y cultura BTS para el ARMY de Latinoamérica.',
+        url: 'https://entradasbts.com/blog/',
+        type: 'website',
+    },
+};
 
 export default function BlogIndex() {
     const posts = [

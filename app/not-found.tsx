@@ -1,8 +1,15 @@
 
 export const runtime = 'edge';
 
+import type { Metadata } from 'next';
 import Link from 'next/link'
 import { Button } from "@/components/Button";
+
+export const metadata: Metadata = {
+    title: 'Página no encontrada – EntradasBTS',
+    description: 'La página que buscas no existe. Vuelve al inicio para ver todas las fechas del BTS World Tour ARIRANG 2026.',
+    robots: { index: false, follow: false },
+};
 
 export default function NotFound() {
     return (

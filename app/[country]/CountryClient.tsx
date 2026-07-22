@@ -69,7 +69,8 @@ const COLOMBIA_SERVICE_FEE = 50;
 const COLOMBIA_INSTALLMENT_INTEREST = 50;
 
 const getLocale = (countryId: string) => {
-    if (countryId === 'brasil') return 'pt-BR';
+    // D3: Brasil prices are in USD — use en-US for decimal formatting
+    if (countryId === 'brasil') return 'en-US';
     if (countryId === 'mexico') return 'es-MX';
     if (countryId === 'colombia') return 'es-CO';
     if (countryId === 'madrid') return 'es-ES';
@@ -158,7 +159,7 @@ const translations = {
         seg: "Seg",
         cash: "À Vista",
         installments: "Parcelado",
-        ticketDisclaimer: "Nota: Estes preços por setor são reais e a comissão de serviço por ingresso é adicionada no total.",
+        ticketDisclaimer: "Nota: Estes preços estão em dólares americanos (USD) e são reais por setor. A comissão de serviço por ingresso é adicionada no total.",
         selectDateStep: "1. Selecione a Data",
         chooseInstallments: "2. Escolha suas parcelas",
         initialReservation: "Reserva inicial de",
@@ -702,9 +703,22 @@ export default function CountryClient({ country }: Props) {
     return (
         <div className="min-h-screen bg-slate-50 text-slate-900 font-sans selection:bg-primary/20 selection:text-primary overflow-x-hidden">
 
-            {/* MARQUEE HEADER - Country Specific */}
+            {/* H1: sr-only breadcrumb nav (H1 accessible text) */}
+            <nav aria-label="breadcrumb" className="sr-only">
+                <ol>
+                    <li><a href="/">{country.id === 'brasil' ? 'Início' : 'Inicio'}</a></li>
+                    <li aria-current="page">
+                        {country.id === 'brasil'
+                            ? `Ingressos BTS ${country.name} 2026`
+                            : `${country.id === 'mexico' ? 'Boletos' : country.id === 'colombia' ? 'Boletas' : 'Entradas'} BTS ${country.id === 'madrid' ? 'Madrid' : country.name} 2026`}
+                    </li>
+                </ol>
+            </nav>
+
+                        {/* MARQUEE HEADER - Country Specific */}
             <div className="fixed top-20 left-0 w-full bg-slate-900 text-white z-40 border-b border-primary/20 overflow-hidden py-3 shadow-md">
-                <div className="flex whitespace-nowrap animate-marquee">
+                {/* I8: will-change-transform for composited animation */}
+                <div className="flex whitespace-nowrap animate-marquee will-change-transform">
                     {country.dates.map((date, idx) => {
                         const dateStr = mounted ? new Date(date + "T12:00:00").toLocaleDateString(lang === 'pt' ? 'pt-BR' : 'es-ES', { weekday: 'short', day: 'numeric', month: 'short' }) : '';
                         return (
@@ -727,6 +741,7 @@ export default function CountryClient({ country }: Props) {
             <section className="relative h-[100svh] min-h-[650px] max-h-[850px] pt-32 overflow-hidden bg-black">
                 {/* Background Video & Image */}
                 <div className="absolute inset-0 w-full h-full z-0">
+                        {/* I1: fetchPriority on hero image */}
                     {/* Placeholder Image */}
                     <Image
                         src="https://images.prestigeonline.com/wp-content/uploads/sites/6/2022/08/09215459/BTS-members-1600x900.jpg"
@@ -735,14 +750,16 @@ export default function CountryClient({ country }: Props) {
                         className={`object-cover object-[center_20%] transition-opacity duration-1000 ${videoLoaded ? 'opacity-0' : 'opacity-100'}`}
                         priority
                         sizes="100vw"
+                        fetchPriority="high"
                     />
 
-                    {/* Background Video */}
+                    {/* Background Video — I7: preload="none" to avoid blocking LCP */}
                     <video
                         autoPlay
                         muted
                         loop
                         playsInline
+                        preload="none"
                         poster="https://images.prestigeonline.com/wp-content/uploads/sites/6/2022/08/09215459/BTS-members-1600x900.jpg"
                         onCanPlayThrough={() => setVideoLoaded(true)}
                         className={`absolute inset-0 w-full h-full object-cover object-[center_20%] transition-opacity duration-1000 ${videoLoaded ? 'opacity-100' : 'opacity-0'}`}
@@ -761,9 +778,25 @@ export default function CountryClient({ country }: Props) {
                     {/* Main Content */}
                     <div className="max-w-2xl">
 
-                        {/* Title */}
+                        {/* Title — B4: sr-only with full keyword text per country */}
                         <h1 className="text-5xl sm:text-6xl md:text-7xl lg:text-8xl font-black text-white uppercase tracking-tight leading-[0.9]">
-                            <span className="sr-only">{country.id === 'brasil' ? 'Ingressos' : 'Entradas'} BTS {country.id === 'madrid' ? 'Madrid' : country.name} 2026 - ARIRANG World Tour en {country.venue} </span>
+                            <span className="sr-only">
+                                {country.id === 'brasil'
+                                    ? `Ingressos BTS Brasil 2026 - ARIRANG World Tour no Estádio do MorumBIS, São Paulo`
+                                    : country.id === 'peru'
+                                        ? `Entradas BTS Perú 2026 - ARIRANG World Tour en Estadio San Marcos, Lima`
+                                        : country.id === 'chile'
+                                            ? `Entradas BTS Chile 2026 - ARIRANG World Tour en Estadio Nacional, Santiago`
+                                            : country.id === 'mexico'
+                                                ? `Boletos BTS México 2026 - ARIRANG World Tour en Estadio GNP Seguros, CDMX`
+                                                : country.id === 'colombia'
+                                                    ? `Boletas BTS Colombia 2026 - ARIRANG World Tour en Estadio El Campín, Bogotá`
+                                                    : country.id === 'argentina'
+                                                        ? `Entradas BTS Argentina 2026 - ARIRANG World Tour en Estadio Único La Plata`
+                                                        : country.id === 'madrid'
+                                                            ? `Entradas BTS Madrid 2026 - ARIRANG World Tour en Riyadh Air Metropolitano`
+                                                            : `Entradas BTS ${country.name} 2026 - ARIRANG World Tour en ${country.venue}`}
+                            </span>
                             BTS <span className="bg-gradient-to-r from-primary to-rose-400 bg-clip-text text-transparent">{country.id === 'madrid' ? 'Madrid' : country.name}</span>
                             <span className="block text-lg sm:text-xl md:text-2xl font-bold text-white/80 mt-2 tracking-normal normal-case">ARIRANG World Tour 2026 · {country.venue}</span>
                         </h1>
@@ -823,7 +856,7 @@ export default function CountryClient({ country }: Props) {
                         >
                             <a
                                 href="#tickets"
-                                className="group inline-flex items-center gap-3 bg-primary hover:bg-primary/90 text-white font-bold uppercase tracking-wider text-base px-8 py-4 rounded-2xl transition-all duration-300 shadow-[0_0_30px_rgba(225,29,72,0.5)] hover:shadow-[0_0_50px_rgba(225,29,72,0.7)] hover:scale-[1.02]"
+                                className="group inline-flex items-center gap-3 bg-red-700 hover:bg-red-800 text-white font-bold uppercase tracking-wider text-base px-8 py-4 rounded-2xl transition-all duration-300 shadow-[0_0_30px_rgba(225,29,72,0.5)] hover:shadow-[0_0_50px_rgba(225,29,72,0.7)] hover:scale-[1.02]"
                             >
                                 <Ticket className="w-6 h-6" />
                                 {t.buyTickets}
@@ -859,6 +892,13 @@ export default function CountryClient({ country }: Props) {
                 <div className="text-center mb-10">
                     <h2 className="text-3xl md:text-4xl font-black uppercase text-slate-900 tracking-tight mb-2">{t.tickets}</h2>
                     <p className="text-slate-500 text-sm">{t.ticketDisclaimer}</p>
+                    {/* D3: Brasil USD notice */}
+                    {country.id === 'brasil' && (
+                        <div className="bg-blue-50 border border-blue-200 rounded-xl p-4 mt-4 max-w-2xl mx-auto">
+                            <p className="text-sm font-bold text-blue-900">💵 Preços em Dólares Americanos (USD)</p>
+                            <p className="text-xs text-blue-700">Todos os preços exibidos estão em dólares americanos (USD). O câmbio é de responsabilidade do comprador.</p>
+                        </div>
+                    )}
                 </div>
 
                 {/* Main Grid */}
@@ -930,7 +970,10 @@ export default function CountryClient({ country }: Props) {
                         {/* Installment Months */}
                         {isInstallment && (
                             <div className="bg-slate-50 p-4 rounded-xl max-w-md mx-auto lg:mx-0">
-                                <p className="text-sm font-semibold text-slate-600 mb-3">Número de cuotas:</p>
+                                {/* D2: Número de cuotas → Número de parcelas for Brasil */}
+                                <p className="text-sm font-semibold text-slate-600 mb-3">
+                                    {country.id === 'brasil' ? 'Número de parcelas:' : 'Número de cuotas:'}
+                                </p>
                                 <div className="flex gap-2">
                                     {[2, 3, 4].map(m => (
                                         <button
@@ -977,7 +1020,10 @@ export default function CountryClient({ country }: Props) {
                                             <span className="text-xl font-black">{d.getDate()}</span>
                                             <span className="text-xs font-semibold uppercase mt-0.5">{d.toLocaleDateString(lang === 'pt' ? 'pt-BR' : 'es-ES', { month: 'short' })}</span>
                                             {!available && (
-                                                <span className="text-[9px] font-bold uppercase bg-red-100 text-red-600 px-1 py-0.5 rounded mt-1">Agotado</span>
+                                                <span className="text-[9px] font-bold uppercase bg-red-100 text-red-600 px-1 py-0.5 rounded mt-1">
+                                                    {/* D2: Agotado → Esgotado for Brasil */}
+                                                    {country.id === 'brasil' ? 'Esgotado' : 'Agotado'}
+                                                </span>
                                             )}
                                         </button>
                                     )
@@ -1006,12 +1052,16 @@ export default function CountryClient({ country }: Props) {
                                                 {i + 1}
                                             </div>
                                             <div>
-                                                <h4 className={`text-base font-bold uppercase ${isDisabled ? 'text-slate-400 line-through' : 'text-slate-900'}`}>{zone.zone}</h4>
+                                                {/* J4: h4→h3 for zone names (heading hierarchy) */}
+                                                <h3 className={`text-base font-bold uppercase ${isDisabled ? 'text-slate-400 line-through' : 'text-slate-900'}`}>{zone.zone}</h3>
                                                 {i === 0 && !isDisabled && (
-                                                    <span className="text-[10px] font-bold uppercase bg-primary/10 text-primary px-1.5 py-0.5 rounded">{t.bestSeller}</span>
+                                                    <span className="text-xs font-bold uppercase bg-primary/10 text-primary px-1.5 py-0.5 rounded">{t.bestSeller}</span>
                                                 )}
                                                 {zone.soldOut && (
-                                                    <span className="text-[10px] font-bold uppercase bg-red-100 text-red-600 px-1.5 py-0.5 rounded">Agotado</span>
+                                                    <span className="text-xs font-bold uppercase bg-red-100 text-red-700 px-1.5 py-0.5 rounded">
+                                                        {/* D2: Agotado → Esgotado for Brasil */}
+                                                        {country.id === 'brasil' ? 'Esgotado' : 'Agotado'}
+                                                    </span>
                                                 )}
                                             </div>
                                         </div>
@@ -1034,10 +1084,12 @@ export default function CountryClient({ country }: Props) {
                                                 })()}
                                             </div>
                                             <div className={`flex items-center bg-slate-50 rounded-lg ${isDisabled ? 'opacity-50' : ''}`}>
+                                                {/* J1: aria-labels for quantity buttons */}
                                                 <button
                                                     onClick={() => !isDisabled && selectedDate && updateQuantity(zone.zone, -1, zone.stock)}
                                                     disabled={isDisabled || !selectedDate}
                                                     className="w-8 h-8 flex items-center justify-center hover:bg-slate-100 text-slate-500"
+                                                    aria-label={country.id === 'brasil' ? `Reduzir quantidade de ${zone.zone}` : `Reducir cantidad de ${zone.zone}`}
                                                 >
                                                     <Minus className="w-3 h-3" />
                                                 </button>
@@ -1046,6 +1098,7 @@ export default function CountryClient({ country }: Props) {
                                                     onClick={() => !isDisabled && selectedDate && updateQuantity(zone.zone, 1, zone.stock)}
                                                     disabled={isDisabled || !selectedDate}
                                                     className="w-8 h-8 flex items-center justify-center hover:bg-slate-100 text-slate-500"
+                                                    aria-label={country.id === 'brasil' ? `Aumentar quantidade de ${zone.zone}` : `Aumentar cantidad de ${zone.zone}`}
                                                 >
                                                     <Plus className="w-3 h-3" />
                                                 </button>
@@ -1067,6 +1120,7 @@ export default function CountryClient({ country }: Props) {
                                         src={country.id === 'peru' ? 'https://firebasestorage.googleapis.com/v0/b/event-ticket-website-6b541.firebasestorage.app/o/events%2Fstage-maps%2F1775537017513_wawzy.jpg?alt=media&token=09428b15-4857-4b81-b46e-f5f658ac9ecf' : country.id === 'chile' ? 'https://res.cloudinary.com/dz1qivt7m/image/upload/v1775645342/mapa_chile_taxr0b.jpg' : country.id === 'argentina' ? 'https://res.cloudinary.com/dz1qivt7m/image/upload/v1775645587/mapa_argentina_a7ogen.jpg' : 'https://res.cloudinary.com/dz1qivt7m/image/upload/v1775645807/mapa_colombia_qtwzow.jpg'}
                                         alt={`Mapa de zonas ${country.venue}`}
                                         className="w-full h-full object-cover cursor-pointer"
+                                        loading="lazy"
                                     />
                                 ) : (
                                     <Image
@@ -1078,8 +1132,12 @@ export default function CountryClient({ country }: Props) {
                                 )}
                             </div>
                             <div className="p-3 border-t border-slate-100 flex justify-between items-center">
-                                <span className="font-bold text-slate-900 text-sm">Mapa de Zonas</span>
-                                <span className="text-primary text-sm font-semibold">Ver →</span>
+                                {/* D2: Mapa de Zonas → Mapa de Setores for Brasil */}
+                                <span className="font-bold text-slate-900 text-sm">
+                                    {country.id === 'brasil' ? 'Mapa de Setores' : 'Mapa de Zonas'}
+                                </span>
+                                {/* J3: text-red-700 for better contrast (5.98:1 vs 4.70:1) */}
+                                <span className="text-red-700 text-sm font-semibold">Ver →</span>
                             </div>
                         </div>
 
@@ -1117,9 +1175,15 @@ export default function CountryClient({ country }: Props) {
                                     <div className="flex items-center justify-between">
                                         <div className="flex items-center gap-2">
                                             <div className="w-2 h-2 rounded-full bg-green-500 animate-pulse"></div>
-                                            <span className="text-sm font-bold">Venta General</span>
+                                            {/* D2: Venta General → Venda Geral for Brasil */}
+                                            <span className="text-sm font-bold">
+                                                {country.id === 'brasil' ? 'Venda Geral' : 'Venta General'}
+                                            </span>
                                         </div>
-                                        <span className="text-[10px] bg-green-100 text-green-700 px-2 py-0.5 rounded font-bold">Activo</span>
+                                        <span className="text-[10px] bg-green-100 text-green-700 px-2 py-0.5 rounded font-bold">
+                                            {/* D2: Activo → Ativo for Brasil */}
+                                            {country.id === 'brasil' ? 'Ativo' : 'Activo'}
+                                        </span>
                                     </div>
                                 )}
                             </div>
@@ -1129,7 +1193,7 @@ export default function CountryClient({ country }: Props) {
             </section>
 
             {/* FAQ SECTION */}
-            <section className="container mx-auto px-4 md:px-8 pb-32 pt-12 border-t border-slate-200">
+            <section className="container mx-auto px-4 md:px-8 pb-16 pt-12 border-t border-slate-200">
                 <div className="max-w-3xl mx-auto">
                     <h2 className="text-3xl font-black text-slate-900 mb-8 uppercase text-center">{t.faqTitle}</h2>
                     <div className="space-y-6">
@@ -1146,6 +1210,32 @@ export default function CountryClient({ country }: Props) {
                             <p className="text-slate-600">{t.a3.replace('{venue}', country.venue)}</p>
                         </div>
                     </div>
+                </div>
+            </section>
+
+            {/* H2: Internal linking to other country pages */}
+            <section className="container mx-auto px-4 py-8 pb-32 border-t border-slate-100">
+                <h3 className="text-lg font-bold mb-4 text-slate-700">
+                    {country.id === 'brasil' ? 'Outros países da turnê:' : 'Otros países de la gira:'}
+                </h3>
+                <div className="flex flex-wrap gap-3">
+                    {[
+                        { id: 'peru', label: '🇵🇪 Perú' },
+                        { id: 'chile', label: '🇨🇱 Chile' },
+                        { id: 'mexico', label: '🇲🇽 México' },
+                        { id: 'colombia', label: '🇨🇴 Colombia' },
+                        { id: 'argentina', label: '🇦🇷 Argentina' },
+                        { id: 'brasil', label: '🇧🇷 Brasil' },
+                        { id: 'madrid', label: '🇪🇸 Madrid' },
+                    ].filter(c => c.id !== country.id).map(c => (
+                        <a
+                            key={c.id}
+                            href={`/${c.id}`}
+                            className="inline-flex items-center gap-2 bg-white border border-slate-200 hover:border-primary/50 hover:text-primary text-slate-700 text-sm font-medium px-4 py-2 rounded-xl transition-all"
+                        >
+                            {c.label}
+                        </a>
+                    ))}
                 </div>
             </section>
 

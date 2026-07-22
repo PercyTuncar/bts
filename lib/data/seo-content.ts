@@ -176,7 +176,7 @@ export const COUNTRY_SEO_CONTENT: Record<string, string> = {
 <li><strong>Comunidad ARMY:</strong> el fandom argentino es célebre por su pasión y organización. Son habituales los proyectos de fans, el intercambio de "photocards" y los cánticos coordinados por tribuna.</li>
 <li><strong>Seguridad:</strong> cuida tus pertenencias y respeta las indicaciones del personal para vivir una jornada segura.</li>
 </ul>
-<p>Vivir a <strong>BTS en Argentina</strong> dentro del Estadio Único de La Plata será un recuerdo imborrable para el ARMY. Organiza tu viaje en tren Roca, prepara tu ARMY Bomb y sé parte del <strong>BTS World Tour ARIRANG 2026</strong> en La Plata.</p>
+<p>Vivir a <strong>BTS en Argentina</strong> dentro del <strong>Estadio Único Diego Armando Maradona</strong> será un recuerdo imborrable para el ARMY. El <strong>concierto BTS Argentina 2026</strong> y las <strong>entradas BTS La Plata</strong> son la oportunidad perfecta para ser parte de la historia del K-pop en el país. Organiza tu viaje en tren Roca, prepara tu ARMY Bomb y sé parte del <strong>BTS World Tour ARIRANG 2026</strong> en La Plata.</p>
 `,
     brasil: `
 <h2>Ingressos BTS Brasil 2026: BTS em São Paulo no Estádio do MorumBIS</h2>

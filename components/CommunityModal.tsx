@@ -29,7 +29,19 @@ export function CommunityModal({ isOpen, onClose, userCountryCode }: CommunityMo
         : orderedCountries.filter((country) => country.id !== currentCountry?.id);
     const shouldShowAllCountries = isHomeRoute;
 
-    const t = {
+    const isBrasilPage = pathname?.startsWith('/brasil');
+
+    const t = isBrasilPage ? {
+        title: (countryName: string) => `Junte-se ao ARMY no ${countryName}!`,
+        homeTitle: "Escolha seu grupo oficial",
+        socialProof: "+5.000 ARMYs conectados agora mesmo",
+        cta: "Entrar no grupo oficial →",
+        members: "+5.000 Armys",
+        close: "Fechar",
+        otherCountries: "Procurando o grupo de outro país?",
+        secure: "Garanta seus ingressos seguros e verificados",
+        chooseCountry: "Selecione o país de sua preferência e entre no grupo oficial",
+    } : {
         title: (countryName: string) => `¡Únete a ARMY en ${countryName}!`,
         homeTitle: "Elige tu grupo oficial",
         socialProof: "+5.000 ARMYs conectadas ahora mismo",
@@ -85,7 +97,7 @@ export function CommunityModal({ isOpen, onClose, userCountryCode }: CommunityMo
                                 <button
                                     onClick={onClose}
                                     className="absolute top-4 right-4 w-8 h-8 bg-slate-100 hover:bg-slate-200 text-slate-600 rounded-full flex items-center justify-center transition-colors"
-                                    aria-label="Cerrar"
+                                aria-label={isBrasilPage ? "Fechar" : "Cerrar"}
                                 >
                                     <X className="w-4 h-4" />
                                 </button>

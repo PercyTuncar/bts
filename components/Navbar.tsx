@@ -7,6 +7,7 @@ import { Logo } from "./Logo";
 import { Button } from "./Button";
 import { motion, AnimatePresence } from "framer-motion";
 import { usePathname } from "next/navigation";
+import Image from "next/image";
 
 import { useCart } from "@/context/CartContext";
 
@@ -49,7 +50,12 @@ export function Navbar() {
 
                     {/* Actions */}
                     <div className="flex items-center gap-6 relative z-50">
-                        <Link href="/tienda/cart" className="relative text-slate-900 hover:text-primary transition-colors group">
+                        {/* J2: aria-label for cart link */}
+                        <Link
+                            href="/tienda/cart"
+                            className="relative text-slate-900 hover:text-primary transition-colors group"
+                            aria-label={isBrazil ? "Ver carrinho de compras" : "Ver carrito de compras"}
+                        >
                             <ShoppingCart className="w-6 h-6" />
                             {count > 0 && (
                                 <span className="absolute -top-1 -right-1 w-5 h-5 bg-primary text-white text-[10px] font-bold flex items-center justify-center rounded-full shadow-sm group-hover:scale-110 transition-transform">
@@ -58,9 +64,12 @@ export function Navbar() {
                             )}
                         </Link>
 
+                        {/* J1: aria-label + aria-expanded for hamburger */}
                         <button
                             onClick={() => setIsOpen(!isOpen)}
                             className="md:hidden text-slate-900 border border-slate-200 p-2 rounded-lg active:bg-slate-50 transition-colors hover:border-primary/50"
+                            aria-label={isBrazil ? "Abrir menu de navegação" : "Abrir menú de navegación"}
+                            aria-expanded={isOpen}
                         >
                             {isOpen ? <X className="w-6 h-6" /> : <Menu className="w-6 h-6" />}
                         </button>

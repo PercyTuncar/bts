@@ -3,3 +3,4 @@ Allow: /
 Disallow: /private/
 Disallow: /admin/
 Sitemap: https://entradasbts.com/sitemap.xml
+Sitemap: https://entradasbts.com/sitemap-i18n.xml

@@ -86,7 +86,8 @@ export const Footer = ({ userCountryCode }: FooterProps) => {
 
             {/* MAIN LINKS */}
             <div className="container mx-auto px-4 md:px-8 py-16">
-                <div className="grid grid-cols-1 md:grid-cols-4 gap-12 md:gap-8">
+                <div className="grid grid-cols-1 md:grid-cols-5 gap-8">
+                    {/* Brand + Disclaimer */}
                     <div className="col-span-1 md:col-span-1 space-y-6">
                         <Link href="/" className="inline-block">
                             <div className="w-16 h-16 bg-primary border-2 border-white flex items-center justify-center -rotate-6 hover:rotate-0 transition-transform duration-300 shadow-sm">
@@ -103,7 +104,7 @@ export const Footer = ({ userCountryCode }: FooterProps) => {
                         </div>
                     </div>
 
-                    {/* LINKS COLUMN 1 */}
+                    {/* Explore */}
                     <div className="flex flex-col space-y-4">
                         <h4 className="text-secondary font-bold uppercase tracking-widest text-sm mb-2 text-slate-700">{t.explore}</h4>
                         <FooterLink href="/">{t.home}</FooterLink>
@@ -112,16 +113,30 @@ export const Footer = ({ userCountryCode }: FooterProps) => {
                         <FooterLink href="/blog">{t.news}</FooterLink>
                     </div>
 
-                    {/* LINKS COLUMN 2 */}
+                    {/* N2: Countries sitelinks — permanent cross-linking for Google crawlers */}
                     <div className="flex flex-col space-y-4">
-                        <h4 className="text-secondary font-bold uppercase tracking-widest text-sm mb-2 text-slate-700">{t.support}</h4>
-                        <FooterLink href="#" rel="nofollow">{t.help}</FooterLink>
-                        <FooterLink href="/legal/terminos">{t.terms}</FooterLink>
-                        <FooterLink href="/legal/privacidad">{t.privacy}</FooterLink>
-                        <FooterLink href="#" rel="nofollow">{t.contact}</FooterLink>
+                        <h4 className="text-secondary font-bold uppercase tracking-widest text-sm mb-2 text-slate-700">
+                            {isBrazil ? 'Países da Turnê' : 'Países de la Gira'}
+                        </h4>
+                        <FooterLink href="/peru/">Entradas BTS Perú</FooterLink>
+                        <FooterLink href="/chile/">Entradas BTS Chile</FooterLink>
+                        <FooterLink href="/mexico/">Boletos BTS México</FooterLink>
+                        <FooterLink href="/colombia/">Boletas BTS Colombia</FooterLink>
+                        <FooterLink href="/argentina/">Entradas BTS Argentina</FooterLink>
+                        <FooterLink href="/brasil/">Ingressos BTS Brasil</FooterLink>
+                        <FooterLink href="/madrid/">Entradas BTS Madrid</FooterLink>
                     </div>
 
-                    {/* SOCIALS */}
+                    {/* Support */}
+                    <div className="flex flex-col space-y-4">
+                        <h4 className="text-secondary font-bold uppercase tracking-widest text-sm mb-2 text-slate-700">{t.support}</h4>
+                        <FooterLink href="/legal/contacto">{t.help}</FooterLink>
+                        <FooterLink href="/legal/terminos">{t.terms}</FooterLink>
+                        <FooterLink href="/legal/privacidad">{t.privacy}</FooterLink>
+                        <FooterLink href="/legal/contacto">{t.contact}</FooterLink>
+                    </div>
+
+                    {/* Socials */}
                     <div className="flex flex-col space-y-6">
                         <h4 className="text-secondary font-bold uppercase tracking-widest text-sm text-slate-700">{t.follow}</h4>
                         <div className="flex gap-4">

@@ -1,0 +1,16 @@
+# EntradasBTS.com
+
+> Sitio oficial de venta de entradas para el BTS World Tour ARIRANG 2026 en Latinoamérica y España. Entradas verificadas para Perú, Chile, México, Colombia, Argentina, Brasil y Madrid.
+
+## Páginas principales
+- [Entradas BTS Perú 2026](https://entradasbts.com/peru/): Entradas para el Estadio San Marcos, Lima. Zonas, precios y fechas oficiales.
+- [Entradas BTS Chile 2026](https://entradasbts.com/chile/): Entradas para el Estadio Nacional, Santiago. Tres fechas confirmadas.
+- [Boletos BTS México 2026](https://entradasbts.com/mexico/): Boletos para el Estadio GNP Seguros, CDMX.
+- [Boletas BTS Colombia 2026](https://entradasbts.com/colombia/): Boletas para el Estadio El Campín, Bogotá.
+- [Entradas BTS Argentina 2026](https://entradasbts.com/argentina/): Entradas para el Estadio Único Diego Armando Maradona, La Plata.
+- [Ingressos BTS Brasil 2026](https://entradasbts.com/brasil/): Ingressos para o Estádio do MorumBIS, São Paulo. Conteúdo 100% em português (pt-BR).
+- [Entradas BTS Madrid 2026](https://entradasbts.com/madrid/): Entradas para el Riyadh Air Metropolitano.
+
+## Optional
+- [Blog BTS](https://entradasbts.com/blog/): Noticias, setlist y guías del ARIRANG World Tour.
+- [Tienda oficial](https://entradasbts.com/tienda/): Merchandising oficial del tour.

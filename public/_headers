@@ -21,3 +21,20 @@
   Cache-Control: public, max-age=0, must-revalidate
 /chile/
   Cache-Control: public, max-age=0, must-revalidate
+/brasil/
+  Cache-Control: public, max-age=0, must-revalidate
+/mexico/
+  Cache-Control: public, max-age=0, must-revalidate
+/colombia/
+  Cache-Control: public, max-age=0, must-revalidate
+/argentina/
+  Cache-Control: public, max-age=0, must-revalidate
+/madrid/
+  Cache-Control: public, max-age=0, must-revalidate
+
+# Security headers para todas las rutas (A8)
+
+/*
+  X-Content-Type-Options: nosniff
+  Referrer-Policy: strict-origin-when-cross-origin
+  Permissions-Policy: camera=(), microphone=(), geolocation=()

@@ -1,9 +1,27 @@
+import { Metadata } from 'next';
 import { GlassCard } from "@/components/GlassCard";
 import { Button } from "@/components/Button";
 import Link from "next/link";
 import { countries } from "@/lib/data/countries";
 import { ArrowRight, MapPin, Calendar } from "lucide-react";
 import Image from "next/image";
+
+export const metadata: Metadata = {
+    title: 'BTS ARIRANG Tour 2026 – Todas las Fechas | Latinoamérica y España',
+    description: 'Consulta todas las fechas del BTS World Tour ARIRANG 2026: Lima, Santiago, CDMX, Bogotá, La Plata, São Paulo y Madrid. Entradas y boletos disponibles.',
+    alternates: {
+        canonical: 'https://entradasbts.com/eventos/',
+    },
+    openGraph: {
+        title: 'BTS ARIRANG Tour 2026 – Fechas y Ciudades',
+        description: 'Todas las fechas confirmadas del BTS World Tour ARIRANG 2026 en Latinoamérica y España.',
+        url: 'https://entradasbts.com/eventos/',
+        siteName: 'EntradasBTS – RaveHub Latam',
+        images: [{ url: 'https://entradasbts.com/images/bts-hero-bg.png', width: 1200, height: 630 }],
+        locale: 'es_LA',
+        type: 'website',
+    },
+};
 
 const countryImages: Record<string, string> = {
     peru: "https://cuscoperu.b-cdn.net/wp-content/uploads/2024/02/Atardece-Costa-verde-Lima.webp",

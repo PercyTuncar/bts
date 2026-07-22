@@ -9,7 +9,11 @@ import { Footer } from "@/components/Footer";
 import { GoogleAnalytics } from "@/components/GoogleAnalytics";
 import { cn } from "@/lib/utils";
 
-const inter = Inter({ subsets: ["latin"] });
+const inter = Inter({ 
+    subsets: ["latin", "latin-ext"],
+    display: 'swap',
+    preload: true,
+});
 
 export const metadata: Metadata = {
   title: {
@@ -84,15 +88,18 @@ export default async function RootLayout({
   return (
     <html lang={lang}>
       <head>
-        <link rel="preconnect" href="https://cuscoperu.b-cdn.net" />
-        <link rel="preconnect" href="https://images.adsttc.com" />
-        <link rel="preconnect" href="https://media.admagazine.com" />
-        <link rel="dns-prefetch" href="https://cloudfront-us-east-1.images.arcpublishing.com" />
+        {/* F2: Preconnects for universal resources only (L1: country-specific moved to country page) */}
         <link rel="preconnect" href="https://www.googletagmanager.com" />
+        <link rel="dns-prefetch" href="https://humanidades.com" />
+        <link rel="dns-prefetch" href="https://media.vogue.mx" />
+        {/* F2: Add Firebase and Cloudinary for maps */}
+        <link rel="preconnect" href="https://firebasestorage.googleapis.com" />
+        <link rel="preconnect" href="https://res.cloudinary.com" />
+        {/* I2: PayPal moved to lazyOnload below */}
         <Script
           src="https://www.paypal.com/sdk/js?client-id=BAAa3-7GvLFL-Yj8lVIRkzve8wz_NyvMLwwiP0luzM_GUrmZujpbK2ikByE62VasK54tguRkwDOKZdTTfg&components=hosted-buttons&disable-funding=venmo&currency=USD"
           crossOrigin="anonymous"
-          async
+          strategy="lazyOnload"
         />
       </head>
       <body className={cn(inter.className, "antialiased min-h-screen relative")}>

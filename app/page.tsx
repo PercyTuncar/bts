@@ -83,6 +83,13 @@ export default function Home() {
     "description": "Servicio independiente de Personal Shopper especializado en la adquisición de entradas para conciertos internacionales en Latinoamérica y España.",
     "areaServed": ["PE", "AR", "CL", "MX", "CO", "BR", "ES"],
     "knowsLanguage": ["es", "pt"],
+    "contactPoint": {
+      "@type": "ContactPoint",
+      "contactType": "customer support",
+      "availableLanguage": ["Spanish", "Portuguese"],
+      "url": "https://entradasbts.com/legal/contacto"
+    },
+    "foundingDate": "2024",
     "sameAs": [
       "https://www.ravehublatam.com"
     ]
@@ -150,7 +157,17 @@ export default function Home() {
         "urlTemplate": "https://entradasbts.com/eventos/?q={search_term_string}"
       },
       "query-input": "required name=search_term_string"
-    }
+    },
+    // N3: hasPart for sitelinks signal
+    "hasPart": [
+      { "@type": "WebPage", "name": "Entradas BTS Perú 2026",     "url": "https://entradasbts.com/peru/" },
+      { "@type": "WebPage", "name": "Entradas BTS Chile 2026",    "url": "https://entradasbts.com/chile/" },
+      { "@type": "WebPage", "name": "Boletos BTS México 2026",    "url": "https://entradasbts.com/mexico/" },
+      { "@type": "WebPage", "name": "Boletas BTS Colombia 2026",  "url": "https://entradasbts.com/colombia/" },
+      { "@type": "WebPage", "name": "Entradas BTS Argentina 2026","url": "https://entradasbts.com/argentina/" },
+      { "@type": "WebPage", "name": "Ingressos BTS Brasil 2026",  "url": "https://entradasbts.com/brasil/" },
+      { "@type": "WebPage", "name": "Entradas BTS Madrid 2026",   "url": "https://entradasbts.com/madrid/" }
+    ]
   };
 
   const breadcrumbLd = {
@@ -190,7 +207,6 @@ export default function Home() {
 
       {/* Hero Section */}
       <section className="relative min-h-[80vh] flex flex-col items-center justify-center overflow-hidden pt-24 pb-24 border-b border-slate-200 bg-white">
-
         {/* HERO BACKGROUND IMAGE */}
         <div className="absolute inset-0 z-0 select-none overflow-hidden">
           <Image
@@ -251,6 +267,47 @@ export default function Home() {
               </Button>
             </Link>
           </div>
+        </div>
+      </section>
+
+      {/* N1: SITELINKS GRID — above-the-fold country navigation for Google Sitelinks */}
+      <section className="bg-white border-b border-slate-200 py-8">
+        <div className="container mx-auto px-4">
+          <p className="text-xs font-bold uppercase tracking-widest text-slate-400 mb-4 text-center">
+            Selecciona tu país / Selecione seu país
+          </p>
+          <nav aria-label="Navegación por país">
+            <div className="grid grid-cols-2 md:grid-cols-4 gap-3">
+              <a href="/peru/" className="internal-sitelink-card" title="Entradas BTS Perú 2026">
+                <span aria-hidden="true">🇵🇪</span>
+                <span className="font-bold">Entradas BTS Perú 2026</span>
+              </a>
+              <a href="/chile/" className="internal-sitelink-card" title="Entradas BTS Chile 2026">
+                <span aria-hidden="true">🇨🇱</span>
+                <span className="font-bold">Entradas BTS Chile 2026</span>
+              </a>
+              <a href="/mexico/" className="internal-sitelink-card" title="Boletos BTS México 2026">
+                <span aria-hidden="true">🇲🇽</span>
+                <span className="font-bold">Boletos BTS México 2026</span>
+              </a>
+              <a href="/colombia/" className="internal-sitelink-card" title="Boletas BTS Colombia 2026">
+                <span aria-hidden="true">🇨🇴</span>
+                <span className="font-bold">Boletas BTS Colombia 2026</span>
+              </a>
+              <a href="/argentina/" className="internal-sitelink-card" title="Entradas BTS Argentina 2026">
+                <span aria-hidden="true">🇦🇷</span>
+                <span className="font-bold">Entradas BTS Argentina 2026</span>
+              </a>
+              <a href="/brasil/" className="internal-sitelink-card" title="Ingressos BTS Brasil 2026">
+                <span aria-hidden="true">🇧🇷</span>
+                <span className="font-bold">Ingressos BTS Brasil 2026</span>
+              </a>
+              <a href="/madrid/" className="internal-sitelink-card" title="Entradas BTS Madrid 2026">
+                <span aria-hidden="true">🇪🇸</span>
+                <span className="font-bold">Entradas BTS Madrid 2026</span>
+              </a>
+            </div>
+          </nav>
         </div>
       </section>
 

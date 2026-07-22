@@ -16,10 +16,13 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
     if (!country) return { title: 'País no encontrado' };
 
     const minPrice = Math.min(...country.prices.map(p => p.price));
-    const formattedPrice = country.currencySymbol + minPrice;
+    // D5: Brasil prices in USD — always use en-US locale for USD formatting
+    const formattedPrice = country.id === 'brasil'
+        ? `USD $${minPrice.toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 })}`
+        : country.currencySymbol + minPrice.toLocaleString('es-ES');
 
     // Default metadata (Spanish)
-    let title: string; // Declare title here
+    let title: string;
     let description = `¡Compra tus entradas para BTS en ${country.name} 2026! Precios desde ${formattedPrice} en ${country.venue}. Compra segura, zonas VIP y mapa del escenario aquí.`;
     let ogTitle = `Entradas BTS ${country.name} 2026 | ${country.venue}`;
     let ogDescription = `¡El Army llega a ${country.name}! Compra segura y verificada para el concierto en ${country.venue}.`;
@@ -27,7 +30,7 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
     let ogLocale = 'es_LA';
     let ogUrl = `https://entradasbts.com/${country.id}`;
 
-    // Localization overrides
+    // Localization overrides (B1, B2)
     if (country.id === 'peru') {
         title = `Entradas BTS Perú 2026 – ARIRANG Tour | Estadio San Marcos`;
         description = `Compra tus entradas para BTS en Perú 2026 con precios desde ${formattedPrice} en el Estadio San Marcos. Selecciona zonas oficiales y completa tu pedido seguro por WhatsApp.`;
@@ -36,7 +39,8 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
         ogSiteName = `Entradas BTS Perú`;
     } else if (country.id === 'brasil') {
         title = `Ingressos BTS Brasil 2026 – ARIRANG Tour | Estádio MorumBIS`;
-        description = `Compre seus ingressos para o show do BTS no Brasil em outubro de 2026! ARIRANG World Tour no Estádio do MorumBIS em São Paulo. Preços a partir de ${formattedPrice}, zonas e mapa de assentos aqui.`;
+        // D5: Description in Portuguese with price in USD
+        description = `Compre seus ingressos para o show do BTS no Brasil em outubro de 2026! ARIRANG World Tour no Estádio do MorumBIS em São Paulo. Preços a partir de USD $472.81, zonas e mapa de setores aqui.`;
         ogTitle = `Ingressos BTS Brasil 2026 | Estádio do MorumBIS`;
         ogDescription = `O Army chega ao Brasil! Garanta seus ingressos para o show do BTS no Estádio do MorumBIS. Compra segura e verificada.`;
         ogSiteName = `Ingressos BTS Brasil`;
@@ -60,11 +64,28 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
         ogTitle = `Boletas BTS Colombia 2026 | Estadio El Campín`;
         ogDescription = `¡El Army de Colombia se reporta! Compra segura y verificada para el concierto de BTS en Bogotá.`;
         ogSiteName = `Boletas BTS Colombia`;
+    } else if (country.id === 'chile') {
+        // B1: Chile override
+        title = `Entradas BTS Chile 2026 – ARIRANG Tour | Estadio Nacional Santiago`;
+        description = `Compra tus entradas para BTS en Chile 2026 desde ${formattedPrice} en el Estadio Nacional. Tres fechas: 14, 16 y 17 de octubre. Zonas y precios oficiales.`;
+        ogTitle = `Entradas BTS Chile 2026 | Estadio Nacional`;
+        ogDescription = `¡BTS en Santiago! El Army chileno tiene su cita en el Estadio Nacional. Compra segura y verificada para las 3 fechas.`;
+        ogSiteName = `Entradas BTS Chile`;
+    } else if (country.id === 'argentina') {
+        // B1: Argentina override
+        title = `Entradas BTS Argentina 2026 – ARIRANG Tour | Estadio Único La Plata`;
+        description = `¡Compra tus entradas para BTS en Argentina 2026! Precios desde ${formattedPrice} en el Estadio Único de La Plata. Tres fechas: 21, 23 y 24 de octubre.`;
+        ogTitle = `Entradas BTS Argentina 2026 | Estadio Único La Plata`;
+        ogDescription = `¡BTS en La Plata! El Army argentino tiene tres noches en el Estadio Único. Compra segura y verificada.`;
+        ogSiteName = `Entradas BTS Argentina`;
     } else {
-        // Default title structure for other countries (Chile, Argentina)
         title = `Entradas BTS ${country.name} 2026 – ARIRANG Tour | ${country.venue}`;
     }
 
+    // B3: Madrid OG image — use hero bg instead of mapa
+    const ogImageUrl = country.id === 'madrid'
+        ? `https://entradasbts.com/images/bts-hero-bg.png`
+        : `https://entradasbts.com${country.openGraphImage}`;
 
     return {
         title: {
@@ -78,10 +99,10 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
             siteName: ogSiteName,
             images: [
                 {
-                    url: `https://entradasbts.com${country.openGraphImage}`,
+                    url: ogImageUrl,
                     width: 1200,
                     height: 630,
-                    alt: `${country.id === 'brasil' ? 'Ingressos' : (country.id === 'mexico' ? 'Boletos' : 'Entradas')} Concierto BTS ${country.name} 2026`
+                    alt: `${country.id === 'brasil' ? 'Ingressos' : (country.id === 'mexico' ? 'Boletos' : (country.id === 'colombia' ? 'Boletas' : 'Entradas'))} Concierto BTS ${country.name} 2026`
                 },
             ],
             locale: ogLocale,
@@ -91,7 +112,7 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
             card: 'summary_large_image',
             title: ogTitle,
             description: ogDescription,
-            images: [`https://entradasbts.com${country.openGraphImage}`],
+            images: [ogImageUrl],
         },
         alternates: {
             canonical: `https://entradasbts.com/${country.id}/`,
@@ -131,6 +152,12 @@ export default async function CountryPage({ params }: Props) {
         "name": "BTS",
     };
 
+    // C2: Add seller to Offer; C6: ticketWord for breadcrumb
+    const ticketWord = country.id === 'brasil' ? 'Ingressos'
+        : country.id === 'mexico' ? 'Boletos'
+        : country.id === 'colombia' ? 'Boletas'
+        : 'Entradas';
+
     // Build one Offer per zone for a given show date, respecting sold-out state.
     const buildOffers = (dateStr: string) =>
         country.prices.map(p => ({
@@ -144,6 +171,12 @@ export default async function CountryPage({ params }: Props) {
                 : "https://schema.org/InStock",
             "validFrom": `${venue.saleStart}T10:00:00${venue.tzOffset}`,
             "priceValidUntil": dateStr,
+            // C2: seller field
+            "seller": {
+                "@type": "Organization",
+                "name": "RaveHub Latam",
+                "url": "https://entradasbts.com/"
+            }
         }));
 
     // Build one Event object per concert date, each with a unique @id.
@@ -152,7 +185,8 @@ export default async function CountryPage({ params }: Props) {
         const humanDate = `${d} de ${months[m - 1]} ${y}`;
         return {
             "@context": "https://schema.org",
-            "@type": "Event",
+            // B6: Use MusicEvent instead of Event
+            "@type": "MusicEvent",
             "@id": `https://entradasbts.com/${country.id}/#event-${dateStr}`,
             "name": isBrazil
                 ? `BTS WORLD TOUR 'ARIRANG' em ${country.city} - ${humanDate}`
@@ -160,14 +194,20 @@ export default async function CountryPage({ params }: Props) {
             "description": isBrazil
                 ? `Show do BTS World Tour ARIRANG 2026 no ${venue.venueName}, em ${country.city}, no dia ${humanDate}. Ingressos por setor disponíveis.`
                 : `Concierto del BTS World Tour ARIRANG 2026 en el ${venue.venueName}, ${country.city}, el ${humanDate}. Entradas por zona disponibles.`,
+            // C7: Three image ratios
             "image": [
                 `https://entradasbts.com${country.openGraphImage}`,
                 "https://entradasbts.com/images/concert-bg.png",
+                "https://entradasbts.com/images/bts-hero-bg.png",
             ],
             "startDate": `${dateStr}T${venue.doorsHour}:00${venue.tzOffset}`,
             "endDate": `${dateStr}T${venue.endHour}:00${venue.tzOffset}`,
             "eventStatus": "https://schema.org/EventScheduled",
             "eventAttendanceMode": "https://schema.org/OfflineEventAttendanceMode",
+            // C3: typicalAgeRange, inLanguage, isAccessibleForFree
+            "typicalAgeRange": "0+",
+            "inLanguage": isBrazil ? "pt-BR" : "es",
+            "isAccessibleForFree": false,
             "location": {
                 "@type": "Place",
                 "name": venue.venueName,
@@ -215,6 +255,7 @@ export default async function CountryPage({ params }: Props) {
         ],
     };
 
+    // B7: Breadcrumb uses "Início" for Brasil; C6: ticketWord for second item
     const breadcrumbLd = {
         "@context": "https://schema.org",
         "@type": "BreadcrumbList",
@@ -222,7 +263,7 @@ export default async function CountryPage({ params }: Props) {
             {
                 "@type": "ListItem",
                 "position": 1,
-                "name": "Inicio",
+                "name": isBrazil ? "Início" : "Inicio",
                 "item": "https://entradasbts.com/",
             },
             {
@@ -230,20 +271,80 @@ export default async function CountryPage({ params }: Props) {
                 "position": 2,
                 "name": isBrazil
                     ? `Ingressos BTS ${country.name} 2026`
-                    : `Entradas BTS ${countryDisplayName} 2026`,
+                    : `${ticketWord} BTS ${countryDisplayName} 2026`,
                 "item": `https://entradasbts.com/${country.id}/`,
             },
         ],
     };
 
+    // B5: FAQPage schema
+    const faqLd = {
+        "@context": "https://schema.org",
+        "@type": "FAQPage",
+        "mainEntity": [
+            {
+                "@type": "Question",
+                "name": isBrazil ? "Quando começam as vendas dos ingressos?" : "¿Cuándo salen a la venta las entradas?",
+                "acceptedAnswer": {
+                    "@type": "Answer",
+                    "text": isBrazil
+                        ? "As datas variam por país. Verifique a seção de cronograma acima para ver as datas específicas."
+                        : "Las fechas varían por país. Revisa la sección de cronograma más arriba para ver las fechas específicas."
+                }
+            },
+            {
+                "@type": "Question",
+                "name": isBrazil ? "O que inclui o pacote VIP?" : "¿Qué incluye el paquete VIP?",
+                "acceptedAnswer": {
+                    "@type": "Answer",
+                    "text": isBrazil
+                        ? "Os pacotes VIP geralmente incluem entrada antecipada, acesso à passagem de som, merch exclusivo e cordão comemorativo."
+                        : "Los paquetes VIP suelen incluir entrada anticipada, acceso a soundcheck, merch exclusivo y lanyard conmemorativo."
+                }
+            },
+            {
+                "@type": "Question",
+                "name": isBrazil ? `Como chegar ao ${venue.venueName}?` : `¿Cómo llegar al ${venue.venueName}?`,
+                "acceptedAnswer": {
+                    "@type": "Answer",
+                    "text": isBrazil
+                        ? `O evento será realizado no ${venue.venueName}. Recomendamos usar transporte público e chegar com antecedência.`
+                        : `El evento se realizará en el ${venue.venueName}. Recomendamos usar transporte público y llegar con tiempo.`
+                }
+            }
+        ]
+    };
+
     const seoContent = COUNTRY_SEO_CONTENT[country.id];
 
     // Assemble every JSON-LD node into one array to inject.
-    const structuredData = [musicGroupLd, ...events, breadcrumbLd];
+    const structuredData = [musicGroupLd, ...events, breadcrumbLd, faqLd];
 
+    // L1: Preconnects specific to each country (avoid unused global preconnects)
+    const countryPreconnects: Record<string, string[]> = {
+        peru: ['https://cuscoperu.b-cdn.net', 'https://firebasestorage.googleapis.com'],
+        chile: ['https://images.adsttc.com', 'https://res.cloudinary.com'],
+        argentina: ['https://media.admagazine.com', 'https://res.cloudinary.com'],
+        colombia: ['https://cloudfront-us-east-1.images.arcpublishing.com', 'https://res.cloudinary.com'],
+        brasil: ['https://res.cloudinary.com', 'https://images.prestigeonline.com'],
+        mexico: ['https://media.vogue.mx'],
+        madrid: ['https://spanish100.com'],
+    };
+    const preconnects = countryPreconnects[country.id] || [];
 
     return (
         <>
+            {/* L1: Country-specific preconnects */}
+            {preconnects.map(href => (
+                <link key={href} rel="preconnect" href={href} />
+            ))}
+            {/* I1: Preload hero poster for LCP */}
+            <link
+                rel="preload"
+                as="image"
+                href="https://images.prestigeonline.com/wp-content/uploads/sites/6/2022/08/09215459/BTS-members-1600x900.jpg"
+                fetchPriority="high"
+            />
             {structuredData.map((node, idx) => (
                 <script
                     key={`ld-${idx}`}

@@ -420,6 +420,10 @@ export default function CountryClient({ country }: Props) {
     const isColombia = country.id === 'colombia';
     const isAndesFlow = isPeru || isChile || isArgentina;
 
+    // Detectar si el evento ya finalizó (fecha del último show ya pasó)
+    const lastEventDate = new Date(country.dates[country.dates.length - 1] + "T23:59:59");
+    const isEventFinished = mounted && new Date() > lastEventDate;
+
     const formatDateRange = (dates: string[]) => {
         if (!dates.length) return '';
         const parseDate = (d: string) => new Date(d + "T12:00:00");
@@ -830,23 +834,34 @@ export default function CountryClient({ country }: Props) {
                                 {primaryDate}
                             </div>
 
-                            <div className="flex items-center gap-4 text-white">
-                                {[
-                                    { val: timeLeft.days, label: t.days },
-                                    { val: timeLeft.hours, label: t.hrs },
-                                    { val: timeLeft.minutes, label: t.min },
-                                    { val: timeLeft.seconds, label: t.seg }
-                                ].map((item, idx) => (
-                                    <div key={idx} className="text-center">
-                                        <span className="block text-2xl md:text-3xl font-black tabular-nums">{item.val.toString().padStart(2, '0')}</span>
-                                        <span className="block text-[10px] uppercase tracking-wider text-white/40">{item.label}</span>
+                            {isEventFinished ? (
+                                <div className="flex items-center gap-3 bg-slate-900/50 border border-slate-700 text-white px-6 py-3 rounded-xl">
+                                    <div className="flex items-center gap-2">
+                                        <span className="w-2 h-2 rounded-full bg-slate-500"></span>
+                                        <span className="text-base font-bold uppercase tracking-wider text-slate-400">
+                                            {country.id === 'brasil' ? 'Evento Finalizado' : 'Evento Finalizado'}
+                                        </span>
                                     </div>
-                                ))}
-                                <span className="flex items-center gap-1.5 text-xs font-bold text-primary uppercase ml-2">
-                                    <span className="w-2 h-2 rounded-full bg-primary animate-pulse"></span>
-                                    {t.live}
-                                </span>
-                            </div>
+                                </div>
+                            ) : (
+                                <div className="flex items-center gap-4 text-white">
+                                    {[
+                                        { val: timeLeft.days, label: t.days },
+                                        { val: timeLeft.hours, label: t.hrs },
+                                        { val: timeLeft.minutes, label: t.min },
+                                        { val: timeLeft.seconds, label: t.seg }
+                                    ].map((item, idx) => (
+                                        <div key={idx} className="text-center">
+                                            <span className="block text-2xl md:text-3xl font-black tabular-nums">{item.val.toString().padStart(2, '0')}</span>
+                                            <span className="block text-[10px] uppercase tracking-wider text-white/40">{item.label}</span>
+                                        </div>
+                                    ))}
+                                    <span className="flex items-center gap-1.5 text-xs font-bold text-primary uppercase ml-2">
+                                        <span className="w-2 h-2 rounded-full bg-primary animate-pulse"></span>
+                                        {t.live}
+                                    </span>
+                                </div>
+                            )}
                         </motion.div>
 
                         {/* CTA Button */}
@@ -856,14 +871,21 @@ export default function CountryClient({ country }: Props) {
                             transition={{ delay: 0.5 }}
                             className="mt-5"
                         >
-                            <a
-                                href="#tickets"
-                                className="group inline-flex items-center gap-3 bg-red-700 hover:bg-red-800 text-white font-bold uppercase tracking-wider text-base px-8 py-4 rounded-2xl transition-all duration-300 shadow-[0_0_30px_rgba(225,29,72,0.5)] hover:shadow-[0_0_50px_rgba(225,29,72,0.7)] hover:scale-[1.02]"
-                            >
-                                <Ticket className="w-6 h-6" />
-                                {t.buyTickets}
-                                <ArrowRight className="w-5 h-5 group-hover:translate-x-1 transition-transform" />
-                            </a>
+                            {isEventFinished ? (
+                                <div className="inline-flex items-center gap-3 bg-slate-800 text-slate-400 font-bold uppercase tracking-wider text-base px-8 py-4 rounded-2xl cursor-not-allowed opacity-60">
+                                    <Ticket className="w-6 h-6" />
+                                    {country.id === 'brasil' ? 'Evento Encerrado' : 'Evento Pasado'}
+                                </div>
+                            ) : (
+                                <a
+                                    href="#tickets"
+                                    className="group inline-flex items-center gap-3 bg-red-700 hover:bg-red-800 text-white font-bold uppercase tracking-wider text-base px-8 py-4 rounded-2xl transition-all duration-300 shadow-[0_0_30px_rgba(225,29,72,0.5)] hover:shadow-[0_0_50px_rgba(225,29,72,0.7)] hover:scale-[1.02]"
+                                >
+                                    <Ticket className="w-6 h-6" />
+                                    {t.buyTickets}
+                                    <ArrowRight className="w-5 h-5 group-hover:translate-x-1 transition-transform" />
+                                </a>
+                            )}
                         </motion.div>
 
                         {/* SEO Text - Enriched with keyword variations */}
@@ -1159,7 +1181,19 @@ export default function CountryClient({ country }: Props) {
                         <div className="bg-white border border-slate-200 p-4 rounded-xl">
                             <h4 className="text-xs font-bold uppercase text-slate-500 mb-3">{t.salesStatus}</h4>
                             <div className="space-y-2">
-                                {country.id === 'madrid' ? (
+                                {isEventFinished ? (
+                                    <div className="flex items-center justify-between opacity-60">
+                                        <div className="flex items-center gap-2">
+                                            <div className="w-2 h-2 rounded-full bg-slate-400"></div>
+                                            <span className="text-sm font-bold text-slate-600">
+                                                {country.id === 'brasil' ? 'Evento Encerrado' : 'Evento Finalizado'}
+                                            </span>
+                                        </div>
+                                        <span className="text-[10px] bg-slate-100 text-slate-500 px-2 py-0.5 rounded font-bold">
+                                            {country.id === 'brasil' ? 'Concluído' : 'Concluido'}
+                                        </span>
+                                    </div>
+                                ) : country.id === 'madrid' ? (
                                     <>
                                         <div className="flex items-center justify-between opacity-50">
                                             <span className="text-sm text-slate-400 line-through">Preventa Army</span>
@@ -1277,10 +1311,14 @@ export default function CountryClient({ country }: Props) {
 
                                 <button
                                     onClick={handleCheckout}
-                                    disabled={isAddingToCart}
+                                    disabled={isAddingToCart || isEventFinished}
                                     className="w-full md:w-auto bg-primary text-white hover:bg-red-600 px-10 py-4 text-lg font-black uppercase tracking-widest transition-all hover:-translate-y-1 shadow-xl shadow-primary/30 flex items-center justify-center gap-3 rounded-full disabled:opacity-50 disabled:cursor-not-allowed"
                                 >
-                                    {isAndesFlow ? 'Agregar al carrito' : t.checkout} <ArrowRight className="w-5 h-5" />
+                                    {isEventFinished 
+                                        ? (country.id === 'brasil' ? 'Evento Encerrado' : 'Evento Pasado')
+                                        : (isAndesFlow ? 'Agregar al carrito' : t.checkout)
+                                    } 
+                                    {!isEventFinished && <ArrowRight className="w-5 h-5" />}
                                 </button>
                             </div>
                         </motion.div>

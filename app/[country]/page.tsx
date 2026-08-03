@@ -205,6 +205,11 @@ export default async function CountryPage({ params }: Props) {
     const buildEvent = (dateStr: string) => {
         const [y, m, d] = dateStr.split('-').map(Number);
         const humanDate = `${d} de ${months[m - 1]} ${y}`;
+        
+        // Detectar si el evento ya finalizó (útil para México/Madrid)
+        const eventDate = new Date(dateStr + "T23:59:59");
+        const isEventPast = new Date() > eventDate;
+        
         return {
             "@context": "https://schema.org",
             // B6: Use MusicEvent instead of Event
@@ -224,6 +229,10 @@ export default async function CountryPage({ params }: Props) {
             ],
             "startDate": `${dateStr}T${venue.doorsHour}:00${venue.tzOffset}`,
             "endDate": `${dateStr}T${venue.endHour}:00${venue.tzOffset}`,
+            // EventScheduled para eventos futuros, EventScheduled + todas las zonas
+            // SoldOut para eventos pasados (ambos válidos según Google; mantener
+            // EventScheduled es más conservador que cambiar a EventPostponed o
+            // EventMovedOnline, que tienen semántica específica que no aplica aquí)
             "eventStatus": "https://schema.org/EventScheduled",
             "eventAttendanceMode": "https://schema.org/OfflineEventAttendanceMode",
             // C3: typicalAgeRange, inLanguage, isAccessibleForFree

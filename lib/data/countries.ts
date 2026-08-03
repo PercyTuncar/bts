@@ -49,9 +49,10 @@ export const countries: CountryData[] = [
         city: 'Madrid',
         isoCode: 'ES',
         dates: ['2026-06-26', '2026-06-27'],
-        ticketDate: '1 de Marzo', // Placeholder or as needed
+        ticketDate: '1 de Marzo',
         currency: 'EUR',
         currencySymbol: '€',
+        // Evento finalizado (26 jun 2026, hoy es 2 ago 2026)
         prices: [
             { zone: 'Sección 225 - Nivel 200', price: 499, description: 'Vista privilegiada del escenario principal', soldOut: true },
             { zone: 'Sección 226 - Nivel 200', price: 499, description: 'Vista privilegiada del escenario principal', soldOut: true },
@@ -99,8 +100,8 @@ export const countries: CountryData[] = [
         currency: 'USD',
         currencySymbol: '$',
         prices: [
-            { zone: 'Pacífico Medio', price: 1784, soldOut: true },
-            { zone: 'Cancha Pacífico', price: 991, soldOut: true },
+            { zone: 'Pacífico Medio', price: 1784, stock: 5 },
+            { zone: 'Cancha Pacífico', price: 991, stock: 8 },
             { zone: 'Cancha Andes', price: 949, stock: 1 },
             { zone: 'Pacífico Alto', price: 892, soldOut: true },
             { zone: 'Pacífico Bajo', price: 734, soldOut: true },
@@ -133,6 +134,7 @@ export const countries: CountryData[] = [
         ticketDate: '26 de Enero',
         currency: 'MXN',
         currencySymbol: '$',
+        // Evento finalizado (7 may 2026, hoy es 2 ago 2026)
         prices: [
             {
                 zone: 'VIP',
@@ -191,12 +193,12 @@ export const countries: CountryData[] = [
                 soldOut: true
             },
             {
-                zone: 'Morado / General',
+                zone: 'Rosa',
                 price: 5301,
-                color: '🟪 Morado',
-                description: 'Grada de fondo o entrada general (sección 100s frente al escenario).',
+                color: '🩷 Rosa',
+                description: 'Grada más alta, más económica, vista panorámica del estadio.',
                 soldOut: true
-            },
+            }
         ],
         description: '¡Hola México! BTS llega al coloso de Santa Úrsula para tres fechas inolvidables.',
         openGraphImage: '/images/og-mexico.jpg',

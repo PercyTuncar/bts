@@ -412,6 +412,7 @@ export default function CountryClient({ country }: Props) {
     const router = useRouter();
     const { addItem, removeItem, updateItem, items: cartItems } = useCart();
     const [isMapExpanded, setIsMapExpanded] = useState(false);
+    const [mounted, setMounted] = useState(false);
     const lang = country.id === 'brasil' ? 'pt' : (country.id === 'mexico' ? 'mx' : (country.id === 'colombia' ? 'co' : (country.id === 'madrid' ? 'es_ES' : 'es')));
     const t = translations[lang] || translations.es;
     const isPeru = country.id === 'peru';
@@ -451,7 +452,6 @@ export default function CountryClient({ country }: Props) {
     const [isMembershipModalOpen, setIsMembershipModalOpen] = useState(false);
     const [isSoldOutModalOpen, setIsSoldOutModalOpen] = useState(false);
     const [installmentMonths, setInstallmentMonths] = useState(3);
-    const [mounted, setMounted] = useState(false);
     const [videoLoaded, setVideoLoaded] = useState(false);
 
     // Currency conversion for Chile, Colombia, Argentina

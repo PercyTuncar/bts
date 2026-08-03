@@ -8,7 +8,7 @@ import Image from "next/image";
 
 export const metadata: Metadata = {
     title: 'BTS ARIRANG Tour 2026 – Todas las Fechas | Latinoamérica y España',
-    description: 'Consulta todas las fechas del BTS World Tour ARIRANG 2026: Lima, Santiago, CDMX, Bogotá, La Plata, São Paulo y Madrid. Entradas y boletos disponibles.',
+    description: 'Consulta todas las fechas del BTS World Tour ARIRANG 2026: Perú, Chile, Colombia, Argentina y Brasil. Entradas y boletos disponibles.',
     alternates: {
         canonical: 'https://entradasbts.com/eventos/',
     },

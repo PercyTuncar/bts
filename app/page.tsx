@@ -20,10 +20,10 @@ const countryImages: Record<string, string> = {
 
 export const metadata = {
   title: 'Entradas BTS ARIRANG Tour 2026 | Latinoamérica y España',
-  description: 'Entradas para el BTS World Tour ARIRANG 2026. Fechas en Lima, CDMX, Bogotá, Santiago, La Plata, São Paulo y Madrid. Servicio de compra garantizada para el ARMY.',
+  description: 'Entradas para el BTS World Tour ARIRANG 2026. Fechas en Chile, Perú, Colombia, Argentina y Brasil. Servicio de compra garantizada para el ARMY.',
   openGraph: {
     title: 'Entradas BTS ARIRANG Tour 2026 | Latinoamérica y España',
-    description: 'Todas las fechas del BTS World Tour ARIRANG 2026 en Lima, CDMX, Bogotá, Santiago, La Plata, São Paulo y Madrid. Compra garantizada para el ARMY.',
+    description: 'Todas las fechas del BTS World Tour ARIRANG 2026 en Perú, Chile, Colombia, Argentina y Brasil. Compra garantizada para el ARMY.',
     url: 'https://entradasbts.com/',
     siteName: 'EntradasBTS – RaveHub Latam',
     images: [

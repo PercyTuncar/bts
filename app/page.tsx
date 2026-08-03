@@ -56,7 +56,7 @@ export const metadata = {
   twitter: {
     card: 'summary_large_image',
     title: 'Entradas BTS ARIRANG Tour 2026 | Latinoamérica y España',
-    description: 'Todas las fechas del BTS World Tour ARIRANG 2026 en Lima, CDMX, Bogotá, Santiago, La Plata, São Paulo y Madrid. Compra garantizada para el ARMY.',
+    description: 'Todas las fechas del BTS World Tour ARIRANG 2026 en Perú, Chile, Colombia, Argentina, Brasil y España. Compra garantizada para el ARMY.',
     site: '@ravehublatam',
     creator: '@ravehublatam',
     images: ['/images/home-hero.jpg'],
@@ -79,12 +79,12 @@ export default function Home() {
     "itemListElement": HOME_LIST_ORDER.map((id, i) => {
       const labels: Record<string, string> = {
         mexico: "Entradas BTS México 2026 – Estadio GNP Seguros (7, 9 y 10 mayo)",
-        colombia: "Entradas BTS Colombia 2026 – Estadio El Campín, Bogotá (2-3 oct)",
-        peru: "Entradas BTS Perú 2026 – Estadio San Marcos, Lima (7, 9, 10 oct)",
-        chile: "Entradas BTS Chile 2026 – Estadio Nacional, Santiago (14-17 oct)",
-        argentina: "Entradas BTS Argentina 2026 – Estadio Único La Plata (21, 23, 24 oct)",
-        brasil: "Entradas BTS Brasil 2026 – Estádio MorumBIS, São Paulo (28-31 oct)",
-        madrid: "Entradas BTS España 2026 – Riyadh Air Metropolitano, Madrid (26-27 jun)"
+        colombia: "Entradas BTS Colombia 2026 – Estadio El Campín (2-3 oct)",
+        peru: "Entradas BTS Perú 2026 – Estadio San Marcos (7, 9, 10 oct)",
+        chile: "Entradas BTS Chile 2026 – Estadio Nacional (14-17 oct)",
+        argentina: "Entradas BTS Argentina 2026 – Estadio Único (21, 23, 24 oct)",
+        brasil: "Entradas BTS Brasil 2026 – Estádio MorumBIS (28-31 oct)",
+        madrid: "Entradas BTS España 2026 – Riyadh Air Metropolitano (26-27 jun)"
       };
 
       return {
@@ -241,7 +241,7 @@ export default function Home() {
       <section id="tour-dates" className="container mx-auto px-4 py-24">
         <div className="flex items-end justify-between mb-12 border-b-4 border-slate-200 pb-4">
           <h2 className="text-5xl font-black uppercase italic">Fechas y Países del Tour de BTS 2026</h2>
-          <div className="text-sm font-bold uppercase tracking-widest text-gray-500">Selecciona tu ciudad</div>
+          <div className="text-sm font-bold uppercase tracking-widest text-gray-500">Selecciona tu país</div>
         </div>
 
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
@@ -299,13 +299,13 @@ export default function Home() {
             Fechas confirmadas por país
           </h3>
           <ul className="mt-4 grid gap-3 md:grid-cols-2 text-lg leading-8 text-slate-700">
-            <li><strong>México:</strong> Estadio GNP Seguros, CDMX — 7, 9 y 10 de mayo de 2026</li>
-            <li><strong>Colombia:</strong> Estadio El Campín, Bogotá — 2 y 3 de octubre de 2026</li>
-            <li><strong>Perú:</strong> Estadio San Marcos, Lima — 7, 9 y 10 de octubre de 2026</li>
-            <li><strong>Chile:</strong> Estadio Nacional, Santiago — 14, 16 y 17 de octubre de 2026</li>
-            <li><strong>Argentina:</strong> Estadio Único de La Plata — 21, 23 y 24 de octubre de 2026</li>
-            <li><strong>Brasil:</strong> Estádio do MorumBIS, São Paulo — 28, 29 y 31 de octubre de 2026</li>
-            <li><strong>España:</strong> Riyadh Air Metropolitano, Madrid — 26 y 27 de junio de 2026</li>
+            <li><strong>México:</strong> Estadio GNP Seguros — 7, 9 y 10 de mayo de 2026</li>
+            <li><strong>Colombia:</strong> Estadio El Campín — 2 y 3 de octubre de 2026</li>
+            <li><strong>Perú:</strong> Estadio San Marcos — 7, 9 y 10 de octubre de 2026</li>
+            <li><strong>Chile:</strong> Estadio Nacional — 14, 16 y 17 de octubre de 2026</li>
+            <li><strong>Argentina:</strong> Estadio Único — 21, 23 y 24 de octubre de 2026</li>
+            <li><strong>Brasil:</strong> Estádio do MorumBIS — 28, 29 y 31 de octubre de 2026</li>
+            <li><strong>España:</strong> Riyadh Air Metropolitano — 26 y 27 de junio de 2026</li>
           </ul>
         </div>
       </section>

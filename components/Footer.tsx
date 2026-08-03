@@ -165,7 +165,7 @@ export const Footer = ({ userCountryCode }: FooterProps) => {
                     </div>
                     <div className="flex gap-6 text-[10px] font-mono text-gray-600 uppercase">
                         <span>Made for ARMY</span>
-                        <span>Seoul • Lima • Santiago • CDMX • Bogotá</span>
+                        <span>Seoul • Perú • Chile • México • Colombia</span>
                     </div>
                 </div>
             </div>

@@ -60,7 +60,7 @@ export const metadata: Metadata = {
   twitter: {
     card: 'summary_large_image',
     title: 'Entradas BTS ARIRANG Tour 2026 | Latinoamérica y España',
-    description: 'Todas las fechas del BTS World Tour ARIRANG 2026 en Lima, CDMX, Bogotá, Santiago, La Plata, São Paulo y Madrid. Compra garantizada para el ARMY.',
+    description: 'Todas las fechas del BTS World Tour ARIRANG 2026 en Perú, Chile, Colombia, Argentina, Brasil y España. Compra garantizada para el ARMY.',
     site: '@ravehublatam',
     creator: '@ravehublatam',
     images: ['/images/bts-hero-bg.png'],

@@ -216,11 +216,11 @@ export default async function CountryPage({ params }: Props) {
             "@type": "MusicEvent",
             "@id": `https://entradasbts.com/${country.id}/#event-${dateStr}`,
             "name": isBrazil
-                ? `BTS WORLD TOUR 'ARIRANG' em ${country.city} - ${humanDate}`
+                ? `BTS WORLD TOUR 'ARIRANG' em Brasil - ${humanDate}`
                 : `BTS WORLD TOUR 'ARIRANG' en ${countryDisplayName} - ${humanDate}`,
             "description": isBrazil
-                ? `Show do BTS World Tour ARIRANG 2026 no ${venue.venueName}, em ${country.city}, no dia ${humanDate}. Ingressos por setor disponíveis.`
-                : `Concierto del BTS World Tour ARIRANG 2026 en el ${venue.venueName}, ${country.city}, el ${humanDate}. Entradas por zona disponibles.`,
+                ? `Show do BTS World Tour ARIRANG 2026 no ${venue.venueName}, em Brasil, no dia ${humanDate}. Ingressos por setor disponíveis.`
+                : `Concierto del BTS World Tour ARIRANG 2026 en el ${venue.venueName}, ${countryDisplayName}, el ${humanDate}. Entradas por zona disponibles.`,
             // C7: Three image ratios
             "image": [
                 `https://entradasbts.com${country.openGraphImage}`,

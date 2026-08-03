@@ -2,6 +2,7 @@
 
 import { useState, useEffect, useRef } from "react";
 import { CountryData } from "@/lib/data/countries";
+import { getServiceFeePerTicket } from "@/lib/pricing";
 import { Calendar, MapPin, Ticket, Minus, Plus, ArrowRight, ShieldCheck } from "lucide-react";
 import Image from "next/image";
 import { motion, AnimatePresence } from "framer-motion";
@@ -59,13 +60,13 @@ const INSTALLMENT_CONFIG: Record<string, { fee: number; reservation: number }> =
     'brasil': { fee: 200, reservation: 200 }, // ~110 PEN
 };
 
-const PERU_SERVICE_FEE = 299;
+// Cash-purchase service fees now live in lib/pricing.ts (SERVICE_FEE_PER_TICKET),
+// which is the single source of truth shared with the JSON-LD Offer.price
+// generator in app/[country]/page.tsx. Keep the installment-only interest
+// figures here since they only apply when paying in installments.
 const PERU_INSTALLMENT_INTEREST = 399;
-const CHILE_SERVICE_FEE = 50;
 const CHILE_INSTALLMENT_INTEREST = 50;
-const ARGENTINA_SERVICE_FEE = 50;
 const ARGENTINA_INSTALLMENT_INTEREST = 50;
-const COLOMBIA_SERVICE_FEE = 50;
 const COLOMBIA_INSTALLMENT_INTEREST = 50;
 
 const getLocale = (countryId: string) => {
@@ -577,9 +578,10 @@ export default function CountryClient({ country }: Props) {
     };
 
     const baseAmount = country.prices.reduce((sum, zone) => sum + ((quantities[zone.zone] || 0) * zone.price), 0);
-    const serviceFeeAmount = isPeru
-        ? 0
-        : (isChile ? totalTickets * CHILE_SERVICE_FEE : (isArgentina ? totalTickets * ARGENTINA_SERVICE_FEE : (isColombia ? totalTickets * COLOMBIA_SERVICE_FEE : 0)));
+    // C2/4.2: service fee per ticket comes from the same table used to build
+    // Offer.price in JSON-LD, so the visible total and the structured data
+    // never diverge.
+    const serviceFeeAmount = totalTickets * getServiceFeePerTicket(country.id);
 
     const perTicketInstallFee = isInstallment
         ? (isPeru ? 0 : (isChile ? CHILE_INSTALLMENT_INTEREST : (isArgentina ? ARGENTINA_INSTALLMENT_INTEREST : (isColombia ? COLOMBIA_INSTALLMENT_INTEREST : config.fee))))
@@ -653,7 +655,7 @@ export default function CountryClient({ country }: Props) {
                     countryId: country.id,
                     currency: country.currency,
                     currencySymbol: country.currencySymbol,
-                    serviceFeePerTicket: isPeru ? 0 : (isChile ? CHILE_SERVICE_FEE : (isArgentina ? ARGENTINA_SERVICE_FEE : (isColombia ? COLOMBIA_SERVICE_FEE : 0))),
+                    serviceFeePerTicket: getServiceFeePerTicket(country.id),
                     installmentInterestPerTicket: perTicketInstallFee,
                     isInstallment,
                     installmentMonths: isInstallment ? installmentMonths : undefined,

@@ -2,6 +2,7 @@ import { Metadata } from "next";
 import { countries } from "@/lib/data/countries";
 import { VENUE_META, MONTHS_ES, MONTHS_PT } from "@/lib/data/venues";
 import { COUNTRY_SEO_CONTENT } from "@/lib/data/seo-content";
+import { getZoneTotalPrice } from "@/lib/pricing";
 import { notFound } from "next/navigation";
 import CountryClient from "./CountryClient";
 
@@ -118,14 +119,16 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
             canonical: `https://entradasbts.com/${country.id}/`,
             languages: {
                 'es': 'https://entradasbts.com/',
-                'es-PE': 'https://entradasbts.com/peru',
-                'es-CL': 'https://entradasbts.com/chile',
-                'es-MX': 'https://entradasbts.com/mexico',
-                'es-CO': 'https://entradasbts.com/colombia',
-                'es-AR': 'https://entradasbts.com/argentina',
-                'es-ES': 'https://entradasbts.com/madrid',
-                'pt-BR': 'https://entradasbts.com/brasil',
-                'x-default': 'https://entradasbts.com/',
+                'es-PE': 'https://entradasbts.com/peru/',
+                'es-CL': 'https://entradasbts.com/chile/',
+                'es-MX': 'https://entradasbts.com/mexico/',
+                'es-CO': 'https://entradasbts.com/colombia/',
+                'es-AR': 'https://entradasbts.com/argentina/',
+                'es-ES': 'https://entradasbts.com/madrid/',
+                'pt-BR': 'https://entradasbts.com/brasil/',
+                // x-default points to the country selector, the best signal of
+                // intent for traffic where no country/language has been detected.
+                'x-default': 'https://entradasbts.com/eventos/',
             },
         }
     };
@@ -145,11 +148,24 @@ export default async function CountryPage({ params }: Props) {
     const venue = VENUE_META[country.id];
     const months = isBrazil ? MONTHS_PT : MONTHS_ES;
 
-    // Reusable performer node referencing the site-wide MusicGroup entity.
+    // Reusable performer node referencing the site-wide MusicGroup entity
+    // declared once in app/layout.tsx.
     const performerRef = {
         "@type": "MusicGroup",
         "@id": "https://entradasbts.com/#bts-musicgroup",
         "name": "BTS",
+    };
+
+    // Reusable seller node referencing the site-wide Organization entity.
+    // seller (not organizer) is the correct schema.org property for "the
+    // entity that sells/offers the good or service" — RaveHub Latam is a
+    // ticket-management service, not the event organizer.
+    const sellerRef = {
+        "@type": "Organization",
+        "@id": "https://entradasbts.com/#organization",
+        "name": "RaveHub Latam",
+        "url": "https://entradasbts.com/",
+        "description": "Servicio independiente de gestión de compra de entradas. No afiliado a BTS, HYBE, Weverse ni al organizador oficial del evento.",
     };
 
     // C2: Add seller to Offer; C6: ticketWord for breadcrumb
@@ -158,25 +174,31 @@ export default async function CountryPage({ params }: Props) {
         : country.id === 'colombia' ? 'Boletas'
         : 'Entradas';
 
+    // 4.2: Offer.price must be the total the buyer actually pays, including
+    // service charges and fees (Google's Event structured data requirement),
+    // and it must match the visible "total to pay" exactly. getZoneTotalPrice
+    // is the same helper used by the checkout UI in CountryClient.tsx.
+    const zoneTotalPrices = country.prices.map(p => getZoneTotalPrice(country.id, p.price));
+    const inStockTotalPrices = country.prices
+        .filter(p => !p.soldOut)
+        .map(p => getZoneTotalPrice(country.id, p.price));
+    const aggregateLowPrice = Math.min(...(inStockTotalPrices.length ? inStockTotalPrices : zoneTotalPrices));
+    const aggregateHighPrice = Math.max(...zoneTotalPrices);
+
     // Build one Offer per zone for a given show date, respecting sold-out state.
     const buildOffers = (dateStr: string) =>
         country.prices.map(p => ({
             "@type": "Offer",
             "name": p.zone,
             "url": `https://entradasbts.com/${country.id}/`,
-            "price": p.price,
+            "price": getZoneTotalPrice(country.id, p.price),
             "priceCurrency": country.currency,
             "availability": p.soldOut
                 ? "https://schema.org/SoldOut"
                 : "https://schema.org/InStock",
             "validFrom": `${venue.saleStart}T10:00:00${venue.tzOffset}`,
             "priceValidUntil": dateStr,
-            // C2: seller field
-            "seller": {
-                "@type": "Organization",
-                "name": "RaveHub Latam",
-                "url": "https://entradasbts.com/"
-            }
+            "seller": sellerRef,
         }));
 
     // Build one Event object per concert date, each with a unique @id.
@@ -226,35 +248,39 @@ export default async function CountryPage({ params }: Props) {
                     "longitude": venue.longitude,
                 },
             },
-            "organizer": {
-                "@type": "Organization",
-                "name": venue.organizerName,
-                "url": venue.organizerUrl,
-            },
+            // 4.3: organizer removed on purpose. Google lists it as recommended,
+            // not required, for Event/MusicEvent (only location, name and
+            // startDate are required). RaveHub is not the real event organizer
+            // (Live Nation / DF Entertainment / OCESA are), and RaveHub is not
+            // that organizer either — declaring either as `organizer` would be
+            // an inaccurate claim. RaveHub's identity lives correctly in
+            // `seller`, inside each Offer, where schema.org expects "the
+            // entity that sells/offers the good or service".
             "performer": performerRef,
-            "offers": buildOffers(dateStr),
+            // 4.6: AggregateOffer surfaces a "from $X" price range in Google's
+            // event experience/search results when a page has multiple
+            // ticket zones, instead of (or in addition to) individual Offers.
+            "offers": {
+                "@type": "AggregateOffer",
+                "priceCurrency": country.currency,
+                "lowPrice": aggregateLowPrice,
+                "highPrice": aggregateHighPrice,
+                "offerCount": country.prices.length,
+                "offers": buildOffers(dateStr),
+            },
         };
     };
 
     // One Event per date for every country (unique @id each).
     const events = country.dates.map(buildEvent);
 
-    // Site-wide artist entity (referenced by each event's performer @id).
-    const musicGroupLd = {
-        "@context": "https://schema.org",
-        "@type": "MusicGroup",
-        "@id": "https://entradasbts.com/#bts-musicgroup",
-        "name": "BTS",
-        "url": "https://ibighit.com/bts",
-        "sameAs": [
-            "https://en.wikipedia.org/wiki/BTS_(band)",
-            "https://open.spotify.com/artist/3Nrfpe0tUJi4K4DXYWgMUX",
-            "https://www.instagram.com/bts.bighitofficial/",
-            "https://twitter.com/bts_bighit",
-            "https://www.youtube.com/@BTS",
-        ],
-    };
+    // MusicGroup is declared once, site-wide, in app/layout.tsx (referenced
+    // here only via performerRef's @id) — no longer repeated on every country
+    // page with slightly different `sameAs` lists.
 
+    // 11: Breadcrumb extended to 3 levels (Inicio → Eventos → País), matching
+    // the real site hierarchy (the /eventos/ listing page sits between the
+    // homepage and each country page in both the nav and the sitemap).
     // B7: Breadcrumb uses "Início" for Brasil; C6: ticketWord for second item
     const breadcrumbLd = {
         "@context": "https://schema.org",
@@ -269,6 +295,12 @@ export default async function CountryPage({ params }: Props) {
             {
                 "@type": "ListItem",
                 "position": 2,
+                "name": "Eventos",
+                "item": "https://entradasbts.com/eventos/",
+            },
+            {
+                "@type": "ListItem",
+                "position": 3,
                 "name": isBrazil
                     ? `Ingressos BTS ${country.name} 2026`
                     : `${ticketWord} BTS ${countryDisplayName} 2026`,
@@ -277,7 +309,12 @@ export default async function CountryPage({ params }: Props) {
         ],
     };
 
-    // B5: FAQPage schema
+    // B5: FAQPage schema. Google retired the FAQ rich result from Search on
+    // 2026-05-07 and dropped Rich Results Test support for it in June 2026,
+    // so this block is no longer a rich-result lever — it's kept because it
+    // still feeds AI-driven answer engines (AI Overviews, assistants) that
+    // consume JSON-LD independently of classic Search rich results, and it
+    // answers a real, high-intent user question (the commission charged).
     const faqLd = {
         "@context": "https://schema.org",
         "@type": "FAQPage",
@@ -290,6 +327,18 @@ export default async function CountryPage({ params }: Props) {
                     "text": isBrazil
                         ? "As datas variam por país. Verifique a seção de cronograma acima para ver as datas específicas."
                         : "Las fechas varían por país. Revisa la sección de cronograma más arriba para ver las fechas específicas."
+                }
+            },
+            {
+                "@type": "Question",
+                "name": isBrazil
+                    ? "Por que o preço é diferente do valor oficial do local?"
+                    : "¿Por qué el precio es distinto al oficial del venue?",
+                "acceptedAnswer": {
+                    "@type": "Answer",
+                    "text": isBrazil
+                        ? "A RaveHub Latam é um serviço independente de gestão de compra, não a bilheteria oficial. O preço inclui o valor do ingresso mais a comissão pelo serviço de gestão, verificação de disponibilidade e suporte pós-venda."
+                        : "RaveHub Latam es un servicio independiente de gestión de compra, no la ticketera oficial. El precio incluye el valor de la entrada más la comisión por el servicio de gestión, verificación de disponibilidad y soporte post-venta."
                 }
             },
             {
@@ -317,8 +366,10 @@ export default async function CountryPage({ params }: Props) {
 
     const seoContent = COUNTRY_SEO_CONTENT[country.id];
 
-    // Assemble every JSON-LD node into one array to inject.
-    const structuredData = [musicGroupLd, ...events, breadcrumbLd, faqLd];
+    // Assemble every JSON-LD node into one array to inject. MusicGroup and
+    // Organization are declared once site-wide (app/layout.tsx) and only
+    // referenced here by @id, so they are not repeated per page.
+    const structuredData = [...events, breadcrumbLd, faqLd];
 
     // L1: Preconnects specific to each country (avoid unused global preconnects)
     const countryPreconnects: Record<string, string[]> = {

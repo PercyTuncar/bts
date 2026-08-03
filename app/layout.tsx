@@ -76,6 +76,88 @@ import { PopupManager } from "@/components/PopupManager";
 import { headers } from "next/headers";
 import Script from "next/script";
 
+// Site-wide JSON-LD entities (Organization, WebSite, MusicGroup) declared once
+// here and referenced by @id from every page, instead of being re-emitted with
+// slightly different data on the home page and on each country page.
+const organizationLd = {
+  "@context": "https://schema.org",
+  "@type": "Organization",
+  "@id": "https://entradasbts.com/#organization",
+  "name": "RaveHub Latam",
+  "alternateName": "EntradasBTS",
+  "url": "https://entradasbts.com/",
+  "logo": {
+    "@type": "ImageObject",
+    "@id": "https://entradasbts.com/#logo",
+    "url": "https://entradasbts.com/favicon-32x32.png",
+    "width": 32,
+    "height": 32,
+    "caption": "EntradasBTS / RaveHub Latam"
+  },
+  "description": "Servicio independiente de gestión de compra de entradas y membresías para conciertos en Latinoamérica y España. No afiliado a artistas, sellos discográficos, ticketeras oficiales ni organizadores de eventos.",
+  "areaServed": ["PE", "AR", "CL", "MX", "CO", "BR", "ES"],
+  "knowsLanguage": ["es", "pt"],
+  "contactPoint": {
+    "@type": "ContactPoint",
+    "contactType": "customer support",
+    "availableLanguage": ["Spanish", "Portuguese"],
+    "url": "https://entradasbts.com/legal/contacto"
+  },
+  "foundingDate": "2024",
+  "sameAs": [
+    "https://www.ravehublatam.com"
+  ]
+};
+
+const websiteLd = {
+  "@context": "https://schema.org",
+  "@type": "WebSite",
+  "@id": "https://entradasbts.com/#website",
+  "url": "https://entradasbts.com/",
+  "name": "EntradasBTS – BTS World Tour ARIRANG 2026",
+  "description": "Entradas para el BTS World Tour ARIRANG 2026 en Latinoamérica y España.",
+  "inLanguage": ["es", "pt-BR"],
+  "publisher": {
+    "@id": "https://entradasbts.com/#organization"
+  },
+  "potentialAction": {
+    "@type": "SearchAction",
+    "target": {
+      "@type": "EntryPoint",
+      "urlTemplate": "https://entradasbts.com/eventos/?q={search_term_string}"
+    },
+    "query-input": "required name=search_term_string"
+  },
+  "hasPart": [
+    { "@type": "WebPage", "name": "Entradas BTS Perú 2026", "url": "https://entradasbts.com/peru/" },
+    { "@type": "WebPage", "name": "Entradas BTS Chile 2026", "url": "https://entradasbts.com/chile/" },
+    { "@type": "WebPage", "name": "Boletos BTS México 2026", "url": "https://entradasbts.com/mexico/" },
+    { "@type": "WebPage", "name": "Boletas BTS Colombia 2026", "url": "https://entradasbts.com/colombia/" },
+    { "@type": "WebPage", "name": "Entradas BTS Argentina 2026", "url": "https://entradasbts.com/argentina/" },
+    { "@type": "WebPage", "name": "Ingressos BTS Brasil 2026", "url": "https://entradasbts.com/brasil/" },
+    { "@type": "WebPage", "name": "Entradas BTS Madrid 2026", "url": "https://entradasbts.com/madrid/" }
+  ]
+};
+
+const musicGroupLd = {
+  "@context": "https://schema.org",
+  "@type": "MusicGroup",
+  "@id": "https://entradasbts.com/#bts-musicgroup",
+  "name": "BTS",
+  "url": "https://ibighit.com/bts",
+  "sameAs": [
+    "https://en.wikipedia.org/wiki/BTS_(band)",
+    "https://www.wikidata.org/wiki/Q494703",
+    "https://open.spotify.com/artist/3Nrfpe0tUJi4K4DXYWgMUX",
+    "https://www.instagram.com/bts.bighitofficial/",
+    "https://twitter.com/bts_bighit",
+    "https://www.youtube.com/@bts_bighit",
+    "https://www.tiktok.com/@bts_official_bighit"
+  ]
+};
+
+const globalStructuredData = [organizationLd, websiteLd, musicGroupLd];
+
 export default async function RootLayout({
   children,
 }: Readonly<{
@@ -95,6 +177,16 @@ export default async function RootLayout({
         {/* F2: Add Firebase and Cloudinary for maps */}
         <link rel="preconnect" href="https://firebasestorage.googleapis.com" />
         <link rel="preconnect" href="https://res.cloudinary.com" />
+        {/* Site-wide entities: declared once here, referenced by @id from every page
+            (Organization, WebSite/SearchAction, MusicGroup) instead of being
+            repeated with slightly different data on each page. */}
+        {globalStructuredData.map((node, idx) => (
+          <script
+            key={`global-ld-${idx}`}
+            type="application/ld+json"
+            dangerouslySetInnerHTML={{ __html: JSON.stringify(node) }}
+          />
+        ))}
         {/* I2: PayPal moved to lazyOnload below */}
         <Script
           src="https://www.paypal.com/sdk/js?client-id=BAAa3-7GvLFL-Yj8lVIRkzve8wz_NyvMLwwiP0luzM_GUrmZujpbK2ikByE62VasK54tguRkwDOKZdTTfg&components=hosted-buttons&disable-funding=venmo&currency=USD"

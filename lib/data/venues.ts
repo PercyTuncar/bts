@@ -11,6 +11,12 @@ export interface VenueMeta {
     longitude: number;
     sameAs: string; // Wikipedia URL of the actual venue
     tzOffset: string; // ISO offset valid for the concert month, e.g. "-05:00"
+    // organizerName/organizerUrl are kept as reference data only (real venue
+    // operators/promoters) but are intentionally NOT emitted as the
+    // `organizer` field in MusicEvent JSON-LD: Google only requires
+    // location/name/startDate, organizer is optional, and RaveHub Latam
+    // (this site's operator) is not the real event organizer either — its
+    // identity is correctly declared via `seller` on each Offer instead.
     organizerName: string;
     organizerUrl: string;
     saleStart: string; // YYYY-MM-DD when public sale opened (for validFrom)

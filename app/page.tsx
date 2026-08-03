@@ -41,14 +41,16 @@ export const metadata = {
     canonical: 'https://entradasbts.com/',
     languages: {
       'es': 'https://entradasbts.com/',
-      'es-PE': 'https://entradasbts.com/peru',
-      'es-CL': 'https://entradasbts.com/chile',
-      'es-MX': 'https://entradasbts.com/mexico',
-      'es-CO': 'https://entradasbts.com/colombia',
-      'es-AR': 'https://entradasbts.com/argentina',
-      'es-ES': 'https://entradasbts.com/madrid',
-      'pt-BR': 'https://entradasbts.com/brasil',
-      'x-default': 'https://entradasbts.com/',
+      'es-PE': 'https://entradasbts.com/peru/',
+      'es-CL': 'https://entradasbts.com/chile/',
+      'es-MX': 'https://entradasbts.com/mexico/',
+      'es-CO': 'https://entradasbts.com/colombia/',
+      'es-AR': 'https://entradasbts.com/argentina/',
+      'es-ES': 'https://entradasbts.com/madrid/',
+      'pt-BR': 'https://entradasbts.com/brasil/',
+      // x-default points to the country selector, the best signal of intent
+      // for traffic where no country/language has been detected.
+      'x-default': 'https://entradasbts.com/eventos/',
     },
   },
   twitter: {
@@ -65,53 +67,8 @@ export const metadata = {
 const HOME_LIST_ORDER = ['mexico', 'colombia', 'peru', 'chile', 'argentina', 'brasil', 'madrid'];
 
 export default function Home() {
-  const organizationLd = {
-    "@context": "https://schema.org",
-    "@type": "Organization",
-    "@id": "https://entradasbts.com/#organization",
-    "name": "RaveHub Latam",
-    "alternateName": "EntradasBTS",
-    "url": "https://entradasbts.com/",
-    "logo": {
-      "@type": "ImageObject",
-      "@id": "https://entradasbts.com/#logo",
-      "url": "https://entradasbts.com/favicon-32x32.png",
-      "width": 32,
-      "height": 32,
-      "caption": "EntradasBTS / RaveHub Latam"
-    },
-    "description": "Servicio independiente de Personal Shopper especializado en la adquisición de entradas para conciertos internacionales en Latinoamérica y España.",
-    "areaServed": ["PE", "AR", "CL", "MX", "CO", "BR", "ES"],
-    "knowsLanguage": ["es", "pt"],
-    "contactPoint": {
-      "@type": "ContactPoint",
-      "contactType": "customer support",
-      "availableLanguage": ["Spanish", "Portuguese"],
-      "url": "https://entradasbts.com/legal/contacto"
-    },
-    "foundingDate": "2024",
-    "sameAs": [
-      "https://www.ravehublatam.com"
-    ]
-  };
-
-  const musicGroupLd = {
-    "@context": "https://schema.org",
-    "@type": "MusicGroup",
-    "@id": "https://entradasbts.com/#bts-musicgroup",
-    "name": "BTS",
-    "url": "https://ibighit.com/bts",
-    "sameAs": [
-      "https://en.wikipedia.org/wiki/BTS_(band)",
-      "https://www.wikidata.org/wiki/Q494703",
-      "https://open.spotify.com/artist/3Nrfpe0tUJi4K4DXYWgMUX",
-      "https://www.instagram.com/bts.bighitofficial/",
-      "https://twitter.com/bts_bighit",
-      "https://www.youtube.com/@bts_bighit",
-      "https://www.tiktok.com/@bts_official_bighit"
-    ]
-  };
-
+  // Organization, WebSite/SearchAction and MusicGroup are declared once,
+  // site-wide, in app/layout.tsx (referenced by @id) — not repeated here.
   const itemListLd = {
     "@context": "https://schema.org",
     "@type": "ItemList",
@@ -139,37 +96,6 @@ export default function Home() {
     })
   };
 
-  const websiteLd = {
-    "@context": "https://schema.org",
-    "@type": "WebSite",
-    "@id": "https://entradasbts.com/#website",
-    "url": "https://entradasbts.com/",
-    "name": "EntradasBTS – BTS World Tour ARIRANG 2026",
-    "description": "Entradas para el BTS World Tour ARIRANG 2026 en Latinoamérica y España.",
-    "inLanguage": "es",
-    "publisher": {
-      "@id": "https://entradasbts.com/#organization"
-    },
-    "potentialAction": {
-      "@type": "SearchAction",
-      "target": {
-        "@type": "EntryPoint",
-        "urlTemplate": "https://entradasbts.com/eventos/?q={search_term_string}"
-      },
-      "query-input": "required name=search_term_string"
-    },
-    // N3: hasPart for sitelinks signal
-    "hasPart": [
-      { "@type": "WebPage", "name": "Entradas BTS Perú 2026",     "url": "https://entradasbts.com/peru/" },
-      { "@type": "WebPage", "name": "Entradas BTS Chile 2026",    "url": "https://entradasbts.com/chile/" },
-      { "@type": "WebPage", "name": "Boletos BTS México 2026",    "url": "https://entradasbts.com/mexico/" },
-      { "@type": "WebPage", "name": "Boletas BTS Colombia 2026",  "url": "https://entradasbts.com/colombia/" },
-      { "@type": "WebPage", "name": "Entradas BTS Argentina 2026","url": "https://entradasbts.com/argentina/" },
-      { "@type": "WebPage", "name": "Ingressos BTS Brasil 2026",  "url": "https://entradasbts.com/brasil/" },
-      { "@type": "WebPage", "name": "Entradas BTS Madrid 2026",   "url": "https://entradasbts.com/madrid/" }
-    ]
-  };
-
   const breadcrumbLd = {
     "@context": "https://schema.org",
     "@type": "BreadcrumbList",
@@ -189,7 +115,7 @@ export default function Home() {
     ]
   };
 
-  const structuredData = [organizationLd, websiteLd, musicGroupLd, itemListLd, breadcrumbLd];
+  const structuredData = [itemListLd, breadcrumbLd];
 
   return (
     <div className="min-h-screen text-slate-900 selection:bg-secondary selection:text-white pb-20">

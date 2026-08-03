@@ -24,7 +24,10 @@ const ALL_ALTERNATES = [
     { lang: 'es-AR',    url: `${BASE}/argentina/` },
     { lang: 'es-ES',    url: `${BASE}/madrid/` },
     { lang: 'pt-BR',    url: `${BASE}/brasil/` },
-    { lang: 'x-default', url: `${BASE}/` },
+    // x-default points to the country selector, matching the alternates in
+    // app/[country]/page.tsx and app/page.tsx (best signal of intent for
+    // traffic without a detected country/language).
+    { lang: 'x-default', url: `${BASE}/eventos/` },
 ];
 
 function buildXhtmlLinks(alternates: typeof ALL_ALTERNATES): string {

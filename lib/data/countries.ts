@@ -276,7 +276,7 @@ export const countries: CountryData[] = [
             { zone: 'Pista (Inteira)', price: 595.63 },
             { zone: 'Pista (Meia-Entrada)', price: 472.81 },
         ],
-        description: 'A Live Nation é a produtora oficial. O show será no Estádio do MorumBIS. BTS WORLD TOUR "ARIRANG".',
+        description: 'O show será no Estádio do MorumBIS, em São Paulo. BTS WORLD TOUR "ARIRANG" 2026.',
         openGraphImage: '/images/og-brasil.jpg',
         whatsappLink: 'https://chat.whatsapp.com/GhPZqrMrZ70BPy8mO2MQ05',
         phoneCode: '+55'

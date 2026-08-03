@@ -40,7 +40,14 @@ export const Footer = ({ userCountryCode }: FooterProps) => {
         // Let's stick to what was asked + necessary context.
         disclaimer: isBrazil
             ? "Entradasbts.com é um serviço independente de gestão de compras operado pela Ravehub."
-            : "Entradasbts.com es un servicio independiente de gestión de compras operado por Ravehub."
+            : "Entradasbts.com es un servicio independiente de gestión de compras operado por Ravehub.",
+        autonomyNoticeLabel: isBrazil ? "Aviso de Autonomia:" : "Aviso de Autonomía:",
+        autonomyNoticeText: isBrazil
+            ? "Operamos como uma plataforma independente de Personal Shopper para a aquisição de ingressos e assinaturas, funcionando como uma entidade alheia às redes de bilheterias e organizadores oficiais."
+            : "Operamos como una plataforma independiente de Personal Shopper para la adquisición de entradas y membresias, funcionando como una entidad ajena a las redes de ticketeras y organizadores oficiales.",
+        legalOrderText: isBrazil ? "Todo pedido está sujeito aos nossos" : "Todo encargo aplica según nuestros",
+        termsAndConditions: isBrazil ? "Termos e Condições" : "Términos y Condiciones",
+        readHere: isBrazil ? "Leia aqui." : "Léelos aquí.",
     };
 
     return (
@@ -96,10 +103,10 @@ export const Footer = ({ userCountryCode }: FooterProps) => {
                         </Link>
                         <div className="text-[10px] font-mono text-gray-500 uppercase leading-relaxed">
                             <p className="mb-2">
-                                <span className="font-bold text-slate-700">Aviso de Autonomía:</span> Operamos como una plataforma independiente de Personal Shopper para la adquisición de entradas y membresias, funcionando como una entidad ajena a las redes de ticketeras y organizadores oficiales.
+                                <span className="font-bold text-slate-700">{t.autonomyNoticeLabel}</span> {t.autonomyNoticeText}
                             </p>
                             <p>
-                                Todo encargo aplica según nuestros <Link href="/legal/terminos" className="underline hover:text-slate-900 transition-colors font-bold">Términos y Condiciones</Link>. Léelos aquí.
+                                {t.legalOrderText} <Link href="/legal/terminos" className="underline hover:text-slate-900 transition-colors font-bold">{t.termsAndConditions}</Link>. {t.readHere}
                             </p>
                         </div>
                     </div>

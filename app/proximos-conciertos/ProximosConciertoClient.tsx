@@ -276,43 +276,43 @@ export default function ProximosConciertoClient({
                         <h3 className="text-2xl md:text-3xl font-black uppercase mb-6 text-primary">{region}</h3>
                         <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
                             {regionConcerts.map((concert, index) => (
-                                <GlassCard
-                                    key={index}
-                                    variant="interactive"
-                                    className="border border-slate-200"
-                                    id={concert.city.toLowerCase()}
-                                >
-                                    <div className="flex items-start gap-4 mb-4">
-                                        <span className="text-4xl">{concert.flag}</span>
-                                        <div className="flex-1">
-                                            <h4 className="text-xl font-black uppercase text-slate-900 mb-1">
-                                                {concert.city}
-                                            </h4>
-                                            <p className="text-sm font-bold text-slate-600">{concert.country}</p>
+                                <div key={index} id={concert.city.toLowerCase()}>
+                                    <GlassCard
+                                        variant="interactive"
+                                        className="border border-slate-200 h-full"
+                                    >
+                                        <div className="flex items-start gap-4 mb-4">
+                                            <span className="text-4xl">{concert.flag}</span>
+                                            <div className="flex-1">
+                                                <h4 className="text-xl font-black uppercase text-slate-900 mb-1">
+                                                    {concert.city}
+                                                </h4>
+                                                <p className="text-sm font-bold text-slate-600">{concert.country}</p>
+                                            </div>
                                         </div>
-                                    </div>
-                                    <div className="space-y-2 mb-4">
-                                        <div className="flex items-center gap-2 text-slate-700 text-sm">
-                                            <Calendar className="w-4 h-4 text-primary" />
-                                            <span className="font-bold">{formatDateLocal(concert.date)}</span>
+                                        <div className="space-y-2 mb-4">
+                                            <div className="flex items-center gap-2 text-slate-700 text-sm">
+                                                <Calendar className="w-4 h-4 text-primary" />
+                                                <span className="font-bold">{formatDateLocal(concert.date)}</span>
+                                            </div>
+                                            <div className="flex items-center gap-2 text-slate-600 text-sm">
+                                                <MapPin className="w-4 h-4" />
+                                                <span>{concert.venue}</span>
+                                            </div>
+                                            <div className="flex items-center gap-2 text-slate-500 text-xs">
+                                                <Clock className="w-3 h-3" />
+                                                <span>KST: {getKSTTime(concert.date)}</span>
+                                            </div>
                                         </div>
-                                        <div className="flex items-center gap-2 text-slate-600 text-sm">
-                                            <MapPin className="w-4 h-4" />
-                                            <span>{concert.venue}</span>
-                                        </div>
-                                        <div className="flex items-center gap-2 text-slate-500 text-xs">
-                                            <Clock className="w-3 h-3" />
-                                            <span>KST: {getKSTTime(concert.date)}</span>
-                                        </div>
-                                    </div>
-                                    {concert.countryId && (
-                                        <Link href={`/${concert.countryId}`}>
-                                            <Button variant="primary" className="w-full">
-                                                Comprar entradas <ArrowRight className="w-4 h-4 ml-2" />
-                                            </Button>
-                                        </Link>
-                                    )}
-                                </GlassCard>
+                                        {concert.countryId && (
+                                            <Link href={`/${concert.countryId}`}>
+                                                <Button variant="primary" className="w-full">
+                                                    Comprar entradas <ArrowRight className="w-4 h-4 ml-2" />
+                                                </Button>
+                                            </Link>
+                                        )}
+                                    </GlassCard>
+                                </div>
                             ))}
                         </div>
                     </div>

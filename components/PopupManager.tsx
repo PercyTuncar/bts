@@ -11,9 +11,14 @@ type Props = {
 export function PopupManager({ userCountryCode }: Props) {
     const pathname = usePathname();
     const isBlog = pathname?.startsWith('/blog');
-    
+    const isEventos = pathname === '/eventos' || pathname === '/eventos/';
+
     if (isBlog) {
         return <BlogPromoPopup />;
+    }
+
+    if (isEventos) {
+        return null;
     }
 
     return (

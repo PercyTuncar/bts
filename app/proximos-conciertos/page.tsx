@@ -28,6 +28,24 @@ export default function ProximosConciertoPage() {
 
     // Datos de precios por país
     const priceData: Record<string, { price: string; currency: string; validFrom: string; description: string }> = {
+        'toronto': {
+            price: '300',
+            currency: 'CAD',
+            validFrom: '2026-01-20T10:00:00-05:00',
+            description: 'BTS returns to Rogers Stadium in Toronto for two nights, giving fans another opportunity to experience one of the world\'s most celebrated music groups live.'
+        },
+        'chicago': {
+            price: '285',
+            currency: 'USD',
+            validFrom: '2026-01-22T10:00:00-06:00',
+            description: 'BTS World Tour Arirang comes to Soldier Field in Chicago for two unforgettable nights of K-pop history.'
+        },
+        'los angeles': {
+            price: '197',
+            currency: 'USD',
+            validFrom: '2026-01-25T10:00:00-08:00',
+            description: 'BTS World Tour Arirang at SoFi Stadium in Los Angeles. Four spectacular shows at one of the world\'s most advanced venues.'
+        },
         'colombia': {
             price: '249',
             currency: 'USD',
@@ -143,7 +161,10 @@ export default function ProximosConciertoPage() {
                 const concertDateTime = `${concert.date}T20:00:00`;
                 const concertEndTime = `${concert.date}T23:00:00`;
                 const geo = geoMap[concert.city.toLowerCase()];
-                const pricing = concert.countryId ? priceData[concert.countryId] : null;
+
+                // Buscar pricing por countryId o por nombre de ciudad
+                const pricingKey = concert.countryId || concert.city.toLowerCase();
+                const pricing = priceData[pricingKey] || null;
 
                 return {
                     '@type': 'MusicEvent',

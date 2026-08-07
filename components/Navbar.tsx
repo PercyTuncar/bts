@@ -2,7 +2,7 @@
 
 import Link from "next/link";
 import { useState } from "react";
-import { ShoppingCart, Menu, User, X, ArrowRight } from "lucide-react";
+import { ShoppingCart, Menu, User, X, ArrowRight, ChevronDown } from "lucide-react";
 import { Logo } from "./Logo";
 import { Button } from "./Button";
 import { motion, AnimatePresence } from "framer-motion";
@@ -13,23 +13,32 @@ import { useCart } from "@/context/CartContext";
 
 export function Navbar() {
     const [isOpen, setIsOpen] = useState(false);
+    const [tourDropdownOpen, setTourDropdownOpen] = useState(false);
     const { count } = useCart();
     const pathname = usePathname();
     const isBrazil = pathname?.startsWith('/brasil');
 
+    const tourSubItems = [
+        { href: "/gira-mundial", label: isBrazil ? "Guia da Turnê" : "Guía de la Gira" },
+        { href: "/proximos-conciertos", label: isBrazil ? "Próximos Shows" : "Próximos Conciertos" },
+        { href: "/eventos", label: isBrazil ? "Eventos" : "Eventos" },
+    ];
+
     const menuItems = isBrazil ? [
         { href: "/", label: "Início" },
-        { href: "/eventos", label: "Eventos" },
+        { href: "/tour", label: "TURNÊ", hasDropdown: true, subItems: tourSubItems },
         { href: "/comprar-membresia-bts", label: "Membros" },
         { href: "/blog", label: "Blog" },
         { href: "/tienda", label: "Loja" },
     ] : [
         { href: "/", label: "Inicio" },
-        { href: "/eventos", label: "Eventos" },
+        { href: "/tour", label: "GIRA", hasDropdown: true, subItems: tourSubItems },
         { href: "/comprar-membresia-bts", label: "Membresía" },
         { href: "/blog", label: "Blog" },
         { href: "/tienda", label: "Tienda" },
     ];
+
+    const isTourActive = pathname === '/gira-mundial' || pathname === '/proximos-conciertos' || pathname === '/eventos';
 
     return (
         <>
@@ -43,9 +52,93 @@ export function Navbar() {
 
                     {/* Links (Desktop) */}
                     <div className="hidden md:flex items-center gap-8 font-bold text-sm uppercase tracking-widest text-slate-500">
-                        {menuItems.map((item) => (
-                            <Link key={item.href} href={item.href} className="hover:text-primary hover:underline decoration-2 underline-offset-8 decoration-primary transition-all">{item.label}</Link>
-                        ))}
+                        {menuItems.map((item) => {
+                            if (item.hasDropdown) {
+                                return (
+                                    <div
+                                        key={item.href}
+                                        className="relative"
+                                        onMouseEnter={() => setTourDropdownOpen(true)}
+                                        onMouseLeave={() => setTourDropdownOpen(false)}
+                                    >
+                                        <button
+                                            className={`flex items-center gap-1 hover:text-primary transition-all ${
+                                                isTourActive ? 'text-primary' : ''
+                                            }`}
+                                        >
+                                            {item.label}
+                                            <ChevronDown className={`w-4 h-4 transition-transform ${tourDropdownOpen ? 'rotate-180' : ''}`} />
+                                        </button>
+                                        {isTourActive && (
+                                            <motion.div
+                                                layoutId="activeTab"
+                                                className="absolute -bottom-2 left-0 right-0 h-0.5 bg-primary"
+                                                initial={false}
+                                                transition={{ type: "spring", stiffness: 380, damping: 30 }}
+                                            />
+                                        )}
+
+                                        {/* Dropdown */}
+                                        <AnimatePresence>
+                                            {tourDropdownOpen && (
+                                                <motion.div
+                                                    initial={{ opacity: 0, y: -10 }}
+                                                    animate={{ opacity: 1, y: 0 }}
+                                                    exit={{ opacity: 0, y: -10 }}
+                                                    transition={{ duration: 0.2 }}
+                                                    className="absolute top-full left-0 mt-2 w-56 bg-white border border-slate-200 rounded-lg shadow-lg overflow-hidden"
+                                                >
+                                                    {item.subItems?.map((subItem, index) => {
+                                                        const isSubActive = pathname === subItem.href;
+                                                        return (
+                                                            <Link
+                                                                key={subItem.href}
+                                                                href={subItem.href}
+                                                                className={`block px-4 py-3 text-sm font-bold uppercase transition-colors relative ${
+                                                                    isSubActive
+                                                                        ? 'bg-primary text-white'
+                                                                        : 'hover:bg-slate-50 text-slate-700 hover:text-primary'
+                                                                } ${index !== 0 ? 'border-t border-slate-100' : ''}`}
+                                                            >
+                                                                {isSubActive && (
+                                                                    <span className="absolute left-2 top-1/2 -translate-y-1/2 w-1 h-6 bg-white rounded-full" />
+                                                                )}
+                                                                <span className={isSubActive ? 'ml-3' : ''}>
+                                                                    {subItem.label}
+                                                                </span>
+                                                            </Link>
+                                                        );
+                                                    })}
+                                                </motion.div>
+                                            )}
+                                        </AnimatePresence>
+                                    </div>
+                                );
+                            }
+
+                            const isActive = pathname === item.href ||
+                                           (item.href !== '/' && pathname?.startsWith(item.href));
+
+                            return (
+                                <Link
+                                    key={item.href}
+                                    href={item.href}
+                                    className={`relative hover:text-primary transition-all ${
+                                        isActive ? 'text-primary' : ''
+                                    }`}
+                                >
+                                    {item.label}
+                                    {isActive && (
+                                        <motion.div
+                                            layoutId="activeTab"
+                                            className="absolute -bottom-2 left-0 right-0 h-0.5 bg-primary"
+                                            initial={false}
+                                            transition={{ type: "spring", stiffness: 380, damping: 30 }}
+                                        />
+                                    )}
+                                </Link>
+                            );
+                        })}
                     </div>
 
                     {/* Actions */}
@@ -94,6 +187,35 @@ export function Navbar() {
                             {menuItems.map((item, i) => {
                                 const colors = ["text-slate-900", "text-slate-500", "text-primary", "text-slate-500", "text-slate-900"];
                                 const color = colors[i % colors.length];
+
+                                if (item.hasDropdown) {
+                                    return (
+                                        <motion.div
+                                            key={item.href}
+                                            initial={{ x: -50, opacity: 0 }}
+                                            animate={{ x: 0, opacity: 1 }}
+                                            transition={{ delay: 0.1 + (i * 0.1) }}
+                                        >
+                                            <div className="space-y-4">
+                                                <p className={`text-4xl font-black uppercase italic tracking-tighter ${color}`}>
+                                                    {item.label}
+                                                </p>
+                                                <div className="pl-6 space-y-3">
+                                                    {item.subItems?.map((subItem) => (
+                                                        <Link
+                                                            key={subItem.href}
+                                                            href={subItem.href}
+                                                            onClick={() => setIsOpen(false)}
+                                                            className="block text-2xl font-bold text-slate-600 hover:text-primary transition-colors"
+                                                        >
+                                                            → {subItem.label}
+                                                        </Link>
+                                                    ))}
+                                                </div>
+                                            </div>
+                                        </motion.div>
+                                    );
+                                }
 
                                 return (
                                     <motion.div

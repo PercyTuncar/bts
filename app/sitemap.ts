@@ -8,6 +8,8 @@ export default function sitemap(): MetadataRoute.Sitemap {
     // Static Routes
     const staticRoutes = [
         '',
+        'gira-mundial',
+        'proximos-conciertos',
         'tienda',
         'blog',
         'eventos',
@@ -21,7 +23,7 @@ export default function sitemap(): MetadataRoute.Sitemap {
         url: route ? `${baseUrl}/${route}/` : `${baseUrl}/`,
         lastModified: new Date(),
         changeFrequency: 'daily' as const,
-        priority: route === '' ? 1 : 0.8,
+        priority: route === '' ? 1 : route === 'gira-mundial' ? 0.95 : route === 'proximos-conciertos' ? 0.95 : 0.8,
     }));
 
     // Dynamic Country Routes

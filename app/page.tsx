@@ -165,7 +165,7 @@ export default function Home() {
           {/* Primary page heading (H1) */}
           <h1 className="flex flex-col items-center justify-center text-5xl md:text-8xl font-black tracking-tighter uppercase leading-[0.85] drop-shadow-sm">
             <span className="block text-slate-900 relative">
-              Entradas BTS 2026
+              Entradas y Conciertos de BTS
             </span>
             <span className="block text-transparent bg-clip-text bg-gradient-to-r from-primary to-rose-600 italic font-serif pb-4 relative">
               ARIRANG Tour Latinoamérica

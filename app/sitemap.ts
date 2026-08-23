@@ -29,9 +29,9 @@ export default function sitemap(): MetadataRoute.Sitemap {
     // Dynamic Country Routes
     const countryRoutes = countries.map((country) => ({
         url: `${baseUrl}/${country.id}/`,
-        lastModified: new Date(),
-        changeFrequency: 'daily' as const,
-        priority: 0.9,
+        lastModified: new Date('2026-08-23'), // Fecha real de optimización SEO (Brasil, Perú, Chile, Argentina)
+        changeFrequency: 'weekly' as const, // Más realista que 'daily'
+        priority: 0.95, // Aumentado de 0.9 a 0.95 (contenido principal optimizado)
     }));
 
     // Dynamic Product Routes

@@ -234,7 +234,7 @@ export function CommunityModal({ isOpen, onClose, userCountryCode }: CommunityMo
                                             exit={{ height: 0, opacity: 0 }}
                                             transition={{ duration: 0.3, ease: "easeInOut" }}
                                         >
-                                            <CountriesAccordion otherCountries={otherCountries} />
+                                            <CountriesAccordion otherCountries={otherCountries} isBrasilPage={isBrasilPage} />
                                         </motion.div>
                                     )}
                                 </AnimatePresence>
@@ -259,11 +259,14 @@ export function CommunityModal({ isOpen, onClose, userCountryCode }: CommunityMo
 
 interface CountriesAccordionProps {
     otherCountries: typeof countries;
+    isBrasilPage?: boolean;
 }
 
-function CountriesAccordion({ otherCountries }: CountriesAccordionProps) {
+function CountriesAccordion({ otherCountries, isBrasilPage = false }: CountriesAccordionProps) {
     const [isOpen, setIsOpen] = useState(false);
-    const t = {
+    const t = isBrasilPage ? {
+        otherCountries: "Procurando o grupo de outro país?",
+    } : {
         otherCountries: "¿Buscas el grupo de otro país?",
     };
 

@@ -1,6 +1,57 @@
+# robots.txt - EntradasBTS.com
+# Optimizado para Googlebot y SEO
+
+# Permitir acceso a todos los bots
 User-agent: *
 Allow: /
-Disallow: /private/
-Disallow: /admin/
+
+# Sitemap principal
 Sitemap: https://entradasbts.com/sitemap.xml
-Sitemap: https://entradasbts.com/sitemap-i18n.xml
+
+# Crawl-delay para ser amigable con el servidor
+Crawl-delay: 1
+
+# Bloquear rutas administrativas y archivos internos
+Disallow: /api/admin/
+Disallow: /_next/static/
+Disallow: /.well-known/
+
+# Permitir acceso completo a Googlebot (sin crawl-delay)
+User-agent: Googlebot
+Allow: /
+Crawl-delay: 0
+
+# Permitir acceso completo a Googlebot para imágenes
+User-agent: Googlebot-Image
+Allow: /
+
+# Permitir acceso a bots de redes sociales para Open Graph
+User-agent: facebookexternalbot
+Allow: /
+
+User-agent: Twitterbot
+Allow: /
+
+User-agent: LinkedInBot
+Allow: /
+
+# Permitir bots de Bing y otros motores
+User-agent: Bingbot
+Allow: /
+Crawl-delay: 0
+
+User-agent: Slurp
+Allow: /
+
+# Bloquear bots problemáticos o scraper maliciosos
+User-agent: SemrushBot
+Crawl-delay: 10
+
+User-agent: AhrefsBot
+Crawl-delay: 10
+
+User-agent: DotBot
+Disallow: /
+
+User-agent: MJ12bot
+Disallow: /

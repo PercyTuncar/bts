@@ -419,6 +419,7 @@ export default function CountryClient({ country }: Props) {
     const isChile = country.id === 'chile';
     const isArgentina = country.id === 'argentina';
     const isColombia = country.id === 'colombia';
+    const isBrazil = country.id === 'brasil';
     const isAndesFlow = isPeru || isChile || isArgentina;
 
     // Detectar si el evento ya finalizó (fecha del último show ya pasó)
@@ -751,7 +752,10 @@ export default function CountryClient({ country }: Props) {
                     {/* Placeholder Image */}
                     <Image
                         src="https://images.prestigeonline.com/wp-content/uploads/sites/6/2022/08/09215459/BTS-members-1600x900.jpg"
-                        alt={`Integrantes de BTS actuando en vivo en ${country.venue}, ${country.name}`}
+                        alt={isBrazil
+                            ? `Integrantes do BTS apresentando ao vivo no ${country.venue}, ${country.name}`
+                            : `Integrantes de BTS actuando en vivo en ${country.venue}, ${country.name}`
+                        }
                         fill
                         className={`object-cover object-[center_20%] transition-opacity duration-1000 ${videoLoaded ? 'opacity-0' : 'opacity-100'}`}
                         priority
@@ -788,21 +792,22 @@ export default function CountryClient({ country }: Props) {
                         <h1 className="text-5xl sm:text-6xl md:text-7xl lg:text-8xl font-black text-white uppercase tracking-tight leading-[0.9]">
                             <span className="sr-only">
                                 {country.id === 'brasil'
-                                    ? `Ingressos BTS Brasil 2026 - ARIRANG World Tour no Estádio do MorumBIS, São Paulo`
+                                    ? `Ingressos BTS Brasil 2026 | Show em São Paulo - Estádio MorumBIS`
                                     : country.id === 'peru'
-                                        ? `Entradas BTS Perú 2026 - ARIRANG World Tour en Estadio San Marcos, Lima`
+                                        ? `Entradas BTS Perú 2026 | Estadio San Marcos Lima`
                                         : country.id === 'chile'
-                                            ? `Entradas BTS Chile 2026 - ARIRANG World Tour en Estadio Nacional, Santiago`
+                                            ? `Entradas BTS Chile 2026 | Estadio Nacional Santiago`
                                             : country.id === 'mexico'
-                                                ? `Boletos BTS México 2026 - ARIRANG World Tour en Estadio GNP Seguros, CDMX`
+                                                ? `Boletos BTS México 2026 | Estadio GNP Seguros CDMX`
                                                 : country.id === 'colombia'
-                                                    ? `Boletas BTS Colombia 2026 - ARIRANG World Tour en Estadio El Campín, Bogotá`
+                                                    ? `Boletas BTS Colombia 2026 | Estadio El Campín Bogotá`
                                                     : country.id === 'argentina'
-                                                        ? `Entradas BTS Argentina 2026 - ARIRANG World Tour en Estadio Único La Plata`
+                                                        ? `Entradas BTS Argentina 2026 | Estadio Único La Plata`
                                                         : country.id === 'madrid'
-                                                            ? `Entradas BTS Madrid 2026 - ARIRANG World Tour en Riyadh Air Metropolitano`
-                                                            : `Entradas BTS ${country.name} 2026 - ARIRANG World Tour en ${country.venue}`}
+                                                            ? `Entradas BTS Madrid 2026 | Riyadh Air Metropolitano`
+                                                            : `Entradas BTS ${country.name} 2026 | ${country.venue}`}
                             </span>
+                            {country.id === 'brasil' ? 'Ingressos ' : country.id === 'mexico' ? 'Boletos ' : country.id === 'colombia' ? 'Boletas ' : 'Entradas '}
                             BTS <span className="bg-gradient-to-r from-primary to-rose-400 bg-clip-text text-transparent">{country.id === 'madrid' ? 'Madrid' : country.name}</span>
                             <span className="block text-lg sm:text-xl md:text-2xl font-bold text-white/80 mt-2 tracking-normal normal-case">ARIRANG World Tour 2026 · {country.venue}</span>
                         </h1>
@@ -1142,14 +1147,20 @@ export default function CountryClient({ country }: Props) {
                                 {['peru', 'chile', 'argentina', 'colombia'].includes(country.id) ? (
                                     <img
                                         src={country.id === 'peru' ? 'https://firebasestorage.googleapis.com/v0/b/event-ticket-website-6b541.firebasestorage.app/o/events%2Fstage-maps%2F1775537017513_wawzy.jpg?alt=media&token=09428b15-4857-4b81-b46e-f5f658ac9ecf' : country.id === 'chile' ? 'https://res.cloudinary.com/dz1qivt7m/image/upload/v1775645342/mapa_chile_taxr0b.jpg' : country.id === 'argentina' ? 'https://res.cloudinary.com/dz1qivt7m/image/upload/v1775645587/mapa_argentina_a7ogen.jpg' : 'https://res.cloudinary.com/dz1qivt7m/image/upload/v1775645807/mapa_colombia_qtwzow.jpg'}
-                                        alt={`Mapa de zonas ${country.venue}`}
+                                        alt={isBrazil
+                                            ? `Mapa de setores ${country.venue}`
+                                            : `Mapa de zonas ${country.venue}`
+                                        }
                                         className="w-full h-full object-cover cursor-pointer"
                                         loading="lazy"
                                     />
                                 ) : (
                                     <Image
                                         src={country.id === 'mexico' ? "/images/mapa-mexico.png" : country.id === 'madrid' ? "/images/bts-madrid-mapa.png" : "/images/stadium-map.png"}
-                                        alt={`Mapa de zonas ${country.venue}`}
+                                        alt={isBrazil
+                                            ? `Mapa de setores ${country.venue}`
+                                            : `Mapa de zonas ${country.venue}`
+                                        }
                                         fill
                                         className="object-contain p-4 cursor-pointer"
                                     />
@@ -1168,7 +1179,13 @@ export default function CountryClient({ country }: Props) {
                         {/* WhatsApp */}
                         <div onClick={() => setIsCommunityOpen(true)} className="bg-slate-900 text-white p-5 rounded-xl cursor-pointer hover:-translate-y-1 transition-all">
                             <div className="flex items-center gap-2 mb-2">
-                                <Image src="/images/whatsapp.svg" alt="WhatsApp" width={20} height={20} className="invert" />
+                                <Image
+                                    src="/images/whatsapp.svg"
+                                    alt={isBrazil ? "Ícone WhatsApp - Entre em contato" : "Ícono WhatsApp - Contacto"}
+                                    width={20}
+                                    height={20}
+                                    className="invert"
+                                />
                                 <h4 className="text-base font-black uppercase">{t.whatsappGroups}</h4>
                             </div>
                             <p className="text-slate-400 text-sm mb-3">{t.joinCommunity}</p>
@@ -1176,6 +1193,34 @@ export default function CountryClient({ country }: Props) {
                                 {t.joinNow} <ArrowRight className="w-3 h-3" />
                             </span>
                         </div>
+
+                        {/* Google Maps - Solo Brasil (FASE 3) */}
+                        {isBrazil && (
+                            <div className="bg-white border border-slate-200 rounded-xl overflow-hidden">
+                                <div className="p-4 border-b border-slate-200">
+                                    <h4 className="text-sm font-bold text-slate-900 flex items-center gap-2">
+                                        <MapPin className="w-4 h-4 text-red-600" />
+                                        Localização do Estádio MorumBIS
+                                    </h4>
+                                    <p className="text-xs text-slate-600 mt-1">Praça Roberto Gomes Pedrosa, 1 - Morumbi, São Paulo</p>
+                                </div>
+                                <div className="relative w-full h-64">
+                                    <iframe
+                                        src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3656.112697290363!2d-46.722042484502884!3d-23.600399484649234!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x94ce50433b834813%3A0x8f406b7b6f5a9e7e!2sEst%C3%A1dio%20C%C3%ADcero%20Pompeu%20de%20Toledo%20(Morumbi)!5e0!3m2!1spt-BR!2sbr!4v1629825600000!5m2!1spt-BR!2sbr"
+                                        width="100%"
+                                        height="100%"
+                                        style={{ border: 0 }}
+                                        allowFullScreen
+                                        loading="lazy"
+                                        referrerPolicy="no-referrer-when-downgrade"
+                                        title="Localização Estádio MorumBIS"
+                                    />
+                                </div>
+                                <div className="p-3 bg-slate-50 text-xs text-slate-600">
+                                    <p><strong>Metrô:</strong> Estação São Paulo-Morumbi (Linha 4-Amarela) - 15-20 min a pé</p>
+                                </div>
+                            </div>
+                        )}
 
                         {/* Sales Status */}
                         <div className="bg-white border border-slate-200 p-4 rounded-xl">
@@ -1367,7 +1412,10 @@ export default function CountryClient({ country }: Props) {
                                             ? 'https://res.cloudinary.com/dz1qivt7m/image/upload/v1775645587/mapa_argentina_a7ogen.jpg'
                                             : 'https://res.cloudinary.com/dz1qivt7m/image/upload/v1775645807/mapa_colombia_qtwzow.jpg'
                                     }
-                                    alt={`Mapa de zonas y precios ${country.venue}`}
+                                    alt={isBrazil
+                                        ? `Mapa de setores e preços ${country.venue}`
+                                        : `Mapa de zonas y precios ${country.venue}`
+                                    }
                                     className="w-full h-auto"
                                 />
                             ) : (
@@ -1378,7 +1426,10 @@ export default function CountryClient({ country }: Props) {
                                                 country.id === 'madrid' ? "/images/bts-madrid-mapa.png" :
                                                     "/images/stadium-map.png"
                                         }
-                                        alt={`Mapa de zonas y precios ${country.venue}`}
+                                        alt={isBrazil
+                                            ? `Mapa de setores e preços ${country.venue}`
+                                            : `Mapa de zonas y precios ${country.venue}`
+                                        }
                                         fill
                                         className="object-contain"
                                     />

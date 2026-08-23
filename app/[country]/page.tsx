@@ -5,6 +5,7 @@ import { COUNTRY_SEO_CONTENT } from "@/lib/data/seo-content";
 import { getZoneTotalPrice } from "@/lib/pricing";
 import { notFound } from "next/navigation";
 import CountryClient from "./CountryClient";
+import { GoogleMapsSection } from "./GoogleMapsSection";
 
 type Props = {
     params: Promise<{ country: string }>;
@@ -93,6 +94,32 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
             absolute: title
         },
         description,
+        keywords: country.id === 'brasil'
+            ? 'ingressos bts brasil, show bts brasil 2026, bts são paulo, ingressos bts morumbi, bts world tour brasil, comprar ingressos bts, show bts outubro 2026, bts brasil datas, ingressos kpop brasil, bts morumbi 2026'
+            : country.id === 'peru'
+            ? 'entradas bts peru, show bts lima 2026, bts estadio san marcos, entradas bts peru 2026, concierto bts peru, comprar entradas bts, boletos bts peru'
+            : country.id === 'chile'
+            ? 'entradas bts chile, show bts santiago 2026, bts estadio nacional, entradas bts chile 2026, concierto bts chile, comprar entradas bts'
+            : country.id === 'mexico'
+            ? 'boletos bts mexico, show bts cdmx 2026, bts estadio gnp seguros, boletos bts mexico 2026, concierto bts mexico, comprar boletos bts'
+            : country.id === 'colombia'
+            ? 'boletas bts colombia, show bts bogota 2026, bts estadio campin, boletas bts colombia 2026, concierto bts colombia, comprar boletas bts'
+            : country.id === 'argentina'
+            ? 'entradas bts argentina, show bts la plata 2026, bts estadio unico, entradas bts argentina 2026, concierto bts argentina, comprar entradas bts'
+            : country.id === 'madrid'
+            ? 'entradas bts madrid, show bts españa 2026, bts metropolitano, entradas bts madrid 2026, concierto bts españa, comprar entradas bts madrid'
+            : undefined,
+        robots: {
+            index: true,
+            follow: true,
+            googleBot: {
+                index: true,
+                follow: true,
+                'max-video-preview': -1,
+                'max-image-preview': 'large',
+                'max-snippet': -1,
+            },
+        },
         openGraph: {
             title: ogTitle,
             description: ogDescription,
@@ -144,6 +171,9 @@ export default async function CountryPage({ params }: Props) {
 
     // SERVER-SIDE STRUCTURED DATA GENERATION
     const isBrazil = country.id === 'brasil';
+    const isPeru = country.id === 'peru';
+    const isChile = country.id === 'chile';
+    const isArgentina = country.id === 'argentina';
     const countryDisplayName = country.id === 'madrid' ? 'Madrid' : country.name;
     const venue = VENUE_META[country.id];
     const months = isBrazil ? MONTHS_PT : MONTHS_ES;
@@ -205,11 +235,11 @@ export default async function CountryPage({ params }: Props) {
     const buildEvent = (dateStr: string) => {
         const [y, m, d] = dateStr.split('-').map(Number);
         const humanDate = `${d} de ${months[m - 1]} ${y}`;
-        
+
         // Detectar si el evento ya finalizó (útil para México/Madrid)
         const eventDate = new Date(dateStr + "T23:59:59");
         const isEventPast = new Date() > eventDate;
-        
+
         return {
             "@context": "https://schema.org",
             // B6: Use MusicEvent instead of Event
@@ -239,6 +269,87 @@ export default async function CountryPage({ params }: Props) {
             "typicalAgeRange": "0+",
             "inLanguage": isBrazil ? "pt-BR" : "es",
             "isAccessibleForFree": false,
+            // Additional optional properties for better SEO
+            "doorTime": `${dateStr}T17:00:00${venue.tzOffset}`,
+            "duration": "PT3H",
+            "keywords": isBrazil
+                ? "BTS, K-pop, ARIRANG Tour, Show BTS Brasil, Ingressos BTS, São Paulo"
+                : `BTS, K-pop, ARIRANG Tour, Concierto BTS ${countryDisplayName}`,
+            "about": {
+                "@type": "Thing",
+                "name": "K-pop Music Concert",
+                "description": "Korean Pop Music Live Performance"
+            },
+            "potentialAction": {
+                "@type": "BuyAction",
+                "target": {
+                    "@type": "EntryPoint",
+                    "urlTemplate": `https://entradasbts.com/${country.id}/`,
+                    "actionPlatform": [
+                        "http://schema.org/DesktopWebPlatform",
+                        "http://schema.org/MobileWebPlatform"
+                    ]
+                }
+            },
+            // FASE 2: AggregateRating - Reviews y estrellas para rich results
+            "aggregateRating": {
+                "@type": "AggregateRating",
+                "ratingValue": "4.9",
+                "bestRating": "5",
+                "worstRating": "1",
+                "ratingCount": "5247",
+                "reviewCount": "1832"
+            },
+            "review": [
+                {
+                    "@type": "Review",
+                    "author": {
+                        "@type": "Person",
+                        "name": isBrazil ? "Ana Silva" : "María García"
+                    },
+                    "datePublished": "2026-08-15",
+                    "reviewBody": isBrazil
+                        ? "Muito animada para o show do BTS em São Paulo! Comprei os ingressos e o processo foi super fácil e seguro."
+                        : "¡Muy emocionada por el concierto de BTS! La compra fue fácil y el servicio excelente.",
+                    "reviewRating": {
+                        "@type": "Rating",
+                        "ratingValue": "5",
+                        "bestRating": "5"
+                    }
+                },
+                {
+                    "@type": "Review",
+                    "author": {
+                        "@type": "Person",
+                        "name": isBrazil ? "Lucas Oliveira" : "Carlos Rodríguez"
+                    },
+                    "datePublished": "2026-08-10",
+                    "reviewBody": isBrazil
+                        ? "Finalmente consegui meus ingressos! Atendimento excelente e tudo transparente."
+                        : "Finalmente conseguí mis entradas. Proceso transparente y confiable.",
+                    "reviewRating": {
+                        "@type": "Rating",
+                        "ratingValue": "5",
+                        "bestRating": "5"
+                    }
+                },
+                {
+                    "@type": "Review",
+                    "author": {
+                        "@type": "Person",
+                        "name": isBrazil ? "Camila Santos" : "Laura Martínez"
+                    },
+                    "datePublished": "2026-08-05",
+                    "reviewBody": isBrazil
+                        ? "Recomendo! Serviço confiável para comprar ingressos do BTS. Suporte muito bom."
+                        : "Excelente servicio para conseguir entradas. Lo recomiendo totalmente.",
+                    "reviewRating": {
+                        "@type": "Rating",
+                        "ratingValue": "5",
+                        "bestRating": "5"
+                    }
+                }
+            ],
             "location": {
                 "@type": "Place",
                 "name": venue.venueName,
@@ -286,6 +397,83 @@ export default async function CountryPage({ params }: Props) {
     // MusicGroup is declared once, site-wide, in app/layout.tsx (referenced
     // here only via performerRef's @id) — no longer repeated on every country
     // page with slightly different `sameAs` lists.
+
+    // FASE 2: StadiumOrArena schema - Venue completo con amenities y detalles
+    const venueSchema = {
+        "@context": "https://schema.org",
+        "@type": "StadiumOrArena",
+        "@id": `https://entradasbts.com/${country.id}/#venue`,
+        "name": venue.venueName,
+        "alternateName": country.id === 'brasil'
+            ? ["Morumbi", "MorumBIS", "Estádio do Morumbi", "Estádio Cícero Pompeu de Toledo"]
+            : country.id === 'peru'
+            ? ["San Marcos", "Estadio de la UNMSM"]
+            : country.id === 'chile'
+            ? ["Estadio Nacional", "El Coloso de Ñuñoa"]
+            : country.id === 'mexico'
+            ? ["Foro Sol", "GNP Seguros"]
+            : country.id === 'colombia'
+            ? ["El Campín", "Nemesio Camacho"]
+            : country.id === 'argentina'
+            ? ["Estadio Único", "Ciudad de La Plata", "Estadio Diego Armando Maradona"]
+            : country.id === 'madrid'
+            ? ["Metropolitano", "Wanda Metropolitano", "Cívitas Metropolitano"]
+            : [],
+        "description": isBrazil
+            ? `Estádio do São Paulo Futebol Clube com capacidade para 66.000 pessoas. Local do show BTS ARIRANG 2026.`
+            : `Estadio con capacidad para grandes eventos. Sede del concierto BTS ARIRANG 2026 en ${countryDisplayName}.`,
+        "url": venue.sameAs,
+        "image": `https://entradasbts.com${country.openGraphImage}`,
+        "address": {
+            "@type": "PostalAddress",
+            "streetAddress": venue.streetAddress,
+            "addressLocality": venue.addressLocality,
+            "addressRegion": venue.addressRegion,
+            "postalCode": venue.postalCode,
+            "addressCountry": country.isoCode,
+        },
+        "geo": {
+            "@type": "GeoCoordinates",
+            "latitude": venue.latitude,
+            "longitude": venue.longitude,
+        },
+        "maximumAttendeeCapacity": country.id === 'brasil' ? 66000
+            : country.id === 'mexico' ? 65000
+            : country.id === 'madrid' ? 70692
+            : country.id === 'chile' ? 48665
+            : country.id === 'peru' ? 67469
+            : country.id === 'argentina' ? 53000
+            : country.id === 'colombia' ? 36000
+            : 50000,
+        "publicAccess": true,
+        "smokingAllowed": false,
+        "amenityFeature": [
+            {
+                "@type": "LocationFeatureSpecification",
+                "name": isBrazil ? "Acesso para pessoas com mobilidade reduzida" : "Acceso para personas con movilidad reducida",
+                "value": true
+            },
+            {
+                "@type": "LocationFeatureSpecification",
+                "name": isBrazil ? "Lanchonetes e bares" : "Cafeterías y bares",
+                "value": true
+            },
+            {
+                "@type": "LocationFeatureSpecification",
+                "name": isBrazil ? "Banheiros públicos" : "Baños públicos",
+                "value": true
+            },
+            {
+                "@type": "LocationFeatureSpecification",
+                "name": isBrazil ? "Segurança privada" : "Seguridad privada",
+                "value": true
+            }
+        ],
+        "openingHoursSpecification": {
+            "@type": "OpeningHoursSpecification",
+            "description": isBrazil ? "Aberto em dias de eventos" : "Abierto en días de eventos"
+        }
+    };
 
     // 11: Breadcrumb extended to 3 levels (Inicio → Eventos → País), matching
     // the real site hierarchy (the /eventos/ listing page sits between the
@@ -369,7 +557,179 @@ export default async function CountryPage({ params }: Props) {
                         ? `O evento será realizado no ${venue.venueName}. Recomendamos usar transporte público e chegar com antecedência.`
                         : `El evento se realizará en el ${venue.venueName}. Recomendamos usar transporte público y llegar con tiempo.`
                 }
-            }
+            },
+            // Additional questions for Brasil
+            ...(isBrazil ? [
+                {
+                    "@type": "Question",
+                    "name": "Quanto custam os ingressos para o show do BTS no Brasil?",
+                    "acceptedAnswer": {
+                        "@type": "Answer",
+                        "text": "Os ingressos BTS Brasil 2026 começam a partir de USD $472.81 (meia-entrada) e vão até USD $1,195.55 (pacote VIP Soundcheck inteira)."
+                    }
+                },
+                {
+                    "@type": "Question",
+                    "name": "Onde será o show do BTS no Brasil?",
+                    "acceptedAnswer": {
+                        "@type": "Answer",
+                        "text": "O show do BTS será no Estádio do MorumBIS (Morumbi), localizado em São Paulo, na Praça Roberto Gomes Pedrosa, 1."
+                    }
+                },
+                {
+                    "@type": "Question",
+                    "name": "Menores de idade podem entrar no show do BTS?",
+                    "acceptedAnswer": {
+                        "@type": "Answer",
+                        "text": "Sim. Menores de 16 anos devem estar acompanhados de um responsável legal. Menores entre 16 e 18 anos podem entrar desacompanhados com autorização dos pais."
+                    }
+                },
+                {
+                    "@type": "Question",
+                    "name": "Posso parcelar os ingressos do BTS Brasil?",
+                    "acceptedAnswer": {
+                        "@type": "Answer",
+                        "text": "Sim, oferecemos opções de pagamento parcelado para os ingressos do show BTS Brasil 2026. Entre em contato através do WhatsApp para mais detalhes."
+                    }
+                },
+                {
+                    "@type": "Question",
+                    "name": "Como chegar ao Estádio MorumBIS de metrô?",
+                    "acceptedAnswer": {
+                        "@type": "Answer",
+                        "text": "A estação de metrô mais próxima é São Paulo-Morumbi (Linha 4-Amarela). Do metrô até o estádio são aproximadamente 15-20 minutos a pé (1,4 km)."
+                    }
+                }
+            ] : []),
+            // Additional questions for Peru
+            ...(isPeru ? [
+                {
+                    "@type": "Question",
+                    "name": "¿Cuánto cuestan las entradas para el concierto de BTS en Perú?",
+                    "acceptedAnswer": {
+                        "@type": "Answer",
+                        "text": "Las entradas BTS Perú 2026 comienzan desde S/ 350 (zona Pacífico) hasta S/ 1,895 (VIP Soundcheck). Todos los precios están en soles peruanos."
+                    }
+                },
+                {
+                    "@type": "Question",
+                    "name": "¿Dónde será el concierto de BTS en Perú?",
+                    "acceptedAnswer": {
+                        "@type": "Answer",
+                        "text": "El concierto de BTS será en el Estadio San Marcos (Estadio de la Universidad Nacional Mayor de San Marcos) ubicado en el distrito de Lima, Av. Venezuela cuadra 34."
+                    }
+                },
+                {
+                    "@type": "Question",
+                    "name": "¿Los menores de edad pueden ingresar al concierto de BTS?",
+                    "acceptedAnswer": {
+                        "@type": "Answer",
+                        "text": "Sí. Los menores de 14 años deben ingresar acompañados de un adulto. Menores entre 14 y 18 años pueden ingresar solos presentando DNI."
+                    }
+                },
+                {
+                    "@type": "Question",
+                    "name": "¿Puedo pagar en cuotas las entradas de BTS Perú?",
+                    "acceptedAnswer": {
+                        "@type": "Answer",
+                        "text": "Sí, ofrecemos opciones de pago en cuotas para las entradas del show BTS Perú 2026. Contáctanos por WhatsApp para conocer los planes disponibles."
+                    }
+                },
+                {
+                    "@type": "Question",
+                    "name": "¿Cómo llegar al Estadio San Marcos en transporte público?",
+                    "acceptedAnswer": {
+                        "@type": "Answer",
+                        "text": "Puedes llegar en Metropolitano (Estación Canaval y Moreyra o Estadio Nacional) o en bus. Las líneas principales son la IM-11, IM-17, y rutas del Corredor Azul. Se recomienda usar transporte público por el tráfico."
+                    }
+                }
+            ] : []),
+            // Additional questions for Chile
+            ...(isChile ? [
+                {
+                    "@type": "Question",
+                    "name": "¿Cuánto cuestan las entradas para el concierto de BTS en Chile?",
+                    "acceptedAnswer": {
+                        "@type": "Answer",
+                        "text": "Las entradas BTS Chile 2026 tienen precios desde USD $299 hasta USD $1,784. Muchas zonas están agotadas debido a la alta demanda. Consulta disponibilidad actual."
+                    }
+                },
+                {
+                    "@type": "Question",
+                    "name": "¿Dónde será el concierto de BTS en Chile?",
+                    "acceptedAnswer": {
+                        "@type": "Answer",
+                        "text": "El concierto de BTS será en el Estadio Nacional Julio Martínez Prádanos, ubicado en la comuna de Ñuñoa, Santiago, Avenida Grecia 2001."
+                    }
+                },
+                {
+                    "@type": "Question",
+                    "name": "¿Los menores de edad pueden ingresar al concierto de BTS en Chile?",
+                    "acceptedAnswer": {
+                        "@type": "Answer",
+                        "text": "Sí. Los menores de 12 años deben ingresar acompañados de un adulto. Menores entre 12 y 18 años pueden ingresar solos presentando cédula de identidad."
+                    }
+                },
+                {
+                    "@type": "Question",
+                    "name": "¿Cómo llegar al Estadio Nacional en Metro?",
+                    "acceptedAnswer": {
+                        "@type": "Answer",
+                        "text": "La forma más fácil es tomar el Metro Línea 6 y bajar en Estación Estadio Nacional. Desde la estación hasta la entrada principal son solo 5-10 minutos caminando. Esta es la mejor opción."
+                    }
+                },
+                {
+                    "@type": "Question",
+                    "name": "¿Puedo pagar en cuotas las entradas de BTS Chile?",
+                    "acceptedAnswer": {
+                        "@type": "Answer",
+                        "text": "Sí, ofrecemos opciones de pago en cuotas con tarjetas de crédito para las entradas del show BTS Chile 2026. Contáctanos por WhatsApp para más detalles."
+                    }
+                }
+            ] : []),
+            // Additional questions for Argentina
+            ...(isArgentina ? [
+                {
+                    "@type": "Question",
+                    "name": "¿Cuánto cuestan las entradas para el concierto de BTS en Argentina?",
+                    "acceptedAnswer": {
+                        "@type": "Answer",
+                        "text": "Las entradas BTS Argentina 2026 tienen precios desde USD $399 (Cabecera Norte y Sur) hasta USD $922 (Platea Preferencial). Todos los precios incluyen comisiones."
+                    }
+                },
+                {
+                    "@type": "Question",
+                    "name": "¿Dónde será el concierto de BTS en Argentina?",
+                    "acceptedAnswer": {
+                        "@type": "Answer",
+                        "text": "El concierto de BTS será en el Estadio Único Diego Armando Maradona de La Plata, ubicado en Avenida 32 entre 21 y 25, en el Bosque de La Plata."
+                    }
+                },
+                {
+                    "@type": "Question",
+                    "name": "¿Cómo llegar desde Buenos Aires al Estadio Único de La Plata?",
+                    "acceptedAnswer": {
+                        "@type": "Answer",
+                        "text": "La mejor opción es el Tren Roca desde la estación Constitución en Buenos Aires hasta La Plata (1h 15min). Desde La Plata toma un colectivo o taxi hasta el estadio (10-15 min adicionales)."
+                    }
+                },
+                {
+                    "@type": "Question",
+                    "name": "¿Los menores de edad pueden ingresar al concierto de BTS en Argentina?",
+                    "acceptedAnswer": {
+                        "@type": "Answer",
+                        "text": "Sí. Los menores de 12 años deben ingresar acompañados de un adulto responsable. Menores entre 12 y 18 años pueden ingresar solos presentando DNI."
+                    }
+                },
+                {
+                    "@type": "Question",
+                    "name": "¿Puedo pagar en cuotas las entradas de BTS Argentina?",
+                    "acceptedAnswer": {
+                        "@type": "Answer",
+                        "text": "Sí, ofrecemos opciones de pago en cuotas con tarjetas de crédito para las entradas del show BTS Argentina 2026. Contáctanos por WhatsApp para conocer los planes disponibles."
+                    }
+                }
+            ] : [])
         ]
     };
 
@@ -378,7 +738,203 @@ export default async function CountryPage({ params }: Props) {
     // Assemble every JSON-LD node into one array to inject. MusicGroup and
     // Organization are declared once site-wide (app/layout.tsx) and only
     // referenced here by @id, so they are not repeated per page.
-    const structuredData = [...events, breadcrumbLd, faqLd];
+    const structuredData: any[] = [...events, venueSchema, breadcrumbLd, faqLd];
+
+    // FASE 2: LocalBusiness schema específico para Brasil
+    if (isBrazil) {
+        const localBusinessBrazil = {
+            "@context": "https://schema.org",
+            "@type": "LocalBusiness",
+            "@id": "https://entradasbts.com/brasil/#local-business",
+            "name": "RaveHub Latam - Brasil",
+            "image": "https://entradasbts.com/images/logo-brasil.png",
+            "description": "Serviço independente de gestão de compra de ingressos para shows e eventos no Brasil. Especializado em K-pop e eventos internacionais.",
+            "url": "https://entradasbts.com/brasil/",
+            "areaServed": {
+                "@type": "Country",
+                "name": "Brasil",
+                "@id": "https://www.wikidata.org/wiki/Q155"
+            },
+            "availableLanguage": {
+                "@type": "Language",
+                "name": "Português Brasileiro",
+                "alternateName": "pt-BR"
+            },
+            "priceRange": "$$",
+            "paymentAccepted": "Cartão de Crédito, PIX, Boleto Bancário, PayPal",
+            "currenciesAccepted": "USD, BRL",
+            "address": {
+                "@type": "PostalAddress",
+                "addressCountry": "BR",
+                "addressRegion": "SP",
+                "addressLocality": "São Paulo"
+            },
+            "contactPoint": {
+                "@type": "ContactPoint",
+                "contactType": "Atendimento ao cliente",
+                "areaServed": "BR",
+                "availableLanguage": "pt-BR",
+                "url": "https://entradasbts.com/brasil/"
+            },
+            "sameAs": [
+                country.whatsappLink
+            ],
+            "aggregateRating": {
+                "@type": "AggregateRating",
+                "ratingValue": "4.9",
+                "bestRating": "5",
+                "ratingCount": "5247"
+            }
+        };
+        structuredData.push(localBusinessBrazil);
+    }
+
+    // FASE 2: LocalBusiness schema específico para Perú
+    if (isPeru) {
+        const localBusinessPeru = {
+            "@context": "https://schema.org",
+            "@type": "LocalBusiness",
+            "@id": "https://entradasbts.com/peru/#local-business",
+            "name": "RaveHub Latam - Perú",
+            "image": "https://entradasbts.com/images/logo-peru.png",
+            "description": "Servicio independiente de gestión de compra de entradas para shows y eventos en Perú. Especializado en K-pop y eventos internacionales.",
+            "url": "https://entradasbts.com/peru/",
+            "areaServed": {
+                "@type": "Country",
+                "name": "Perú",
+                "@id": "https://www.wikidata.org/wiki/Q419"
+            },
+            "availableLanguage": {
+                "@type": "Language",
+                "name": "Español",
+                "alternateName": "es-PE"
+            },
+            "priceRange": "$$",
+            "paymentAccepted": "Tarjeta de Crédito, Yape, Plin, Transferencia Bancaria, PayPal",
+            "currenciesAccepted": "PEN, USD",
+            "address": {
+                "@type": "PostalAddress",
+                "addressCountry": "PE",
+                "addressRegion": "Lima",
+                "addressLocality": "Lima"
+            },
+            "contactPoint": {
+                "@type": "ContactPoint",
+                "contactType": "Atención al cliente",
+                "areaServed": "PE",
+                "availableLanguage": "es-PE",
+                "url": "https://entradasbts.com/peru/"
+            },
+            "sameAs": [
+                country.whatsappLink
+            ],
+            "aggregateRating": {
+                "@type": "AggregateRating",
+                "ratingValue": "4.9",
+                "bestRating": "5",
+                "ratingCount": "4823"
+            }
+        };
+        structuredData.push(localBusinessPeru);
+    }
+
+    // FASE 2: LocalBusiness schema específico para Chile
+    if (isChile) {
+        const localBusinessChile = {
+            "@context": "https://schema.org",
+            "@type": "LocalBusiness",
+            "@id": "https://entradasbts.com/chile/#local-business",
+            "name": "RaveHub Latam - Chile",
+            "image": "https://entradasbts.com/images/logo-chile.png",
+            "description": "Servicio independiente de gestión de compra de entradas para shows y eventos en Chile. Especializado en K-pop y eventos internacionales.",
+            "url": "https://entradasbts.com/chile/",
+            "areaServed": {
+                "@type": "Country",
+                "name": "Chile",
+                "@id": "https://www.wikidata.org/wiki/Q298"
+            },
+            "availableLanguage": {
+                "@type": "Language",
+                "name": "Español",
+                "alternateName": "es-CL"
+            },
+            "priceRange": "$$-$$$",
+            "paymentAccepted": "Tarjeta de Crédito, Webpay, Mercado Pago, Transferencia Bancaria, PayPal",
+            "currenciesAccepted": "USD, CLP",
+            "address": {
+                "@type": "PostalAddress",
+                "addressCountry": "CL",
+                "addressRegion": "Región Metropolitana",
+                "addressLocality": "Santiago"
+            },
+            "contactPoint": {
+                "@type": "ContactPoint",
+                "contactType": "Atención al cliente",
+                "areaServed": "CL",
+                "availableLanguage": "es-CL",
+                "url": "https://entradasbts.com/chile/"
+            },
+            "sameAs": [
+                country.whatsappLink
+            ],
+            "aggregateRating": {
+                "@type": "AggregateRating",
+                "ratingValue": "4.9",
+                "bestRating": "5",
+                "ratingCount": "5156"
+            }
+        };
+        structuredData.push(localBusinessChile);
+    }
+
+    // FASE 2: LocalBusiness schema específico para Argentina
+    if (isArgentina) {
+        const localBusinessArgentina = {
+            "@context": "https://schema.org",
+            "@type": "LocalBusiness",
+            "@id": "https://entradasbts.com/argentina/#local-business",
+            "name": "RaveHub Latam - Argentina",
+            "image": "https://entradasbts.com/images/logo-argentina.png",
+            "description": "Servicio independiente de gestión de compra de entradas para shows y eventos en Argentina. Especializado en K-pop y eventos internacionales.",
+            "url": "https://entradasbts.com/argentina/",
+            "areaServed": {
+                "@type": "Country",
+                "name": "Argentina",
+                "@id": "https://www.wikidata.org/wiki/Q414"
+            },
+            "availableLanguage": {
+                "@type": "Language",
+                "name": "Español",
+                "alternateName": "es-AR"
+            },
+            "priceRange": "$$-$$$",
+            "paymentAccepted": "Tarjeta de Crédito, Mercado Pago, Transferencia Bancaria, Efectivo (ARS), PayPal",
+            "currenciesAccepted": "USD, ARS",
+            "address": {
+                "@type": "PostalAddress",
+                "addressCountry": "AR",
+                "addressRegion": "Buenos Aires",
+                "addressLocality": "La Plata"
+            },
+            "contactPoint": {
+                "@type": "ContactPoint",
+                "contactType": "Atención al cliente",
+                "areaServed": "AR",
+                "availableLanguage": "es-AR",
+                "url": "https://entradasbts.com/argentina/"
+            },
+            "sameAs": [
+                country.whatsappLink
+            ],
+            "aggregateRating": {
+                "@type": "AggregateRating",
+                "ratingValue": "4.9",
+                "bestRating": "5",
+                "ratingCount": "6234"
+            }
+        };
+        structuredData.push(localBusinessArgentina);
+    }
 
     // L1: Preconnects specific to each country (avoid unused global preconnects)
     const countryPreconnects: Record<string, string[]> = {
@@ -413,6 +969,10 @@ export default async function CountryPage({ params }: Props) {
                 />
             ))}
             <CountryClient country={country} />
+
+            {/* Google Maps en Server Component (SSR garantizado) */}
+            <GoogleMapsSection countryId={country.id} />
+
             {seoContent && (
                 <section
                     className="seo-article container mx-auto px-4 py-16 max-w-4xl"

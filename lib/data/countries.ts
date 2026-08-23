@@ -257,7 +257,7 @@ export const countries: CountryData[] = [
         ],
         description: 'Argentina recibe a BTS en el Estadio Único de La Plata con preventa y zonas oficiales para el Army.',
         openGraphImage: '/images/og-argentina.jpg',
-        whatsappLink: 'https://chat.whatsapp.com/JLfc5fTo6PIIF1Sq0P2cz1',
+        whatsappLink: 'https://chat.whatsapp.com/C0wEMx2fAkuAUJfrmdHovW',
         phoneCode: '+54'
         ,progressOffsetHours: 2
     },

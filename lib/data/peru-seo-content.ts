@@ -11,47 +11,41 @@ export const PERU_SEO_CONTENT = `
   <thead>
     <tr style="background: #1e293b; color: white;">
       <th style="padding: 12px; text-align: left; border: 1px solid #475569;">Zona/Sector</th>
-      <th style="padding: 12px; text-align: left; border: 1px solid #475569;">Tipo de Entrada</th>
       <th style="padding: 12px; text-align: right; border: 1px solid #475569;">Precio (PEN)</th>
+      <th style="padding: 12px; text-align: center; border: 1px solid #475569;">Disponibilidad</th>
       <th style="padding: 12px; text-align: left; border: 1px solid #475569;">Descripción</th>
     </tr>
   </thead>
   <tbody>
     <tr style="background: #fef3c7;">
-      <td style="padding: 10px; border: 1px solid #e2e8f0; font-weight: bold;">Pacote VIP Soundcheck</td>
-      <td style="padding: 10px; border: 1px solid #e2e8f0;">General</td>
-      <td style="padding: 10px; border: 1px solid #e2e8f0; text-align: right; font-weight: bold; color: #059669;">S/ 1,895</td>
-      <td style="padding: 10px; border: 1px solid #e2e8f0;">Acceso anticipado, soundcheck, merchandising exclusivo</td>
+      <td style="padding: 10px; border: 1px solid #e2e8f0; font-weight: bold;">Campo</td>
+      <td style="padding: 10px; border: 1px solid #e2e8f0; text-align: right; font-weight: bold; color: #059669;">S/ 2,399</td>
+      <td style="padding: 10px; border: 1px solid #e2e8f0; text-align: center;"><span style="background: #dcfce7; color: #166534; padding: 4px 8px; border-radius: 4px; font-size: 11px;">Disponible</span></td>
+      <td style="padding: 10px; border: 1px solid #e2e8f0;">Campo de pie, más cerca del escenario, máxima energía</td>
     </tr>
     <tr style="background: #dbeafe;">
-      <td style="padding: 10px; border: 1px solid #e2e8f0; font-weight: bold;">Campo VIP</td>
-      <td style="padding: 10px; border: 1px solid #e2e8f0;">General</td>
-      <td style="padding: 10px; border: 1px solid #e2e8f0; text-align: right; font-weight: bold; color: #2563eb;">S/ 950</td>
-      <td style="padding: 10px; border: 1px solid #e2e8f0;">Zona VIP frente al escenario, de pie</td>
+      <td style="padding: 10px; border: 1px solid #e2e8f0; font-weight: bold;">Tribuna Occidente</td>
+      <td style="padding: 10px; border: 1px solid #e2e8f0; text-align: right; font-weight: bold; color: #2563eb;">S/ 1,999</td>
+      <td style="padding: 10px; border: 1px solid #e2e8f0; text-align: center;"><span style="background: #dcfce7; color: #166534; padding: 4px 8px; border-radius: 4px; font-size: 11px;">Disponible</span></td>
+      <td style="padding: 10px; border: 1px solid #e2e8f0;">Tribuna lateral oeste con buena vista del escenario</td>
     </tr>
     <tr style="background: #f0f9ff;">
-      <td style="padding: 10px; border: 1px solid #e2e8f0; font-weight: bold;">Campo General</td>
-      <td style="padding: 10px; border: 1px solid #e2e8f0;">General</td>
-      <td style="padding: 10px; border: 1px solid #e2e8f0; text-align: right; font-weight: bold; color: #2563eb;">S/ 750</td>
-      <td style="padding: 10px; border: 1px solid #e2e8f0;">Campo de pie, cerca del escenario</td>
+      <td style="padding: 10px; border: 1px solid #e2e8f0; font-weight: bold;">Tribuna Oriente</td>
+      <td style="padding: 10px; border: 1px solid #e2e8f0; text-align: right; font-weight: bold; color: #2563eb;">S/ 1,999</td>
+      <td style="padding: 10px; border: 1px solid #e2e8f0; text-align: center;"><span style="background: #dcfce7; color: #166534; padding: 4px 8px; border-radius: 4px; font-size: 11px;">Disponible</span></td>
+      <td style="padding: 10px; border: 1px solid #e2e8f0;">Tribuna lateral este con buena vista del escenario</td>
     </tr>
     <tr style="background: #fefce8;">
-      <td style="padding: 10px; border: 1px solid #e2e8f0; font-weight: bold;">Andes Bajo Centro</td>
-      <td style="padding: 10px; border: 1px solid #e2e8f0;">General</td>
-      <td style="padding: 10px; border: 1px solid #e2e8f0; text-align: right; font-weight: bold; color: #ca8a04;">S/ 699</td>
-      <td style="padding: 10px; border: 1px solid #e2e8f0;">Tribuna baja central, excelente vista</td>
+      <td style="padding: 10px; border: 1px solid #e2e8f0; font-weight: bold;">Tribuna Norte</td>
+      <td style="padding: 10px; border: 1px solid #e2e8f0; text-align: right; font-weight: bold; color: #ca8a04;">S/ 1,449</td>
+      <td style="padding: 10px; border: 1px solid #e2e8f0; text-align: center;"><span style="background: #dcfce7; color: #166534; padding: 4px 8px; border-radius: 4px; font-size: 11px;">Disponible</span></td>
+      <td style="padding: 10px; border: 1px solid #e2e8f0;">Tribuna lateral norte con vista de perfil</td>
     </tr>
-    <tr style="background: #fef2f2;">
-      <td style="padding: 10px; border: 1px solid #e2e8f0; font-weight: bold;">Andes Alto Norte/Sur</td>
-      <td style="padding: 10px; border: 1px solid #e2e8f0;">General</td>
-      <td style="padding: 10px; border: 1px solid #e2e8f0; text-align: right; font-weight: bold; color: #dc2626;">S/ 625</td>
-      <td style="padding: 10px; border: 1px solid #e2e8f0;">Tribuna alta lateral, buena visual</td>
-    </tr>
-    <tr style="background: #f5f5f5;">
-      <td style="padding: 10px; border: 1px solid #e2e8f0; font-weight: bold;">Pacífico Lateral</td>
-      <td style="padding: 10px; border: 1px solid #e2e8f0;">General</td>
-      <td style="padding: 10px; border: 1px solid #e2e8f0; text-align: right; font-weight: bold; color: #64748b;">S/ 350</td>
-      <td style="padding: 10px; border: 1px solid #e2e8f0;">Zona lateral económica, vista lejana</td>
+    <tr style="background: #fee2e2;">
+      <td style="padding: 10px; border: 1px solid #e2e8f0; font-weight: bold;">Tribuna Sur</td>
+      <td style="padding: 10px; border: 1px solid #e2e8f0; text-align: right; font-weight: bold; color: #dc2626;">S/ 590</td>
+      <td style="padding: 10px; border: 1px solid #e2e8f0; text-align: center;"><span style="background: #fee2e2; color: #991b1b; padding: 4px 8px; border-radius: 4px; font-size: 11px;">AGOTADO</span></td>
+      <td style="padding: 10px; border: 1px solid #e2e8f0;">Zona lateral sur económica, vista lejana</td>
     </tr>
   </tbody>
 </table>

@@ -466,7 +466,15 @@ export default function CountryClient({ country }: Props) {
 
     const formatPrice = (price: number, showLocal: boolean) => {
         if (!showLocal || !EXCHANGE_RATES[country.id]) {
-            return { main: `${country.currency === 'USD' ? '$' : ''}${price.toLocaleString('es-ES')}`, sub: null };
+            // Mostrar símbolo de moneda según el país
+            const currencyPrefix = country.currency === 'USD' ? '$'
+                : country.currency === 'PEN' ? 'S/ '
+                : country.currency === 'MXN' ? '$'
+                : country.currency === 'COP' ? '$'
+                : country.currency === 'CLP' ? '$'
+                : country.currency === 'ARS' ? '$'
+                : country.currencySymbol || '';
+            return { main: `${currencyPrefix}${price.toLocaleString('es-ES')}`, sub: null };
         }
         const localPrice = Math.round(price * EXCHANGE_RATES[country.id]);
         const locale = country.id === 'chile' ? 'es-CL' : country.id === 'colombia' ? 'es-CO' : 'es-AR';

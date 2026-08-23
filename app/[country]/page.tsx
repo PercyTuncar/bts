@@ -608,7 +608,7 @@ export default async function CountryPage({ params }: Props) {
                     "name": "¿Cuánto cuestan las entradas para el concierto de BTS en Perú?",
                     "acceptedAnswer": {
                         "@type": "Answer",
-                        "text": "Las entradas BTS Perú 2026 comienzan desde S/ 350 (zona Pacífico) hasta S/ 1,895 (VIP Soundcheck). Todos los precios están en soles peruanos."
+                        "text": "Las entradas BTS Perú 2026 comienzan desde S/ 590 (Tribuna Sur - agotado) hasta S/ 2,399 (Campo). Las zonas disponibles son: Campo (S/ 2,399), Tribuna Occidente (S/ 1,999), Tribuna Oriente (S/ 1,999) y Tribuna Norte (S/ 1,449). Todos los precios están en soles peruanos."
                     }
                 },
                 {

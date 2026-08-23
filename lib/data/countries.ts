@@ -84,7 +84,7 @@ export const countries: CountryData[] = [
         ],
         description: 'Lima, prepárate para el océano púrpura. BTS regresa al Estadio San Marcos para dos noches históricas.',
         openGraphImage: '/images/og-peru.jpg',
-        whatsappLink: 'https://chat.whatsapp.com/HXqzQToJt3O0TmjaNTOq3K',
+        whatsappLink: 'https://chat.whatsapp.com/C0wEMx2fAkuAUJfrmdHovW',
         phoneCode: '+51'
         ,progressOffsetHours: -25
     },
@@ -257,7 +257,7 @@ export const countries: CountryData[] = [
         ],
         description: 'Argentina recibe a BTS en el Estadio Único de La Plata con preventa y zonas oficiales para el Army.',
         openGraphImage: '/images/og-argentina.jpg',
-        whatsappLink: 'https://chat.whatsapp.com/C0wEMx2fAkuAUJfrmdHovW',
+        whatsappLink: 'https://chat.whatsapp.com/HZdxUGm9URXDPwqV63SbOM',
         phoneCode: '+54'
         ,progressOffsetHours: 2
     },

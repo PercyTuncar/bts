@@ -32,15 +32,17 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
     let ogLocale = 'es_LA';
     let ogUrl = `https://entradasbts.com/${country.id}`;
 
-    // Localization overrides (B1, B2)
+    // Localization overrides (B1, B2) - Optimized for transactional search intent
     if (country.id === 'peru') {
-        title = `Entradas BTS Perú 2026 – ARIRANG Tour | Estadio San Marcos`;
+        // Optimized: Lead with ticket word + availability signal + venue
+        title = `Entradas BTS Perú 2026 - Disponibles | Estadio San Marcos`;
         description = `Compra tus entradas para BTS en Perú 2026 con precios desde ${formattedPrice} en el Estadio San Marcos. Selecciona zonas oficiales y completa tu pedido seguro por WhatsApp.`;
         ogTitle = `Entradas BTS Perú 2026 | Estadio San Marcos`;
         ogDescription = `El Army de Perú ya tiene precios por zona. Completa tu pedido de forma segura para BTS en Lima.`;
         ogSiteName = `Entradas BTS Perú`;
     } else if (country.id === 'brasil') {
-        title = `Ingressos BTS Brasil 2026 – ARIRANG Tour | Estádio MorumBIS`;
+        // Optimized: Lead with ticket word + availability + venue (Portuguese)
+        title = `Ingressos BTS Brasil 2026 - Disponíveis | Estádio MorumBIS`;
         // D5: Description in Portuguese with price in USD
         description = `Compre seus ingressos para o show do BTS no Brasil em outubro de 2026! ARIRANG World Tour no Estádio do MorumBIS em São Paulo. Preços a partir de USD $472.81, zonas e mapa de setores aqui.`;
         ogTitle = `Ingressos BTS Brasil 2026 | Estádio do MorumBIS`;
@@ -48,40 +50,43 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
         ogSiteName = `Ingressos BTS Brasil`;
         ogLocale = 'pt_BR';
     } else if (country.id === 'mexico') {
-        title = `Boletos BTS México 2026 – ARIRANG Tour | Estadio GNP Seguros`;
+        // Optimized: Lead with ticket word + availability + venue
+        title = `Boletos BTS México 2026 - Disponibles | Estadio GNP Seguros`;
         description = `¡Compra tus boletos para BTS en México 2026! Precios desde ${formattedPrice} en el Estadio GNP Seguros. Compra segura, zonas VIP y mapa del escenario aquí.`;
         ogTitle = `Boletos BTS México 2026 | Estadio GNP Seguros`;
         ogDescription = `¡BTS en CDMX! No te quedes fuera. Compra segura y verificada para el concierto en el Estadio GNP Seguros.`;
         ogSiteName = `Boletos BTS México`;
     } else if (country.id === 'madrid') {
-        title = `Entradas BTS Madrid 2026 – ARIRANG Tour | Metropolitano`;
+        // Optimized: Lead with ticket word + availability + venue
+        title = `Entradas BTS Madrid 2026 - Disponibles | Metropolitano`;
         description = `¡Consigue tus ENTRADAS para BTS en MADRID 2026! Concierto oficial en el ${country.venue}. Precios desde ${formattedPrice}. Compra segura y verificada.`;
         ogTitle = `ENTRADAS BTS Madrid 2026 | Estadio Metropolitano`;
         ogDescription = `BTS llega a España. Compra tus ENTRADAS para BTS en MADRID 2026 de forma segura para el Metropolitano.`;
         ogSiteName = `Entradas BTS Madrid`;
         ogLocale = 'es_ES';
     } else if (country.id === 'colombia') {
-        title = `Boletas BTS Colombia 2026 – ARIRANG Tour | Estadio El Campín`;
+        // Optimized: Lead with ticket word + availability + venue
+        title = `Boletas BTS Colombia 2026 - Disponibles | Estadio El Campín`;
         description = `¡Asegura tus boletas para BTS en Colombia 2026! Precios desde ${formattedPrice} en el Estadio El Campín. Compra segura, zonas VIP y mapa del escenario.`;
         ogTitle = `Boletas BTS Colombia 2026 | Estadio El Campín`;
         ogDescription = `¡El Army de Colombia se reporta! Compra segura y verificada para el concierto de BTS en Bogotá.`;
         ogSiteName = `Boletas BTS Colombia`;
     } else if (country.id === 'chile') {
-        // B1: Chile override
-        title = `Entradas BTS Chile 2026 – ARIRANG Tour | Estadio Nacional Santiago`;
+        // B1: Chile override - Optimized with availability signal
+        title = `Entradas BTS Chile 2026 - Disponibles | Estadio Nacional`;
         description = `Compra tus entradas para BTS en Chile 2026 desde ${formattedPrice} en el Estadio Nacional. Tres fechas: 14, 16 y 17 de octubre. Zonas y precios oficiales.`;
         ogTitle = `Entradas BTS Chile 2026 | Estadio Nacional`;
         ogDescription = `¡BTS en Santiago! El Army chileno tiene su cita en el Estadio Nacional. Compra segura y verificada para las 3 fechas.`;
         ogSiteName = `Entradas BTS Chile`;
     } else if (country.id === 'argentina') {
-        // B1: Argentina override
-        title = `Entradas BTS Argentina 2026 – ARIRANG Tour | Estadio Único La Plata`;
+        // B1: Argentina override - Optimized with availability signal
+        title = `Entradas BTS Argentina 2026 - Disponibles | Estadio Único`;
         description = `¡Compra tus entradas para BTS en Argentina 2026! Precios desde ${formattedPrice} en el Estadio Único de La Plata. Tres fechas: 21, 23 y 24 de octubre.`;
         ogTitle = `Entradas BTS Argentina 2026 | Estadio Único La Plata`;
         ogDescription = `¡BTS en La Plata! El Army argentino tiene tres noches en el Estadio Único. Compra segura y verificada.`;
         ogSiteName = `Entradas BTS Argentina`;
     } else {
-        title = `Entradas BTS ${country.name} 2026 – ARIRANG Tour | ${country.venue}`;
+        title = `Entradas BTS ${country.name} 2026 - Disponibles | ${country.venue}`;
     }
 
     // B3: Madrid OG image — use hero bg instead of mapa

@@ -1073,6 +1073,8 @@ export default function CountryClient({ country }: Props) {
                             {country.prices.map((zone, i) => {
                                 const isCanchaAndes = zone.zone === 'Cancha Andes';
                                 const isDisabled = zone.soldOut;
+                                const needsVerification = zone.needsVerification;
+
                                 return (
                                 <div key={zone.zone} className={`group relative ${isDisabled ? 'opacity-60' : ''}`} aria-disabled={isDisabled}>
                                     {/* Stock limit message for Cancha Andes */}
@@ -1082,16 +1084,16 @@ export default function CountryClient({ country }: Props) {
                                         </div>
                                     )}
                                     <div className={`bg-white border-2 rounded-xl p-3 md:p-4 flex items-center justify-between gap-2 md:gap-4 transition-all overflow-hidden relative ${isDisabled ? 'border-slate-200' : 'border-slate-100 hover:border-primary/30 hover:shadow-md'}`}>
-                                        
+
                                         {/* Zone Info */}
                                         <div className="flex items-center gap-2 md:gap-3 min-w-0 flex-1">
-                                            <div className={`w-10 h-10 rounded-lg flex items-center justify-center text-lg font-black ${isDisabled ? 'bg-slate-100 text-slate-300' : 'bg-slate-100 text-slate-400 group-hover:bg-primary group-hover:text-white'}`}>
+                                            <div className={`w-10 h-10 rounded-lg flex items-center justify-center text-lg font-black ${isDisabled ? 'bg-slate-100 text-slate-300' : needsVerification ? 'bg-green-100 text-green-600 group-hover:bg-green-600 group-hover:text-white' : 'bg-slate-100 text-slate-400 group-hover:bg-primary group-hover:text-white'}`}>
                                                 {i + 1}
                                             </div>
                                             <div>
                                                 {/* J4: h4→h3 for zone names (heading hierarchy) */}
                                                 <h3 className={`text-base font-bold uppercase ${isDisabled ? 'text-slate-400 line-through' : 'text-slate-900'}`}>{zone.zone}</h3>
-                                                {i === 0 && !isDisabled && (
+                                                {i === 0 && !isDisabled && !needsVerification && (
                                                     <span className="text-xs font-bold uppercase bg-primary/10 text-primary px-1.5 py-0.5 rounded">{t.bestSeller}</span>
                                                 )}
                                                 {zone.soldOut && (
@@ -1103,7 +1105,7 @@ export default function CountryClient({ country }: Props) {
                                             </div>
                                         </div>
 
-                                        {/* Price & Quantity */}
+                                        {/* Price & Quantity / Verification Button */}
                                         <div className="flex items-center gap-2">
                                             <div className="text-right min-w-0">
                                                 {(() => {
@@ -1120,26 +1122,39 @@ export default function CountryClient({ country }: Props) {
                                                     );
                                                 })()}
                                             </div>
-                                            <div className={`flex items-center bg-slate-50 rounded-lg ${isDisabled ? 'opacity-50' : ''}`}>
-                                                {/* J1: aria-labels for quantity buttons */}
-                                                <button
-                                                    onClick={() => !isDisabled && selectedDate && updateQuantity(zone.zone, -1, zone.stock)}
-                                                    disabled={isDisabled || !selectedDate}
-                                                    className="w-8 h-8 flex items-center justify-center hover:bg-slate-100 text-slate-500"
-                                                    aria-label={country.id === 'brasil' ? `Reduzir quantidade de ${zone.zone}` : `Reducir cantidad de ${zone.zone}`}
+
+                                            {/* Mostrar botón de verificación o controles de cantidad */}
+                                            {needsVerification ? (
+                                                <a
+                                                    href="https://www.btschile.com/entradas"
+                                                    target="_blank"
+                                                    rel="noopener noreferrer"
+                                                    className="bg-green-600 hover:bg-green-700 text-white font-bold text-xs md:text-sm px-3 md:px-4 py-2 rounded-lg transition-all whitespace-nowrap shadow-md hover:shadow-lg"
                                                 >
-                                                    <Minus className="w-3 h-3" />
-                                                </button>
-                                                <span className="w-6 text-center font-bold text-sm">{quantities[zone.zone] || 0}</span>
-                                                <button
-                                                    onClick={() => !isDisabled && selectedDate && updateQuantity(zone.zone, 1, zone.stock)}
-                                                    disabled={isDisabled || !selectedDate}
-                                                    className="w-8 h-8 flex items-center justify-center hover:bg-slate-100 text-slate-500"
-                                                    aria-label={country.id === 'brasil' ? `Aumentar quantidade de ${zone.zone}` : `Aumentar cantidad de ${zone.zone}`}
-                                                >
-                                                    <Plus className="w-3 h-3" />
-                                                </button>
-                                            </div>
+                                                    Verificar Disponibilidad
+                                                </a>
+                                            ) : (
+                                                <div className={`flex items-center bg-slate-50 rounded-lg ${isDisabled ? 'opacity-50' : ''}`}>
+                                                    {/* J1: aria-labels for quantity buttons */}
+                                                    <button
+                                                        onClick={() => !isDisabled && selectedDate && updateQuantity(zone.zone, -1, zone.stock)}
+                                                        disabled={isDisabled || !selectedDate}
+                                                        className="w-8 h-8 flex items-center justify-center hover:bg-slate-100 text-slate-500"
+                                                        aria-label={country.id === 'brasil' ? `Reduzir quantidade de ${zone.zone}` : `Reducir cantidad de ${zone.zone}`}
+                                                    >
+                                                        <Minus className="w-3 h-3" />
+                                                    </button>
+                                                    <span className="w-6 text-center font-bold text-sm">{quantities[zone.zone] || 0}</span>
+                                                    <button
+                                                        onClick={() => !isDisabled && selectedDate && updateQuantity(zone.zone, 1, zone.stock)}
+                                                        disabled={isDisabled || !selectedDate}
+                                                        className="w-8 h-8 flex items-center justify-center hover:bg-slate-100 text-slate-500"
+                                                        aria-label={country.id === 'brasil' ? `Aumentar quantidade de ${zone.zone}` : `Aumentar cantidad de ${zone.zone}`}
+                                                    >
+                                                        <Plus className="w-3 h-3" />
+                                                    </button>
+                                                </div>
+                                            )}
                                         </div>
                                     </div>
                                 </div>

@@ -8,7 +8,8 @@
       "Bash(tail -n +184 seo-content.ts)",
       "Bash(mv temp.ts seo-content.ts)",
       "Bash(cd ../.. && npm run build 2>&1 | head -100)",
-      "Read(//c/Users/tunca/OneDrive/Desktop/**)"
+      "Read(//c/Users/tunca/OneDrive/Desktop/**)",
+      "Bash(git add *)"
     ]
   }
 }

@@ -1,11 +1,21 @@
 // Contenido SEO optimizado completo para Chile
 export const CHILE_SEO_CONTENT = `
 <h2>Entradas BTS Chile 2026: Concierto en Santiago - Estadio Nacional</h2>
-<p>La cuenta regresiva ya comenzó para el ARMY chileno. El <strong>BTS World Tour ARIRANG 2026</strong> llega a Chile con tres fechas confirmadas en el <strong>Estadio Nacional Julio Martínez Prádanos</strong>, el recinto deportivo más emblemático del país. Si buscas <strong>entradas BTS Chile 2026</strong> y quieres vivir a los siete integrantes de Bangtan en vivo, aquí encontrarás todo lo que necesitas saber sobre el estadio, cómo llegar y cómo prepararte para una de las citas más esperadas del año.</p>
-<p>BTS, la agrupación surcoreana formada por <strong>RM, Jin, Suga, J-Hope, Jimin, V y Jung Kook</strong>, regresa a Latinoamérica, y Santiago se prepara para recibir a uno de los grupos más importantes del K-pop mundial. El ARMY chileno, reconocido por su pasión y dedicación, tendrá tres oportunidades de vivir este espectáculo histórico.</p>
+<p>La cuenta regresiva ya comenzó para el ARMY chileno. El <strong>BTS World Tour ARIRANG 2026</strong> llega a Chile con tres fechas confirmadas en el <strong>Estadio Nacional Julio Martínez Prádanos</strong>, el recinto deportivo más emblemático del país. Si buscas <strong>entradas BTS Chile 2026</strong> y quieres vivir a los siete integrantes de Bangtan en vivo, aquí encontrarás todo lo que necesitas saber sobre precios, zonas disponibles, cómo llegar al estadio y cómo asegurar tu lugar en el concierto más esperado del año.</p>
+<p>BTS, la agrupación surcoreana formada por <strong>RM, Jin, Suga, J-Hope, Jimin, V y Jung Kook</strong>, regresa a Latinoamérica, y Santiago se prepara para recibir a uno de los grupos más importantes del K-pop mundial. El ARMY chileno, reconocido por su pasión y dedicación, tendrá tres oportunidades de vivir este espectáculo histórico en el corazón de Ñuñoa.</p>
+
+<h3>¿Dónde Comprar Entradas BTS Chile 2026 de Forma Segura?</h3>
+<p>La compra de <strong>entradas BTS Chile</strong> requiere precaución debido a la alta demanda y el riesgo de estafas. Para garantizar una transacción 100% segura:</p>
+<ul>
+<li><strong>Verifica la fuente:</strong> Compra únicamente a través de plataformas verificadas como RaveHub Latam, que ofrece gestión de compra con transparencia total.</li>
+<li><strong>Evita el mercado negro:</strong> No compres entradas en redes sociales sin verificar la identidad del vendedor.</li>
+<li><strong>Confirma la disponibilidad:</strong> Muchas zonas están agotadas en la venta oficial, pero servicios de gestión pueden ayudarte a conseguir entradas disponibles.</li>
+<li><strong>Revisa los precios:</strong> Si el precio es excesivamente bajo, probablemente sea una estafa. Los valores oficiales están detallados en la tabla de abajo.</li>
+</ul>
+<p><strong>RaveHub Latam</strong> es un servicio independiente de gestión de compra de entradas que te ayuda a asegurar tu lugar en el concierto. No somos la ticketera oficial, pero gestionamos la compra en tu nombre con total transparencia, verificación de disponibilidad y soporte post-venta.</p>
 
 <h3>Tabla de Precios - Entradas BTS Chile 2026</h3>
-<p>Consulta los precios oficiales por zona para el concierto de BTS en Santiago. Todos los valores están en dólares americanos (USD) e incluyen la comisión de servicio. <strong>Nota importante:</strong> Muchas zonas están agotadas debido a la alta demanda.</p>
+<p>Consulta los precios oficiales por zona para el concierto de BTS en Santiago. Todos los valores están en dólares americanos (USD) e incluyen la comisión de servicio. <strong>Nota importante:</strong> Las tres zonas principales (Pacífico Medio, Cancha Pacífico, Cancha Andes) tienen stock limitado. El resto de las zonas requiere verificación de disponibilidad en la ticketera oficial.</p>
 <div style="overflow-x: auto; margin: 20px 0;">
 <table style="width: 100%; border-collapse: collapse; border: 1px solid #e2e8f0; background: white;">
   <thead>
@@ -20,43 +30,55 @@ export const CHILE_SEO_CONTENT = `
     <tr style="background: #fef3c7;">
       <td style="padding: 10px; border: 1px solid #e2e8f0; font-weight: bold;">Pacífico Medio</td>
       <td style="padding: 10px; border: 1px solid #e2e8f0; text-align: right; font-weight: bold; color: #059669;">$1,784</td>
-      <td style="padding: 10px; border: 1px solid #e2e8f0; text-align: center;"><span style="background: #dcfce7; color: #166534; padding: 4px 8px; border-radius: 4px; font-size: 11px;">5 disponibles</span></td>
+      <td style="padding: 10px; border: 1px solid #e2e8f0; text-align: center;"><span style="background: #dcfce7; color: #166534; padding: 4px 8px; border-radius: 4px; font-size: 11px;">Stock limitado</span></td>
       <td style="padding: 10px; border: 1px solid #e2e8f0;">Zona media premium con excelente vista</td>
     </tr>
     <tr style="background: #dbeafe;">
       <td style="padding: 10px; border: 1px solid #e2e8f0; font-weight: bold;">Cancha Pacífico</td>
       <td style="padding: 10px; border: 1px solid #e2e8f0; text-align: right; font-weight: bold; color: #2563eb;">$991</td>
-      <td style="padding: 10px; border: 1px solid #e2e8f0; text-align: center;"><span style="background: #dcfce7; color: #166534; padding: 4px 8px; border-radius: 4px; font-size: 11px;">8 disponibles</span></td>
+      <td style="padding: 10px; border: 1px solid #e2e8f0; text-align: center;"><span style="background: #dcfce7; color: #166534; padding: 4px 8px; border-radius: 4px; font-size: 11px;">Disponible</span></td>
       <td style="padding: 10px; border: 1px solid #e2e8f0;">Cancha de pie, cerca del escenario</td>
     </tr>
     <tr style="background: #f0f9ff;">
       <td style="padding: 10px; border: 1px solid #e2e8f0; font-weight: bold;">Cancha Andes</td>
       <td style="padding: 10px; border: 1px solid #e2e8f0; text-align: right; font-weight: bold; color: #2563eb;">$949</td>
-      <td style="padding: 10px; border: 1px solid #e2e8f0; text-align: center;"><span style="background: #fef9c3; color: #854d0e; padding: 4px 8px; border-radius: 4px; font-size: 11px;">1 disponible</span></td>
+      <td style="padding: 10px; border: 1px solid #e2e8f0; text-align: center;"><span style="background: #fef9c3; color: #854d0e; padding: 4px 8px; border-radius: 4px; font-size: 11px;">Última entrada</span></td>
       <td style="padding: 10px; border: 1px solid #e2e8f0;">Cancha de pie, sector Andes</td>
     </tr>
-    <tr style="background: #fee2e2;">
-      <td style="padding: 10px; border: 1px solid #e2e8f0; font-weight: bold;">Pacífico Alto</td>
-      <td style="padding: 10px; border: 1px solid #e2e8f0; text-align: right; font-weight: bold; color: #dc2626;">$892</td>
-      <td style="padding: 10px; border: 1px solid #e2e8f0; text-align: center;"><span style="background: #fee2e2; color: #991b1b; padding: 4px 8px; border-radius: 4px; font-size: 11px;">AGOTADO</span></td>
-      <td style="padding: 10px; border: 1px solid #e2e8f0;">Tribuna alta con vista panorámica</td>
-    </tr>
-    <tr style="background: #fee2e2;">
-      <td style="padding: 10px; border: 1px solid #e2e8f0; font-weight: bold;">Andes Bajo Centro</td>
-      <td style="padding: 10px; border: 1px solid #e2e8f0; text-align: right; font-weight: bold; color: #dc2626;">$615</td>
-      <td style="padding: 10px; border: 1px solid #e2e8f0; text-align: center;"><span style="background: #fee2e2; color: #991b1b; padding: 4px 8px; border-radius: 4px; font-size: 11px;">AGOTADO</span></td>
-      <td style="padding: 10px; border: 1px solid #e2e8f0;">Tribuna baja central, excelente vista</td>
-    </tr>
-    <tr style="background: #fee2e2;">
-      <td style="padding: 10px; border: 1px solid #e2e8f0; font-weight: bold;">Pacífico Lateral</td>
+    <tr style="background: #fff7ed;">
+      <td style="padding: 10px; border: 1px solid #e2e8f0; font-weight: bold;">Pacífico Lateral Sur/Norte</td>
       <td style="padding: 10px; border: 1px solid #e2e8f0; text-align: right; font-weight: bold; color: #64748b;">$299</td>
-      <td style="padding: 10px; border: 1px solid #e2e8f0; text-align: center;"><span style="background: #fee2e2; color: #991b1b; padding: 4px 8px; border-radius: 4px; font-size: 11px;">AGOTADO</span></td>
+      <td style="padding: 10px; border: 1px solid #e2e8f0; text-align: center;"><span style="background: #fef3c7; color: #92400e; padding: 4px 8px; border-radius: 4px; font-size: 11px;">Verificar disponibilidad</span></td>
       <td style="padding: 10px; border: 1px solid #e2e8f0;">Zona lateral económica, vista lejana</td>
+    </tr>
+    <tr style="background: #fff7ed;">
+      <td style="padding: 10px; border: 1px solid #e2e8f0; font-weight: bold;">Galería Norte/Sur</td>
+      <td style="padding: 10px; border: 1px solid #e2e8f0; text-align: right; font-weight: bold; color: #64748b;">$377</td>
+      <td style="padding: 10px; border: 1px solid #e2e8f0; text-align: center;"><span style="background: #fef3c7; color: #92400e; padding: 4px 8px; border-radius: 4px; font-size: 11px;">Verificar disponibilidad</span></td>
+      <td style="padding: 10px; border: 1px solid #e2e8f0;">Galería alta panorámica</td>
+    </tr>
+    <tr style="background: #fff7ed;">
+      <td style="padding: 10px; border: 1px solid #e2e8f0; font-weight: bold;">Andes Alto (Norte/Sur/Centro)</td>
+      <td style="padding: 10px; border: 1px solid #e2e8f0; text-align: right; font-weight: bold; color: #64748b;">$496 - $535</td>
+      <td style="padding: 10px; border: 1px solid #e2e8f0; text-align: center;"><span style="background: #fef3c7; color: #92400e; padding: 4px 8px; border-radius: 4px; font-size: 11px;">Verificar disponibilidad</span></td>
+      <td style="padding: 10px; border: 1px solid #e2e8f0;">Tribuna alta con buena vista</td>
+    </tr>
+    <tr style="background: #fff7ed;">
+      <td style="padding: 10px; border: 1px solid #e2e8f0; font-weight: bold;">Andes Bajo (Norte/Sur/Centro)</td>
+      <td style="padding: 10px; border: 1px solid #e2e8f0; text-align: right; font-weight: bold; color: #64748b;">$555 - $615</td>
+      <td style="padding: 10px; border: 1px solid #e2e8f0; text-align: center;"><span style="background: #fef3c7; color: #92400e; padding: 4px 8px; border-radius: 4px; font-size: 11px;">Verificar disponibilidad</span></td>
+      <td style="padding: 10px; border: 1px solid #e2e8f0;">Tribuna baja, excelente vista</td>
+    </tr>
+    <tr style="background: #fff7ed;">
+      <td style="padding: 10px; border: 1px solid #e2e8f0; font-weight: bold;">Pacífico Bajo/Alto</td>
+      <td style="padding: 10px; border: 1px solid #e2e8f0; text-align: right; font-weight: bold; color: #64748b;">$734 - $892</td>
+      <td style="padding: 10px; border: 1px solid #e2e8f0; text-align: center;"><span style="background: #fef3c7; color: #92400e; padding: 4px 8px; border-radius: 4px; font-size: 11px;">Verificar disponibilidad</span></td>
+      <td style="padding: 10px; border: 1px solid #e2e8f0;">Tribuna con vista panorámica</td>
     </tr>
   </tbody>
 </table>
 </div>
-<p><strong>Importante:</strong> Los precios mostrados ya incluyen todas las comisiones de servicio. Debido a la altísima demanda, la mayoría de las zonas están agotadas. Las entradas disponibles se agotan rápidamente.</p>
+<p><strong>Importante:</strong> Los precios mostrados ya incluyen todas las comisiones de servicio. Las zonas marcadas como "Verificar disponibilidad" requieren consultar directamente con la ticketera oficial <a href="https://www.btschile.com/entradas" target="_blank" rel="noopener noreferrer" style="color: #2563eb; text-decoration: underline;">btschile.com</a> para conocer su estado actual.</p>
 <p><strong>Formas de pago en Chile:</strong> Tarjetas de crédito/débito, transferencias bancarias, Webpay, Mercado Pago y PayPal. Consulta opciones de pago en cuotas por WhatsApp.</p>
 
 <h3>El Estadio Nacional: Historia y Capacidad</h3>

@@ -73,10 +73,10 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
         ogSiteName = `Boletas BTS Colombia`;
     } else if (country.id === 'chile') {
         // B1: Chile override - Optimized with availability signal
-        title = `Entradas BTS Chile 2026 - Disponibles | Estadio Nacional`;
-        description = `Compra tus entradas para BTS en Chile 2026 desde ${formattedPrice} en el Estadio Nacional. Tres fechas: 14, 16 y 17 de octubre. Zonas y precios oficiales.`;
-        ogTitle = `Entradas BTS Chile 2026 | Estadio Nacional`;
-        ogDescription = `¡BTS en Santiago! El Army chileno tiene su cita en el Estadio Nacional. Compra segura y verificada para las 3 fechas.`;
+        title = `Entradas BTS Chile 2026 - Compra Segura | Estadio Nacional Santiago`;
+        description = `Compra tus entradas BTS Chile 2026 de forma 100% segura desde ${formattedPrice}. Tres fechas en el Estadio Nacional Santiago: 14, 16 y 17 de octubre. Zonas VIP, cancha y tribunas disponibles. Gestión verificada con RaveHub.`;
+        ogTitle = `Entradas BTS Chile 2026 | Estadio Nacional Santiago`;
+        ogDescription = `¡BTS en Santiago! El ARMY chileno tiene su cita en el Estadio Nacional. Tres fechas confirmadas en octubre 2026. Compra segura y verificada.`;
         ogSiteName = `Entradas BTS Chile`;
     } else if (country.id === 'argentina') {
         // B1: Argentina override - Optimized with availability signal

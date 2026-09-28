@@ -6,6 +6,8 @@ import { getZoneTotalPrice } from "@/lib/pricing";
 import { notFound } from "next/navigation";
 import CountryClient from "./CountryClient";
 import { GoogleMapsSection } from "./GoogleMapsSection";
+import { HreflangTags, DEFAULT_HREFLANG_TAGS } from "@/components/HreflangTags";
+import { GeoMetaTags, GEO_CONFIG } from "@/components/GeoMetaTags";
 
 type Props = {
     params: Promise<{ country: string }>;
@@ -125,6 +127,22 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
                 'max-snippet': -1,
             },
         },
+        // SEO: Verificación para Google Search Console y otros servicios
+        // verification: {
+        //     google: 'tu-codigo-aqui', // Agregar cuando tengas el código de verificación
+        // },
+        // SEO: Información de autor y publisher
+        authors: [{ name: 'RaveHub Latam' }],
+        creator: 'RaveHub Latam',
+        publisher: 'RaveHub Latam',
+        // SEO: Formato y contenido del sitio
+        formatDetection: {
+            telephone: false,
+            email: false,
+            address: false,
+        },
+        // SEO: Category para el contenido
+        category: 'entertainment',
         openGraph: {
             title: ogTitle,
             description: ogDescription,
@@ -146,6 +164,8 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
             title: ogTitle,
             description: ogDescription,
             images: [ogImageUrl],
+            site: '@ravehublatam',
+            creator: '@ravehublatam',
         },
         alternates: {
             canonical: `https://entradasbts.com/${country.id}/`,
@@ -952,9 +972,16 @@ export default async function CountryPage({ params }: Props) {
         madrid: ['https://spanish100.com'],
     };
     const preconnects = countryPreconnects[country.id] || [];
+    const geoConfig = GEO_CONFIG[country.id as keyof typeof GEO_CONFIG];
 
     return (
         <>
+            {/* SEO CRÍTICO: Hreflang tags en HTML para indexación internacional */}
+            <HreflangTags tags={DEFAULT_HREFLANG_TAGS} />
+
+            {/* SEO CRÍTICO: Geo meta tags para targeting por país */}
+            {geoConfig && <GeoMetaTags {...geoConfig} />}
+
             {/* L1: Country-specific preconnects */}
             {preconnects.map(href => (
                 <link key={href} rel="preconnect" href={href} />

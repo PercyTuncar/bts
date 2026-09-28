@@ -7,6 +7,7 @@ import { countries } from "@/lib/data/countries";
 import { ArrowRight, Ticket, Music, ShoppingBag } from "lucide-react";
 import Image from "next/image";
 import { HomeCommunityBanner } from "@/components/HomeCommunityBanner";
+import { HreflangTags, DEFAULT_HREFLANG_TAGS } from "@/components/HreflangTags";
 
 const countryImages: Record<string, string> = {
     peru: "https://cuscoperu.b-cdn.net/wp-content/uploads/2024/02/Atardece-Costa-verde-Lima.webp",
@@ -20,7 +21,23 @@ const countryImages: Record<string, string> = {
 
 export const metadata = {
   title: 'Entradas BTS ARIRANG Tour 2026 | Latinoamérica y España',
-  description: 'Entradas para el BTS World Tour ARIRANG 2026. Fechas en Chile, Perú, Colombia, Argentina y Brasil. Servicio de compra garantizada para el ARMY.',
+  description: 'Entradas para el BTS World Tour ARIRANG 2026. Fechas en Chile, Perú, Colombia, Argentina, Brasil, México y España. Servicio de compra garantizada para el ARMY.',
+  keywords: ['entradas bts 2026', 'bts world tour', 'bts latinoamerica', 'concierto bts', 'bts arirang tour', 'entradas kpop', 'bts army', 'show bts 2026'],
+  authors: [{ name: 'RaveHub Latam' }],
+  creator: 'RaveHub Latam',
+  publisher: 'RaveHub Latam',
+  category: 'entertainment',
+  robots: {
+    index: true,
+    follow: true,
+    googleBot: {
+      index: true,
+      follow: true,
+      'max-video-preview': -1,
+      'max-image-preview': 'large',
+      'max-snippet': -1,
+    },
+  },
   openGraph: {
     title: 'Entradas BTS ARIRANG Tour 2026 | Latinoamérica y España',
     description: 'Todas las fechas del BTS World Tour ARIRANG 2026 en Perú, Chile, Colombia, Argentina y Brasil. Compra garantizada para el ARMY.',
@@ -31,7 +48,7 @@ export const metadata = {
         url: '/images/home-hero.jpg',
         width: 1600,
         height: 900,
-        alt: 'BTS World Tour 2026 Latinoamérica',
+        alt: 'BTS World Tour 2026 Latinoamérica - Entradas disponibles',
       },
     ],
     locale: 'es_LA',
@@ -119,6 +136,9 @@ export default function Home() {
 
   return (
     <div className="min-h-screen text-slate-900 selection:bg-secondary selection:text-white pb-20">
+      {/* SEO CRÍTICO: Hreflang tags en HTML para indexación internacional */}
+      <HreflangTags tags={DEFAULT_HREFLANG_TAGS} />
+
       {structuredData.map((node, idx) => (
         <script
           key={`ld-${idx}`}

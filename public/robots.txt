@@ -5,8 +5,9 @@
 User-agent: *
 Allow: /
 
-# Sitemap principal
+# Sitemaps (principal + internacional con hreflang)
 Sitemap: https://entradasbts.com/sitemap.xml
+Sitemap: https://entradasbts.com/sitemap-i18n.xml
 
 # Crawl-delay para ser amigable con el servidor
 Crawl-delay: 1

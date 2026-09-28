@@ -9,7 +9,9 @@
       "Bash(mv temp.ts seo-content.ts)",
       "Bash(cd ../.. && npm run build 2>&1 | head -100)",
       "Read(//c/Users/tunca/OneDrive/Desktop/**)",
-      "Bash(git add *)"
+      "Bash(git add *)",
+      "Bash(git commit -m 'Mejoras SEO Chile y UX: botón verificar disponibilidad + modal WhatsApp simplificado *)",
+      "Bash(git push *)"
     ]
   }
 }

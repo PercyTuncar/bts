@@ -23,6 +23,38 @@ export const metadata: Metadata = {
   description: "Compra tus entradas para el BTS World Tour ARIRANG 2026 en Latinoamérica y España. Fechas confirmadas, precios y servicio de compra garantizada para el ARMY.",
   metadataBase: new URL('https://entradasbts.com'),
   manifest: '/manifest.json',
+
+  // SEO: Información del sitio
+  applicationName: 'EntradasBTS',
+  referrer: 'origin-when-cross-origin',
+  keywords: ['entradas bts', 'bts tour 2026', 'bts latinoamerica', 'concierto bts', 'bts world tour', 'arirang tour', 'entradas kpop', 'bts army'],
+  authors: [{ name: 'RaveHub Latam', url: 'https://www.ravehublatam.com' }],
+  creator: 'RaveHub Latam',
+  publisher: 'RaveHub Latam',
+
+  // SEO: Format detection
+  formatDetection: {
+    telephone: false,
+    email: false,
+    address: false,
+  },
+
+  // SEO: Category
+  category: 'entertainment',
+
+  // SEO: Robots configuration
+  robots: {
+    index: true,
+    follow: true,
+    googleBot: {
+      index: true,
+      follow: true,
+      'max-video-preview': -1,
+      'max-image-preview': 'large',
+      'max-snippet': -1,
+    },
+  },
+
   icons: {
     icon: [
       { url: '/favicon.ico' },
@@ -49,9 +81,10 @@ export const metadata: Metadata = {
     siteName: 'EntradasBTS – RaveHub Latam',
     images: [
       {
-        url: '/images/bts-hero-bg.png', // Generic image
+        url: '/images/bts-hero-bg.png',
         width: 1200,
         height: 630,
+        alt: 'BTS ARIRANG World Tour 2026 - Latinoamérica y España',
       },
     ],
     locale: 'es_LA',
@@ -67,6 +100,17 @@ export const metadata: Metadata = {
   },
   alternates: {
     canonical: 'https://entradasbts.com/',
+    languages: {
+      'es': 'https://entradasbts.com/',
+      'es-PE': 'https://entradasbts.com/peru/',
+      'es-CL': 'https://entradasbts.com/chile/',
+      'es-MX': 'https://entradasbts.com/mexico/',
+      'es-CO': 'https://entradasbts.com/colombia/',
+      'es-AR': 'https://entradasbts.com/argentina/',
+      'es-ES': 'https://entradasbts.com/madrid/',
+      'pt-BR': 'https://entradasbts.com/brasil/',
+      'x-default': 'https://entradasbts.com/eventos/',
+    },
   },
 };
 
@@ -168,7 +212,7 @@ export default async function RootLayout({
   const userCountry = headersList.get('x-user-country') || undefined;
 
   return (
-    <html lang={lang}>
+    <html lang={lang} dir="ltr">
       <head>
         {/* F2: Preconnects for universal resources only (L1: country-specific moved to country page) */}
         <link rel="preconnect" href="https://www.googletagmanager.com" />

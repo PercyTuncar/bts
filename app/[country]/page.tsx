@@ -393,24 +393,31 @@ export default async function CountryPage({ params }: Props) {
                     "longitude": venue.longitude,
                 },
             },
-            // 4.3: organizer removed on purpose. Google lists it as recommended,
-            // not required, for Event/MusicEvent (only location, name and
-            // startDate are required). RaveHub is not the real event organizer
-            // (Live Nation / DF Entertainment / OCESA are), and RaveHub is not
-            // that organizer either — declaring either as `organizer` would be
-            // an inaccurate claim. RaveHub's identity lives correctly in
-            // `seller`, inside each Offer, where schema.org expects "the
-            // entity that sells/offers the good or service".
+            // SEO: Organizer agregado (HYBE Corporation organiza los eventos de BTS)
+            "organizer": {
+                "@type": "Organization",
+                "name": "HYBE Corporation",
+                "url": "https://www.hybecorp.com/",
+                "sameAs": [
+                    "https://en.wikipedia.org/wiki/Hybe_Corporation",
+                    "https://www.wikidata.org/wiki/Q12591881"
+                ]
+            },
             "performer": performerRef,
             // 4.6: AggregateOffer surfaces a "from $X" price range in Google's
             // event experience/search results when a page has multiple
             // ticket zones, instead of (or in addition to) individual Offers.
             "offers": {
                 "@type": "AggregateOffer",
+                "url": `https://entradasbts.com/${country.id}/`,
                 "priceCurrency": country.currency,
                 "lowPrice": aggregateLowPrice,
                 "highPrice": aggregateHighPrice,
                 "offerCount": country.prices.length,
+                "availability": inStockTotalPrices.length > 0
+                    ? "https://schema.org/InStock"
+                    : "https://schema.org/SoldOut",
+                "validFrom": `${venue.saleStart}T10:00:00${venue.tzOffset}`,
                 "offers": buildOffers(dateStr),
             },
         };

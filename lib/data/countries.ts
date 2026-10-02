@@ -29,7 +29,7 @@ export interface CountryData {
     allowInstallments?: boolean; // Optional flag to disable installments
 }
 
-export const COLOMBIA_WHATSAPP_LINK = 'https://chat.whatsapp.com/EuezTmQPUC6B9sjbZg6qon';
+export const COLOMBIA_WHATSAPP_LINK = 'https://chat.whatsapp.com/JhQL3v5fVP3IwAu5L1jT0M';
 
 export const WHATSAPP_COUNTRY_FALLBACK_ORDER = [
     'peru',
@@ -85,7 +85,7 @@ export const countries: CountryData[] = [
         ],
         description: 'Lima, prepárate para el océano púrpura. BTS regresa al Estadio San Marcos para dos noches históricas.',
         openGraphImage: '/images/og-peru.jpg',
-        whatsappLink: 'https://chat.whatsapp.com/GS5wbiKYWY07UmX6d1pUdU',
+        whatsappLink: 'https://chat.whatsapp.com/KDw6W1P81dI2UFTiYyNC87',
         phoneCode: '+51'
         ,progressOffsetHours: -25
     },
@@ -260,7 +260,7 @@ export const countries: CountryData[] = [
         ],
         description: 'Argentina recibe a BTS en el Estadio Único de La Plata con preventa y zonas oficiales para el Army.',
         openGraphImage: '/images/og-argentina.jpg',
-        whatsappLink: 'https://chat.whatsapp.com/DJ1TEQAWIpFEy65f5aEYdK',
+        whatsappLink: 'https://chat.whatsapp.com/CO5Zr9eUYmVG54UtQA3Bv1',
         phoneCode: '+54'
         ,progressOffsetHours: 2
     },
@@ -283,7 +283,7 @@ export const countries: CountryData[] = [
         ],
         description: 'O show será no Estádio do MorumBIS, em São Paulo. BTS WORLD TOUR "ARIRANG" 2026.',
         openGraphImage: '/images/og-brasil.jpg',
-        whatsappLink: 'https://chat.whatsapp.com/Jbg2JfdMMH3IMGISGttCPc',
+        whatsappLink: 'https://chat.whatsapp.com/HIOAAuVGMQ51ad21kAXDzL',
         phoneCode: '+55'
         ,progressOffsetHours: 3
     }

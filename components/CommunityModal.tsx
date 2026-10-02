@@ -66,7 +66,7 @@ export function CommunityModal({ isOpen, onClose, userCountryCode }: CommunityMo
 
     return (
         <AnimatePresence>
-            {isOpen && (
+            {isOpen && !isHomeRoute && (
                 <div className="fixed inset-0 z-[100] flex items-center justify-center p-4">
                     <motion.div
                         initial={{ opacity: 0 }}

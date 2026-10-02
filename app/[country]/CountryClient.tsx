@@ -455,6 +455,13 @@ export default function CountryClient({ country }: Props) {
     const [installmentMonths, setInstallmentMonths] = useState(3);
     const [videoLoaded, setVideoLoaded] = useState(false);
 
+    // Forzar pago al contado para todos los países (cuotas deshabilitadas)
+    useEffect(() => {
+        if (isInstallment) {
+            setIsInstallment(false);
+        }
+    }, [isInstallment]);
+
     // Currency conversion for Chile, Colombia, Argentina
     const EXCHANGE_RATES: Record<string, number> = {
         chile: 886.36,
@@ -516,6 +523,10 @@ export default function CountryClient({ country }: Props) {
         }
     };
 
+    // Estado para saber qué día del concierto mostrar
+    const [currentConcertDay, setCurrentConcertDay] = useState(0);
+    const [isLiveNow, setIsLiveNow] = useState(false);
+
     const getTargetDate = () => {
         if (country.id === 'mexico') {
             const now = new Date();
@@ -523,16 +534,62 @@ export default function CountryClient({ country }: Props) {
             if (now > MEXICO_DATES.membership.end && now < MEXICO_DATES.general.start) return MEXICO_DATES.general.start.getTime();
             return new Date(country.dates[0] + "T20:00:00").getTime(); // Fallback to event start
         }
-        return new Date(country.dates[0] + "T20:00:00").getTime();
+
+        // Lógica dinámica para múltiples fechas de concierto
+        const now = new Date();
+
+        // Buscar qué día del concierto debería mostrar
+        for (let i = 0; i < country.dates.length; i++) {
+            const concertDate = country.dates[i];
+            // Hora de inicio del concierto (20:00 hora local)
+            const concertStart = new Date(concertDate + "T20:00:00");
+            // Fin del concierto del día anterior (23:30 hora local del mismo día)
+            const concertEnd = new Date(concertDate + "T23:30:00");
+
+            // Si aún no ha llegado la hora de inicio de este concierto, mostrar contador hacia él
+            if (now < concertStart) {
+                return concertStart.getTime();
+            }
+
+            // Si estamos durante el concierto (entre 20:00 y 23:30 del día del concierto)
+            if (now >= concertStart && now <= concertEnd) {
+                // Si hay un día siguiente, mostrar contador hacia el siguiente día
+                if (i < country.dates.length - 1) {
+                    const nextConcertStart = new Date(country.dates[i + 1] + "T20:00:00");
+                    return nextConcertStart.getTime();
+                }
+                // Si es el último día, mantener en 0
+                return concertEnd.getTime();
+            }
+        }
+
+        // Si ya pasaron todos los conciertos
+        const lastConcertEnd = new Date(country.dates[country.dates.length - 1] + "T23:30:00");
+        return lastConcertEnd.getTime();
     };
 
     useEffect(() => {
         setMounted(true);
-        const target = getTargetDate();
 
         const interval = setInterval(() => {
-            const now = new Date().getTime();
-            const distance = target - now;
+            const now = new Date();
+            const target = getTargetDate();
+            const distance = target - now.getTime();
+
+            // Determinar si el concierto está en vivo ahora
+            let liveNow = false;
+            for (let i = 0; i < country.dates.length; i++) {
+                const concertDate = country.dates[i];
+                const concertStart = new Date(concertDate + "T20:00:00");
+                const concertEnd = new Date(concertDate + "T23:30:00");
+
+                if (now >= concertStart && now <= concertEnd) {
+                    liveNow = true;
+                    setCurrentConcertDay(i);
+                    break;
+                }
+            }
+            setIsLiveNow(liveNow);
 
             if (distance < 0) {
                 setTimeLeft({ days: 0, hours: 0, minutes: 0, seconds: 0 });
@@ -856,6 +913,36 @@ export default function CountryClient({ country }: Props) {
                                         </span>
                                     </div>
                                 </div>
+                            ) : isLiveNow ? (
+                                <div className="flex flex-col gap-2">
+                                    <div className="flex items-center gap-3 bg-red-600/90 border-2 border-red-400 text-white px-6 py-3 rounded-xl shadow-lg shadow-red-500/50">
+                                        <div className="flex items-center gap-2">
+                                            <span className="w-3 h-3 rounded-full bg-white animate-pulse"></span>
+                                            <span className="text-lg font-black uppercase tracking-wider">
+                                                🎤 {country.id === 'brasil' ? 'AO VIVO AGORA' : '¡EN VIVO AHORA!'}
+                                            </span>
+                                        </div>
+                                    </div>
+                                    {/* Si hay más fechas, mostrar contador para el siguiente día */}
+                                    {currentConcertDay < country.dates.length - 1 && (
+                                        <div className="flex items-center gap-4 text-white bg-slate-900/50 px-4 py-2 rounded-xl">
+                                            <span className="text-sm font-semibold">
+                                                {country.id === 'brasil' ? 'Próximo show em:' : 'Próximo show en:'}
+                                            </span>
+                                            {[
+                                                { val: timeLeft.days, label: t.days },
+                                                { val: timeLeft.hours, label: t.hrs },
+                                                { val: timeLeft.minutes, label: t.min },
+                                                { val: timeLeft.seconds, label: t.seg }
+                                            ].map((item, idx) => (
+                                                <div key={idx} className="text-center">
+                                                    <span className="block text-xl font-black tabular-nums">{item.val.toString().padStart(2, '0')}</span>
+                                                    <span className="block text-[9px] uppercase tracking-wider text-white/40">{item.label}</span>
+                                                </div>
+                                            ))}
+                                        </div>
+                                    )}
+                                </div>
                             ) : (
                                 <div className="flex items-center gap-4 text-white">
                                     {[
@@ -989,17 +1076,21 @@ export default function CountryClient({ country }: Props) {
                         {/* Payment Method Toggle */}
                         {(country.allowInstallments !== false) && (
                             <div className="bg-white rounded-xl p-1 flex border border-slate-200 shadow-sm max-w-md mx-auto lg:mx-0">
-                                <button 
-                                    onClick={() => setIsInstallment(false)} 
+                                <button
+                                    onClick={() => setIsInstallment(false)}
                                     className={`flex-1 py-2.5 px-5 text-sm font-bold uppercase rounded-lg transition-all ${!isInstallment ? 'bg-slate-900 text-white' : 'text-slate-500 hover:text-slate-900'}`}
                                 >
                                     {t.cash}
                                 </button>
-                                <button 
-                                    onClick={() => setIsInstallment(true)} 
-                                    className={`flex-1 py-2.5 px-5 text-sm font-bold uppercase rounded-lg transition-all ${isInstallment ? 'bg-slate-900 text-white' : 'text-slate-500 hover:text-slate-900'}`}
+                                <button
+                                    onClick={() => {}}
+                                    disabled={true}
+                                    className="flex-1 py-2.5 px-5 text-sm font-bold uppercase rounded-lg transition-all relative bg-slate-100 text-slate-400 cursor-not-allowed"
                                 >
                                     {t.installments}
+                                    <span className="absolute -top-2 -right-2 bg-red-500 text-white text-[9px] font-bold px-2 py-0.5 rounded-full whitespace-nowrap">
+                                        No disponible
+                                    </span>
                                 </button>
                             </div>
                         )}

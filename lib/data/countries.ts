@@ -221,19 +221,19 @@ export const countries: CountryData[] = [
         currency: 'USD',
         currencySymbol: '$',
         prices: [
-            { zone: 'Sur Baja', price: 249 },
-            { zone: 'Oriental Norte Baja', price: 249 },
-            { zone: 'Norte Baja', price: 249 },
-            { zone: 'Oriental Sur Alta', price: 328 },
-            { zone: 'Sur Alta', price: 328 },
-            { zone: 'Oriental Norte Alta', price: 328 },
-            { zone: 'Norte Alta', price: 328 },
-            { zone: 'Oriental Alta', price: 487 },
-            { zone: 'Occidental Alta', price: 548 },
-            { zone: 'Oriental Baja', price: 797 },
-            { zone: 'Occidental Baja', price: 836 },
-            { zone: 'VIP', price: 896 },
-            { zone: 'Paquete VIP | Sound Check', price: 2448 },
+            { zone: 'Sur Baja', price: 747 }, // $747 USD (≈ $3,290,700 COP)
+            { zone: 'Oriental Norte Baja', price: 747 }, // $747 USD (≈ $3,290,700 COP)
+            { zone: 'Norte Baja', price: 747 }, // $747 USD (≈ $3,290,700 COP)
+            { zone: 'Oriental Sur Alta', price: 984 }, // $984 USD (≈ $4,334,400 COP)
+            { zone: 'Sur Alta', price: 984 }, // $984 USD (≈ $4,334,400 COP)
+            { zone: 'Oriental Norte Alta', price: 984 }, // $984 USD (≈ $4,334,400 COP)
+            { zone: 'Norte Alta', price: 984 }, // $984 USD (≈ $4,334,400 COP)
+            { zone: 'Oriental Alta', price: 1461 }, // $1,461 USD (≈ $6,436,800 COP)
+            { zone: 'Occidental Alta', price: 1644 }, // $1,644 USD (≈ $7,241,600 COP)
+            { zone: 'Oriental Baja', price: 2391 }, // $2,391 USD (≈ $10,536,800 COP)
+            { zone: 'Occidental Baja', price: 2508 }, // $2,508 USD (≈ $11,055,200 COP)
+            { zone: 'VIP', price: 2688 }, // $2,688 USD (≈ $11,847,680 COP)
+            { zone: 'Paquete VIP | Sound Check', price: 7344 }, // $7,344 USD (≈ $32,357,120 COP)
         ],
         description: 'Bogotá se viste de morado. No te pierdas el regreso de BTS a Colombia.',
         openGraphImage: '/images/og-colombia.jpg',

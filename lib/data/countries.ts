@@ -17,6 +17,7 @@ export interface CountryData {
     city: string;
     isoCode: string; // for JSON-LD addressCountry
     dates: string[]; // ISO format YYYY-MM-DD
+    unavailableDates?: string[]; // Fechas agotadas/no disponibles
     ticketDate: string;
     currency: string;
     currencySymbol: string;
@@ -217,6 +218,7 @@ export const countries: CountryData[] = [
         city: 'Colombia',
         isoCode: 'CO',
         dates: ['2026-10-02', '2026-10-03'],
+        unavailableDates: ['2026-10-02'], // 2 de octubre agotado
         ticketDate: '28 de Enero',
         currency: 'USD',
         currencySymbol: '$',

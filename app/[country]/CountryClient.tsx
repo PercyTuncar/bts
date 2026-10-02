@@ -501,6 +501,8 @@ export default function CountryClient({ country }: Props) {
         '2026-10-17': true,
     };
     const isDateAvailable = (date: string) => {
+        // Verificar si la fecha está en la lista de fechas no disponibles
+        if (country.unavailableDates?.includes(date)) return false;
         if (country.id === 'chile') return CHILE_DATE_AVAILABILITY[date] ?? true;
         return true;
     };

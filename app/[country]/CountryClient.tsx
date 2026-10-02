@@ -527,6 +527,10 @@ export default function CountryClient({ country }: Props) {
     const [currentConcertDay, setCurrentConcertDay] = useState(0);
     const [isLiveNow, setIsLiveNow] = useState(false);
 
+    // Estado para el progress bar de disponibilidad (Perú)
+    const [availabilityProgress, setAvailabilityProgress] = useState(0);
+    const [availabilityStatus, setAvailabilityStatus] = useState<'available' | 'sold-out'>('available');
+
     const getTargetDate = () => {
         if (country.id === 'mexico') {
             const now = new Date();
@@ -591,6 +595,32 @@ export default function CountryClient({ country }: Props) {
             }
             setIsLiveNow(liveNow);
 
+            // Calcular progreso de disponibilidad para Perú
+            if (isPeru && country.dates.length > 0) {
+                // Fecha de inicio de venta (puedes ajustar esta fecha)
+                const saleStartDate = new Date('2026-04-07T10:00:00');
+                // Última fecha del evento a las 23:59
+                const lastEventDate = new Date(country.dates[country.dates.length - 1] + "T23:59:00");
+
+                const totalTime = lastEventDate.getTime() - saleStartDate.getTime();
+                const elapsedTime = now.getTime() - saleStartDate.getTime();
+
+                if (now < saleStartDate) {
+                    // Antes de la venta
+                    setAvailabilityProgress(0);
+                    setAvailabilityStatus('available');
+                } else if (now > lastEventDate) {
+                    // Después del último evento
+                    setAvailabilityProgress(100);
+                    setAvailabilityStatus('sold-out');
+                } else {
+                    // Durante el período de venta
+                    const progress = Math.min(100, Math.max(0, (elapsedTime / totalTime) * 100));
+                    setAvailabilityProgress(progress);
+                    setAvailabilityStatus('available');
+                }
+            }
+
             if (distance < 0) {
                 setTimeLeft({ days: 0, hours: 0, minutes: 0, seconds: 0 });
                 return;
@@ -605,7 +635,7 @@ export default function CountryClient({ country }: Props) {
         }, 1000);
 
         return () => clearInterval(interval);
-    }, [country.dates, country.id]);
+    }, [country.dates, country.id, isPeru]);
 
     const currentDate = mounted ? new Date() : new Date('2026-01-16');
 
@@ -1184,14 +1214,47 @@ export default function CountryClient({ country }: Props) {
                                             <div>
                                                 {/* J4: h4→h3 for zone names (heading hierarchy) */}
                                                 <h3 className={`text-base font-bold uppercase ${isDisabled ? 'text-slate-400 line-through' : 'text-slate-900'}`}>{zone.zone}</h3>
-                                                {i === 0 && !isDisabled && !needsVerification && (
-                                                    <span className="text-xs font-bold uppercase bg-primary/10 text-primary px-1.5 py-0.5 rounded">{t.bestSeller}</span>
-                                                )}
-                                                {zone.soldOut && (
-                                                    <span className="text-xs font-bold uppercase bg-red-100 text-red-700 px-1.5 py-0.5 rounded">
-                                                        {/* D2: Agotado → Esgotado for Brasil */}
-                                                        {country.id === 'brasil' ? 'Esgotado' : 'Agotado'}
-                                                    </span>
+                                                <div className="flex items-center gap-2 flex-wrap">
+                                                    {i === 0 && !isDisabled && !needsVerification && (
+                                                        <span className="text-xs font-bold uppercase bg-primary/10 text-primary px-1.5 py-0.5 rounded">{t.bestSeller}</span>
+                                                    )}
+                                                    {zone.soldOut && (
+                                                        <span className="text-xs font-bold uppercase bg-red-100 text-red-700 px-1.5 py-0.5 rounded">
+                                                            {/* D2: Agotado → Esgotado for Brasil */}
+                                                            {country.id === 'brasil' ? 'Esgotado' : 'Agotado'}
+                                                        </span>
+                                                    )}
+                                                    {/* Badge "Últimas Entradas" para Perú */}
+                                                    {isPeru && !isDisabled && availabilityStatus === 'available' && (
+                                                        <span className="text-xs font-bold uppercase bg-amber-100 text-amber-700 px-1.5 py-0.5 rounded animate-pulse">
+                                                            Últimas Entradas
+                                                        </span>
+                                                    )}
+                                                    {isPeru && availabilityStatus === 'sold-out' && (
+                                                        <span className="text-xs font-bold uppercase bg-red-100 text-red-700 px-1.5 py-0.5 rounded">
+                                                            Agotado
+                                                        </span>
+                                                    )}
+                                                </div>
+                                                {/* Progress Bar para Perú */}
+                                                {isPeru && !isDisabled && (
+                                                    <div className="mt-2">
+                                                        <div className="w-full bg-slate-200 rounded-full h-1.5 overflow-hidden">
+                                                            <div
+                                                                className={`h-full transition-all duration-1000 ${
+                                                                    availabilityProgress < 50 ? 'bg-green-500' :
+                                                                    availabilityProgress < 80 ? 'bg-amber-500' :
+                                                                    'bg-red-500'
+                                                                }`}
+                                                                style={{ width: `${availabilityProgress}%` }}
+                                                            />
+                                                        </div>
+                                                        <p className="text-[9px] text-slate-500 mt-0.5">
+                                                            {availabilityProgress < 100
+                                                                ? `${Math.round(100 - availabilityProgress)}% disponible`
+                                                                : 'Sin disponibilidad'}
+                                                        </p>
+                                                    </div>
                                                 )}
                                             </div>
                                         </div>

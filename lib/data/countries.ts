@@ -77,11 +77,11 @@ export const countries: CountryData[] = [
         currency: 'PEN',
         currencySymbol: 'S/',
         prices: [
-            { zone: 'CAMPO', price: 2399, progressOffsetHours: 0 },
-            { zone: 'TRIBUNA OCCIDENTE', price: 1999, description: '', progressOffsetHours: 4 },
-            { zone: 'TRIBUNA ORIENTE', price: 1999, description: '', progressOffsetHours: 8 },
-            { zone: 'TRIBUNA NORTE', price: 1449, description: '', progressOffsetHours: 12 },
-            { zone: 'TRIBUNA SUR', price: 590, description: '', soldOut: true, progressOffsetHours: 16 },
+            { zone: 'CAMPO', price: 2799, progressOffsetHours: 0 }, // +400 soles
+            { zone: 'TRIBUNA OCCIDENTE', price: 2399, description: '', progressOffsetHours: 4 }, // +400 soles
+            { zone: 'TRIBUNA ORIENTE', price: 2399, description: '', progressOffsetHours: 8 }, // +400 soles
+            { zone: 'TRIBUNA NORTE', price: 1849, description: '', progressOffsetHours: 12 }, // +400 soles
+            { zone: 'TRIBUNA SUR', price: 990, description: '', soldOut: true, progressOffsetHours: 16 }, // +400 soles
         ],
         description: 'Lima, prepárate para el océano púrpura. BTS regresa al Estadio San Marcos para dos noches históricas.',
         openGraphImage: '/images/og-peru.jpg',

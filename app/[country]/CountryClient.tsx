@@ -595,10 +595,18 @@ export default function CountryClient({ country }: Props) {
             }
             setIsLiveNow(liveNow);
 
-            // Calcular progreso de disponibilidad para Perú
-            if (isPeru && country.dates.length > 0) {
-                // Fecha de inicio de venta (puedes ajustar esta fecha)
-                const saleStartDate = new Date('2026-04-07T10:00:00');
+            // Calcular progreso de disponibilidad para Perú, Chile, Colombia, Argentina y Brasil
+            if ((isPeru || isChile || isColombia || isArgentina || isBrazil) && country.dates.length > 0) {
+                // Fecha de inicio de venta según el país
+                const saleStartDates: Record<string, Date> = {
+                    'peru': new Date('2026-04-07T10:00:00'),
+                    'chile': new Date('2026-01-24T10:00:00'),
+                    'colombia': new Date('2026-01-28T10:00:00'),
+                    'argentina': new Date('2026-04-10T10:00:00'),
+                    'brasil': new Date('2026-04-10T10:00:00'),
+                };
+
+                const saleStartDate = saleStartDates[country.id] || new Date();
                 // Última fecha del evento a las 23:59
                 const lastEventDate = new Date(country.dates[country.dates.length - 1] + "T23:59:00");
 
@@ -635,7 +643,7 @@ export default function CountryClient({ country }: Props) {
         }, 1000);
 
         return () => clearInterval(interval);
-    }, [country.dates, country.id, isPeru]);
+    }, [country.dates, country.id, isPeru, isChile, isColombia, isArgentina, isBrazil]);
 
     const currentDate = mounted ? new Date() : new Date('2026-01-16');
 
@@ -1224,20 +1232,20 @@ export default function CountryClient({ country }: Props) {
                                                             {country.id === 'brasil' ? 'Esgotado' : 'Agotado'}
                                                         </span>
                                                     )}
-                                                    {/* Badge "Últimas Entradas" para Perú */}
-                                                    {isPeru && !isDisabled && availabilityStatus === 'available' && (
+                                                    {/* Badge "Últimas Entradas" para países con progress bar */}
+                                                    {(isPeru || isChile || isColombia || isArgentina || isBrazil) && !isDisabled && availabilityStatus === 'available' && (
                                                         <span className="text-xs font-bold uppercase bg-amber-100 text-amber-700 px-1.5 py-0.5 rounded animate-pulse">
-                                                            Últimas Entradas
+                                                            {country.id === 'brasil' ? 'Últimos Ingressos' : 'Últimas Entradas'}
                                                         </span>
                                                     )}
-                                                    {isPeru && availabilityStatus === 'sold-out' && (
+                                                    {(isPeru || isChile || isColombia || isArgentina || isBrazil) && availabilityStatus === 'sold-out' && (
                                                         <span className="text-xs font-bold uppercase bg-red-100 text-red-700 px-1.5 py-0.5 rounded">
-                                                            Agotado
+                                                            {country.id === 'brasil' ? 'Esgotado' : 'Agotado'}
                                                         </span>
                                                     )}
                                                 </div>
-                                                {/* Progress Bar para Perú */}
-                                                {isPeru && !isDisabled && (
+                                                {/* Progress Bar para Perú, Chile, Colombia, Argentina y Brasil */}
+                                                {(isPeru || isChile || isColombia || isArgentina || isBrazil) && !isDisabled && (
                                                     <div className="mt-2">
                                                         <div className="w-full bg-slate-200 rounded-full h-1.5 overflow-hidden">
                                                             <div
@@ -1251,8 +1259,8 @@ export default function CountryClient({ country }: Props) {
                                                         </div>
                                                         <p className="text-[9px] text-slate-500 mt-0.5">
                                                             {availabilityProgress < 100
-                                                                ? `${Math.round(100 - availabilityProgress)}% disponible`
-                                                                : 'Sin disponibilidad'}
+                                                                ? `${Math.round(availabilityProgress)}% vendido`
+                                                                : '100% vendido'}
                                                         </p>
                                                     </div>
                                                 )}

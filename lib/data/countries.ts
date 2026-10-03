@@ -30,7 +30,7 @@ export interface CountryData {
     allowInstallments?: boolean; // Optional flag to disable installments
 }
 
-export const COLOMBIA_WHATSAPP_LINK = 'https://chat.whatsapp.com/JhQL3v5fVP3IwAu5L1jT0M';
+export const COLOMBIA_WHATSAPP_LINK = 'https://chat.whatsapp.com/GJ22y09yHNg1Xl0yxragLl';
 
 export const WHATSAPP_COUNTRY_FALLBACK_ORDER = [
     'peru',
@@ -86,7 +86,7 @@ export const countries: CountryData[] = [
         ],
         description: 'Lima, prepárate para el océano púrpura. BTS regresa al Estadio San Marcos para dos noches históricas.',
         openGraphImage: '/images/og-peru.jpg',
-        whatsappLink: 'https://chat.whatsapp.com/KDw6W1P81dI2UFTiYyNC87',
+        whatsappLink: 'https://chat.whatsapp.com/CKQsZniESeQE2HXLzp6yY6',
         phoneCode: '+51'
         ,progressOffsetHours: -25
     },
@@ -123,7 +123,7 @@ export const countries: CountryData[] = [
         ],
         description: 'Santiago, el momento ha llegado. Vive la magia de BTS en el Estadio Nacional.',
         openGraphImage: '/images/og-chile.jpg',
-        whatsappLink: 'https://chat.whatsapp.com/CWjRdwsDxMHFo3c4CrGwjv',
+        whatsappLink: 'https://chat.whatsapp.com/K89VM2rnPqmFSZ6JOxUY2m',
         phoneCode: '+56'
         ,progressOffsetHours: 1
     },
@@ -262,7 +262,7 @@ export const countries: CountryData[] = [
         ],
         description: 'Argentina recibe a BTS en el Estadio Único de La Plata con preventa y zonas oficiales para el Army.',
         openGraphImage: '/images/og-argentina.jpg',
-        whatsappLink: 'https://chat.whatsapp.com/CO5Zr9eUYmVG54UtQA3Bv1',
+        whatsappLink: 'https://chat.whatsapp.com/EbvUioIXOtZAZmGW4LCitl',
         phoneCode: '+54'
         ,progressOffsetHours: 2
     },
@@ -285,7 +285,7 @@ export const countries: CountryData[] = [
         ],
         description: 'O show será no Estádio do MorumBIS, em São Paulo. BTS WORLD TOUR "ARIRANG" 2026.',
         openGraphImage: '/images/og-brasil.jpg',
-        whatsappLink: 'https://chat.whatsapp.com/HIOAAuVGMQ51ad21kAXDzL',
+        whatsappLink: 'https://chat.whatsapp.com/HJ0BQg1CFcfH2ikgoSq9DC',
         phoneCode: '+55'
         ,progressOffsetHours: 3
     }

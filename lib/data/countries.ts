@@ -30,7 +30,7 @@ export interface CountryData {
     allowInstallments?: boolean; // Optional flag to disable installments
 }
 
-export const COLOMBIA_WHATSAPP_LINK = 'https://chat.whatsapp.com/GJ22y09yHNg1Xl0yxragLl';
+export const COLOMBIA_WHATSAPP_LINK = 'https://chat.whatsapp.com/CaSp3LDXwSm2UhQvKQYpHp';
 
 export const WHATSAPP_COUNTRY_FALLBACK_ORDER = [
     'peru',
@@ -61,7 +61,7 @@ export const countries: CountryData[] = [
         ],
         description: 'Madrid, prepárate. BTS llega al Metropolitano para dos noches inolvidables en España.',
         openGraphImage: '/images/bts-madrid-mapa.png', // Using the map as OG image for now, or specific one
-        whatsappLink: 'https://chat.whatsapp.com/EeN6RBDEpJi0vOsZCPo8yu',
+        whatsappLink: 'https://chat.whatsapp.com/GFMtLeYeXD3JKQKZJg6xvu',
         phoneCode: '+34',
         progressOffsetHours: 0,
         allowInstallments: false
@@ -86,7 +86,7 @@ export const countries: CountryData[] = [
         ],
         description: 'Lima, prepárate para el océano púrpura. BTS regresa al Estadio San Marcos para dos noches históricas.',
         openGraphImage: '/images/og-peru.jpg',
-        whatsappLink: 'https://chat.whatsapp.com/CKQsZniESeQE2HXLzp6yY6',
+        whatsappLink: 'https://chat.whatsapp.com/HIAEH61M8vk4Alx7Aw6lg6',
         phoneCode: '+51'
         ,progressOffsetHours: -25
     },
@@ -123,7 +123,7 @@ export const countries: CountryData[] = [
         ],
         description: 'Santiago, el momento ha llegado. Vive la magia de BTS en el Estadio Nacional.',
         openGraphImage: '/images/og-chile.jpg',
-        whatsappLink: 'https://chat.whatsapp.com/K89VM2rnPqmFSZ6JOxUY2m',
+        whatsappLink: 'https://chat.whatsapp.com/HzvXwLfkeqLFQuU2xnRcDC',
         phoneCode: '+56'
         ,progressOffsetHours: 1
     },
@@ -206,7 +206,7 @@ export const countries: CountryData[] = [
         ],
         description: '¡Hola México! BTS llega al coloso de Santa Úrsula para tres fechas inolvidables.',
         openGraphImage: '/images/og-mexico.jpg',
-        whatsappLink: 'https://chat.whatsapp.com/Jyunn9lyjhcHXeeimRTzYm',
+        whatsappLink: 'https://chat.whatsapp.com/KxwqT6WHdgGDC2kRIkrLUG',
         phoneCode: '+52'
         ,progressOffsetHours: 0
     },
@@ -262,7 +262,7 @@ export const countries: CountryData[] = [
         ],
         description: 'Argentina recibe a BTS en el Estadio Único de La Plata con preventa y zonas oficiales para el Army.',
         openGraphImage: '/images/og-argentina.jpg',
-        whatsappLink: 'https://chat.whatsapp.com/EbvUioIXOtZAZmGW4LCitl',
+        whatsappLink: 'https://chat.whatsapp.com/EFPbK8BWBcGK9H5eC4Pq5F',
         phoneCode: '+54'
         ,progressOffsetHours: 2
     },
@@ -285,7 +285,7 @@ export const countries: CountryData[] = [
         ],
         description: 'O show será no Estádio do MorumBIS, em São Paulo. BTS WORLD TOUR "ARIRANG" 2026.',
         openGraphImage: '/images/og-brasil.jpg',
-        whatsappLink: 'https://chat.whatsapp.com/HJ0BQg1CFcfH2ikgoSq9DC',
+        whatsappLink: 'https://chat.whatsapp.com/Ex6pIV49wT2DQO0QHuIoqP',
         phoneCode: '+55'
         ,progressOffsetHours: 3
     }

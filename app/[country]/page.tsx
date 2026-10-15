@@ -6,7 +6,6 @@ import { getZoneTotalPrice } from "@/lib/pricing";
 import { notFound } from "next/navigation";
 import CountryClient from "./CountryClient";
 import { GoogleMapsSection } from "./GoogleMapsSection";
-import { HreflangTags, DEFAULT_HREFLANG_TAGS } from "@/components/HreflangTags";
 import { GeoMetaTags, GEO_CONFIG } from "@/components/GeoMetaTags";
 
 type Props = {
@@ -19,9 +18,11 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
 
     if (!country) return { title: 'País no encontrado' };
 
-    const minPrice = Math.min(...country.prices.map(p => p.price));
-    // D5: Brasil prices in USD — always use en-US locale for USD formatting
-    const formattedPrice = country.id === 'brasil'
+    const availablePrices = country.prices.filter(price => !price.soldOut);
+    const pricesForMetadata = availablePrices.length > 0 ? availablePrices : country.prices;
+    const minPrice = Math.min(...pricesForMetadata.map(p => p.price));
+    // Brasil and Chile prices are denominated in USD.
+    const formattedPrice = country.id === 'brasil' || country.id === 'chile'
         ? `USD $${minPrice.toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 })}`
         : country.currencySymbol + minPrice.toLocaleString('es-ES');
 
@@ -32,7 +33,7 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
     let ogDescription = `¡El Army llega a ${country.name}! Compra segura y verificada para el concierto en ${country.venue}.`;
     let ogSiteName = `Entradas BTS Tour 2026`;
     let ogLocale = 'es_LA';
-    let ogUrl = `https://entradasbts.com/${country.id}`;
+    const ogUrl = `https://entradasbts.com/${country.id}/`;
 
     // Localization overrides (B1, B2) - Optimized for transactional search intent
     if (country.id === 'peru') {
@@ -74,11 +75,10 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
         ogDescription = `¡El Army de Colombia se reporta! Compra segura y verificada para el concierto de BTS en Bogotá.`;
         ogSiteName = `Boletas BTS Colombia`;
     } else if (country.id === 'chile') {
-        // B1: Chile override - Optimized with availability signal
-        title = `Entradas BTS Chile 2026 - Compra Segura | Estadio Nacional Santiago`;
-        description = `Compra tus entradas BTS Chile 2026 de forma 100% segura desde ${formattedPrice}. Tres fechas en el Estadio Nacional Santiago: 14, 16 y 17 de octubre. Zonas VIP, cancha y tribunas disponibles. Gestión verificada con RaveHub.`;
+        title = `Entradas BTS Chile 2026 | Zonas disponibles en Santiago`;
+        description = `Entradas BTS Chile 2026: Galería Sur desde CLP $175.000 y Cancha Andes a CLP $250.000, sin comisión adicional. Disponibles para el 17 de octubre en el Estadio Nacional.`;
         ogTitle = `Entradas BTS Chile 2026 | Estadio Nacional Santiago`;
-        ogDescription = `¡BTS en Santiago! El ARMY chileno tiene su cita en el Estadio Nacional. Tres fechas confirmadas en octubre 2026. Compra segura y verificada.`;
+        ogDescription = `Galería Sur por CLP $175.000 y Cancha Andes por CLP $250.000, sin comisión adicional. Disponibles para el 17 de octubre. RaveHub es un gestor independiente.`;
         ogSiteName = `Entradas BTS Chile`;
     } else if (country.id === 'argentina') {
         // B1: Argentina override - Optimized with availability signal
@@ -241,14 +241,14 @@ export default async function CountryPage({ params }: Props) {
     const aggregateHighPrice = Math.max(...zoneTotalPrices);
 
     // Build one Offer per zone for a given show date, respecting sold-out state.
-    const buildOffers = (dateStr: string) =>
+    const buildOffers = (dateStr: string, isDateUnavailable: boolean) =>
         country.prices.map(p => ({
             "@type": "Offer",
             "name": p.zone,
             "url": `https://entradasbts.com/${country.id}/`,
             "price": getZoneTotalPrice(country.id, p.price),
             "priceCurrency": country.currency,
-            "availability": p.soldOut
+            "availability": isDateUnavailable || p.soldOut
                 ? "https://schema.org/SoldOut"
                 : "https://schema.org/InStock",
             "validFrom": `${venue.saleStart}T10:00:00${venue.tzOffset}`,
@@ -261,9 +261,9 @@ export default async function CountryPage({ params }: Props) {
         const [y, m, d] = dateStr.split('-').map(Number);
         const humanDate = `${d} de ${months[m - 1]} ${y}`;
 
-        // Detectar si el evento ya finalizó (útil para México/Madrid)
-        const eventDate = new Date(dateStr + "T23:59:59");
+        const eventDate = new Date(`${dateStr}T23:59:59${venue.tzOffset}`);
         const isEventPast = new Date() > eventDate;
+        const isDateUnavailable = isEventPast || Boolean(country.unavailableDates?.includes(dateStr));
 
         return {
             "@context": "https://schema.org",
@@ -275,7 +275,7 @@ export default async function CountryPage({ params }: Props) {
                 : `BTS WORLD TOUR 'ARIRANG' en ${countryDisplayName} - ${humanDate}`,
             "description": isBrazil
                 ? `Show do BTS World Tour ARIRANG 2026 no ${venue.venueName}, em Brasil, no dia ${humanDate}. Ingressos por setor disponíveis.`
-                : `Concierto del BTS World Tour ARIRANG 2026 en el ${venue.venueName}, ${countryDisplayName}, el ${humanDate}. Entradas por zona disponibles.`,
+                : `Concierto del BTS World Tour ARIRANG 2026 en el ${venue.venueName}, ${countryDisplayName}, el ${humanDate}. ${isEventPast ? 'Evento finalizado.' : isDateUnavailable ? 'Entradas agotadas para esta fecha.' : 'Consulta las zonas disponibles.'}`,
             // C7: Three image ratios
             "image": [
                 `https://entradasbts.com${country.openGraphImage}`,
@@ -284,11 +284,9 @@ export default async function CountryPage({ params }: Props) {
             ],
             "startDate": `${dateStr}T${venue.doorsHour}:00${venue.tzOffset}`,
             "endDate": `${dateStr}T${venue.endHour}:00${venue.tzOffset}`,
-            // EventScheduled para eventos futuros, EventScheduled + todas las zonas
-            // SoldOut para eventos pasados (ambos válidos según Google; mantener
-            // EventScheduled es más conservador que cambiar a EventPostponed o
-            // EventMovedOnline, que tienen semántica específica que no aplica aquí)
-            "eventStatus": "https://schema.org/EventScheduled",
+            "eventStatus": isEventPast
+                ? "https://schema.org/EventCompleted"
+                : "https://schema.org/EventScheduled",
             "eventAttendanceMode": "https://schema.org/OfflineEventAttendanceMode",
             // C3: typicalAgeRange, inLanguage, isAccessibleForFree
             "typicalAgeRange": "0+",
@@ -316,65 +314,6 @@ export default async function CountryPage({ params }: Props) {
                     ]
                 }
             },
-            // FASE 2: AggregateRating - Reviews y estrellas para rich results
-            "aggregateRating": {
-                "@type": "AggregateRating",
-                "ratingValue": "4.9",
-                "bestRating": "5",
-                "worstRating": "1",
-                "ratingCount": "5247",
-                "reviewCount": "1832"
-            },
-            "review": [
-                {
-                    "@type": "Review",
-                    "author": {
-                        "@type": "Person",
-                        "name": isBrazil ? "Ana Silva" : "María García"
-                    },
-                    "datePublished": "2026-08-15",
-                    "reviewBody": isBrazil
-                        ? "Muito animada para o show do BTS em São Paulo! Comprei os ingressos e o processo foi super fácil e seguro."
-                        : "¡Muy emocionada por el concierto de BTS! La compra fue fácil y el servicio excelente.",
-                    "reviewRating": {
-                        "@type": "Rating",
-                        "ratingValue": "5",
-                        "bestRating": "5"
-                    }
-                },
-                {
-                    "@type": "Review",
-                    "author": {
-                        "@type": "Person",
-                        "name": isBrazil ? "Lucas Oliveira" : "Carlos Rodríguez"
-                    },
-                    "datePublished": "2026-08-10",
-                    "reviewBody": isBrazil
-                        ? "Finalmente consegui meus ingressos! Atendimento excelente e tudo transparente."
-                        : "Finalmente conseguí mis entradas. Proceso transparente y confiable.",
-                    "reviewRating": {
-                        "@type": "Rating",
-                        "ratingValue": "5",
-                        "bestRating": "5"
-                    }
-                },
-                {
-                    "@type": "Review",
-                    "author": {
-                        "@type": "Person",
-                        "name": isBrazil ? "Camila Santos" : "Laura Martínez"
-                    },
-                    "datePublished": "2026-08-05",
-                    "reviewBody": isBrazil
-                        ? "Recomendo! Serviço confiável para comprar ingressos do BTS. Suporte muito bom."
-                        : "Excelente servicio para conseguir entradas. Lo recomiendo totalmente.",
-                    "reviewRating": {
-                        "@type": "Rating",
-                        "ratingValue": "5",
-                        "bestRating": "5"
-                    }
-                }
-            ],
             "location": {
                 "@type": "Place",
                 "name": venue.venueName,
@@ -414,11 +353,11 @@ export default async function CountryPage({ params }: Props) {
                 "lowPrice": aggregateLowPrice,
                 "highPrice": aggregateHighPrice,
                 "offerCount": country.prices.length,
-                "availability": inStockTotalPrices.length > 0
+                "availability": !isDateUnavailable && inStockTotalPrices.length > 0
                     ? "https://schema.org/InStock"
                     : "https://schema.org/SoldOut",
                 "validFrom": `${venue.saleStart}T10:00:00${venue.tzOffset}`,
-                "offers": buildOffers(dateStr),
+                "offers": buildOffers(dateStr, isDateUnavailable),
             },
         };
     };
@@ -567,6 +506,8 @@ export default async function CountryPage({ params }: Props) {
                     "@type": "Answer",
                     "text": isBrazil
                         ? "A RaveHub Latam é um serviço independente de gestão de compra, não a bilheteria oficial. O preço inclui o valor do ingresso mais a comissão pelo serviço de gestão, verificação de disponibilidade e suporte pós-venda."
+                        : isChile
+                            ? "RaveHub Latam es un servicio independiente de gestión de compra, no la ticketera oficial. Los precios publicados para Chile se muestran en pesos chilenos y no agregan comisión de servicio."
                         : "RaveHub Latam es un servicio independiente de gestión de compra, no la ticketera oficial. El precio incluye el valor de la entrada más la comisión por el servicio de gestión, verificación de disponibilidad y soporte post-venta."
                 }
             },
@@ -770,7 +711,7 @@ export default async function CountryPage({ params }: Props) {
     // Assemble every JSON-LD node into one array to inject. MusicGroup and
     // Organization are declared once site-wide (app/layout.tsx) and only
     // referenced here by @id, so they are not repeated per page.
-    const structuredData: any[] = [...events, venueSchema, breadcrumbLd, faqLd];
+    const structuredData: Record<string, unknown>[] = [...events, venueSchema, breadcrumbLd, faqLd];
 
     // FASE 2: LocalBusiness schema específico para Brasil
     if (isBrazil) {
@@ -877,7 +818,7 @@ export default async function CountryPage({ params }: Props) {
             "@type": "LocalBusiness",
             "@id": "https://entradasbts.com/chile/#local-business",
             "name": "RaveHub Latam - Chile",
-            "image": "https://entradasbts.com/images/logo-chile.png",
+            "image": "https://entradasbts.com/images/bts-tour-2026-latinoamerica-preventa.jpg",
             "description": "Servicio independiente de gestión de compra de entradas para shows y eventos en Chile. Especializado en K-pop y eventos internacionales.",
             "url": "https://entradasbts.com/chile/",
             "areaServed": {
@@ -908,13 +849,7 @@ export default async function CountryPage({ params }: Props) {
             },
             "sameAs": [
                 country.whatsappLink
-            ],
-            "aggregateRating": {
-                "@type": "AggregateRating",
-                "ratingValue": "4.9",
-                "bestRating": "5",
-                "ratingCount": "5156"
-            }
+            ]
         };
         structuredData.push(localBusinessChile);
     }
@@ -983,9 +918,6 @@ export default async function CountryPage({ params }: Props) {
 
     return (
         <>
-            {/* SEO CRÍTICO: Hreflang tags en HTML para indexación internacional */}
-            <HreflangTags tags={DEFAULT_HREFLANG_TAGS} />
-
             {/* SEO CRÍTICO: Geo meta tags para targeting por país */}
             {geoConfig && <GeoMetaTags {...geoConfig} />}
 

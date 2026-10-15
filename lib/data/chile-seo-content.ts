@@ -1,21 +1,21 @@
 // Contenido SEO optimizado completo para Chile
 export const CHILE_SEO_CONTENT = `
 <h2>Entradas BTS Chile 2026: Concierto en Santiago - Estadio Nacional</h2>
-<p>La cuenta regresiva ya comenzó para el ARMY chileno. El <strong>BTS World Tour ARIRANG 2026</strong> llega a Chile con tres fechas confirmadas en el <strong>Estadio Nacional Julio Martínez Prádanos</strong>, el recinto deportivo más emblemático del país. Si buscas <strong>entradas BTS Chile 2026</strong> y quieres vivir a los siete integrantes de Bangtan en vivo, aquí encontrarás todo lo que necesitas saber sobre precios, zonas disponibles, cómo llegar al estadio y cómo asegurar tu lugar en el concierto más esperado del año.</p>
-<p>BTS, la agrupación surcoreana formada por <strong>RM, Jin, Suga, J-Hope, Jimin, V y Jung Kook</strong>, regresa a Latinoamérica, y Santiago se prepara para recibir a uno de los grupos más importantes del K-pop mundial. El ARMY chileno, reconocido por su pasión y dedicación, tendrá tres oportunidades de vivir este espectáculo histórico en el corazón de Ñuñoa.</p>
+<p>El <strong>BTS World Tour ARIRANG 2026</strong> tiene tres fechas programadas en el <strong>Estadio Nacional Julio Martínez Prádanos</strong>, en Santiago. Si buscas <strong>entradas BTS Chile 2026</strong>, aquí encontrarás precios por zona, disponibilidad actual, información del estadio y recomendaciones para planificar tu visita.</p>
+<p>BTS, la agrupación surcoreana formada por <strong>RM, Jin, Suga, J-Hope, Jimin, V y Jung Kook</strong>, llega a Santiago como parte de su gira mundial. Consulta la disponibilidad antes de comprar: actualmente solo Cancha Andes y Galería Sur están habilitadas para el 17 de octubre.</p>
 
 <h3>¿Dónde Comprar Entradas BTS Chile 2026 de Forma Segura?</h3>
 <p>La compra de <strong>entradas BTS Chile</strong> requiere precaución debido a la alta demanda y el riesgo de estafas. Para garantizar una transacción 100% segura:</p>
 <ul>
-<li><strong>Verifica la fuente:</strong> Compra únicamente a través de plataformas verificadas como RaveHub Latam, que ofrece gestión de compra con transparencia total.</li>
+<li><strong>Verifica el servicio:</strong> RaveHub Latam es un gestor independiente de compra, no la ticketera oficial. Revisa las condiciones, el precio total y el proceso antes de confirmar.</li>
 <li><strong>Evita el mercado negro:</strong> No compres entradas en redes sociales sin verificar la identidad del vendedor.</li>
-<li><strong>Confirma la disponibilidad:</strong> Muchas zonas están agotadas en la venta oficial, pero servicios de gestión pueden ayudarte a conseguir entradas disponibles.</li>
-<li><strong>Revisa los precios:</strong> Si el precio es excesivamente bajo, probablemente sea una estafa. Los valores oficiales están detallados en la tabla de abajo.</li>
+<li><strong>Confirma la disponibilidad:</strong> Actualmente solo Cancha Andes y Galería Sur aparecen disponibles para el 17 de octubre; las demás zonas están agotadas.</li>
+<li><strong>Revisa los precios:</strong> Los precios indicados son los totales en pesos chilenos y no se agrega una comisión de servicio.</li>
 </ul>
 <p><strong>RaveHub Latam</strong> es un servicio independiente de gestión de compra de entradas que te ayuda a asegurar tu lugar en el concierto. No somos la ticketera oficial, pero gestionamos la compra en tu nombre con total transparencia, verificación de disponibilidad y soporte post-venta.</p>
 
 <h3>Tabla de Precios - Entradas BTS Chile 2026</h3>
-<p>Consulta los precios oficiales por zona para el concierto de BTS en Santiago. Todos los valores están en dólares americanos (USD) e incluyen la comisión de servicio. <strong>Nota importante:</strong> Las tres zonas principales (Pacífico Medio, Cancha Pacífico, Cancha Andes) tienen stock limitado. El resto de las zonas requiere verificación de disponibilidad en la ticketera oficial.</p>
+<p>Consulta los precios por zona para BTS en Santiago. Los importes de referencia se muestran en dólares americanos (USD) y se calculan en pesos chilenos con la tasa referencial de 886,36 CLP por dólar. El carrito y el pedido se expresan en CLP, sin comisión de servicio adicional. <strong>Disponibilidad para el 17 de octubre:</strong> solo Cancha Andes y Galería Sur están disponibles; las demás zonas están agotadas.</p>
 <div style="overflow-x: auto; margin: 20px 0;">
 <table style="width: 100%; border-collapse: collapse; border: 1px solid #e2e8f0; background: white;">
   <thead>
@@ -29,57 +29,63 @@ export const CHILE_SEO_CONTENT = `
   <tbody>
     <tr style="background: #fef3c7;">
       <td style="padding: 10px; border: 1px solid #e2e8f0; font-weight: bold;">Pacífico Medio</td>
-      <td style="padding: 10px; border: 1px solid #e2e8f0; text-align: right; font-weight: bold; color: #059669;">$1,784</td>
-      <td style="padding: 10px; border: 1px solid #e2e8f0; text-align: center;"><span style="background: #dcfce7; color: #166534; padding: 4px 8px; border-radius: 4px; font-size: 11px;">Stock limitado</span></td>
+      <td style="padding: 10px; border: 1px solid #e2e8f0; text-align: right; font-weight: bold; color: #64748b;">$1,784</td>
+      <td style="padding: 10px; border: 1px solid #e2e8f0; text-align: center;"><span style="background: #fee2e2; color: #991b1b; padding: 4px 8px; border-radius: 4px; font-size: 11px;">Agotado</span></td>
       <td style="padding: 10px; border: 1px solid #e2e8f0;">Zona media premium con excelente vista</td>
     </tr>
     <tr style="background: #dbeafe;">
       <td style="padding: 10px; border: 1px solid #e2e8f0; font-weight: bold;">Cancha Pacífico</td>
-      <td style="padding: 10px; border: 1px solid #e2e8f0; text-align: right; font-weight: bold; color: #2563eb;">$991</td>
-      <td style="padding: 10px; border: 1px solid #e2e8f0; text-align: center;"><span style="background: #dcfce7; color: #166534; padding: 4px 8px; border-radius: 4px; font-size: 11px;">Disponible</span></td>
+      <td style="padding: 10px; border: 1px solid #e2e8f0; text-align: right; font-weight: bold; color: #64748b;">$991</td>
+      <td style="padding: 10px; border: 1px solid #e2e8f0; text-align: center;"><span style="background: #fee2e2; color: #991b1b; padding: 4px 8px; border-radius: 4px; font-size: 11px;">Agotado</span></td>
       <td style="padding: 10px; border: 1px solid #e2e8f0;">Cancha de pie, cerca del escenario</td>
     </tr>
     <tr style="background: #f0f9ff;">
       <td style="padding: 10px; border: 1px solid #e2e8f0; font-weight: bold;">Cancha Andes</td>
-      <td style="padding: 10px; border: 1px solid #e2e8f0; text-align: right; font-weight: bold; color: #2563eb;">$949</td>
-      <td style="padding: 10px; border: 1px solid #e2e8f0; text-align: center;"><span style="background: #fef9c3; color: #854d0e; padding: 4px 8px; border-radius: 4px; font-size: 11px;">Última entrada</span></td>
+      <td style="padding: 10px; border: 1px solid #e2e8f0; text-align: right; font-weight: bold; color: #2563eb;">$282.05</td>
+      <td style="padding: 10px; border: 1px solid #e2e8f0; text-align: center;"><span style="background: #dcfce7; color: #166534; padding: 4px 8px; border-radius: 4px; font-size: 11px;">Disponible</span></td>
       <td style="padding: 10px; border: 1px solid #e2e8f0;">Cancha de pie, sector Andes</td>
     </tr>
     <tr style="background: #fff7ed;">
       <td style="padding: 10px; border: 1px solid #e2e8f0; font-weight: bold;">Pacífico Lateral Sur/Norte</td>
       <td style="padding: 10px; border: 1px solid #e2e8f0; text-align: right; font-weight: bold; color: #64748b;">$299</td>
-      <td style="padding: 10px; border: 1px solid #e2e8f0; text-align: center;"><span style="background: #fef3c7; color: #92400e; padding: 4px 8px; border-radius: 4px; font-size: 11px;">Verificar disponibilidad</span></td>
+      <td style="padding: 10px; border: 1px solid #e2e8f0; text-align: center;"><span style="background: #fee2e2; color: #991b1b; padding: 4px 8px; border-radius: 4px; font-size: 11px;">Agotado</span></td>
       <td style="padding: 10px; border: 1px solid #e2e8f0;">Zona lateral económica, vista lejana</td>
     </tr>
     <tr style="background: #fff7ed;">
-      <td style="padding: 10px; border: 1px solid #e2e8f0; font-weight: bold;">Galería Norte/Sur</td>
+      <td style="padding: 10px; border: 1px solid #e2e8f0; font-weight: bold;">Galería Sur</td>
+      <td style="padding: 10px; border: 1px solid #e2e8f0; text-align: right; font-weight: bold; color: #2563eb;">$197.44</td>
+      <td style="padding: 10px; border: 1px solid #e2e8f0; text-align: center;"><span style="background: #dcfce7; color: #166534; padding: 4px 8px; border-radius: 4px; font-size: 11px;">Disponible</span></td>
+      <td style="padding: 10px; border: 1px solid #e2e8f0;">Galería alta panorámica</td>
+    </tr>
+    <tr style="background: #fff7ed;">
+      <td style="padding: 10px; border: 1px solid #e2e8f0; font-weight: bold;">Galería Norte</td>
       <td style="padding: 10px; border: 1px solid #e2e8f0; text-align: right; font-weight: bold; color: #64748b;">$377</td>
-      <td style="padding: 10px; border: 1px solid #e2e8f0; text-align: center;"><span style="background: #fef3c7; color: #92400e; padding: 4px 8px; border-radius: 4px; font-size: 11px;">Verificar disponibilidad</span></td>
+      <td style="padding: 10px; border: 1px solid #e2e8f0; text-align: center;"><span style="background: #fee2e2; color: #991b1b; padding: 4px 8px; border-radius: 4px; font-size: 11px;">Agotado</span></td>
       <td style="padding: 10px; border: 1px solid #e2e8f0;">Galería alta panorámica</td>
     </tr>
     <tr style="background: #fff7ed;">
       <td style="padding: 10px; border: 1px solid #e2e8f0; font-weight: bold;">Andes Alto (Norte/Sur/Centro)</td>
       <td style="padding: 10px; border: 1px solid #e2e8f0; text-align: right; font-weight: bold; color: #64748b;">$496 - $535</td>
-      <td style="padding: 10px; border: 1px solid #e2e8f0; text-align: center;"><span style="background: #fef3c7; color: #92400e; padding: 4px 8px; border-radius: 4px; font-size: 11px;">Verificar disponibilidad</span></td>
+      <td style="padding: 10px; border: 1px solid #e2e8f0; text-align: center;"><span style="background: #fee2e2; color: #991b1b; padding: 4px 8px; border-radius: 4px; font-size: 11px;">Agotado</span></td>
       <td style="padding: 10px; border: 1px solid #e2e8f0;">Tribuna alta con buena vista</td>
     </tr>
     <tr style="background: #fff7ed;">
       <td style="padding: 10px; border: 1px solid #e2e8f0; font-weight: bold;">Andes Bajo (Norte/Sur/Centro)</td>
       <td style="padding: 10px; border: 1px solid #e2e8f0; text-align: right; font-weight: bold; color: #64748b;">$555 - $615</td>
-      <td style="padding: 10px; border: 1px solid #e2e8f0; text-align: center;"><span style="background: #fef3c7; color: #92400e; padding: 4px 8px; border-radius: 4px; font-size: 11px;">Verificar disponibilidad</span></td>
+      <td style="padding: 10px; border: 1px solid #e2e8f0; text-align: center;"><span style="background: #fee2e2; color: #991b1b; padding: 4px 8px; border-radius: 4px; font-size: 11px;">Agotado</span></td>
       <td style="padding: 10px; border: 1px solid #e2e8f0;">Tribuna baja, excelente vista</td>
     </tr>
     <tr style="background: #fff7ed;">
       <td style="padding: 10px; border: 1px solid #e2e8f0; font-weight: bold;">Pacífico Bajo/Alto</td>
       <td style="padding: 10px; border: 1px solid #e2e8f0; text-align: right; font-weight: bold; color: #64748b;">$734 - $892</td>
-      <td style="padding: 10px; border: 1px solid #e2e8f0; text-align: center;"><span style="background: #fef3c7; color: #92400e; padding: 4px 8px; border-radius: 4px; font-size: 11px;">Verificar disponibilidad</span></td>
+      <td style="padding: 10px; border: 1px solid #e2e8f0; text-align: center;"><span style="background: #fee2e2; color: #991b1b; padding: 4px 8px; border-radius: 4px; font-size: 11px;">Agotado</span></td>
       <td style="padding: 10px; border: 1px solid #e2e8f0;">Tribuna con vista panorámica</td>
     </tr>
   </tbody>
 </table>
 </div>
-<p><strong>Importante:</strong> Los precios mostrados ya incluyen todas las comisiones de servicio. Las zonas marcadas como "Verificar disponibilidad" requieren consultar directamente con la ticketera oficial <a href="https://www.btschile.com/entradas" target="_blank" rel="noopener noreferrer" style="color: #2563eb; text-decoration: underline;">btschile.com</a> para conocer su estado actual.</p>
-<p><strong>Formas de pago en Chile:</strong> Tarjetas de crédito/débito, transferencias bancarias, Webpay, Mercado Pago y PayPal. Consulta opciones de pago en cuotas por WhatsApp.</p>
+<p><strong>Importante:</strong> Los precios publicados para las zonas disponibles son CLP $250.000 para Cancha Andes y CLP $175.000 para Galería Sur. El pedido se coordina por WhatsApp sin comisión de servicio adicional.</p>
+<p><strong>Formas de pago en Chile:</strong> Coordina con el asesor las alternativas de pago disponibles al confirmar el pedido por WhatsApp.</p>
 
 <h3>El Estadio Nacional: Historia y Capacidad</h3>
 <p>El <strong>Estadio Nacional Julio Martínez Prádanos</strong>, conocido simplemente como el <strong>Estadio Nacional</strong>, es el recinto deportivo más importante de Chile. Con capacidad para aproximadamente <strong>48,665 espectadores</strong>, es el estadio más grande del país y ha sido escenario de momentos históricos tanto deportivos como culturales.</p>
@@ -150,12 +156,13 @@ export const CHILE_SEO_CONTENT = `
 <p><strong>Nota:</strong> Estos horarios son referenciales y pueden variar según la producción del evento. Confirma los horarios oficiales días antes del show.</p>
 
 <h3>Fechas del BTS ARIRANG 2026 en Chile</h3>
-<p>El <strong>BTS en Chile</strong> tendrá tres fechas confirmadas en el Estadio Nacional:</p>
+<p>El calendario del <strong>BTS World Tour ARIRANG 2026 en Chile</strong> contempla estas fechas en el Estadio Nacional:</p>
 <ul>
 <li><strong>Martes, 14 de octubre de 2026</strong></li>
 <li><strong>Jueves, 16 de octubre de 2026</strong></li>
 <li><strong>Viernes, 17 de octubre de 2026</strong></li>
 </ul>
+<p>La fecha del 17 de octubre es la que figura actualmente con zonas disponibles. Las entradas para las fechas del 14 y 16 de octubre aparecen agotadas.</p>
 <p>Octubre en Santiago es primavera, con clima muy agradable durante el día (15-22°C) y noches más frescas (8-12°C). Es recomendable llevar una chaqueta o polerón para la noche. En cuanto al repertorio, el ARMY chileno sueña con escuchar éxitos como "Dynamite", "Butter", "Fake Love", "Blood Sweat & Tears", "Spring Day" y "MIC Drop", además de posibles momentos en solitario de cada miembro. El setlist oficial aún no ha sido confirmado por HYBE, por lo que todo lo que circule son expectativas del fandom.</p>
 
 <h3>Más Conciertos de K-pop en Latinoamérica</h3>

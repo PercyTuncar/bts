@@ -1,7 +1,9 @@
+export const CHILE_USD_TO_CLP_RATE = 886.36;
+
 export const USD_RATES_BY_CURRENCY: Record<string, number> = {
   EUR: 0.92,
   PEN: 3.8,
-  CLP: 800,
+  CLP: CHILE_USD_TO_CLP_RATE,
   MXN: 18,
   COP: 4200,
   ARS: 1000,

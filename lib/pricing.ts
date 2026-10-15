@@ -1,5 +1,5 @@
-// Single source of truth for the per-ticket service fee added on top of the
-// base zone price for a cash (non-installment) purchase.
+// Single source of truth for the per-ticket service fee on a cash
+// (non-installment) purchase.
 //
 // This value MUST stay identical to whatever CountryClient.tsx charges the
 // user by default (isInstallment === false), because the same number feeds
@@ -10,7 +10,7 @@
 // JSON-LD price must never diverge.
 export const SERVICE_FEE_PER_TICKET: Record<string, number> = {
     peru: 0,
-    chile: 50,
+    chile: 0,
     argentina: 50,
     colombia: 50,
     mexico: 0,
@@ -23,7 +23,7 @@ export function getServiceFeePerTicket(countryId: string): number {
 }
 
 // The total a buyer pays for a single ticket at `basePrice`, in cash (no
-// installments) — base zone price plus the flat per-ticket service fee.
+// installments) — base zone price plus the applicable service fee.
 export function getZoneTotalPrice(countryId: string, basePrice: number): number {
     return basePrice + getServiceFeePerTicket(countryId);
 }

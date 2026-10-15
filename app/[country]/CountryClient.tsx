@@ -1,7 +1,9 @@
 "use client";
 
 import { useState, useEffect, useRef } from "react";
+import Link from "next/link";
 import { CountryData } from "@/lib/data/countries";
+import { CHILE_USD_TO_CLP_RATE } from "@/lib/currency";
 import { getServiceFeePerTicket } from "@/lib/pricing";
 import { Calendar, MapPin, Ticket, Minus, Plus, ArrowRight, ShieldCheck } from "lucide-react";
 import Image from "next/image";
@@ -65,7 +67,6 @@ const INSTALLMENT_CONFIG: Record<string, { fee: number; reservation: number }> =
 // generator in app/[country]/page.tsx. Keep the installment-only interest
 // figures here since they only apply when paying in installments.
 const PERU_INSTALLMENT_INTEREST = 399;
-const CHILE_INSTALLMENT_INTEREST = 50;
 const ARGENTINA_INSTALLMENT_INTEREST = 50;
 const COLOMBIA_INSTALLMENT_INTEREST = 50;
 
@@ -421,6 +422,8 @@ export default function CountryClient({ country }: Props) {
     const isColombia = country.id === 'colombia';
     const isBrazil = country.id === 'brasil';
     const isAndesFlow = isPeru || isChile || isArgentina;
+    const availablePrices = country.prices.filter(price => !price.soldOut);
+    const startingPrice = Math.min(...(availablePrices.length ? availablePrices : country.prices).map(price => price.price));
 
     // Detectar si el evento ya finalizó (fecha del último show ya pasó)
     const lastEventDate = new Date(country.dates[country.dates.length - 1] + "T23:59:59");
@@ -464,18 +467,28 @@ export default function CountryClient({ country }: Props) {
 
     // Currency conversion for Chile, Colombia, Argentina
     const EXCHANGE_RATES: Record<string, number> = {
-        chile: 886.36,
+        chile: CHILE_USD_TO_CLP_RATE,
         colombia: 3619.91,
         argentina: 1367.51,
     };
     const [showLocalCurrency, setShowLocalCurrency] = useState(true);
     const showCurrencyToggle = isChile || isColombia || isArgentina;
 
+    const formatUsdPrice = (price: number) => price.toLocaleString(
+        Number.isInteger(price) ? 'es-ES' : 'en-US',
+        {
+            minimumFractionDigits: Number.isInteger(price) ? 0 : 2,
+            maximumFractionDigits: 2,
+        }
+    );
+
     const formatPrice = (price: number, showLocal: boolean) => {
         if (!showLocal || !EXCHANGE_RATES[country.id]) {
             // Mostrar símbolo de moneda según el país
-            const currencyPrefix = country.currency === 'USD' ? '$'
-                : country.currency === 'PEN' ? 'S/ '
+            if (country.currency === 'USD') {
+                return { main: `$${formatUsdPrice(price)}`, sub: null };
+            }
+            const currencyPrefix = country.currency === 'PEN' ? 'S/ '
                 : country.currency === 'MXN' ? '$'
                 : country.currency === 'COP' ? '$'
                 : country.currency === 'CLP' ? '$'
@@ -488,22 +501,15 @@ export default function CountryClient({ country }: Props) {
         const currency = country.id === 'chile' ? 'CLP' : country.id === 'colombia' ? 'COP' : 'ARS';
         return {
             main: new Intl.NumberFormat(locale, { style: 'currency', currency, maximumFractionDigits: 0 }).format(localPrice),
-            sub: `Ref: USD $${price.toLocaleString('es-ES')}`
+            sub: `Ref: USD $${formatUsdPrice(price)}`
         };
     };
 
     // Initial tick to avoid hydration mismatch
     const [timeLeft, setTimeLeft] = useState({ days: 0, hours: 0, minutes: 0, seconds: 0 });
-    // Chile date availability: only Oct 17 is available, 14 and 16 are sold out
-    const CHILE_DATE_AVAILABILITY: Record<string, boolean> = {
-        '2026-10-14': false,
-        '2026-10-16': false,
-        '2026-10-17': true,
-    };
     const isDateAvailable = (date: string) => {
         // Verificar si la fecha está en la lista de fechas no disponibles
         if (country.unavailableDates?.includes(date)) return false;
-        if (country.id === 'chile') return CHILE_DATE_AVAILABILITY[date] ?? true;
         return true;
     };
     const firstAvailableDate = country.dates.find(d => isDateAvailable(d)) || country.dates[0];
@@ -671,7 +677,7 @@ export default function CountryClient({ country }: Props) {
     const getPrice = (basePrice: number) => {
         if (!isInstallment) return basePrice;
         if (isPeru) return basePrice; // No se aplica fee adicional por cuotas en Perú
-        if (isChile) return basePrice + CHILE_INSTALLMENT_INTEREST;
+        if (isChile) return basePrice;
         if (isArgentina) return basePrice + ARGENTINA_INSTALLMENT_INTEREST;
         if (isColombia) return basePrice + COLOMBIA_INSTALLMENT_INTEREST;
         return basePrice + config.fee;
@@ -694,7 +700,7 @@ export default function CountryClient({ country }: Props) {
     const serviceFeeAmount = totalTickets * getServiceFeePerTicket(country.id);
 
     const perTicketInstallFee = isInstallment
-        ? (isPeru ? 0 : (isChile ? CHILE_INSTALLMENT_INTEREST : (isArgentina ? ARGENTINA_INSTALLMENT_INTEREST : (isColombia ? COLOMBIA_INSTALLMENT_INTEREST : config.fee))))
+        ? (isPeru || isChile ? 0 : (isArgentina ? ARGENTINA_INSTALLMENT_INTEREST : (isColombia ? COLOMBIA_INSTALLMENT_INTEREST : config.fee)))
         : 0;
 
     const installmentInterestAmount = totalTickets * perTicketInstallFee;
@@ -758,15 +764,15 @@ export default function CountryClient({ country }: Props) {
                 addItem({
                     slug,
                     name: `${zone.zone} • BTS ${country.name}`,
-                    price: zone.price,
+                    price: isChile ? Math.round(zone.price * CHILE_USD_TO_CLP_RATE) : zone.price,
                     image: countryImage,
                     type: 'ticket',
                     zone: zone.zone,
                     countryId: country.id,
-                    currency: country.currency,
+                    currency: isChile ? 'CLP' : country.currency,
                     currencySymbol: country.currencySymbol,
-                    serviceFeePerTicket: getServiceFeePerTicket(country.id),
-                    installmentInterestPerTicket: perTicketInstallFee,
+                    serviceFeePerTicket: isChile ? 0 : getServiceFeePerTicket(country.id),
+                    installmentInterestPerTicket: isChile ? 0 : perTicketInstallFee,
                     isInstallment,
                     installmentMonths: isInstallment ? installmentMonths : undefined,
                 });
@@ -818,7 +824,7 @@ export default function CountryClient({ country }: Props) {
             {/* H1: sr-only breadcrumb nav (H1 accessible text) */}
             <nav aria-label="breadcrumb" className="sr-only">
                 <ol>
-                    <li><a href="/">{country.id === 'brasil' ? 'Início' : 'Inicio'}</a></li>
+                    <li><Link href="/">{country.id === 'brasil' ? 'Início' : 'Inicio'}</Link></li>
                     <li aria-current="page">
                         {country.id === 'brasil'
                             ? `Ingressos BTS ${country.name} 2026`
@@ -1035,13 +1041,17 @@ export default function CountryClient({ country }: Props) {
                             transition={{ delay: 0.6 }}
                             className="text-white/40 text-xs md:text-sm leading-relaxed mt-4 max-w-xl"
                         >
-                            {country.id === 'brasil' ? (
+                            {isChile ? (
+                                <>
+                                    BTS llega a {country.city} este 2026. Prepárate para hacer historia en el {country.venue}. Las zonas disponibles para el 17 de octubre son Cancha Andes por CLP $250.000 y Galería Sur por CLP $175.000, sin comisión adicional.
+                                </>
+                            ) : country.id === 'brasil' ? (
                                 <>
                                     BTS chega a {country.city} neste 2026. Prepare-se para fazer história no {country.venue} e garanta seus ingressos para o show mais esperado do {country.name}. Veja o mapa de setores e os preços oficiais a partir de {country.currencySymbol}{Math.min(...country.prices.map(p => p.price)).toLocaleString('pt-BR')}.
                                 </>
                             ) : (
                                 <>
-                                    BTS llega a {country.city} este 2026. Prepárate para hacer historia en el {country.venue} y asegura tus entradas para el concierto más esperado de {country.name}. Conoce el mapa de zonas y los precios oficiales a partir de {country.currency === 'USD' && <span className="text-white/50">USD </span>}{country.currencySymbol}{Math.min(...country.prices.map(p => p.price)).toLocaleString("es-ES")}.
+                                    BTS llega a {country.city} este 2026. Prepárate para hacer historia en el {country.venue} y asegura tus entradas para el concierto más esperado de {country.name}. Conoce el mapa de zonas y los precios oficiales a partir de {country.currency === 'USD' && <span className="text-white/50">USD </span>}{country.currencySymbol}{startingPrice.toLocaleString("es-ES")}.
                                 </>
                             )}
                         </motion.p>
@@ -1098,21 +1108,6 @@ export default function CountryClient({ country }: Props) {
                                 </div>
                             </div>
                         )}
-                        {/* PayPal Notification for Chile Cash Payment */}
-                        {isChile && !isInstallment && (
-                            <div className="bg-blue-50 border border-blue-200 rounded-xl p-4 flex items-start gap-3">
-                                <div className="flex-shrink-0 w-8 h-8 bg-blue-500 rounded-full flex items-center justify-center">
-                                    <svg className="w-5 h-5 text-white" fill="currentColor" viewBox="0 0 24 24">
-                                        <path d="M7.163 21.073H0V7.529h7.163v13.544zm1.758-15.062c-.555-.596-1.365-.93-2.261-.93H2.505c-.896 0-1.706.334-2.261.93-.555.596-.863 1.42-.863 2.418v9.23c0 .999.308 1.822.863 2.418.555.596 1.365.93 2.261.93h6.409c.896 0 1.706-.334 2.261-.93.555-.596.863-1.42.863-2.418V9.33c0-.998-.308-1.821-.863-2.418zm9.035 5.26c-.457-.63-1.123-.98-2.058-.98-1.025 0-1.856.43-2.492 1.29V7.529h-2.442v13.544h2.442V14.035c0-.471.088-.836.263-1.094.175-.258.414-.387.716-.387.298 0 .53.122.693.364.164.243.245.605.245 1.085v6.726h2.442v-7.238c0-.934-.232-1.65-.694-2.148z"/>
-                                    </svg>
-                                </div>
-                                <div>
-                                    <p className="text-sm font-bold text-blue-900">Pago Seguro con PayPal</p>
-                                    <p className="text-xs text-blue-700">Al seleccionar pago al contado serás redirigido a PayPal para un pago más seguro.</p>
-                                </div>
-                            </div>
-                        )}
-
                         {/* Payment Method Toggle */}
                         {(country.allowInstallments !== false) && (
                             <div className="bg-white rounded-xl p-1 flex border border-slate-200 shadow-sm max-w-md mx-auto lg:mx-0">
@@ -1187,7 +1182,11 @@ export default function CountryClient({ country }: Props) {
                                         >
                                             <span className="text-xl font-black">{d.getDate()}</span>
                                             <span className="text-xs font-semibold uppercase mt-0.5">{d.toLocaleDateString(lang === 'pt' ? 'pt-BR' : 'es-ES', { month: 'short' })}</span>
-                                            {!available && (
+                                            {available ? (
+                                                <span className={`text-[9px] font-bold uppercase px-1.5 py-0.5 rounded mt-1 ${isSelected ? 'text-white' : 'bg-green-600 text-white'}`}>
+                                                    Disponible
+                                                </span>
+                                            ) : (
                                                 <span className="text-[9px] font-bold uppercase bg-red-100 text-red-600 px-1 py-0.5 rounded mt-1">
                                                     {/* D2: Agotado → Esgotado for Brasil */}
                                                     {country.id === 'brasil' ? 'Esgotado' : 'Agotado'}
@@ -1207,7 +1206,7 @@ export default function CountryClient({ country }: Props) {
                                 const needsVerification = zone.needsVerification;
 
                                 return (
-                                <div key={zone.zone} className={`group relative ${isDisabled ? 'opacity-60' : ''}`} aria-disabled={isDisabled}>
+                                <div key={zone.zone} className={`group relative ${isDisabled ? 'cursor-not-allowed' : ''}`} aria-disabled={isDisabled}>
                                     {/* Stock limit message for Cancha Andes */}
                                     {isCanchaAndes && stockMessage && (
                                         <div className="absolute -bottom-3 left-1/2 -translate-x-1/2 z-20 bg-red-600 text-white font-bold text-xs px-4 py-2 rounded-lg shadow-lg whitespace-nowrap animate-pulse">
@@ -1228,19 +1227,13 @@ export default function CountryClient({ country }: Props) {
                                                     {i === 0 && !isDisabled && !needsVerification && (
                                                         <span className="text-xs font-bold uppercase bg-primary/10 text-primary px-1.5 py-0.5 rounded">{t.bestSeller}</span>
                                                     )}
-                                                    {zone.soldOut && (
-                                                        <span className="text-xs font-bold uppercase bg-red-100 text-red-700 px-1.5 py-0.5 rounded">
-                                                            {/* D2: Agotado → Esgotado for Brasil */}
-                                                            {country.id === 'brasil' ? 'Esgotado' : 'Agotado'}
-                                                        </span>
-                                                    )}
                                                     {/* Badge "Últimas Entradas" para países con progress bar */}
                                                     {(isPeru || isChile || isColombia || isArgentina || isBrazil) && !isDisabled && availabilityStatus === 'available' && (
                                                         <span className="text-xs font-bold uppercase bg-amber-100 text-amber-700 px-1.5 py-0.5 rounded animate-pulse">
                                                             {country.id === 'brasil' ? 'Últimos Ingressos' : 'Últimas Entradas'}
                                                         </span>
                                                     )}
-                                                    {(isPeru || isChile || isColombia || isArgentina || isBrazil) && availabilityStatus === 'sold-out' && (
+                                                    {(isPeru || isChile || isColombia || isArgentina || isBrazil) && !isDisabled && availabilityStatus === 'sold-out' && (
                                                         <span className="text-xs font-bold uppercase bg-red-100 text-red-700 px-1.5 py-0.5 rounded">
                                                             {country.id === 'brasil' ? 'Esgotado' : 'Agotado'}
                                                         </span>
@@ -1288,7 +1281,12 @@ export default function CountryClient({ country }: Props) {
                                             </div>
 
                                             {/* Mostrar botón de verificación o controles de cantidad */}
-                                            {needsVerification ? (
+                                            {isDisabled ? (
+                                                <span className="inline-flex items-center gap-1.5 rounded-lg bg-red-600 px-3 py-2 text-[10px] font-extrabold uppercase tracking-wider text-white shadow-sm">
+                                                    <span className="h-1.5 w-1.5 rounded-full bg-white/90" />
+                                                    {country.id === 'brasil' ? 'Esgotado' : 'Agotado'}
+                                                </span>
+                                            ) : needsVerification ? (
                                                 <a
                                                     href="https://www.btschile.com/entradas"
                                                     target="_blank"
@@ -1529,8 +1527,9 @@ export default function CountryClient({ country }: Props) {
                                         </p>
                                         <div className="flex flex-col">
                                             <p className="text-3xl font-black font-sans tracking-tight text-slate-900 leading-none">
-                                                {country.currency === 'USD' && <span className="text-sm font-bold text-slate-400 align-top mr-0.5">USD</span>}
-                                                {country.currencySymbol}{(isInstallment ? reservationAmount : totalAmount).toLocaleString(getLocale(country.id))}
+                                                {isChile
+                                                    ? `CLP $${Math.round((isInstallment ? reservationAmount : totalAmount) * CHILE_USD_TO_CLP_RATE).toLocaleString('es-CL')}`
+                                                    : `${country.currency === 'USD' ? 'USD ' : ''}${country.currencySymbol}${(isInstallment ? reservationAmount : totalAmount).toLocaleString(getLocale(country.id))}`}
                                             </p>
                                             {isInstallment && (
                                                 <span className="text-xs font-bold text-primary mt-1">

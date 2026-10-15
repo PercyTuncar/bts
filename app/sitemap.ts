@@ -30,7 +30,7 @@ export default function sitemap(): MetadataRoute.Sitemap {
     // Dynamic Country Routes - ALTA PRIORIDAD para SEO internacional
     const countryRoutes = countries.map((country) => ({
         url: `${baseUrl}/${country.id}/`,
-        lastModified: new Date('2026-08-23'), // Fecha real de optimización SEO
+        lastModified: country.id === 'chile' ? currentDate : new Date('2026-08-23'),
         changeFrequency: 'weekly' as const,
         priority: 0.95, // Alta prioridad - contenido principal optimizado
     }));

@@ -1,7 +1,6 @@
 "use client";
 
 import { useState } from "react";
-import { useRouter } from "next/navigation";
 import { useCart } from "@/context/CartContext";
 import { GlassCard } from "@/components/GlassCard";
 import { Button } from "@/components/Button";
@@ -10,16 +9,9 @@ import Image from "next/image";
 import { Trash2, Plus, Minus, ArrowRight, Info, User } from "lucide-react";
 
 export default function CartPage() {
-    const router = useRouter();
-    const { items, addItem, removeItem, updateItemQuantity, total, clearCart } = useCart();
+    const { items, addItem, removeItem, updateItemQuantity, total } = useCart();
     const primaryTicket = items.find((item) => item.type === "ticket");
     const [stockMessage, setStockMessage] = useState('');
-
-    const EXCHANGE_RATES: Record<string, number> = {
-        chile: 886.36,
-        colombia: 3619.91,
-        argentina: 1367.51,
-    };
 
     const getLocale = (item: (typeof items)[number]) => {
         if (item.currency === "PEN") return "es-PE";
@@ -31,13 +23,6 @@ export default function CartPage() {
         return "es-ES";
     };
 
-    const getCLPPrice = (item: (typeof items)[number]) => {
-        if (item.countryId === 'chile' && EXCHANGE_RATES['chile']) {
-            return Math.round(item.price * EXCHANGE_RATES['chile']);
-        }
-        return null;
-    };
-
     const getUnitTotal = (item: (typeof items)[number]) => {
         const serviceFee = item.serviceFeePerTicket || 0;
         const installmentInterest = item.installmentInterestPerTicket || 0;
@@ -45,33 +30,25 @@ export default function CartPage() {
     };
 
     const formatAmount = (amount: number, symbol = "$", locale = "es-PE") => `${symbol}${amount.toLocaleString(locale)}`;
+    const formatItemAmount = (amount: number, item: (typeof items)[number]) =>
+        item.countryId === "chile"
+            ? `CLP ${formatAmount(amount, "$", "es-CL")}`
+            : formatAmount(amount, item.currencySymbol || "$", getLocale(item));
 
-const handleCheckout = () => {
-        // Verificar si es Chile con pago al contado
-        const isChileOrder = primaryTicket?.countryId === "chile";
-        const hasInstallment = items.some(item => item.isInstallment);
-        
-        // Si es Chile, pago al contado (no cuotas), y no es plan de pago
-        if (isChileOrder && !hasInstallment && !items.some(item => item.type === 'payment-plan')) {
-            // Redirigir a PayPal para pago seguro
-            router.push('/pago-paypal');
-            return;
-        }
-
-        // Para otros casos, continuar con WhatsApp
-        const phone = "51944784488";
-            const detailLines = items.map((item) => {
+    const handleCheckout = () => {
+        const phone = primaryTicket?.countryId === "chile" ? "56951944784" : "51944784488";
+        const detailLines = items.map((item) => {
             const symbol = item.currencySymbol || "$";
             const locale = getLocale(item);
             if (item.type === 'payment-plan' || (item.paymentSchedule && item.paymentSchedule.length > 0)) {
                 const schedule = item.paymentSchedule || [];
                 const lines: string[] = [`• ${item.name}`];
-                schedule.forEach((p: any, idx: number) => {
+                schedule.forEach((p, idx) => {
                     const date = new Date(p.date);
                     const dateStr = date.toLocaleDateString(locale, { day: 'numeric', month: 'short', year: 'numeric' });
                     const timeStr = date.toLocaleTimeString(locale, { hour: '2-digit', minute: '2-digit' });
                     const prefix = idx === 0 ? 'HOY' : `Pago ${idx}`;
-                    lines.push(`  - ${prefix}: ${dateStr} ${timeStr} • ${formatAmount(p.amount, symbol, locale)}`);
+                    lines.push(`  - ${prefix}: ${dateStr} ${timeStr} • ${formatItemAmount(p.amount, item)}`);
                 });
                 return lines.join("\n");
             }
@@ -81,13 +58,20 @@ const handleCheckout = () => {
             const unitTotal = item.price + serviceFee + installmentInterest;
             const lineTotal = unitTotal * item.quantity;
             const installmentText = item.isInstallment && item.installmentMonths
-                ? ` | ${item.installmentMonths} cuotas de ${formatAmount(Math.ceil(lineTotal / item.installmentMonths), symbol, locale)}`
+                ? ` | ${item.installmentMonths} cuotas de ${formatItemAmount(Math.ceil(lineTotal / item.installmentMonths), item)}`
                 : "";
 
-            const clpPrice = item.countryId === 'chile' && getCLPPrice(item) ? ` (Ref: CLP ${getCLPPrice(item)?.toLocaleString('es-CL')})` : '';
+            if (item.countryId === "chile") {
+                return [
+                    `• ${item.quantity}x ${item.name}`,
+                    `  - Precio unitario: ${formatItemAmount(item.price, item)}`,
+                    `  - Total línea: ${formatItemAmount(lineTotal, item)}`,
+                ].join("\n");
+            }
+
             return [
                 `• ${item.quantity}x ${item.name}`,
-                `  - Base: ${formatAmount(item.price, symbol, locale)}${clpPrice}`,
+                `  - Base: ${formatAmount(item.price, symbol, locale)}`,
                 `  - Comisión servicio: ${formatAmount(serviceFee, symbol, locale)}`,
                 `  - Interés cuotas: ${formatAmount(installmentInterest, symbol, locale)}`,
                 `  - Subtotal línea: ${formatAmount(lineTotal, symbol, locale)}${installmentText}`,
@@ -106,7 +90,9 @@ const handleCheckout = () => {
             "",
             detailLines,
             "",
-            `TOTAL DEL PEDIDO: ${formatAmount(totalSelectedCountry || total, totalSymbol, totalLocale)}`,
+            primaryTicket?.countryId === "chile"
+                ? `TOTAL DEL PEDIDO (CLP): ${formatAmount(totalSelectedCountry || total, "$", "es-CL")}`
+                : `TOTAL DEL PEDIDO: ${formatAmount(totalSelectedCountry || total, totalSymbol, totalLocale)}`,
             "",
             "Confirmo que deseo continuar con el proceso de compra segura.",
         ].join("\n");
@@ -171,14 +157,9 @@ const handleCheckout = () => {
                                 {item.type !== 'payment-plan' && (
                                     <>
                                         <p className="text-primary font-mono">
-                                            {formatAmount(item.price, item.currencySymbol || "$", getLocale(item))}
-                                            {item.countryId === 'chile' && getCLPPrice(item) && (
-                                                <span className="text-xs text-slate-500 ml-2">
-                                                    (Ref: CLP {getCLPPrice(item)?.toLocaleString('es-CL')})
-                                                </span>
-                                            )}
+                                            {formatItemAmount(item.price, item)}
                                         </p>
-                                        {(item.serviceFeePerTicket || item.installmentInterestPerTicket) && (
+                                        {(item.serviceFeePerTicket || item.installmentInterestPerTicket) && item.countryId !== "chile" && (
                                             <div className="text-xs text-slate-500 mt-1 space-y-1">
                                                 <p>Comisión: {formatAmount(item.serviceFeePerTicket || 0, item.currencySymbol || "$", getLocale(item))}</p>
                                                 <p>Interés cuotas: {formatAmount(item.installmentInterestPerTicket || 0, item.currencySymbol || "$", getLocale(item))}</p>
@@ -191,7 +172,7 @@ const handleCheckout = () => {
                                 {item.paymentSchedule && item.paymentSchedule.length > 0 && (
                                     <div className="text-sm text-slate-600 mt-2 space-y-2">
                                         <div className="text-xs font-medium text-slate-500">Cronograma de pagos</div>
-                                        {item.paymentSchedule.map((p: any, idx: number) => {
+                                        {item.paymentSchedule.map((p, idx) => {
                                             const date = new Date(p.date);
                                             const locale = getLocale(item);
                                             const dateStr = date.toLocaleDateString(locale, { day: 'numeric', month: 'short', year: 'numeric' });
@@ -199,7 +180,7 @@ const handleCheckout = () => {
                                             return (
                                                 <div key={idx} className="flex justify-between items-center">
                                                     <div className="text-xs text-slate-500">{idx === 0 ? 'HOY' : `Pago ${idx}`} • {dateStr} {timeStr}</div>
-                                                    <div className="text-sm font-mono text-slate-900">{formatAmount(p.amount, item.currencySymbol || '$', locale)}</div>
+                                                    <div className="text-sm font-mono text-slate-900">{formatItemAmount(p.amount, item)}</div>
                                                 </div>
                                             );
                                         })}
@@ -262,8 +243,9 @@ const handleCheckout = () => {
                         <div className="space-y-2 text-slate-500 font-medium pb-6 border-b border-slate-200">
                             <div className="flex justify-between">
                                 <span>Subtotal</span>
-                                <span>{formatAmount(total, primaryTicket?.currencySymbol || "$", primaryTicket ? getLocale(primaryTicket) : "es-ES")}</span>
+                                <span>{primaryTicket ? formatItemAmount(total, primaryTicket) : formatAmount(total, "$", "es-ES")}</span>
                             </div>
+                            {items.some(item => (item.serviceFeePerTicket || 0) > 0) && (
                             <div className="flex justify-between text-sm items-center gap-2">
                                 <span className="inline-flex items-center gap-1">
                                     Comisión de servicio
@@ -276,6 +258,7 @@ const handleCheckout = () => {
                                 </span>
                                 <span>{formatAmount(items.reduce((acc, item) => acc + ((item.serviceFeePerTicket || 0) * item.quantity), 0), primaryTicket?.currencySymbol || "$", primaryTicket ? getLocale(primaryTicket) : "es-ES")}</span>
                             </div>
+                            )}
                             <div className="flex justify-between text-sm">
                                 <span>Envío</span>
                                 <span>Por coordinar</span>
@@ -284,7 +267,7 @@ const handleCheckout = () => {
 
                         <div className="flex justify-between text-2xl font-black text-slate-900">
                             <span>Total</span>
-                            <span>{formatAmount(total, primaryTicket?.currencySymbol || "$", primaryTicket ? getLocale(primaryTicket) : "es-ES")}</span>
+                            <span>{primaryTicket ? formatItemAmount(total, primaryTicket) : formatAmount(total, "$", "es-ES")}</span>
                         </div>
 
                         {/* Payment instructions for Peru orders */}
@@ -318,46 +301,6 @@ const handleCheckout = () => {
                   </div>
                 )}
 
-                {/* Chile Cash Payment - Redirect to PayPal */}
-                {primaryTicket?.countryId === 'chile' && !items.some(item => item.isInstallment) && (
-                  <div className="bg-blue-50 p-5 rounded-2xl border border-blue-200 mt-4 shadow-sm">
-                    <div className="flex items-start gap-4">
-                      <div className="flex-shrink-0 bg-blue-100 text-blue-600 p-3 rounded-xl">
-                        <svg className="w-5 h-5" fill="currentColor" viewBox="0 0 24 24">
-                          <path d="M7.163 21.073H0V7.529h7.163v13.544zm1.758-15.062c-.555-.596-1.365-.93-2.261-.93H2.505c-.896 0-1.706.334-2.261.93-.555.596-.863 1.42-.863 2.418v9.23c0 .999.308 1.822.863 2.418.555.596 1.365.93 2.261.93h6.409c.896 0 1.706-.334 2.261-.93.555-.596.863-1.42.863-2.418V9.33c0-.998-.308-1.821-.863-2.418zm9.035 5.26c-.457-.63-1.123-.98-2.058-.98-1.025 0-1.856.43-2.492 1.29V7.529h-2.442v13.544h2.442V14.035c0-.471.088-.836.263-1.094.175-.258.414-.387.716-.387.298 0 .53.122.693.364.164.243.245.605.245 1.085v6.726h2.442v-7.238c0-.934-.232-1.65-.694-2.148z"/>
-                        </svg>
-                      </div>
-                      <div className="flex-1">
-                        <h4 className="text-sm font-bold uppercase mb-2 text-blue-900">Pago Seguro con PayPal</h4>
-                        <p className="text-sm text-blue-800 mb-3">
-                          Serás redirigido a PayPal para completar el pago de forma segura.
-                        </p>
-                        <p className="text-xs text-blue-700">
-                          Total con comisión PayPal (3.5%):{' '}
-                          <span className="font-bold">
-                            ${formatAmount(total * 1.035, primaryTicket.currencySymbol, primaryTicket ? getLocale(primaryTicket) : 'es-ES')}
-                          </span>
-                        </p>
-                      </div>
-                    </div>
-                  </div>
-                )}
-
-{primaryTicket?.countryId === 'chile' && !items.some(item => item.isInstallment) ? (
-                          <>
-                            <Button
-                              size="lg"
-                              className="w-full shadow-lg hover:shadow-xl bg-gradient-to-r from-blue-600 to-blue-700 text-white border-transparent hover:from-blue-700 hover:to-blue-800 mt-4"
-                              onClick={() => {
-                                clearCart();
-                                window.location.href = 'https://www.paypal.com/ncp/payment/NNBWSP6KD3TJN';
-                              }}
-                            >
-                              PAGAR
-                            </Button>
-                          </>
-                        ) : (
-                          <>
                             <Button
                               size="lg"
                               className="w-full shadow-lg hover:shadow-xl bg-[#25D366] text-white border-transparent hover:bg-[#128C7E] mt-4"
@@ -369,8 +312,6 @@ const handleCheckout = () => {
                             <p className="text-xs text-center text-slate-400 mt-4">
                               Serás redirigido a WhatsApp para coordinar el pago y envío con un asesor oficial de nosotros.
                             </p>
-                          </>
-                        )}
                     </GlassCard>
                 </div>
             </div>

@@ -1,6 +1,7 @@
 "use client";
 
 import { createContext, useContext, useEffect, useState } from "react";
+import { CHILE_USD_TO_CLP_RATE } from "@/lib/currency";
 
 export interface CartItem {
     slug: string;
@@ -17,7 +18,12 @@ export interface CartItem {
     installmentInterestPerTicket?: number;
     isInstallment?: boolean;
     installmentMonths?: number;
-    paymentSchedule?: { date: string; amount: number }[];
+    paymentSchedule?: PaymentScheduleEntry[];
+}
+
+interface PaymentScheduleEntry {
+    date: string;
+    amount: number;
 }
 
 interface CartContextType {
@@ -35,23 +41,46 @@ const CartContext = createContext<CartContextType | undefined>(undefined);
 
 export function CartProvider({ children }: { children: React.ReactNode }) {
     const [items, setItems] = useState<CartItem[]>([]);
+    const [isLoaded, setIsLoaded] = useState(false);
 
     // Load from LocalStorage
     useEffect(() => {
-        const saved = localStorage.getItem("bts-cart");
-        if (saved) {
-            try {
-                setItems(JSON.parse(saved));
-            } catch (e) {
-                console.error("Failed to load cart", e);
+        try {
+            const saved = localStorage.getItem("bts-cart");
+            if (saved) {
+                const savedItems = JSON.parse(saved) as CartItem[];
+                if (!Array.isArray(savedItems)) {
+                    throw new Error("Saved cart must be an array");
+                }
+                setItems(savedItems.map(item => {
+                    if (item.countryId !== "chile") return item;
+                    return {
+                        ...item,
+                        price: item.currency === "CLP"
+                            ? item.price
+                            : Math.round(item.price * CHILE_USD_TO_CLP_RATE),
+                        currency: "CLP",
+                        currencySymbol: "$",
+                        serviceFeePerTicket: 0,
+                        installmentInterestPerTicket: 0,
+                        isInstallment: false,
+                        installmentMonths: undefined,
+                        paymentSchedule: undefined,
+                    };
+                }));
             }
+        } catch (error) {
+            console.error("Failed to load cart", error);
+        } finally {
+            setIsLoaded(true);
         }
     }, []);
 
     // Save to LocalStorage
     useEffect(() => {
+        if (!isLoaded) return;
         localStorage.setItem("bts-cart", JSON.stringify(items));
-    }, [items]);
+    }, [items, isLoaded]);
 
     const addItem = (newItem: Omit<CartItem, "quantity">) => {
         setItems(current => {
@@ -59,14 +88,7 @@ export function CartProvider({ children }: { children: React.ReactNode }) {
             if (existing) {
                 return current.map(i =>
                     i.slug === newItem.slug
-                        ? (() => {
-                            const merged = { ...i, quantity: i.quantity + 1 } as any;
-                            Object.keys(newItem).forEach((k) => {
-                                const v = (newItem as any)[k];
-                                if (v !== undefined) merged[k] = v;
-                            });
-                            return merged as CartItem;
-                        })()
+                        ? { ...i, ...newItem, quantity: i.quantity + 1 }
                         : i
                 );
             }

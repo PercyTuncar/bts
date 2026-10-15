@@ -1,3 +1,5 @@
+import { CHILE_USD_TO_CLP_RATE } from '@/lib/currency';
+
 export interface Pricing {
     zone: string;
     price: number;
@@ -98,31 +100,30 @@ export const countries: CountryData[] = [
         city: 'Chile',
         isoCode: 'CL',
         dates: ['2026-10-14', '2026-10-16', '2026-10-17'],
+        unavailableDates: ['2026-10-14', '2026-10-16'],
         ticketDate: '24 de Enero',
         currency: 'USD',
         currencySymbol: '$',
         prices: [
-            // Zonas con botones +/- (disponibles)
-            { zone: 'Pacífico Medio', price: 1784, stock: 5 },
-            { zone: 'Cancha Pacífico', price: 991, stock: 8 },
-            { zone: 'Cancha Andes', price: 949, stock: 1 },
-            // Zonas con botón "Verificar Disponibilidad" (ordenadas de más barata a más cara)
-            { zone: 'Pacífico Lateral Sur', price: 299, needsVerification: true },
-            { zone: 'Pacífico Lateral Norte', price: 299, needsVerification: true },
-            { zone: 'Galería Sur', price: 377, needsVerification: true },
-            { zone: 'Galería Norte', price: 377, needsVerification: true },
-            { zone: 'Andes Alto Sur', price: 496, needsVerification: true },
-            { zone: 'Andes Alto Norte', price: 496, needsVerification: true },
-            { zone: 'Andes Alto Centro', price: 535, needsVerification: true },
-            { zone: 'Andes Bajo Sur', price: 555, needsVerification: true },
-            { zone: 'Andes Bajo Norte', price: 555, needsVerification: true },
-            { zone: 'Andes Bajo Centro', price: 615, needsVerification: true },
-            { zone: 'Movilidad Reducida', price: 734, needsVerification: true },
-            { zone: 'Pacífico Bajo', price: 734, needsVerification: true },
-            { zone: 'Pacífico Alto', price: 892, needsVerification: true },
+            { zone: 'Pacífico Medio', price: 1784, soldOut: true },
+            { zone: 'Cancha Pacífico', price: 991, soldOut: true },
+            { zone: 'Cancha Andes', price: 250_000 / CHILE_USD_TO_CLP_RATE, stock: 1 },
+            { zone: 'Pacífico Lateral Sur', price: 299, soldOut: true },
+            { zone: 'Pacífico Lateral Norte', price: 299, soldOut: true },
+            { zone: 'Galería Sur', price: 175_000 / CHILE_USD_TO_CLP_RATE },
+            { zone: 'Galería Norte', price: 377, soldOut: true },
+            { zone: 'Andes Alto Sur', price: 496, soldOut: true },
+            { zone: 'Andes Alto Norte', price: 496, soldOut: true },
+            { zone: 'Andes Alto Centro', price: 535, soldOut: true },
+            { zone: 'Andes Bajo Sur', price: 555, soldOut: true },
+            { zone: 'Andes Bajo Norte', price: 555, soldOut: true },
+            { zone: 'Andes Bajo Centro', price: 615, soldOut: true },
+            { zone: 'Movilidad Reducida', price: 734, soldOut: true },
+            { zone: 'Pacífico Bajo', price: 734, soldOut: true },
+            { zone: 'Pacífico Alto', price: 892, soldOut: true },
         ],
         description: 'Santiago, el momento ha llegado. Vive la magia de BTS en el Estadio Nacional.',
-        openGraphImage: '/images/og-chile.jpg',
+        openGraphImage: '/images/bts-tour-2026-latinoamerica-preventa.jpg',
         whatsappLink: 'https://chat.whatsapp.com/HzvXwLfkeqLFQuU2xnRcDC',
         phoneCode: '+56'
         ,progressOffsetHours: 1
